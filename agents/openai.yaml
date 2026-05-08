@@ -1,0 +1,4 @@
+interface:
+  display_name: "国赛数学建模"
+  short_description: "CUMCM 国赛建模、求解与论文写作流程"
+  default_prompt: "Use $guosai-math-modeling to analyze this CUMCM problem and build a complete modeling plan."
