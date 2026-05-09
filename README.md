@@ -22,11 +22,11 @@
 
 ## 安装
 
-### 方式一：下载 Release 安装包
+假设你已经安装并能正常打开 Codex，只需要把这个 skill 解压到 Codex 的 skills 目录，然后重启 Codex。
 
-推荐从 GitHub Releases 下载稳定安装包。
+### macOS / Linux
 
-macOS / Linux：
+在终端执行：
 
 ```bash
 mkdir -p ~/.codex/skills
@@ -35,7 +35,9 @@ rm -rf ~/.codex/skills/cumcm-math-modeling
 unzip /tmp/cumcm-math-modeling-codex-skill.zip -d ~/.codex/skills
 ```
 
-Windows PowerShell：
+### Windows PowerShell
+
+在 PowerShell 执行：
 
 ```powershell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
@@ -44,86 +46,18 @@ Remove-Item -Recurse -Force "$env:USERPROFILE\.codex\skills\cumcm-math-modeling"
 Expand-Archive "$env:TEMP\cumcm-math-modeling-codex-skill.zip" -DestinationPath "$env:USERPROFILE\.codex\skills" -Force
 ```
 
-### 方式二：使用 Git 克隆
+### 检查安装是否正确
 
-```bash
-mkdir -p ~/.codex/skills
-git clone https://github.com/usst-yk/cumcm-math-modeling-codex-skill.git ~/.codex/skills/cumcm-math-modeling
-```
-
-### 方式三：下载 GitHub 源码压缩包并本地解压
-
-也可以下载 GitHub 自动生成的源码 ZIP 压缩包。
-
-macOS / Linux：
-
-```bash
-mkdir -p ~/.codex/skills
-curl -L https://github.com/usst-yk/cumcm-math-modeling-codex-skill/archive/refs/heads/main.zip -o /tmp/cumcm-math-modeling-codex-skill.zip
-rm -rf ~/.codex/skills/cumcm-math-modeling
-unzip /tmp/cumcm-math-modeling-codex-skill.zip -d /tmp
-mv /tmp/cumcm-math-modeling-codex-skill-main ~/.codex/skills/cumcm-math-modeling
-```
-
-Windows PowerShell：
-
-```powershell
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
-Invoke-WebRequest "https://github.com/usst-yk/cumcm-math-modeling-codex-skill/archive/refs/heads/main.zip" -OutFile "$env:TEMP\cumcm-math-modeling-codex-skill.zip"
-Remove-Item -Recurse -Force "$env:USERPROFILE\.codex\skills\cumcm-math-modeling" -ErrorAction SilentlyContinue
-Expand-Archive "$env:TEMP\cumcm-math-modeling-codex-skill.zip" -DestinationPath "$env:TEMP\cumcm-skill-install" -Force
-Move-Item "$env:TEMP\cumcm-skill-install\cumcm-math-modeling-codex-skill-main" "$env:USERPROFILE\.codex\skills\cumcm-math-modeling"
-```
-
-### 方式四：已有本地压缩包时安装
-
-如果已经拿到 `cumcm-math-modeling-codex-skill.zip`，可直接解压到 Codex skills 目录：
-
-macOS / Linux：
-
-```bash
-mkdir -p ~/.codex/skills
-rm -rf ~/.codex/skills/cumcm-math-modeling
-unzip /path/to/cumcm-math-modeling-codex-skill.zip -d /tmp/cumcm-skill-install
-mv /tmp/cumcm-skill-install/cumcm-math-modeling ~/.codex/skills/cumcm-math-modeling
-```
-
-Windows PowerShell：
-
-```powershell
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
-Remove-Item -Recurse -Force "$env:USERPROFILE\.codex\skills\cumcm-math-modeling" -ErrorAction SilentlyContinue
-Expand-Archive "C:\path\to\cumcm-math-modeling-codex-skill.zip" -DestinationPath "$env:TEMP\cumcm-skill-install" -Force
-Move-Item "$env:TEMP\cumcm-skill-install\cumcm-math-modeling" "$env:USERPROFILE\.codex\skills\cumcm-math-modeling"
-```
-
-如果压缩包解压后的目录名不是 `cumcm-math-modeling`，将 `mv` 命令中的源目录改成实际解压出来的目录即可。最终目录应满足：
+安装后应存在以下文件：
 
 ```text
 ~/.codex/skills/cumcm-math-modeling/SKILL.md
 ```
 
-Windows 下最终目录应满足：
+Windows 对应路径为：
 
 ```text
 %USERPROFILE%\.codex\skills\cumcm-math-modeling\SKILL.md
-```
-
-### 生成可分发压缩包
-
-维护者可在仓库上级目录生成一个不包含 `.git` 的安装包：
-
-```bash
-cd ~/.codex/skills
-zip -r cumcm-math-modeling-codex-skill.zip cumcm-math-modeling -x "cumcm-math-modeling/.git/*"
-```
-
-使用该压缩包安装时，解压后的目录可能名为 `cumcm-math-modeling`，直接放入 `~/.codex/skills/` 即可。
-
-Windows PowerShell 生成压缩包：
-
-```powershell
-Compress-Archive -Path "$env:USERPROFILE\.codex\skills\cumcm-math-modeling" -DestinationPath "$env:USERPROFILE\Desktop\cumcm-math-modeling-codex-skill.zip" -Force
 ```
 
 重启 Codex 后，在对话中使用：
