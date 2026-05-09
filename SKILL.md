@@ -1,17 +1,16 @@
 ---
 name: cumcm-math-modeling
-description: |
+description: >-
   Chinese CUMCM mathematical modeling workflow for contest problem decomposition,
-  route comparison, data audit, reproducible Python/MATLAB solving, validation,
-  technical roadmap diagrams, and paper writing.
-  Use when the user mentions 全国大学生数学建模竞赛, CUMCM, 数学建模, 建模论文,
-  赛题分析, 模型建立, 模型求解, 技术路线图, 模型流程图, 灵敏度分析,
-  摘要, 一等奖标准, or asks to turn a contest problem/data into a rigorous
-  modeling solution and report.
-  Do not use for ordinary homework, pure theory derivations, general scientific
-  figure polishing, physics/DFT manuscript writing, image editing, translation,
-  ordinary document polishing, or pure coding bug fixes unless the user
-  explicitly wants a mathematical-modeling contest workflow.
+  data audit, model route comparison, reproducible Python/MATLAB solving,
+  validation, technical roadmap diagrams, model flowcharts, visualization,
+  and paper writing. Use when the user mentions 全国大学生数学建模竞赛, CUMCM,
+  数学建模, 建模论文, 赛题分析, 模型建立, 模型求解, 技术路线图, 流程框图,
+  模型流程图, 灵敏度分析, 摘要, 一等奖标准, or asks to turn a contest
+  problem/data into a rigorous modeling solution and report. Do not use for
+  ordinary homework, non-contest scientific-paper polishing, pure DFT/physics
+  manuscript writing, image-only editing, or general translation unless the
+  user explicitly requests a mathematical-modeling contest workflow.
 ---
 
 # CUMCM Math Modeling
