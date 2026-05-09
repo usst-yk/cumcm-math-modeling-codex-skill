@@ -20,6 +20,8 @@ Use this skill as a CUMCM modeling workflow inside Codex, not as a Web/backend m
 
 Answer in Chinese by default unless the user asks otherwise.
 
+The primary audience is beginners. Communicate in natural language by default. Do not expose script commands, file internals, schema names, or implementation details unless the user asks for them or they are needed to debug a failure. When a script or template is useful, run or use it in the background and explain the user-facing result simply.
+
 ## Core Rules
 
 1. Correctness comes before speed.
