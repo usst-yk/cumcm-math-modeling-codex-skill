@@ -22,33 +22,25 @@
 
 ## 安装
 
-假设你已经安装并能正常打开 Codex，只需要把这个 skill 解压到 Codex 的 skills 目录，然后重启 Codex。
+最简单的方式：直接在 Codex 里说：
 
-### macOS / Linux
-
-在终端执行：
-
-```bash
-mkdir -p ~/.codex/skills
-curl -L https://github.com/usst-yk/cumcm-math-modeling-codex-skill/releases/latest/download/cumcm-math-modeling-codex-skill.zip -o /tmp/cumcm-math-modeling-codex-skill.zip
-rm -rf ~/.codex/skills/cumcm-math-modeling
-unzip /tmp/cumcm-math-modeling-codex-skill.zip -d ~/.codex/skills
+```text
+请安装这个 skill：https://github.com/usst-yk/cumcm-math-modeling-codex-skill
 ```
 
-### Windows PowerShell
+Codex 会从该 GitHub 仓库安装 skill。安装后重启 Codex，在对话中使用：
 
-在 PowerShell 执行：
-
-```powershell
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
-Invoke-WebRequest "https://github.com/usst-yk/cumcm-math-modeling-codex-skill/releases/latest/download/cumcm-math-modeling-codex-skill.zip" -OutFile "$env:TEMP\cumcm-math-modeling-codex-skill.zip"
-Remove-Item -Recurse -Force "$env:USERPROFILE\.codex\skills\cumcm-math-modeling" -ErrorAction SilentlyContinue
-Expand-Archive "$env:TEMP\cumcm-math-modeling-codex-skill.zip" -DestinationPath "$env:USERPROFILE\.codex\skills" -Force
+```text
+[$cumcm-math-modeling] 请分析这道 CUMCM 数学建模题，并按一等奖标准给出建模方案。
 ```
 
-### 检查安装是否正确
+如果需要手动安装，也可以从 Releases 下载压缩包：
 
-安装后应存在以下文件：
+```text
+https://github.com/usst-yk/cumcm-math-modeling-codex-skill/releases/latest/download/cumcm-math-modeling-codex-skill.zip
+```
+
+解压后确保存在：
 
 ```text
 ~/.codex/skills/cumcm-math-modeling/SKILL.md
@@ -58,12 +50,6 @@ Windows 对应路径为：
 
 ```text
 %USERPROFILE%\.codex\skills\cumcm-math-modeling\SKILL.md
-```
-
-重启 Codex 后，在对话中使用：
-
-```text
-[$cumcm-math-modeling] 请分析这道 CUMCM 数学建模题，并按一等奖标准给出建模方案。
 ```
 
 ## 推荐使用方式
