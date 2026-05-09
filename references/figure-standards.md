@@ -11,7 +11,7 @@
 - 数据、参数、筛选、归一化、统计检验和作图代码可追溯。
 - 图中单位、变量、样本量、误差定义、统计检验和模型口径必须与正文一致。
 - 图件在正常论文页宽下可读，不依赖放大查看。
-- 最终交付同时包含图像文件、源数据或结果表、作图脚本、论文图注。
+- 最终交付同时包含 PNG 图像文件、源数据或结果表、作图脚本、论文图注。
 
 ## 期刊级目标规格
 
@@ -21,8 +21,8 @@
 - 双栏图：宽 `183 mm`，适合多面板综合图、热图、流程图、地图、复杂优化结果。
 - 中间宽度：约 `120--140 mm`，仅在模板允许且版面需要时使用。
 - 图片高度不应靠压缩文字来节省空间；复杂内容应拆成多张图或补充图。
-- 线图、散点图、柱状图、网络图、示意图优先导出 `PDF` 或 `SVG`，保持文字和线条可编辑。
-- 照片、显微图、热图、栅格场图导出 `TIFF` 或高质量 `PNG`，最低 `300 dpi`；线稿或混合图建议 `600 dpi`。
+- 默认只导出 `PNG`，最低 `300 dpi`，论文正文和竞赛论文建议 `600 dpi`。只有用户或投稿系统明确要求时，才额外导出 `PDF`、`SVG` 或 `TIFF`。
+- 照片、显微图、热图、栅格场图导出高质量 `PNG`，最低 `300 dpi`；线稿或混合图建议 `600 dpi`。
 - 不接受只保留低分辨率截图作为最终图；不得通过强行上采样伪造分辨率。
 
 ## 图形选择
@@ -89,12 +89,12 @@
 
 ## 颜色与灰度可读性
 
-- 默认使用白底、黑色文字和高对比数据元素。
-- 调色板应克制：一个中性基底、一个主信号色、一个强调色；不要彩虹化。
+- 默认使用白底或浅色背景、深色文字和高对比数据元素。
+- 调色板应克制且统一：一个中性基底、一个主信号色、一个强调色；不要彩虹化，也不要把所有图都做成纯黑白。除非用户明确要求黑白稿，否则应使用低饱和、可灰度区分的统一配色。
 - 连续变量使用感知均匀色图，如 `viridis`、`cividis`；避免 `jet`。
 - 发散变量使用有中性中心的发散色图，并明确零点或参考值。
 - 分类变量数量超过 6 时，优先分面、直接标签或表格，不强行增加颜色。
-- 关键曲线需在灰度打印下仍可区分：同时使用线型、标记、纹理或直接标注。
+- 关键曲线需在灰度打印下仍可区分：同时使用线型、标记、纹理或直接标注；颜色负责强调信息，而不是唯一编码。
 - 红绿对比必须提供替代编码，避免色盲不可读。
 - 图中颜色含义必须与正文一致，例如红色只表示风险、下降或超限时，不应在另一图中表示最优。
 
@@ -132,14 +132,12 @@
 ## 文件、命名与可复现性
 
 - 默认输出到 `figures/` 文件夹。
-- 文件名使用可追踪命名：`fig_q1_demand_forecast.png`、`fig_q2_topsis_ranking.pdf`、`fig_q3_sensitivity_beta.png`。
+- 文件名使用可追踪命名：`fig_q1_demand_forecast.png`、`fig_q2_topsis_ranking.png`、`fig_q3_sensitivity_beta.png`。
 - 不使用 `output.png`、`test.jpg`、`new figure.png` 等不可追踪文件名。
-- 每张核心图至少保存：
-  - `PDF` 或 `SVG`：线图、统计图、流程图、矢量图。
-  - `PNG`：论文预览或 Word/Markdown 快速插图，`300--600 dpi`。
-  - `TIFF`：期刊投稿位图或混合图需要时，`300--600 dpi`。
+- 每张核心图默认保存：
+  - `PNG`：论文插图，`300--600 dpi`，默认优先 `600 dpi`。
   - 源数据表：`tab_q*_figure_source.csv` 或与图同名的 `.csv/.xlsx`。
-- 图中文字应保持可编辑：matplotlib 设置 `pdf.fonttype=42`、`svg.fonttype='none'`；R 使用 `svglite` 或 `cairo_pdf`。
+- 只有用户、期刊或后期编辑流程明确要求时，才额外保存 `PDF`、`SVG` 或 `TIFF`。
 - 代码中集中设置随机种子、字体、字号、颜色、尺寸和保存路径。
 - 任何手工编辑步骤都必须记录；最终优先使用脚本一键再生图件。
 
@@ -162,9 +160,6 @@ mpl.rcParams.update({
     "font.sans-serif": ["Arial", "Helvetica", "Songti SC", "SimSun", "DejaVu Sans"],
     "axes.unicode_minus": False,
     "mathtext.fontset": "stix",
-    "pdf.fonttype": 42,
-    "ps.fonttype": 42,
-    "svg.fonttype": "none",
     # Size for final insertion, not raw-image viewing.
     # Increase when the figure will be strongly scaled down in TeX/Word.
     "font.size": 12,
@@ -184,8 +179,6 @@ fig, ax = plt.subplots(figsize=(6.0, 4.0), constrained_layout=True)
 ax.set_xlabel("Time $t$ (h)")
 ax.set_ylabel("Demand (items)")
 ax.grid(True, color="0.88", linewidth=0.6)
-fig.savefig(FIG_DIR / "fig_q1_demand_forecast.pdf", bbox_inches="tight")
-fig.savefig(FIG_DIR / "fig_q1_demand_forecast.svg", bbox_inches="tight")
 fig.savefig(FIG_DIR / "fig_q1_demand_forecast.png", dpi=600, bbox_inches="tight")
 ```
 
@@ -222,9 +215,7 @@ theme_set(
 save_pub <- function(plot, filename, width_mm = 89, height_mm = 65, dpi = 600) {
   w <- width_mm / 25.4
   h <- height_mm / 25.4
-  ggsave(paste0(filename, ".pdf"), plot, width = w, height = h, device = cairo_pdf)
-  ggsave(paste0(filename, ".svg"), plot, width = w, height = h, device = svglite::svglite)
-  ggsave(paste0(filename, ".tiff"), plot, width = w, height = h, dpi = dpi, compression = "lzw")
+  ggsave(paste0(filename, ".png"), plot, width = w, height = h, dpi = dpi)
 }
 ```
 
@@ -242,7 +233,6 @@ grid on;
 set(gca, 'FontName', 'Arial', 'FontSize', 8, 'LineWidth', 0.8);
 xlabel('Time t (h)', 'FontSize', 8);
 ylabel('Demand (items)', 'FontSize', 8);
-exportgraphics(gcf, 'figures/fig_q1_demand_forecast.pdf', 'ContentType', 'vector');
 exportgraphics(gcf, 'figures/fig_q1_demand_forecast.png', 'Resolution', 600);
 ```
 
@@ -250,11 +240,11 @@ exportgraphics(gcf, 'figures/fig_q1_demand_forecast.png', 'Resolution', 600);
 
 - 流程图必须像论文模型逻辑，而不是软件操作步骤。
 - 节点文字短、少、准确；详细解释放在图注和正文。
-- 黑白优先：白底、黑字、细黑线、无装饰图标、无渐变背景。
+- 使用统一、克制的浅色学术配色：白底或浅底、深色文字、低饱和节点色、清晰连线；不要默认全黑白，除非用户或模板要求。
 - 最终插入论文后，节点文字应接近正文大小；不允许用小字塞满流程图。
 - 复杂流程拆成“技术路线图”和“模型流程图”，不要做成一张密集大图。
 - 节点应对齐，箭头方向一致，层级清楚。
-- 生成式图片必须人工检查：中文错字、漏节点、箭头错误、文字过小、布局拥挤都要重生成或改为代码绘制。
+- 生成式图片必须人工检查：中文错字、漏节点、箭头错误、文字过小、文字与节点/箭头重叠、标签超出边界、布局拥挤都要重生成或改为代码绘制。
 
 ## 图注写法
 
@@ -287,9 +277,9 @@ exportgraphics(gcf, 'figures/fig_q1_demand_forecast.png', 'Resolution', 600);
 - 颜色在灰度打印和色盲情形下仍可区分。
 - 误差条、置信区间、样本量和统计检验定义完整。
 - 图例不遮挡数据；能直接标注时优先直接标注。
+- 图中文字、数值标签、图例、坐标轴、节点、箭头和数据标记之间没有重叠；文字没有被裁切或跑出画布。
 - 多面板编号完整，面板顺序与图注一致。
-- 位图分辨率满足 `300--600 dpi`，线图有矢量版本。
-- PDF/SVG 中文字尽量可编辑，未被无故转曲或栅格化。
+- PNG 分辨率满足 `300--600 dpi`，默认优先 `600 dpi`；除非明确要求，不额外输出 PDF/SVG/TIFF。
 - 图注解释结论，而不是重复图名。
 - 生成图的代码、源数据表和输出文件都已保存，可重新生成。
 - 已渲染或打开最终 TeX/Word/PDF 页面检查实际显示效果。
@@ -297,9 +287,11 @@ exportgraphics(gcf, 'figures/fig_q1_demand_forecast.png', 'Resolution', 600);
 ## 常见退稿级问题
 
 - 图中文字太小，需要放大查看才能读。
+- 文字、数值标签、图例或节点与图形元素相互遮挡，或被画布裁切。
 - 图例、坐标轴或色条缺单位。
 - 图片是低分辨率截图，放大后模糊。
 - 颜色太多、对比不足，灰度打印无法区分。
+- 为了“统一”把所有图都做成黑白，导致重点信息不突出。
 - 误差条未定义，星号显著性无检验说明。
 - 同一变量在不同图中颜色含义不一致。
 - 多面板排列没有证据逻辑，只是把结果堆在一起。

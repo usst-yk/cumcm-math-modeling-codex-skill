@@ -316,7 +316,7 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
 
 2. Generate a paper-ready technical roadmap.
    - Use GPT Image direct generation for 技术路线图 and 模型流程框图.
-   - Default to black-and-white styling: white nodes, black lines, black text, no gradients, no color blocks, no decorative icons, and no illustrative mini-pictures.
+   - Default to restrained academic styling: white or very light background, high-contrast text, coherent low-saturation colors, simple rectangular nodes, no decorative icons, no illustrative mini-pictures, and no gradients. Do not make every chart black-and-white unless the user or target template requires it.
    - Use short, high-level node labels. Put detailed explanation after the chart, not inside the boxes.
    - Require large, body-text-sized Chinese node labels in the final inserted figure. Match label size to the target paper canvas: use fewer nodes, wider boxes, and more whitespace instead of shrinking text.
    - For a single-question paper, keep the roadmap to about 8-12 nodes when possible. For multi-question papers, group by subquestion only when it improves readability.
@@ -334,11 +334,11 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
 
 4. Image-generation default.
    - Default to GPT Image for paper-ready 技术路线图 and 模型流程框图.
-   - For GPT Image prompts, keep node text short and few, require black-and-white academic style, white background, black lines, rectangular nodes, no icons, no decorative pictures, no gradients, and high legibility. Explicitly request large Chinese text that remains about the same size as body text after insertion into the paper.
+   - For GPT Image prompts, keep node text short and few, require clean academic style, white or light background, coherent restrained color palette, high-contrast rectangular nodes, no icons, no decorative pictures, no gradients, and high legibility. Explicitly request large Chinese text that remains about the same size as body text after insertion into the paper.
    - Warn briefly that generated image text may need manual review, especially for Chinese labels, and offer to generate several variants when final publication quality matters.
    - Before image generation, draft a short node list and keep it stable. The image prompt should include the exact title and node labels.
    - After image generation, inspect the rendered chart when possible. Check for Chinese label errors, missing nodes, wrong arrows, unreadable text, and unintended decoration.
-   - If the chart has label errors, text smaller than body text, or layout defects, regenerate with fewer nodes, shorter labels, larger boxes, and larger text. Generate up to 3 variants when final publication quality matters.
+   - If the chart has label errors, text smaller than body text, text overlapping nodes/arrows, labels outside boxes, or layout defects, regenerate with fewer nodes, shorter labels, larger boxes, and larger text. Generate up to 3 variants when final publication quality matters.
    - Save selected route images with names such as `fig_q1_route.png` and model flow images with names such as `fig_q1_model_flow.png`.
 
 5. Required output for roadmap requests.
@@ -375,12 +375,18 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
 - When providing appendix code, include main script, inputs, outputs, dependencies, random seed, and run command.
 - Prefer analytical modeling where feasible: derive simplified expressions, bounds, or structural conclusions before relying on numerical algorithms; then compare analytical predictions with numerical or data-driven results.
 - For every major conclusion, provide either an equation-based reason, a data/code-backed result, a baseline comparison, or a stated assumption with risk.
-- When creating plots, follow `references/figure-standards.md`; every figure should answer a subquestion, be generated reproducibly from code, include units, and be saved in a paper-ready format.
-- When creating plots or flowcharts, size text for the final document canvas. After insertion into TeX/Word/PPT, figure text should be close to the body-text size; if it is smaller or hard to read, regenerate the figure with larger source fonts and a simpler layout.
+- When creating plots, follow `references/figure-standards.md`; every figure should answer a subquestion, be generated reproducibly from code, include units, and be saved as PNG by default.
+- When creating plots or flowcharts, size text for the final document canvas. After insertion into TeX/Word/PPT, figure text should be close to the body-text size; if it is smaller, hard to read, overlaps with other text/marks, or is clipped by the canvas, regenerate the figure with larger source fonts and a simpler layout.
 - Whenever generating a figure, always output a paper-ready Chinese caption/explanation paragraph that can be pasted into the modeling paper; include what the figure shows, the key trend/result, the subquestion it supports, and analytical-vs-numerical comparison when relevant.
 - Follow `references/safety-rules.md`: do not fabricate data results, references, metrics, or conclusions that cannot be traced to code output, data, or stated assumptions.
 - Adapt to the user's contest mode using `references/contest-modes.md`, such as route-only, problem-one writing, full paper drafting, code-to-paper writing, paper audit, or final two-hour compression.
 - When uncertain, state the assumption and how it affects model risk rather than hiding uncertainty.
+
+## GitHub Sync and Distribution
+
+- When this skill is changed and a GitHub remote is configured, commit the changed skill files and push them to the main branch after verification.
+- Do not create or recommend GitHub Releases or GitHub Packages for this skill. Keep distribution on the live main branch so users always receive the latest instructions and fixes.
+- If unrelated local files are dirty, do not include them in the sync commit unless the user explicitly asks for those files too.
 
 ## Scripts and Assets
 
