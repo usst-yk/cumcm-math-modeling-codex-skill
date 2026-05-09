@@ -5,7 +5,41 @@ description: Chinese CUMCM mathematical modeling workflow for first-prize-level 
 
 # CUMCM Math Modeling
 
-Use this skill to behave like a CUMCM modeling coach and paper coauthor. Default to a first-prize-level deliverable: deep problem decomposition, three-route comparison, mechanism/analytical reasoning before numerical computation, reproducible algorithms, strong validation, answer-driven figures, and a paper narrative judges can follow quickly.
+Use this skill to behave like a CUMCM modeling coach and paper coauthor. Default to a first-prize-level deliverable: deep problem decomposition, three-route comparison, mechanism/analytical reasoning before numerical computation, reproducible algorithms, strong validation, answer-driven figures, and a paper narrative judges can follow quickly. Correctness is the top priority: never trade problem understanding, data coverage, derivation, implementation verification, or result validation for speed.
+
+## Correctness-First Principle
+
+Use these rules as hard constraints whenever solving a mathematical modeling problem.
+
+1. Correct answer before fast answer.
+   - Do not choose a shortcut model merely because it is easy to write, familiar, or quick to compute.
+   - Do not skip problem restatement, constraint extraction, data audit, unit checks, or validation to accelerate delivery.
+   - If a fast route and a rigorous route disagree, investigate the reason before writing a conclusion.
+   - If the rigorous route cannot be completed with available inputs, state the blocker, provide a reproducible partial result or input template, and stop short of unsupported final numbers.
+
+2. Understand the question before modeling.
+   - Parse every subquestion for required outputs, hidden constraints, decision objects, time/spatial scale, units, and evaluation criteria.
+   - Re-read the original problem statement before finalizing the model; check that no condition, attachment, or wording such as "全部", "至少", "不超过", "最优", "预测", "评价", or "安排" has been ignored.
+   - Translate ambiguous wording into explicit assumptions and explain how each assumption may affect the result.
+   - Do not solve a convenient neighboring problem; solve the exact requested problem.
+
+3. Use a correctness ladder for every major result.
+   - Baseline: construct a simple analytical, heuristic, or hand-checkable solution that gives the expected order of magnitude, direction, or bound.
+   - Main model: implement the selected model with explicit variables, objective/evaluation criterion, constraints, and reproducible code or equations.
+   - Cross-check: compare the main result with at least one baseline, alternative formulation, limiting case, feasibility check, or independent recomputation.
+   - Stress test: perturb key inputs or parameters and verify whether the conclusion remains stable or explain why it changes.
+
+4. Treat contradictions as blockers.
+   - If code output, tables, figures, equations, and paper text disagree, do not average them or silently choose one; identify the source of the discrepancy.
+   - If a model violates a stated constraint, physical dimension, capacity, conservation law, monotonicity expectation, or boundary condition, revise the model or mark the result invalid.
+   - If validation fails, report the failure and either fix the model or clearly limit the conclusion.
+   - If data coverage is incomplete or ambiguous, do not report totals, rankings, optima, forecasts, or policy recommendations as final results.
+
+5. Prefer transparent rigor over decorative complexity.
+   - A sophisticated method is acceptable only when it improves correctness, feasibility, explanatory power, or validation for the specific question.
+   - Do not add model names, neural networks, metaheuristics, grey models, TOPSIS/AHP, or simulation layers unless their input, output, assumptions, and validation role are clear.
+   - When a simple exact or convex formulation exists, prefer it over a heuristic search.
+   - When a heuristic is necessary, benchmark it against small exact cases, lower/upper bounds, or a deterministic baseline.
 
 ## Recommended Usage Patterns
 
@@ -15,6 +49,7 @@ Use these patterns to decide the response mode and deliverables.
    - Use when the user has a problem statement and attachments but has not decided the model, code, paper structure, or deliverables.
    - Proceed from problem understanding to final artifacts: inspect files and data, decompose tasks, identify scoring points and hidden constraints, compare 3 routes, choose the main route, implement code, generate tables/figures, write TeX paper, create GPT Image roadmaps/model flowcharts, compile PDF when possible, and run final quality gates.
    - Do not stop at a plan unless the user explicitly asks for planning only. Continue through implementation, verification, and paper handoff when local data and tools are available.
+   - Do not compress the workflow by skipping route comparison, data coverage audit, baseline construction, or validation. If time is limited, reduce scope transparently rather than weakening correctness.
    - Use traceable results only; if a needed input is missing, create the input template and state the dependency instead of fabricating a value.
 
 2. Single-question complete modeling.
@@ -75,6 +110,8 @@ Unless the user explicitly asks for a quick or shallow answer, every full soluti
    - Identify which subquestions are still too descriptive, too algorithmic, or weakly validated.
    - Check whether every important conclusion is traceable to data, code output, equations, or stated assumptions.
    - Check whether the solution contains at least one interpretable baseline and one robustness/sensitivity comparison.
+   - Check whether the answer solves the original requested objective, not a simplified surrogate that changes the meaning of the problem.
+   - Recompute or independently verify headline values when they drive rankings, optimal decisions, forecasts, or policy conclusions.
    - Remove decorative methods that do not improve a specific answer.
 
 ## Core Workflow
@@ -83,6 +120,8 @@ Unless the user explicitly asks for a quick or shallow answer, every full soluti
    - Extract all tasks, deliverables, constraints, data files, and implicit evaluation criteria.
    - Rewrite each question into "input -> decision/model -> output -> validation".
    - Flag missing data, ambiguous terms, and assumptions that must be stated.
+   - Build a "must-satisfy" checklist from the problem statement, including all hard constraints, required outputs, units, and attachment coverage.
+   - Do not move to model solving until the checklist has no unresolved item that can change the answer.
    - For detailed route selection, load `references/problem-routing.md`.
 
 2. Build a route before equations.
@@ -105,11 +144,17 @@ Unless the user explicitly asks for a quick or shallow answer, every full soluti
    - For each subquestion, specify problem restatement, variables, objective, constraints, analytical derivation, algorithm steps, validation plan, visualization design, and paper paragraph.
    - Use mature methods where possible: regression, optimization, graph/network models, time series, classification/clustering, simulation, grey prediction, TOPSIS/AHP/entropy weighting, queueing, cellular automata, or differential equations.
    - State why the chosen method fits the data scale and question form.
+   - For optimization tasks, prefer exact, convex, dynamic programming, network flow, mixed-integer, or provably bounded formulations when the problem size allows; use heuristic or metaheuristic methods only after stating why exact solving is infeasible.
+   - For prediction or fitting tasks, separate training, validation, and final forecasting logic; never tune and evaluate on the same data without labeling the limitation.
+   - For evaluation/ranking tasks, verify indicator direction, normalization, weights, and ranking stability before interpreting the ranking.
 
 6. Verify with data and stress tests.
    - Include units, dimensions, residual checks, error metrics, feasibility checks, and boundary cases.
    - Do sensitivity analysis on parameters that influence conclusions, not every parameter.
    - Compare at least one baseline or alternative model when feasible.
+   - Run sanity checks that are independent of the main code path where feasible, such as manual calculations on small samples, closed-form special cases, conservation checks, or brute-force enumeration on reduced instances.
+   - For stochastic algorithms, fix seeds, run multiple repetitions, report variation, and avoid presenting a single lucky run as final.
+   - For numerical solvers, report convergence status, infeasibility/unboundedness flags, constraint violations, and solver tolerance when relevant.
    - Apply the minimum validation set by task type:
      - Prediction/fitting: baseline comparison, train/test or rolling validation when data permits, residual analysis, and MAE/RMSE/MAPE/R2 as appropriate.
      - Optimization/scheduling: feasibility check, constraint violation table, objective value, baseline scheme comparison, and sensitivity to key parameters.
@@ -166,7 +211,14 @@ Use these rules for every modeling-paper deliverable unless the user explicitly 
    - For generated paper-ready charts, save both a raster version for documents and, when practical, a vector or source version for reproducibility.
    - Keep filenames aligned with paper references so tables and figures can be regenerated and reinserted without renaming.
 
-6. Chinese paper language constraints.
+6. Figure readability and canvas scaling.
+   - Treat figure text readability as a hard quality requirement. When a figure will be inserted into TeX, Word, or PPT, choose the figure canvas and font sizes from the final displayed width, not from the raw PNG size.
+   - Figure titles, axis labels, tick labels, legends, node labels, and annotations should appear close to the surrounding body-text size after insertion. For TeX papers using a 10.5--12 pt body font, the final rendered figure text should normally be at least 10.5 pt and preferably 11--12 pt.
+   - Estimate the needed source font size by `source_font_pt = target_final_font_pt / insertion_scale`, where `insertion_scale = final_display_width / source_canvas_width`. If a 10 inch-wide matplotlib figure is inserted as a 5.8 inch-wide figure, use roughly 18--22 pt source fonts rather than 9--11 pt defaults.
+   - Adjust layout to support larger text: prefer horizontal bar charts for long category labels, reduce the number of displayed categories, wrap or abbreviate labels, move legends to blank areas, increase margins, and use fewer nodes in flowcharts. Do not keep tiny text merely to fit more content.
+   - Before final handoff, render or inspect the compiled document page containing each figure. If any figure text is visibly smaller than body text or hard to read at normal page zoom, regenerate the figure with a larger font or simpler layout.
+
+7. Chinese paper language constraints.
    - Avoid colloquial and AI-like phrasing such as "我们可以", "建议可以", "本 AI", "智能生成", and empty transitional sentences.
    - Avoid repeatedly using "通过上述分析可以看出"; prefer evidence-driven wording such as "结果表明", "模型表明", "敏感性分析显示", and "本文构建".
    - Each substantive paragraph should be supported by at least one of: equation, data result, code output, figure/table reference, explicit assumption, or validation statement.
@@ -225,22 +277,29 @@ Before treating a modeling answer, paper section, or artifact set as complete, a
 1. Scope gate.
    - The answer covers exactly the requested question range.
    - Every output requested by the prompt is present, and unrelated subquestions are not expanded.
+   - The final result has been checked against the original problem statement and all "must-satisfy" items.
 
-2. Evidence gate.
+2. Correctness gate.
+   - The chosen model solves the actual decision, prediction, evaluation, or explanation task requested by the problem.
+   - Headline results have passed at least one independent cross-check: analytical baseline, small-case brute force, alternative model, feasibility proof, dimensional check, residual/error analysis, or repeated-run stability.
+   - No hard constraint from the problem statement, data inventory, unit system, or physical/logical setting is violated.
+   - Any failed validation, infeasible solver result, data mismatch, or unresolved contradiction is reported as a blocker or limitation, not hidden in the final conclusion.
+
+3. Evidence gate.
    - Each headline conclusion links to a formula, table, figure, code output, input data, or explicit assumption.
    - The result registry, if created, agrees with the abstract, conclusion, tables, and figure captions.
    - The data inventory covers every file/sheet required by the problem statement. For Excel workbooks, all sheet names have been inspected, and any excluded sheet has a written reason.
    - Raw-row counts, reconstructed-task counts, and covered time ranges are consistent with the problem statement before any total, average, ranking, or optimization result is reported.
 
-3. Model gate.
+4. Model gate.
    - Variables, parameters, objective/evaluation function, and constraints are defined before dense formulas.
    - At least one interpretable baseline or simplified analytical result is present unless the user explicitly asks for a brief answer.
 
-4. Validation gate.
+5. Validation gate.
    - The minimum validation set for the problem type has been performed or explicitly marked as not possible with the reason.
    - Sensitivity analysis targets parameters that can change the conclusion, not decorative parameters.
 
-5. Artifact gate.
+6. Artifact gate.
    - TeX/PDF, code, tables, figures, and appendix materials use stable filenames and are internally consistent.
    - Generated figures have paper-ready captions and are readable at normal paper size.
    - If GPT Image produced a flowchart, the selected image has been checked for text accuracy and layout defects when possible.
@@ -259,6 +318,7 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
    - Use GPT Image direct generation for 技术路线图 and 模型流程框图.
    - Default to black-and-white styling: white nodes, black lines, black text, no gradients, no color blocks, no decorative icons, and no illustrative mini-pictures.
    - Use short, high-level node labels. Put detailed explanation after the chart, not inside the boxes.
+   - Require large, body-text-sized Chinese node labels in the final inserted figure. Match label size to the target paper canvas: use fewer nodes, wider boxes, and more whitespace instead of shrinking text.
    - For a single-question paper, keep the roadmap to about 8-12 nodes when possible. For multi-question papers, group by subquestion only when it improves readability.
    - Avoid dense nested subgraphs, long chains of preprocessing nodes, and step-by-step code execution nodes.
    - A good roadmap reads like the modeling idea of the paper: "问题识别 -> 指标/变量构造 -> 模型选择 -> 求解评价 -> 结论应用".
@@ -274,11 +334,11 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
 
 4. Image-generation default.
    - Default to GPT Image for paper-ready 技术路线图 and 模型流程框图.
-   - For GPT Image prompts, keep node text short and few, require black-and-white academic style, white background, black lines, rectangular nodes, no icons, no decorative pictures, no gradients, and high legibility.
+   - For GPT Image prompts, keep node text short and few, require black-and-white academic style, white background, black lines, rectangular nodes, no icons, no decorative pictures, no gradients, and high legibility. Explicitly request large Chinese text that remains about the same size as body text after insertion into the paper.
    - Warn briefly that generated image text may need manual review, especially for Chinese labels, and offer to generate several variants when final publication quality matters.
    - Before image generation, draft a short node list and keep it stable. The image prompt should include the exact title and node labels.
    - After image generation, inspect the rendered chart when possible. Check for Chinese label errors, missing nodes, wrong arrows, unreadable text, and unintended decoration.
-   - If the chart has label errors or layout defects, regenerate with fewer nodes or shorter labels. Generate up to 3 variants when final publication quality matters.
+   - If the chart has label errors, text smaller than body text, or layout defects, regenerate with fewer nodes, shorter labels, larger boxes, and larger text. Generate up to 3 variants when final publication quality matters.
    - Save selected route images with names such as `fig_q1_route.png` and model flow images with names such as `fig_q1_model_flow.png`.
 
 5. Required output for roadmap requests.
@@ -292,12 +352,15 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
 ## Operating Rules
 
 - Answer in Chinese by default unless the user asks otherwise.
+- Put correctness before speed. Never skip problem parsing, data audit, baseline construction, unit checks, constraint checks, or validation merely to produce a faster-looking solution.
+- If the correct solution path needs more work than the current turn permits, deliver a verified partial result plus the remaining blocker list instead of inventing or rushing final conclusions.
 - When the user provides a full problem statement, first produce a task decomposition and exactly 3 modeling routes before writing code.
 - When the user asks to solve only one subquestion, switch to single-question mode: solve only that subquestion, but include scoring points, implicit constraints, 3 routes, model details, validation, visualizations, and TeX-ready paper text.
 - When the user says the solution is not deep enough, "按 CUMCM 一等奖标准重做", "想得不够多", or similar, rewrite the solution using the First-Prize Default Standard instead of merely adding model names.
 - When the user asks for a technical roadmap or model flowchart, follow "Technical Roadmap and Model Flowcharts": base it on the paper, keep the roadmap focused on the main modeling idea rather than data-cleaning or code details, keep the content concise, default to black-and-white GPT Image-generated flowcharts, and do not use illustrative icons or decorative mini-pictures.
 - When data is provided, inspect columns, missingness, units, and obvious outliers before modeling.
 - When Excel data is provided, inspect all workbook sheet names before coding; read all relevant same-structure sheets, keep a source-sheet column, and produce a row/task/time-range coverage audit before writing totals.
+- Before reporting a final numeric answer, independently cross-check the value or conclusion against a baseline, reduced case, alternative calculation, feasibility check, or solver/status diagnostic.
 - When starting a new contest project, use `scripts/init_cumcm_project.py` to create `data/`, `src/`, `figures/`, `tables/`, `paper/`, and `appendix/`.
 - When CSV/XLSX data is available, use `scripts/data_profile.py` before modeling to generate field summaries, missing/outlier checks, correlations, descriptive statistics, and a data preprocessing draft.
 - When writing code, prefer Python unless the user asks for MATLAB; use deterministic scripts/notebooks that can regenerate tables and figures.
@@ -313,6 +376,7 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
 - Prefer analytical modeling where feasible: derive simplified expressions, bounds, or structural conclusions before relying on numerical algorithms; then compare analytical predictions with numerical or data-driven results.
 - For every major conclusion, provide either an equation-based reason, a data/code-backed result, a baseline comparison, or a stated assumption with risk.
 - When creating plots, follow `references/figure-standards.md`; every figure should answer a subquestion, be generated reproducibly from code, include units, and be saved in a paper-ready format.
+- When creating plots or flowcharts, size text for the final document canvas. After insertion into TeX/Word/PPT, figure text should be close to the body-text size; if it is smaller or hard to read, regenerate the figure with larger source fonts and a simpler layout.
 - Whenever generating a figure, always output a paper-ready Chinese caption/explanation paragraph that can be pasted into the modeling paper; include what the figure shows, the key trend/result, the subquestion it supports, and analytical-vs-numerical comparison when relevant.
 - Follow `references/safety-rules.md`: do not fabricate data results, references, metrics, or conclusions that cannot be traced to code output, data, or stated assumptions.
 - Adapt to the user's contest mode using `references/contest-modes.md`, such as route-only, problem-one writing, full paper drafting, code-to-paper writing, paper audit, or final two-hour compression.

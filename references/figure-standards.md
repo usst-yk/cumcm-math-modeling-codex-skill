@@ -1,105 +1,260 @@
-# CUMCM代码绘图规范
+# CUMCM 科研论文级绘图规范
 
-## 总原则
+本规范用于生成可直接进入数学建模论文、SCI 论文和高水平学术展示的图件。目标不是“好看”，而是达到接近 Nature、Science、Physical Review Letters 等期刊的清晰度、可复现性、审稿可读性和出版可处理性。
 
-代码生成的图必须服务论文结论，而不是展示过程。每张图都应满足：
+## 核心原则
 
-- 回答一个明确子问题。
-- 数据、参数和处理步骤可追溯。
-- 坐标轴、单位、图例和标题完整。
-- 由代码一键生成，不手工修改数值。
-- 能直接放入论文正文或附录。
+每张图必须先回答一个科学问题，再考虑形式。
 
-## 输出要求
+- 图件服务结论，不展示无关过程。
+- 每个面板都有明确证据功能：机制、比较、预测、验证、敏感性、误差、空间分布或优化结果。
+- 数据、参数、筛选、归一化、统计检验和作图代码可追溯。
+- 图中单位、变量、样本量、误差定义、统计检验和模型口径必须与正文一致。
+- 图件在正常论文页宽下可读，不依赖放大查看。
+- 最终交付同时包含图像文件、源数据或结果表、作图脚本、论文图注。
 
-- 默认输出到 `figures/` 文件夹。
-- 每张核心图至少保存一份高分辨率位图：`.png`，建议 `dpi=300` 或更高。
-- 重要论文图同时保存矢量格式：`.pdf` 或 `.svg`。
-- 文件名使用可追踪命名：`fig_q1_demand_forecast.png`、`fig_q2_topsis_ranking.pdf`、`fig_q3_sensitivity_beta.png`。
-- 不要使用 `output.png`、`test.jpg`、`new figure.png` 这类不可追踪文件名。
-- 代码中集中设置随机种子、字体、字号、颜色和保存路径。
+## 期刊级目标规格
+
+参考 Nature 系列常用版面宽度和高影响力期刊通行要求，默认按以下尺寸设计：
+
+- 单栏图：宽 `89 mm`，适合单个核心图、简单趋势、单个统计比较。
+- 双栏图：宽 `183 mm`，适合多面板综合图、热图、流程图、地图、复杂优化结果。
+- 中间宽度：约 `120--140 mm`，仅在模板允许且版面需要时使用。
+- 图片高度不应靠压缩文字来节省空间；复杂内容应拆成多张图或补充图。
+- 线图、散点图、柱状图、网络图、示意图优先导出 `PDF` 或 `SVG`，保持文字和线条可编辑。
+- 照片、显微图、热图、栅格场图导出 `TIFF` 或高质量 `PNG`，最低 `300 dpi`；线稿或混合图建议 `600 dpi`。
+- 不接受只保留低分辨率截图作为最终图；不得通过强行上采样伪造分辨率。
 
 ## 图形选择
 
-- 趋势变化：折线图，必要时带置信区间或误差带。
-- 排名比较：水平条形图，按数值排序。
-- 类别占比：优先条形图或堆叠条形图，少用饼图。
-- 相关关系：散点图、回归线、相关系数热力图。
-- 误差分析：残差图、误差分布直方图、箱线图、真实值-预测值散点图。
-- 灵敏度分析：参数-结果折线图、热力图或 tornado 图。
-- 空间分布：地图、网格热力图、等值线图或空间散点图。
-- 网络结构：节点-边图、中心性排名图、社团划分图。
-- 解析与数值比较：同轴折线图、误差曲线、参数区间对比图。
+优先选择能让结论最直接成立的图形。
+
+- 趋势变化：折线图，必要时加入置信区间、预测区间或误差带。
+- 排名比较：水平条形图，按数值排序；长标签不使用旋转柱状图。
+- 类别占比：优先条形图、堆叠条形图或 Marimekko，少用饼图。
+- 相关关系：散点图、回归线、置信带、相关系数矩阵。
+- 分布比较：箱线图、小提琴图、ECDF、雨云图；显示样本点时避免遮挡。
+- 误差分析：残差图、误差分布、真实值-预测值散点图、校准曲线。
+- 灵敏度分析：参数-结果曲线、热图、tornado 图。
+- 优化与调度：甘特图、路径图、约束违反表、目标函数分解图、基线对比图。
+- 空间分布：地图、空间散点、等值线、网格热图；必须说明坐标系、距离口径和底图来源。
+- 网络结构：节点-边图、中心性排名、社团结构；节点含义和边权单位必须说明。
+- 解析与数值比较：同轴折线、误差曲线、边界/极限情况对比。
+- 多面板论文图：用一个主证据面板带动其他验证面板，避免所有子图等权堆叠。
 
 避免：
 
-- 3D 饼图、无意义 3D 柱状图。
-- 过度渐变、阴影、装饰性背景。
-- 只靠颜色区分类别而无标记、线型或标签。
-- 图例遮挡关键数据。
-- 一个图塞入过多曲线导致无法阅读。
+- 3D 饼图、无意义 3D 柱状图、装饰性阴影和渐变。
+- 用过多颜色表达连续变量或类别。
+- 只靠颜色区分类别而无标记、线型、纹理或直接标签。
+- 图例遮挡数据，或让读者在图例和曲线之间反复寻找。
+- 一个图塞入过多曲线、过多节点、过多文字，导致正常页面无法阅读。
+- 为了排版压缩字体、坐标轴或图例。
 
-## 版式与可读性
+## 字体与字号
 
-- 中文论文推荐优先使用系统可用中文字体；若字体不可用，代码应优雅回退。
-- 英文、数字、符号保持统一字体风格。
-- 正文字号通常不小于 9 pt；坐标轴标签、图例和注释必须清晰可读。
-- 坐标轴标签必须带单位，例如 `时间 / h`、`成本 / 元`、`浓度 / mg/L`。
-- 小数位保持一致；避免展示超过结论需要的有效数字。
-- 图例放在空白区域或图外，不能遮挡数据。
-- 多子图使用 `(a)`, `(b)`, `(c)` 标注，并在图注中解释。
-- 颜色应适合灰度打印；关键类别同时使用不同线型、标记或纹理。
+图中文字按最终插入论文后的显示尺寸确定，而不是按原始 PNG 画布确定。
 
-## Python 绘图默认建议
+- 英文论文图优先使用 Arial、Helvetica 或同类清晰无衬线字体；PRL/物理论文如需与 LaTeX 风格统一，可用 Times/Computer Modern，但全图必须一致。
+- 中文论文图优先使用 Songti SC、SimSun、Source Han Serif/Sans、Noto Sans CJK；中英文混排时保持风格统一。
+- 同一篇论文所有图应使用同一字体族和近似字号体系。
+- 最终文档中，坐标轴标签、刻度、图例、面板字母和关键注释通常不小于正文小四/`10.5 pt`；建议接近 `11--12 pt`。
+- Nature/Science 版面图若按最终 `89 mm` 或 `183 mm` 宽提交，常用最终字号约 `6--8 pt`；但数学建模论文正文展示优先保证与正文接近，除非目标期刊模板另有明确要求。
+- 源图字号估算公式：`源图字号 = 目标最终字号 / 插入缩放比例`。
+- `插入缩放比例 = 文档中显示宽度 / 源图画布宽度`。例如 10 inch 宽 matplotlib 图插入为 5.8 inch，缩放比例约 0.58；若目标最终字号为 11 pt，源图字号应约 19 pt。
+- 标题可比坐标轴标签大 `1--2 pt`；面板字母 `(a)`、`(b)` 应清晰但不喧宾夺主。
+- 数学变量用斜体 math text，如 `$t$`、`$E$`、`$\\alpha$`；单位用正体，如 `Time $t$ (s)`、`Energy $E$ (J)`。
+- 坐标轴标签必须带单位；无量纲指标应标注 `dimensionless`、`normalized` 或中文“无量纲/标准化值”。
 
-使用 matplotlib/seaborn 时：
+如果放大字号后拥挤，必须改图形设计：
+
+- 长类别标签改用水平条形图。
+- 减少展示类别数，保留 Top-k 并把完整表放入附录。
+- 标签换行、缩写或用编号配合表格说明。
+- 图例移到图外或空白区域。
+- 增加画布高度或拆成多张图。
+- 流程图减少节点、缩短节点文本、扩大节点间距。
+
+## 线条、标记与坐标轴
+
+- 轴线宽度通常为 `0.6--1.0 pt`；主要曲线线宽 `1.2--2.0 pt`，辅助线 `0.6--1.0 pt`。
+- 标记大小应在最终插入尺寸下可辨认，通常 `3--5 pt`；数据点多时降低透明度或改用密度图。
+- 误差条线宽不应超过主趋势线，端帽大小保持一致。
+- 坐标轴范围不能误导；柱状图原则上从 0 起始，除非有明确理由并在图注说明。
+- 对数坐标必须在轴标签或刻度中明确；不得混用线性解释。
+- 网格线只作辅助，使用浅灰、细线、低透明度；不要让网格线重于数据。
+- 去除多余上、右边框，除非四边框对物理图、热图或出版模板有必要。
+- 刻度数量适中，避免密集到无法区分。
+- 小数位和科学计数法统一，避免超过结论需要的有效数字。
+
+## 颜色与灰度可读性
+
+- 默认使用白底、黑色文字和高对比数据元素。
+- 调色板应克制：一个中性基底、一个主信号色、一个强调色；不要彩虹化。
+- 连续变量使用感知均匀色图，如 `viridis`、`cividis`；避免 `jet`。
+- 发散变量使用有中性中心的发散色图，并明确零点或参考值。
+- 分类变量数量超过 6 时，优先分面、直接标签或表格，不强行增加颜色。
+- 关键曲线需在灰度打印下仍可区分：同时使用线型、标记、纹理或直接标注。
+- 红绿对比必须提供替代编码，避免色盲不可读。
+- 图中颜色含义必须与正文一致，例如红色只表示风险、下降或超限时，不应在另一图中表示最优。
+
+## 多面板图
+
+- 先定义整张图的核心结论，再决定面板数量。
+- 每个面板只承担一个证据任务；删除不能改变结论的面板。
+- 面板编号使用 `(a)`, `(b)`, `(c)`，位置一致，通常在左上角。
+- 面板之间共享坐标轴时必须保持刻度范围一致；不共享时需说明差异。
+- 对比面板应对齐坐标轴、色标、图例和标尺。
+- 图例、色条、比例尺、统计标注不应挤压主图。
+- 面板间距保持一致，避免视觉上像临时拼接。
+- 复杂多面板图建议同时输出整体图和各面板源文件，便于后期编辑。
+
+## 统计与不确定性表达
+
+- 凡涉及实验/仿真重复、预测误差或样本估计，应标注样本量 `n`、误差条含义和统计检验方法。
+- 误差条必须说明是 SD、SEM、IQR、95% CI、预测区间还是 bootstrap 区间。
+- 显著性标注不能只写星号；图注或正文需说明检验方法、单双侧、校正方式和 p 值阈值。
+- 多重比较应说明校正方法，例如 Bonferroni、FDR 或 Tukey。
+- 回归图应给出拟合模型、置信带含义、评价指标或残差检查。
+- 箱线图需说明箱体、须、离群点定义。
+- 随机仿真需固定随机种子并报告重复次数。
+- 不确定性缺失时，不得把模型预测画成确定真值。
+
+## 图像完整性与伦理
+
+- 不得移动、删除、复制或选择性增强原始图像中的局部结构。
+- 允许的亮度、对比度、色阶调整必须作用于整幅图或明确说明区域处理。
+- 显微图、照片、热图、遥感图等必须保留比例尺、单位、采集/处理口径。
+- 伪彩色必须说明色标含义，不得让颜色暗示不存在的定量关系。
+- 裁剪不能改变科学结论；必要时说明裁剪区域。
+- 不得使用插值、平滑或去噪来掩盖噪声，除非方法和参数在图注或方法中说明。
+
+## 文件、命名与可复现性
+
+- 默认输出到 `figures/` 文件夹。
+- 文件名使用可追踪命名：`fig_q1_demand_forecast.png`、`fig_q2_topsis_ranking.pdf`、`fig_q3_sensitivity_beta.png`。
+- 不使用 `output.png`、`test.jpg`、`new figure.png` 等不可追踪文件名。
+- 每张核心图至少保存：
+  - `PDF` 或 `SVG`：线图、统计图、流程图、矢量图。
+  - `PNG`：论文预览或 Word/Markdown 快速插图，`300--600 dpi`。
+  - `TIFF`：期刊投稿位图或混合图需要时，`300--600 dpi`。
+  - 源数据表：`tab_q*_figure_source.csv` 或与图同名的 `.csv/.xlsx`。
+- 图中文字应保持可编辑：matplotlib 设置 `pdf.fonttype=42`、`svg.fonttype='none'`；R 使用 `svglite` 或 `cairo_pdf`。
+- 代码中集中设置随机种子、字体、字号、颜色、尺寸和保存路径。
+- 任何手工编辑步骤都必须记录；最终优先使用脚本一键再生图件。
+
+## Python/matplotlib 发表级基线
+
+适合数学建模论文和一般 SCI 图。若目标是 Nature/Science 正式投稿，可按最终 `89 mm/183 mm` 版面重新微调字号。
 
 ```python
 from pathlib import Path
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 FIG_DIR = Path("figures")
 FIG_DIR.mkdir(exist_ok=True)
 
-plt.rcParams.update({
+mpl.rcParams.update({
     "figure.dpi": 120,
-    "savefig.dpi": 300,
+    "savefig.dpi": 600,
+    "font.family": "sans-serif",
+    "font.sans-serif": ["Arial", "Helvetica", "Songti SC", "SimSun", "DejaVu Sans"],
     "axes.unicode_minus": False,
-    "font.size": 10,
-    "axes.labelsize": 10,
-    "axes.titlesize": 11,
-    "legend.fontsize": 9,
+    "mathtext.fontset": "stix",
+    "pdf.fonttype": 42,
+    "ps.fonttype": 42,
+    "svg.fonttype": "none",
+    # Size for final insertion, not raw-image viewing.
+    # Increase when the figure will be strongly scaled down in TeX/Word.
+    "font.size": 12,
+    "axes.labelsize": 12,
+    "axes.titlesize": 13,
+    "xtick.labelsize": 11,
+    "ytick.labelsize": 11,
+    "legend.fontsize": 10.5,
+    "axes.linewidth": 0.8,
+    "lines.linewidth": 1.6,
+    "lines.markersize": 4.5,
+    "legend.frameon": False,
 })
 
-fig, ax = plt.subplots(figsize=(6, 4), constrained_layout=True)
+fig, ax = plt.subplots(figsize=(6.0, 4.0), constrained_layout=True)
 # plot data here
-ax.set_xlabel("时间 / h")
-ax.set_ylabel("需求量 / 件")
-ax.grid(True, alpha=0.25)
-fig.savefig(FIG_DIR / "fig_q1_demand_forecast.png", bbox_inches="tight")
+ax.set_xlabel("Time $t$ (h)")
+ax.set_ylabel("Demand (items)")
+ax.grid(True, color="0.88", linewidth=0.6)
 fig.savefig(FIG_DIR / "fig_q1_demand_forecast.pdf", bbox_inches="tight")
+fig.savefig(FIG_DIR / "fig_q1_demand_forecast.svg", bbox_inches="tight")
+fig.savefig(FIG_DIR / "fig_q1_demand_forecast.png", dpi=600, bbox_inches="tight")
 ```
 
-如需中文字体，先检测本机字体；不要硬编码只有自己电脑存在的字体路径。若中文显示不稳定，可在论文中使用英文坐标标签，正文图注用中文解释。
+若按 Nature 常用宽度控制尺寸：
 
-## MATLAB 绘图默认建议
+```python
+MM = 1 / 25.4
+single_col = 89 * MM
+double_col = 183 * MM
+fig, ax = plt.subplots(figsize=(single_col, 60 * MM), constrained_layout=True)
+```
 
-使用 MATLAB 时：
+## R/ggplot2 发表级基线
+
+```r
+library(ggplot2)
+
+theme_set(
+  theme_classic(base_size = 7, base_family = "Arial") +
+    theme(
+      axis.line = element_line(linewidth = 0.35, colour = "black"),
+      axis.ticks = element_line(linewidth = 0.35, colour = "black"),
+      axis.title = element_text(size = 7.5),
+      axis.text = element_text(size = 6.8),
+      legend.title = element_text(size = 6.8),
+      legend.text = element_text(size = 6.5),
+      strip.text = element_text(size = 7, face = "bold"),
+      plot.title = element_text(size = 8, face = "bold"),
+      panel.grid = element_blank(),
+      legend.background = element_blank()
+    )
+)
+
+save_pub <- function(plot, filename, width_mm = 89, height_mm = 65, dpi = 600) {
+  w <- width_mm / 25.4
+  h <- height_mm / 25.4
+  ggsave(paste0(filename, ".pdf"), plot, width = w, height = h, device = cairo_pdf)
+  ggsave(paste0(filename, ".svg"), plot, width = w, height = h, device = svglite::svglite)
+  ggsave(paste0(filename, ".tiff"), plot, width = w, height = h, dpi = dpi, compression = "lzw")
+}
+```
+
+## MATLAB 发表级基线
 
 ```matlab
 if ~exist('figures', 'dir')
     mkdir('figures');
 end
 
-figure('Color','w','Position',[100 100 720 480]);
-plot(x, y, 'LineWidth', 1.5);
+figure('Color','w','Units','centimeters','Position',[2 2 8.9 6.5]);
+plot(x, y, 'LineWidth', 1.4);
+box off;
 grid on;
-xlabel('时间 / h');
-ylabel('需求量 / 件');
-set(gca, 'FontSize', 10, 'LineWidth', 1);
-exportgraphics(gcf, 'figures/fig_q1_demand_forecast.png', 'Resolution', 300);
+set(gca, 'FontName', 'Arial', 'FontSize', 8, 'LineWidth', 0.8);
+xlabel('Time t (h)', 'FontSize', 8);
+ylabel('Demand (items)', 'FontSize', 8);
 exportgraphics(gcf, 'figures/fig_q1_demand_forecast.pdf', 'ContentType', 'vector');
+exportgraphics(gcf, 'figures/fig_q1_demand_forecast.png', 'Resolution', 600);
 ```
+
+## 流程图与技术路线图
+
+- 流程图必须像论文模型逻辑，而不是软件操作步骤。
+- 节点文字短、少、准确；详细解释放在图注和正文。
+- 黑白优先：白底、黑字、细黑线、无装饰图标、无渐变背景。
+- 最终插入论文后，节点文字应接近正文大小；不允许用小字塞满流程图。
+- 复杂流程拆成“技术路线图”和“模型流程图”，不要做成一张密集大图。
+- 节点应对齐，箭头方向一致，层级清楚。
+- 生成式图片必须人工检查：中文错字、漏节点、箭头错误、文字过小、布局拥挤都要重生成或改为代码绘制。
 
 ## 图注写法
 
@@ -107,34 +262,47 @@ exportgraphics(gcf, 'figures/fig_q1_demand_forecast.pdf', 'ContentType', 'vector
 
 图注应包含：
 
-- 图中展示什么对象和变量。
-- 关键趋势、差异或异常。
-- 该图支持哪个子问题的结论。
-- 如有解析/数值比较，说明两者一致性或偏差来源。
+- 图中展示的对象、变量和数据范围。
+- 坐标轴单位、归一化或统计口径。
+- 关键趋势、差异、异常或模型结论。
+- 该图支持哪个问题或哪条结论。
+- 误差条、置信区间、样本量、统计检验或仿真重复次数。
+- 如有解析/数值比较，说明一致性、偏差和适用范围。
 
 推荐格式：
 
 ```text
-图 X 展示了……。可以看出，……；这说明……。该结果用于回答问题 X 中关于……的要求。若与解析模型比较，……，偏差主要来源于……。
+图 X 展示了……。横轴为……，纵轴为……；阴影/误差条表示……。结果表明，……，该结论用于回答问题 X 中关于……的要求。与解析基线相比，……，偏差主要来源于……。
 ```
 
-示例：
+## 最终审稿检查清单
 
-图 3 展示了参数 beta 在不同取值下目标函数值的变化。可以看出，当 beta 小于 0.6 时，数值优化结果与解析近似曲线基本一致，说明简化模型能够解释主要趋势；当 beta 继续增大后，两者偏差扩大，主要原因是容量约束开始成为主导因素。
+交付前逐项检查：
 
-如果生成多张图，应逐张给出图注：
+- 图件是否回答了明确科学问题，而不是只有装饰作用。
+- 图中数据、公式、单位、统计口径与正文、表格、代码输出一致。
+- 正常论文页面宽度下，所有文字、刻度、图例、节点标签可读。
+- 所有坐标轴有变量名和单位。
+- 数学变量斜体、单位正体。
+- 颜色在灰度打印和色盲情形下仍可区分。
+- 误差条、置信区间、样本量和统计检验定义完整。
+- 图例不遮挡数据；能直接标注时优先直接标注。
+- 多面板编号完整，面板顺序与图注一致。
+- 位图分辨率满足 `300--600 dpi`，线图有矢量版本。
+- PDF/SVG 中文字尽量可编辑，未被无故转曲或栅格化。
+- 图注解释结论，而不是重复图名。
+- 生成图的代码、源数据表和输出文件都已保存，可重新生成。
+- 已渲染或打开最终 TeX/Word/PDF 页面检查实际显示效果。
 
-- `fig_q1_demand_forecast.png`：图 X 展示了……
-- `fig_q2_topsis_ranking.png`：图 X 展示了……
-- `fig_q3_sensitivity_beta.png`：图 X 展示了……
+## 常见退稿级问题
 
-## 最终检查
-
-- 文件名能看出对应问题和图形含义。
-- 图中所有轴都有单位。
-- 图例不遮挡数据。
-- 图中数值和论文正文一致。
-- 图能在黑白打印下区分主要类别。
-- 图注解释了结论，而不是只重复图名。
-- 每次输出图像文件时，同时输出论文可用图注。
-- 生成图的代码随附在 `src/` 或附录中，能重新生成图片。
+- 图中文字太小，需要放大查看才能读。
+- 图例、坐标轴或色条缺单位。
+- 图片是低分辨率截图，放大后模糊。
+- 颜色太多、对比不足，灰度打印无法区分。
+- 误差条未定义，星号显著性无检验说明。
+- 同一变量在不同图中颜色含义不一致。
+- 多面板排列没有证据逻辑，只是把结果堆在一起。
+- 图注无法独立理解图件。
+- 正文数值和图中数值不一致。
+- 手工修图导致无法复现。
