@@ -68,6 +68,13 @@ Unless the user explicitly asks for a quick or shallow answer, every full soluti
    - Include units, dimensions, residual checks, error metrics, feasibility checks, and boundary cases.
    - Do sensitivity analysis on parameters that influence conclusions, not every parameter.
    - Compare at least one baseline or alternative model when feasible.
+   - Apply the minimum validation set by task type:
+     - Prediction/fitting: baseline comparison, train/test or rolling validation when data permits, residual analysis, and MAE/RMSE/MAPE/R2 as appropriate.
+     - Optimization/scheduling: feasibility check, constraint violation table, objective value, baseline scheme comparison, and sensitivity to key parameters.
+     - Evaluation/ranking: indicator direction check, normalization check, weight perturbation, ranking stability, and at least one alternative weighting or scoring comparison when feasible.
+     - Simulation/propagation: boundary cases, parameter sensitivity, repeated runs for stochastic models, and interpretation of peak/final-state behavior.
+     - Classification/clustering: confusion matrix or cluster validity indicators, feature contribution or cluster interpretation, and error case analysis.
+   - If a validation item cannot be performed because data are missing, state why and provide the planned validation formula or table template.
 
 7. Write for judges.
    - Start from conclusions and evidence, not method inventory.
@@ -84,6 +91,8 @@ Use these rules for every modeling-paper deliverable unless the user explicitly 
    - For substantial paper writing, generate a `.tex` file and compile or attempt to compile a PDF when a local TeX engine is available.
    - Keep Markdown as a drafting aid only when the user asks for quick text or when TeX generation is unnecessary.
    - If the user asks for Word, PPT, or Markdown, follow that request, but keep formulas, tables, figures, and captions consistent with the TeX version when both exist.
+   - TeX papers should follow this section order by default: problem restatement, assumptions and notation, data processing, model establishment, model solution, results, validation and sensitivity analysis, model evaluation, conclusion, appendix.
+   - When compiling TeX, report whether PDF compilation succeeded. If compilation fails, fix the TeX when feasible; otherwise state the compile error and leave the `.tex` file usable.
 
 2. Hard traceability rules.
    - Do not write numerical conclusions without data, code output, problem-statement conditions, or an explicitly stated assumption.
@@ -92,14 +101,21 @@ Use these rules for every modeling-paper deliverable unless the user explicitly 
    - If geographic distance is needed, do not fabricate distance without coordinates, a route table, a map/geocoding source, or an explicit approximation method.
    - Example numbers must be labeled as "示例" and must not be mixed with real computed results.
    - If a required value is missing, write the formula, input table template, and reproducible computation path instead of filling an unsupported number.
+   - Maintain a result registry for important numbers: conclusion, value, unit, source file or equation, and reproduction command. Use this registry to keep abstract, body text, tables, and conclusions consistent.
 
-3. Figure and table naming convention.
+3. Unit and dimension discipline.
+   - Every physical quantity should carry a unit in notation tables, formulas, tables, and figure axes.
+   - Before writing final results, check common conversions such as days versus hours, km versus m, tons versus kg, yuan versus ten-thousand yuan, and one-way versus round-trip distance.
+   - If a model mixes normalized indicators and physical quantities, state which variables are dimensionless and which retain units.
+   - If a formula changes units, explain the conversion factor or keep the computation in code with a named variable.
+
+4. Figure and table naming convention.
    - Use stable lowercase filenames with the pattern `fig_q{subquestion}_{topic}.png` for figures and `tab_q{subquestion}_{topic}.csv` or `.xlsx` for tables.
    - Examples: `fig_q1_route.png`, `fig_q1_cost_stack.png`, `fig_q1_load_factor.png`, `tab_q1_summary.csv`, `tab_q1_sensitivity.csv`.
    - For generated paper-ready charts, save both a raster version for documents and, when practical, a vector or source version for reproducibility.
    - Keep filenames aligned with paper references so tables and figures can be regenerated and reinserted without renaming.
 
-4. Chinese paper language constraints.
+5. Chinese paper language constraints.
    - Avoid colloquial and AI-like phrasing such as "我们可以", "建议可以", "本 AI", "智能生成", and empty transitional sentences.
    - Avoid repeatedly using "通过上述分析可以看出"; prefer evidence-driven wording such as "结果表明", "模型表明", "敏感性分析显示", and "本文构建".
    - Each substantive paragraph should be supported by at least one of: equation, data result, code output, figure/table reference, explicit assumption, or validation statement.
@@ -150,6 +166,31 @@ Use these modes when the user narrows the scope to one subquestion, asks to writ
    - Use deterministic scripts where possible; fix random seeds for stochastic algorithms.
    - Do not include private tokens, API keys, absolute personal credentials, or unrelated environment probing.
    - Appendix code comments should explain modeling steps and outputs, not narrate obvious programming operations.
+
+## Final Quality Gates
+
+Before treating a modeling answer, paper section, or artifact set as complete, apply these gates.
+
+1. Scope gate.
+   - The answer covers exactly the requested question range.
+   - Every output requested by the prompt is present, and unrelated subquestions are not expanded.
+
+2. Evidence gate.
+   - Each headline conclusion links to a formula, table, figure, code output, input data, or explicit assumption.
+   - The result registry, if created, agrees with the abstract, conclusion, tables, and figure captions.
+
+3. Model gate.
+   - Variables, parameters, objective/evaluation function, and constraints are defined before dense formulas.
+   - At least one interpretable baseline or simplified analytical result is present unless the user explicitly asks for a brief answer.
+
+4. Validation gate.
+   - The minimum validation set for the problem type has been performed or explicitly marked as not possible with the reason.
+   - Sensitivity analysis targets parameters that can change the conclusion, not decorative parameters.
+
+5. Artifact gate.
+   - TeX/PDF, code, tables, figures, and appendix materials use stable filenames and are internally consistent.
+   - Generated figures have paper-ready captions and are readable at normal paper size.
+   - If GPT Image produced a flowchart, the selected image has been checked for text accuracy and layout defects when possible.
 
 ## Technical Roadmap and Model Flowcharts
 
