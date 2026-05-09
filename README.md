@@ -13,12 +13,52 @@
 
 ## 安装
 
-将本仓库复制到 Codex skills 目录：
+### 方式一：使用 Git 克隆
 
 ```bash
 mkdir -p ~/.codex/skills
 git clone https://github.com/usst-yk/cumcm-math-modeling-codex-skill.git ~/.codex/skills/cumcm-math-modeling
 ```
+
+### 方式二：下载 GitHub 压缩包并本地解压
+
+不使用 Git 时，可以下载仓库 ZIP 压缩包：
+
+```bash
+mkdir -p ~/.codex/skills
+curl -L https://github.com/usst-yk/cumcm-math-modeling-codex-skill/archive/refs/heads/main.zip -o /tmp/cumcm-math-modeling-codex-skill.zip
+rm -rf ~/.codex/skills/cumcm-math-modeling
+unzip /tmp/cumcm-math-modeling-codex-skill.zip -d /tmp
+mv /tmp/cumcm-math-modeling-codex-skill-main ~/.codex/skills/cumcm-math-modeling
+```
+
+### 方式三：已有本地压缩包时安装
+
+如果已经拿到 `cumcm-math-modeling-codex-skill.zip`，可直接解压到 Codex skills 目录：
+
+```bash
+mkdir -p ~/.codex/skills
+rm -rf ~/.codex/skills/cumcm-math-modeling
+unzip /path/to/cumcm-math-modeling-codex-skill.zip -d /tmp/cumcm-skill-install
+mv /tmp/cumcm-skill-install/cumcm-math-modeling-codex-skill-main ~/.codex/skills/cumcm-math-modeling
+```
+
+如果压缩包解压后的目录名不是 `cumcm-math-modeling-codex-skill-main`，将 `mv` 命令中的源目录改成实际解压出来的目录即可。最终目录应满足：
+
+```text
+~/.codex/skills/cumcm-math-modeling/SKILL.md
+```
+
+### 生成可分发压缩包
+
+维护者可在仓库上级目录生成一个不包含 `.git` 的安装包：
+
+```bash
+cd ~/.codex/skills
+zip -r cumcm-math-modeling-codex-skill.zip cumcm-math-modeling -x "cumcm-math-modeling/.git/*"
+```
+
+使用该压缩包安装时，解压后的目录可能名为 `cumcm-math-modeling`，直接放入 `~/.codex/skills/` 即可。
 
 重启 Codex 后，在对话中使用：
 
