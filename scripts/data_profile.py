@@ -188,7 +188,22 @@ def profile_table(file_path: Path, file_name: str, sheet_name: str, df: pd.DataF
     }
 
 
-def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, list[dict[str, object]], dict[str, list[tuple[str, str, pd.DataFrame]]]]:
+def build_outputs(
+    files: list[Path],
+) -> tuple[
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    pd.DataFrame,
+    list[dict[str, object]],
+    dict[str, list[tuple[str, str, pd.DataFrame]]],
+]:
     inventory: list[dict[str, object]] = []
     missing_rows: list[dict[str, object]] = []
     numeric_rows: list[dict[str, object]] = []
@@ -403,10 +418,28 @@ def write_merge_candidates(outdir: Path, tables_by_signature: dict[str, list[tup
             merged.insert(0, "source_file", file_name)
             frames.append(merged)
         merge_dir.mkdir(parents=True, exist_ok=True)
-        pd.concat(frames, ignore_index=True).to_csv(merge_dir / f"merge_candidate_{idx:03d}.csv", index=False, encoding="utf-8-sig")
+        pd.concat(frames, ignore_index=True).to_csv(
+            merge_dir / f"merge_candidate_{idx:03d}.csv",
+            index=False,
+            encoding="utf-8-sig",
+        )
 
 
-def write_reports(outdir: Path, inventory: pd.DataFrame, missing: pd.DataFrame, numeric: pd.DataFrame, categorical: pd.DataFrame, sheets: pd.DataFrame, time_ranges: pd.DataFrame, duplicates: pd.DataFrame, excluded: pd.DataFrame, unit_guess: pd.DataFrame, merge_candidates: pd.DataFrame, profiles: list[dict[str, object]], tables_by_signature: dict[str, list[tuple[str, str, pd.DataFrame]]]) -> None:
+def write_reports(
+    outdir: Path,
+    inventory: pd.DataFrame,
+    missing: pd.DataFrame,
+    numeric: pd.DataFrame,
+    categorical: pd.DataFrame,
+    sheets: pd.DataFrame,
+    time_ranges: pd.DataFrame,
+    duplicates: pd.DataFrame,
+    excluded: pd.DataFrame,
+    unit_guess: pd.DataFrame,
+    merge_candidates: pd.DataFrame,
+    profiles: list[dict[str, object]],
+    tables_by_signature: dict[str, list[tuple[str, str, pd.DataFrame]]],
+) -> None:
     outdir.mkdir(parents=True, exist_ok=True)
     write_excel(inventory, outdir / "tab_data_inventory.xlsx")
     write_excel(missing, outdir / "tab_missing_summary.xlsx")
@@ -434,31 +467,63 @@ def write_reports(outdir: Path, inventory: pd.DataFrame, missing: pd.DataFrame, 
         },
     )
     write_merge_candidates(outdir, tables_by_signature)
-    (outdir / "data_profile.json").write_text(json.dumps(profiles, ensure_ascii=False, indent=2), encoding="utf-8")
+    (outdir / "data_profile.json").write_text(
+        json.dumps(profiles, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
 
     summary = [
         "# 数据检查报告",
         "",
         "## 数据表概览",
         "",
-        markdown_table(inventory, ["file", "sheet", "rows", "columns", "time_columns", "included_status"]),
+        markdown_table(
+            inventory,
+            ["file", "sheet", "rows", "columns", "time_columns", "included_status"],
+        ),
         "",
         "## 缺失值概览",
         "",
     ]
     missing_nonzero = missing[missing["missing_count"] > 0].copy() if not missing.empty else missing
-    summary.append(markdown_table(missing_nonzero.head(30), ["file", "sheet", "column", "missing_count", "missing_ratio"]) if not missing_nonzero.empty else "未发现缺失值。")
+    if not missing_nonzero.empty:
+        summary.append(
+            markdown_table(
+                missing_nonzero.head(30),
+                ["file", "sheet", "column", "missing_count", "missing_ratio"],
+            )
+        )
+    else:
+        summary.append("未发现缺失值。")
     summary.extend(["", "## 异常值概览", ""])
     outlier_nonzero = numeric[numeric["iqr_outliers"] > 0].copy() if not numeric.empty else numeric
-    summary.append(markdown_table(outlier_nonzero.head(30), ["file", "sheet", "column", "iqr_outliers"]) if not outlier_nonzero.empty else "数值字段未发现明显 IQR 异常值。")
+    if not outlier_nonzero.empty:
+        summary.append(
+            markdown_table(
+                outlier_nonzero.head(30),
+                ["file", "sheet", "column", "iqr_outliers"],
+            )
+        )
+    else:
+        summary.append("数值字段未发现明显 IQR 异常值。")
     (outdir / "data_profile_summary.md").write_text("\n".join(summary) + "\n", encoding="utf-8")
 
     draft = [
         "# 数据预处理论文段落草稿",
         "",
-        f"本文首先对附件数据进行覆盖性审计，共识别 {len(inventory)} 个数据表。审计内容包括工作表名称、记录数、字段数、时间字段、空间字段、疑似主键、单位线索、缺失比例、重复记录和 IQR 异常值。所有 Excel 文件均先读取全部工作表，再根据题意判断纳入范围；对同结构工作表，后续建模应合并并保留来源文件与来源工作表字段，以保证结果可追溯。",
+        (
+            f"本文首先对附件数据进行覆盖性审计，共识别 {len(inventory)} 个数据表。"
+            "审计内容包括工作表名称、记录数、字段数、时间字段、空间字段、"
+            "疑似主键、单位线索、缺失比例、重复记录和 IQR 异常值。"
+            "所有 Excel 文件均先读取全部工作表，再根据题意判断纳入范围；"
+            "对同结构工作表，后续建模应合并并保留来源文件与来源工作表字段，"
+            "以保证结果可追溯。"
+        ),
         "",
-        "正式写入论文前，应将 `included_status` 和 `exclusion_reason` 补齐，并核对题面中的时间范围、样本范围和单位要求。",
+        (
+            "正式写入论文前，应将 `included_status` 和 `exclusion_reason` 补齐，"
+            "并核对题面中的时间范围、样本范围和单位要求。"
+        ),
     ]
     (outdir / "data_preprocessing_draft.md").write_text("\n".join(draft) + "\n", encoding="utf-8")
 
@@ -466,8 +531,21 @@ def write_reports(outdir: Path, inventory: pd.DataFrame, missing: pd.DataFrame, 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Profile CSV/XLSX files for CUMCM data audits.")
     parser.add_argument("paths", nargs="*", help="Input files or directories. Kept for backward compatibility.")
-    parser.add_argument("--input", "-i", action="append", dest="inputs", help="Input file or directory. Can be repeated.")
-    parser.add_argument("--output", "-o", "--outdir", dest="output", default="tables/data_profile", help="Output directory.")
+    parser.add_argument(
+        "--input",
+        "-i",
+        action="append",
+        dest="inputs",
+        help="Input file or directory. Can be repeated.",
+    )
+    parser.add_argument(
+        "--output",
+        "-o",
+        "--outdir",
+        dest="output",
+        default="tables/data_profile",
+        help="Output directory.",
+    )
     return parser.parse_args()
 
 
@@ -483,9 +561,36 @@ def main() -> int:
         print("No CSV/XLSX files found.", file=sys.stderr)
         return 2
 
-    inventory, missing, numeric, categorical, sheets, time_ranges, duplicates, excluded, unit_guess, merge_candidates, profiles, tables_by_signature = build_outputs(files)
+    (
+        inventory,
+        missing,
+        numeric,
+        categorical,
+        sheets,
+        time_ranges,
+        duplicates,
+        excluded,
+        unit_guess,
+        merge_candidates,
+        profiles,
+        tables_by_signature,
+    ) = build_outputs(files)
     outdir = Path(args.output).expanduser().resolve()
-    write_reports(outdir, inventory, missing, numeric, categorical, sheets, time_ranges, duplicates, excluded, unit_guess, merge_candidates, profiles, tables_by_signature)
+    write_reports(
+        outdir,
+        inventory,
+        missing,
+        numeric,
+        categorical,
+        sheets,
+        time_ranges,
+        duplicates,
+        excluded,
+        unit_guess,
+        merge_candidates,
+        profiles,
+        tables_by_signature,
+    )
     print(f"Profiled {len(profiles)} table(s) from {len(files)} file(s).")
     print(f"Reports written to: {outdir}")
     return 0

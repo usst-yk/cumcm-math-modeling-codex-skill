@@ -1,0 +1,89 @@
+{
+  "contest": "CUMCM",
+  "problem_id": "toy_full_problem_demo",
+  "question_count": 3,
+  "subquestions": [
+    {
+      "id": "Q1",
+      "task_type": "prediction",
+      "required_output": [
+        "第7天总需求预测值",
+        "预测基线比较"
+      ],
+      "input_data": [
+        "data/raw/station_demand.csv"
+      ],
+      "decision_object": "每日总需求",
+      "constraints": [
+        "使用已给6天站点需求数据",
+        "不编造额外历史数据"
+      ],
+      "validation": [
+        "近3日均值基线比较"
+      ],
+      "figures_needed": [
+        "fig_q1_demand_forecast.png"
+      ],
+      "tables_needed": [
+        "tab_q1_daily_forecast.csv"
+      ],
+      "status": "demo"
+    },
+    {
+      "id": "Q2",
+      "task_type": "optimization",
+      "required_output": [
+        "车辆容量260件时的配送分配表"
+      ],
+      "input_data": [
+        "data/raw/station_demand.csv"
+      ],
+      "decision_object": "各站点配送量",
+      "constraints": [
+        "总配送量不超过260件",
+        "单站配送量不超过需求量"
+      ],
+      "validation": [
+        "容量约束检查",
+        "未满足需求统计"
+      ],
+      "figures_needed": [],
+      "tables_needed": [
+        "tab_q2_allocation.csv"
+      ],
+      "status": "demo"
+    },
+    {
+      "id": "Q3",
+      "task_type": "evaluation",
+      "required_output": [
+        "站点配送优先级排序"
+      ],
+      "input_data": [
+        "data/raw/station_demand.csv"
+      ],
+      "decision_object": "站点优先级得分",
+      "constraints": [
+        "需求和原始优先级共同参与排序"
+      ],
+      "validation": [
+        "排序表和图一致"
+      ],
+      "figures_needed": [
+        "fig_q3_priority_ranking.png"
+      ],
+      "tables_needed": [
+        "tab_q3_priority_ranking.csv"
+      ],
+      "status": "demo"
+    }
+  ],
+  "global_assumptions": [
+    "该示例仅用于演示工作流，不代表真实国赛复杂度。",
+    "车辆容量为260件。"
+  ],
+  "risk_points": [
+    "历史天数很少，预测结果只适合作为流程演示。",
+    "优先级权重为示例设定，真实题目需要根据题意确认。"
+  ]
+}

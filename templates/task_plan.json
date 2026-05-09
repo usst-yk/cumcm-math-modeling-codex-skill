@@ -10,7 +10,9 @@
       "input_data": [],
       "decision_object": "",
       "constraints": [],
-      "validation": ["baseline comparison"],
+      "validation": [
+        "baseline comparison"
+      ],
       "figures_needed": [],
       "tables_needed": [],
       "status": "draft"

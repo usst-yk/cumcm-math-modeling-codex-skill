@@ -51,13 +51,27 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--claim", "--conclusion", default="", help="Headline claim or conclusion.")
     parser.add_argument("--value", default="", help="Numeric/text value.")
     parser.add_argument("--unit", default="", help="Unit.")
-    parser.add_argument("--source-type", default="", help="code, table, figure, equation, assumption, problem statement, or manual check.")
+    parser.add_argument(
+        "--source-type",
+        default="",
+        help="code, table, figure, equation, assumption, problem statement, or manual check.",
+    )
     parser.add_argument("--source-file", "--source-path", default="", help="Source file path.")
-    parser.add_argument("--source-line-or-cell", "--source-location", default="", help="Sheet/cell/row/figure/equation/log line.")
+    parser.add_argument(
+        "--source-line-or-cell",
+        "--source-location",
+        default="",
+        help="Sheet/cell/row/figure/equation/log line.",
+    )
     parser.add_argument("--script", default="", help="Script that produced the value.")
     parser.add_argument("--command", "--reproduce-command", default="", help="Command used to reproduce the value.")
     parser.add_argument("--figure-or-table", default="", help="Linked figure or table filename.")
-    parser.add_argument("--validation", "--validation-check", default="", help="Baseline, error, feasibility, sensitivity, etc.")
+    parser.add_argument(
+        "--validation",
+        "--validation-check",
+        default="",
+        help="Baseline, error, feasibility, sensitivity, etc.",
+    )
     parser.add_argument("--status", default="draft", help="draft, verified, blocked.")
     parser.add_argument("--created-at", default="", help="Creation time. Defaults to current local time.")
     parser.add_argument("--verified-by", default="", help="Verifier name or role.")

@@ -1,0 +1,4 @@
+﻿id,subquestion,claim,value,unit,source_type,source_file,source_line_or_cell,script,command,figure_or_table,validation,status,created_at,verified_by,notes
+R001,Q1,第7天总需求线性趋势预测值,178.47,件,code,tables/tab_q1_daily_forecast.csv,forecast formula in src/solve_demo.py,src/solve_demo.py,python src/solve_demo.py,figures/fig_q1_demand_forecast.png,与近3日均值基线 162.00 件比较,verified,2026-05-09T22:12:44,demo script,"Toy demo, not a contest-level model."
+R002,Q2,车辆容量260件时全部站点需求可满足,0,未满足件数,code,tables/tab_q2_allocation.csv,unmet column sum,src/solve_demo.py,python src/solve_demo.py,tables/tab_q2_allocation.csv,分配量不超过需求量且总分配量不超过260件,verified,2026-05-09T22:12:44,demo script,Toy demo capacity check.
+R003,Q3,最高优先级站点,S01,站点,code,tables/tab_q3_priority_ranking.csv,rank 1 row,src/solve_demo.py,python src/solve_demo.py,figures/fig_q3_priority_ranking.png,需求权重和原始优先级加权排序,verified,2026-05-09T22:12:44,demo script,Toy demo ranking.

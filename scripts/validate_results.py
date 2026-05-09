@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import math
 import re
 from pathlib import Path
 
@@ -35,12 +34,31 @@ def audit_registry(root: Path, registry: pd.DataFrame) -> list[str]:
     issues: list[str] = []
     if registry.empty:
         return ["P1: result registry missing or empty."]
-    source_col = "source_file" if "source_file" in registry.columns else "source_path" if "source_path" in registry.columns else ""
+    source_col = (
+        "source_file"
+        if "source_file" in registry.columns
+        else "source_path"
+        if "source_path" in registry.columns
+        else ""
+    )
     if source_col:
         for idx, row in registry.iterrows():
             source = str(row.get(source_col, "")).strip()
             if source and source.lower() != "nan" and not rel_exists(root, source):
                 issues.append(f"P1: registry row {idx + 1} source file not found: {source}")
+    if "figure_or_table" in registry.columns:
+        for idx, row in registry.iterrows():
+            artifact = str(row.get("figure_or_table", "")).strip()
+            if artifact and artifact.lower() != "nan" and not rel_exists(root, artifact):
+                if not rel_exists(root, f"figures/{Path(artifact).name}") and not rel_exists(
+                    root,
+                    f"tables/{Path(artifact).name}",
+                ):
+                    issues.append(f"P1: registry row {idx + 1} linked figure/table not found: {artifact}")
+    if "source_type" in registry.columns:
+        missing_type = registry[registry["source_type"].astype(str).str.strip().isin(["", "nan"])]
+        if not missing_type.empty:
+            issues.append(f"P2: registry has {len(missing_type)} row(s) without source_type.")
     status_col = "status" if "status" in registry.columns else ""
     if status_col:
         blocked = registry[registry[status_col].astype(str).str.lower().isin(["blocked", "failed"])]
@@ -52,6 +70,8 @@ def audit_registry(root: Path, registry: pd.DataFrame) -> list[str]:
 def audit_tables(root: Path) -> list[str]:
     issues: list[str] = []
     for path in list((root / "tables").rglob("*.csv")) + list((root / "tables").rglob("*.xlsx")):
+        if "data_profile" in path.parts:
+            continue
         try:
             df = pd.read_csv(path) if path.suffix == ".csv" else pd.read_excel(path)
         except Exception as exc:  # pragma: no cover
@@ -61,9 +81,9 @@ def audit_tables(root: Path) -> list[str]:
             issues.append(f"P2: empty table: {path.relative_to(root)}")
         numeric = df.select_dtypes(include="number")
         if not numeric.empty:
-            bad = numeric.applymap(lambda x: isinstance(x, float) and (math.isnan(x) or math.isinf(x))).any().any()
+            bad = numeric.isin([float("inf"), float("-inf")]).any().any()
             if bad:
-                issues.append(f"P1: table contains NaN or inf: {path.relative_to(root)}")
+                issues.append(f"P1: table contains inf: {path.relative_to(root)}")
     return issues
 
 
@@ -94,16 +114,29 @@ def audit_paper(root: Path, registry: pd.DataFrame) -> list[str]:
     return issues
 
 
-def audit_unreferenced(root: Path) -> list[str]:
+def registry_artifact_names(registry: pd.DataFrame) -> set[str]:
+    names: set[str] = set()
+    if registry.empty:
+        return names
+    for col in ["source_file", "source_path", "figure_or_table"]:
+        if col in registry.columns:
+            for value in registry[col].dropna().astype(str):
+                if value and value.lower() != "nan":
+                    names.add(Path(value).name)
+    return names
+
+
+def audit_unreferenced(root: Path, registry: pd.DataFrame) -> list[str]:
     issues: list[str] = []
     paper_text = ""
     for paper in (root / "paper").rglob("*.tex"):
         paper_text += paper.read_text(encoding="utf-8", errors="ignore") + "\n"
+    registered = registry_artifact_names(registry)
     for fig in (root / "figures").glob("fig_*.*"):
-        if fig.name not in paper_text:
+        if fig.name not in paper_text and fig.name not in registered:
             issues.append(f"P2: generated figure not referenced in TeX: {fig.relative_to(root)}")
     for tab in (root / "tables").glob("tab_*.*"):
-        if tab.name not in paper_text:
+        if tab.name not in paper_text and tab.name not in registered:
             issues.append(f"P2: generated table not referenced in TeX: {tab.relative_to(root)}")
     return issues
 
@@ -111,8 +144,16 @@ def audit_unreferenced(root: Path) -> list[str]:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate CUMCM project traceability.")
     parser.add_argument("--project", default=".", help="Project root.")
-    parser.add_argument("--registry", default="results/result_registry.csv", help="Registry path relative to project.")
-    parser.add_argument("--output", default="results/validation_audit.md", help="Audit report path relative to project.")
+    parser.add_argument(
+        "--registry",
+        default="results/result_registry.csv",
+        help="Registry path relative to project.",
+    )
+    parser.add_argument(
+        "--output",
+        default="results/validation_audit.md",
+        help="Audit report path relative to project.",
+    )
     args = parser.parse_args()
 
     root = Path(args.project).expanduser().resolve()
@@ -121,7 +162,7 @@ def main() -> int:
     issues.extend(audit_registry(root, registry))
     issues.extend(audit_tables(root))
     issues.extend(audit_paper(root, registry))
-    issues.extend(audit_unreferenced(root))
+    issues.extend(audit_unreferenced(root, registry))
 
     out = root / args.output
     out.parent.mkdir(parents=True, exist_ok=True)

@@ -71,9 +71,17 @@ def main() -> int:
     copy_file(templates / "run_log.md", project_dir / "logs" / "run_log.md", args.overwrite)
 
     write_text(project_dir / "logs" / "error_log.md", "# Error Log\n\nNo errors recorded yet.", args.overwrite)
-    write_text(project_dir / "problem" / "problem_statement.md", "# Problem Statement\n\nPaste the official problem statement here.", args.overwrite)
+    write_text(
+        project_dir / "problem" / "problem_statement.md",
+        "# Problem Statement\n\nPaste the official problem statement here.",
+        args.overwrite,
+    )
     for qid in ("q1", "q2", "q3"):
-        write_text(project_dir / "paper" / "sections" / f"{qid}.tex", f"% Write {qid.upper()} section after results are registered.", args.overwrite)
+        write_text(
+            project_dir / "paper" / "sections" / f"{qid}.tex",
+            f"% Write {qid.upper()} section after results are registered.",
+            args.overwrite,
+        )
     write_text(
         project_dir / "project-structure.md",
         "\n".join(

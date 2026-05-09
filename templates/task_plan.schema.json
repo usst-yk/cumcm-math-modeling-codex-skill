@@ -2,31 +2,102 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "CUMCM Task Plan",
   "type": "object",
-  "required": ["contest", "question_count", "subquestions", "global_assumptions", "risk_points"],
+  "required": [
+    "contest",
+    "question_count",
+    "subquestions",
+    "global_assumptions",
+    "risk_points"
+  ],
   "properties": {
-    "contest": {"type": "string"},
-    "problem_id": {"type": "string"},
-    "question_count": {"type": "integer", "minimum": 1},
+    "contest": {
+      "type": "string"
+    },
+    "problem_id": {
+      "type": "string"
+    },
+    "question_count": {
+      "type": "integer",
+      "minimum": 1
+    },
     "subquestions": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "task_type", "required_output", "input_data", "decision_object", "constraints", "validation", "figures_needed", "tables_needed"],
+        "required": [
+          "id",
+          "task_type",
+          "required_output",
+          "input_data",
+          "decision_object",
+          "constraints",
+          "validation",
+          "figures_needed",
+          "tables_needed"
+        ],
         "properties": {
-          "id": {"type": "string"},
-          "task_type": {"type": "string"},
-          "required_output": {"type": "array", "items": {"type": "string"}},
-          "input_data": {"type": "array", "items": {"type": "string"}},
-          "decision_object": {"type": "string"},
-          "constraints": {"type": "array", "items": {"type": "string"}},
-          "validation": {"type": "array", "items": {"type": "string"}},
-          "figures_needed": {"type": "array", "items": {"type": "string"}},
-          "tables_needed": {"type": "array", "items": {"type": "string"}},
-          "status": {"type": "string"}
+          "id": {
+            "type": "string"
+          },
+          "task_type": {
+            "type": "string"
+          },
+          "required_output": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "input_data": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "decision_object": {
+            "type": "string"
+          },
+          "constraints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "validation": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "figures_needed": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tables_needed": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string"
+          }
         }
       }
     },
-    "global_assumptions": {"type": "array", "items": {"type": "string"}},
-    "risk_points": {"type": "array", "items": {"type": "string"}}
+    "global_assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "risk_points": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
   }
 }

@@ -20,7 +20,17 @@ def available_font(candidates: list[str]) -> str:
 
 
 def apply_cumcm_style(font_size: int = 18) -> None:
-    font = available_font(["Songti SC", "PingFang SC", "Heiti SC", "Microsoft YaHei", "Noto Sans CJK SC", "SimHei", "SimSun"])
+    font = available_font(
+        [
+            "Songti SC",
+            "PingFang SC",
+            "Heiti SC",
+            "Microsoft YaHei",
+            "Noto Sans CJK SC",
+            "SimHei",
+            "SimSun",
+        ]
+    )
     plt.rcParams.update(
         {
             "font.family": font,
