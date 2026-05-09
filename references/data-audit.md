@@ -14,6 +14,10 @@ The data profile should create:
 - `tab_time_range_summary.xlsx`: detected time fields and min/max coverage.
 - `tab_duplicate_summary.xlsx`: duplicate full-row counts by table.
 - `tab_excluded_sheets.xlsx`: empty or excluded sheets that require review.
+- `tab_unit_guess.xlsx`: unit hints inferred from column names.
+- `tab_merge_candidates.xlsx`: same-structure tables/sheets that may be concatenated.
+- `data_inventory.xlsx`: one workbook containing the main audit sheets above.
+- `merged_candidates/merge_candidate_*.csv`: optional concatenated same-structure tables with `source_file` and `source_sheet`.
 - `data_profile_summary.md`: judge-readable summary.
 - `data_preprocessing_draft.md`: Chinese paper paragraph draft.
 
@@ -25,6 +29,7 @@ The data profile should create:
 4. Identify unit candidates from field names and sample values.
 5. Mark excluded sheets/tables with reasons: empty, metadata, duplicate summary, unrelated appendix, or outside scope.
 6. For grouped tasks, report both raw-row count and reconstructed entity count.
+7. Review unit guesses, time ranges, spatial fields, and key duplicate summaries before writing model assumptions.
 
 ## Blockers
 

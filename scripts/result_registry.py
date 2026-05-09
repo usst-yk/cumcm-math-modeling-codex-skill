@@ -40,7 +40,7 @@ def load_registry(path: Path) -> pd.DataFrame:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Create or append a result registry for CUMCM papers.")
-    parser.add_argument("--registry", default="tables/result_registry.xlsx", help="Registry path.")
+    parser.add_argument("--registry", default="results/result_registry.csv", help="Registry path.")
     parser.add_argument("--id", default="", help="Result id, e.g. R001.")
     parser.add_argument("--subquestion", default="", help="Question id, e.g. Q1.")
     parser.add_argument("--claim", "--conclusion", default="", help="Headline claim or conclusion.")

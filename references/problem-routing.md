@@ -32,9 +32,37 @@ For every full problem and single-question deep solution, compare exactly three 
 
 - Do not use TOPSIS/AHP/entropy weighting unless the task is genuinely evaluation/ranking and indicator direction can be checked.
 - Do not use neural networks when the sample is small or no validation split is possible.
+- Do not force ARIMA when there is no time-series structure.
+- Do not use AHP mechanically when there is no expert judgment or pairwise-comparison basis.
+- Do not use TOPSIS when indicator direction and normalization are unresolved.
 - Do not use metaheuristics when an exact or convex formulation is tractable.
+- Benchmark heuristic algorithms against greedy, random, relaxed, or small exact solutions.
 - Do not treat simulation output as proof without boundary cases and parameter sensitivity.
 - Do not report optimality without solver status, objective value, and constraint violation check.
+
+## Combined Task Routing
+
+Real CUMCM problems often combine task types. Route the combination explicitly.
+
+1. Prediction + optimization:
+   - Forecast demand, risk, state, or capacity first, then use forecasts as optimization parameters.
+   - Required validation: show how forecast error affects the optimized plan.
+
+2. Evaluation + optimization:
+   - Build indicators and weights to produce priorities, then use priorities in resource allocation, sorting, or site selection.
+   - Required validation: weight perturbation and ranking/solution stability.
+
+3. Clustering + stratified modeling:
+   - Cluster regions, samples, stations, or users, then build differentiated models by group.
+   - Required validation: explain cluster meaning and test sensitivity to cluster count or algorithm.
+
+4. Simulation + intervention optimization:
+   - Build propagation/evolution simulation, then compare intervention strategies.
+   - Required validation: peak, final state, cost, repeated runs, and parameter sensitivity.
+
+5. Spatial analysis + scheduling:
+   - Estimate distance/coverage/region structure, then solve allocation, routing, or dispatch.
+   - Required validation: coordinate system, distance approximation, boundary cases, and feasibility.
 
 ## Per-Question Mapping Template
 

@@ -69,6 +69,10 @@ python scripts/validate_results.py --project .
 python scripts/compile_tex.py --tex paper/main.tex
 ```
 
+## 示例
+
+`examples/full_problem_demo/` 提供一个很小的配送 toy 题，用来检查数据审计、任务计划、路线图、结果注册表和验证脚本是否能串起来。它只是工作流演示，不代表真实国赛题的复杂度。
+
 ## 推荐使用方式
 
 ### 全题路线设计

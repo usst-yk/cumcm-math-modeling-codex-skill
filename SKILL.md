@@ -66,7 +66,7 @@ For full-problem work, execute the role pipeline in order and read the matching 
 | 5 Writer / 论文写作 | `agents/writer.md` | Qx paper section |
 | 6 Reviewer / 终审 | `agents/reviewer.md` | final checklist and blockers |
 
-Read `references/stage-gates.md` before crossing stages. Do not enter Solver until task mapping, data inventory, and at least one baseline route exist. Do not enter Writer until headline numbers are registered. Do not draft the final abstract before all solved Q sections have registered results.
+Read `references/agent-workflow.md` and `references/stage-gates.md` before crossing stages. Do not enter Solver until task mapping, data inventory, and at least one baseline route exist. Do not enter Writer until headline numbers are registered. Do not draft the final abstract before all solved Q sections have registered results.
 
 For full-problem solving, process each subquestion as an independent loop:
 1. build Qx model card;
@@ -84,11 +84,11 @@ For full-problem solving, process each subquestion as an independent loop:
 - Single subquestion: read `references/contest-modes.md` and `references/problem-routing.md`; solve only the requested subquestion while noting dependencies on later questions.
 - Route design only: read `references/problem-routing.md` and `references/workflow.md`; deliver task decomposition, scoring surface, three overall routes, and a 72-hour order.
 - Data files present: run `scripts/data_profile.py` with `--input <data-or-dir> --output <tables-dir>` before modeling; read `references/data-audit.md`.
-- Code/logs/tables/figures to paper: read actual outputs first, then use `references/code-to-paper.md` and `scripts/result_registry.py`.
+- Code/logs/tables/figures to paper: read actual outputs first, then use `references/code-to-paper.md`, `references/result-tracking.md`, and `scripts/result_registry.py`.
 - Paper writing, abstract, conclusion, or final polishing: read `references/paper-writing.md`, `references/scoring-checklist.md`, and use the result registry if numbers appear.
 - Technical roadmap or model flowchart: read `references/technical-roadmap.md`; default to `scripts/make_roadmap_svg.py`, Mermaid, Graphviz, or SVG source first, and use GPT Image only when the user explicitly wants a designed image.
 - Figures: read `references/figure-standards.md`; for common matplotlib styling, reuse `scripts/make_paper_figures.py`.
-- Final audit or judge review: read `references/final-checklist.md` and lead with severity-ordered findings.
+- Final audit or judge review: read `references/final-review.md` and `references/final-checklist.md`, then lead with severity-ordered findings.
 - Result validation: use `scripts/validate_results.py` when a project contains paper, result registry, figures, tables, or logs.
 - Python/MATLAB implementation details: read `references/python-matlab-guide.md`.
 - Safety and anti-fabrication questions: read `references/safety-rules.md`.

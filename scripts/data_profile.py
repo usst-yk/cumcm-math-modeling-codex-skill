@@ -99,6 +99,66 @@ def likely_time_columns(df: pd.DataFrame) -> list[str]:
     return result
 
 
+def likely_spatial_columns(df: pd.DataFrame) -> list[str]:
+    keywords = (
+        "lon",
+        "lng",
+        "longitude",
+        "lat",
+        "latitude",
+        "city",
+        "region",
+        "province",
+        "station",
+        "site",
+        "address",
+        "经度",
+        "纬度",
+        "城市",
+        "地区",
+        "区域",
+        "省",
+        "站点",
+        "地点",
+        "地址",
+    )
+    return [str(col) for col in df.columns if any(key in str(col).lower() for key in keywords)]
+
+
+def likely_key_columns(df: pd.DataFrame) -> list[str]:
+    keywords = ("id", "编号", "编码", "序号", "代码", "code", "no", "number")
+    result: list[str] = []
+    for col in df.columns:
+        name = str(col)
+        non_null = df[col].dropna()
+        if non_null.empty:
+            continue
+        unique_ratio = non_null.nunique() / max(len(non_null), 1)
+        if any(key in name.lower() for key in keywords) or unique_ratio >= 0.98:
+            result.append(name)
+    return result
+
+
+def guess_unit(column: object) -> str:
+    name = str(column).lower()
+    units = {
+        "kg": ["kg", "公斤", "千克"],
+        "g": ["克", " g"],
+        "ton": ["吨", "ton"],
+        "m": ["米", "(m)", " m"],
+        "km": ["公里", "千米", "km"],
+        "hour": ["小时", "hour", " h"],
+        "day": ["天", "日", "day"],
+        "yuan": ["元", "yuan", "rmb"],
+        "percent": ["%", "率", "比例", "percent"],
+        "degree": ["经度", "纬度", "°"],
+    }
+    for unit, patterns in units.items():
+        if any(pattern in name for pattern in patterns):
+            return unit
+    return ""
+
+
 def table_signature(df: pd.DataFrame) -> str:
     cols = [str(c).strip().lower() for c in df.columns]
     return "|".join(cols)
@@ -109,6 +169,8 @@ def profile_table(file_path: Path, file_name: str, sheet_name: str, df: pd.DataF
     numeric_cols = [str(c) for c in df.columns if pd.api.types.is_numeric_dtype(df[c]) or is_numeric_like(df[c])]
     categorical_cols = [str(c) for c in df.columns if str(c) not in numeric_cols]
     time_cols = likely_time_columns(df)
+    spatial_cols = likely_spatial_columns(df)
+    key_cols = likely_key_columns(df)
     return {
         "source_path": str(file_path),
         "file": file_name,
@@ -119,12 +181,14 @@ def profile_table(file_path: Path, file_name: str, sheet_name: str, df: pd.DataF
         "numeric_columns": numeric_cols,
         "categorical_columns": categorical_cols,
         "time_columns": time_cols,
+        "spatial_columns": spatial_cols,
+        "key_candidates": key_cols,
         "signature": table_signature(df),
         "empty": bool(rows == 0 or cols == 0),
     }
 
 
-def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, list[dict[str, object]]]:
+def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, list[dict[str, object]], dict[str, list[tuple[str, str, pd.DataFrame]]]]:
     inventory: list[dict[str, object]] = []
     missing_rows: list[dict[str, object]] = []
     numeric_rows: list[dict[str, object]] = []
@@ -133,8 +197,11 @@ def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.Dat
     time_rows: list[dict[str, object]] = []
     duplicate_rows: list[dict[str, object]] = []
     excluded_rows: list[dict[str, object]] = []
+    unit_rows: list[dict[str, object]] = []
+    merge_rows: list[dict[str, object]] = []
     profiles: list[dict[str, object]] = []
     signatures: dict[str, int] = {}
+    tables_by_signature: dict[str, list[tuple[str, str, pd.DataFrame]]] = {}
 
     for path in files:
         tables = load_tables(path)
@@ -142,6 +209,7 @@ def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.Dat
             profile = profile_table(path, file_name, sheet_name, df)
             profiles.append(profile)
             signatures[profile["signature"]] = signatures.get(profile["signature"], 0) + 1
+            tables_by_signature.setdefault(str(profile["signature"]), []).append((file_name, sheet_name, df))
 
             inventory.append(
                 {
@@ -154,6 +222,8 @@ def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.Dat
                     "numeric_columns": "; ".join(profile["numeric_columns"]),
                     "categorical_columns": "; ".join(profile["categorical_columns"]),
                     "time_columns": "; ".join(profile["time_columns"]),
+                    "spatial_columns": "; ".join(profile["spatial_columns"]),
+                    "key_candidates": "; ".join(profile["key_candidates"]),
                     "included_status": "to_review",
                     "exclusion_reason": "",
                 }
@@ -181,8 +251,17 @@ def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.Dat
                     "sheet": sheet_name,
                     "duplicate_full_rows": int(df.duplicated().sum()) if not df.empty else 0,
                     "rows": int(len(df)),
+                    "key_duplicate_summary": "",
                 }
             )
+
+            if profile["key_candidates"]:
+                key_parts = []
+                for key in profile["key_candidates"]:
+                    dup_count = int(df[key].duplicated().sum()) if key in df.columns else 0
+                    if dup_count:
+                        key_parts.append(f"{key}:{dup_count}")
+                duplicate_rows[-1]["key_duplicate_summary"] = "; ".join(key_parts)
 
             for tcol in profile["time_columns"]:
                 parsed = pd.to_datetime(df[tcol], errors="coerce")
@@ -198,6 +277,14 @@ def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.Dat
                 )
 
             for col in df.columns:
+                unit_rows.append(
+                    {
+                        "file": file_name,
+                        "sheet": sheet_name,
+                        "column": str(col),
+                        "unit_guess": guess_unit(col),
+                    }
+                )
                 missing_count = int(df[col].isna().sum())
                 missing_rows.append(
                     {
@@ -248,6 +335,21 @@ def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.Dat
         if matching:
             row["same_structure_sheet_count"] = signatures.get(matching["signature"], 1)
 
+    for idx, (signature, tables) in enumerate(tables_by_signature.items(), start=1):
+        if len(tables) <= 1 or signature == "":
+            continue
+        total_rows = sum(len(df) for _, _, df in tables)
+        merge_rows.append(
+            {
+                "candidate_id": f"merge_candidate_{idx:03d}",
+                "same_structure_table_count": len(tables),
+                "total_rows": total_rows,
+                "columns": signature,
+                "tables": "; ".join(f"{file}:{sheet}" for file, sheet, _ in tables),
+                "suggestion": "same columns; consider concatenating with source_file and source_sheet",
+            }
+        )
+
     return (
         pd.DataFrame(inventory),
         pd.DataFrame(missing_rows),
@@ -257,7 +359,10 @@ def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.Dat
         pd.DataFrame(time_rows),
         pd.DataFrame(duplicate_rows),
         pd.DataFrame(excluded_rows),
+        pd.DataFrame(unit_rows),
+        pd.DataFrame(merge_rows),
         profiles,
+        tables_by_signature,
     )
 
 
@@ -279,7 +384,29 @@ def markdown_table(df: pd.DataFrame, columns: list[str]) -> str:
     return "\n".join(lines)
 
 
-def write_reports(outdir: Path, inventory: pd.DataFrame, missing: pd.DataFrame, numeric: pd.DataFrame, categorical: pd.DataFrame, sheets: pd.DataFrame, time_ranges: pd.DataFrame, duplicates: pd.DataFrame, excluded: pd.DataFrame, profiles: list[dict[str, object]]) -> None:
+def write_audit_workbook(outdir: Path, sheets: dict[str, pd.DataFrame]) -> None:
+    with pd.ExcelWriter(outdir / "data_inventory.xlsx", engine="openpyxl") as writer:
+        for name, df in sheets.items():
+            safe_name = name[:31]
+            df.to_excel(writer, sheet_name=safe_name, index=False)
+
+
+def write_merge_candidates(outdir: Path, tables_by_signature: dict[str, list[tuple[str, str, pd.DataFrame]]]) -> None:
+    merge_dir = outdir / "merged_candidates"
+    for idx, (signature, tables) in enumerate(tables_by_signature.items(), start=1):
+        if len(tables) <= 1 or signature == "":
+            continue
+        frames = []
+        for file_name, sheet_name, df in tables:
+            merged = df.copy()
+            merged.insert(0, "source_sheet", sheet_name)
+            merged.insert(0, "source_file", file_name)
+            frames.append(merged)
+        merge_dir.mkdir(parents=True, exist_ok=True)
+        pd.concat(frames, ignore_index=True).to_csv(merge_dir / f"merge_candidate_{idx:03d}.csv", index=False, encoding="utf-8-sig")
+
+
+def write_reports(outdir: Path, inventory: pd.DataFrame, missing: pd.DataFrame, numeric: pd.DataFrame, categorical: pd.DataFrame, sheets: pd.DataFrame, time_ranges: pd.DataFrame, duplicates: pd.DataFrame, excluded: pd.DataFrame, unit_guess: pd.DataFrame, merge_candidates: pd.DataFrame, profiles: list[dict[str, object]], tables_by_signature: dict[str, list[tuple[str, str, pd.DataFrame]]]) -> None:
     outdir.mkdir(parents=True, exist_ok=True)
     write_excel(inventory, outdir / "tab_data_inventory.xlsx")
     write_excel(missing, outdir / "tab_missing_summary.xlsx")
@@ -289,6 +416,24 @@ def write_reports(outdir: Path, inventory: pd.DataFrame, missing: pd.DataFrame, 
     write_excel(time_ranges, outdir / "tab_time_range_summary.xlsx")
     write_excel(duplicates, outdir / "tab_duplicate_summary.xlsx")
     write_excel(excluded, outdir / "tab_excluded_sheets.xlsx")
+    write_excel(unit_guess, outdir / "tab_unit_guess.xlsx")
+    write_excel(merge_candidates, outdir / "tab_merge_candidates.xlsx")
+    write_audit_workbook(
+        outdir,
+        {
+            "sheet_inventory": sheets,
+            "column_profile": inventory,
+            "missing_summary": missing,
+            "numeric_summary": numeric,
+            "categorical_summary": categorical,
+            "time_range_summary": time_ranges,
+            "duplicate_summary": duplicates,
+            "excluded_sheets": excluded,
+            "unit_guess": unit_guess,
+            "merge_candidates": merge_candidates,
+        },
+    )
+    write_merge_candidates(outdir, tables_by_signature)
     (outdir / "data_profile.json").write_text(json.dumps(profiles, ensure_ascii=False, indent=2), encoding="utf-8")
 
     summary = [
@@ -311,7 +456,7 @@ def write_reports(outdir: Path, inventory: pd.DataFrame, missing: pd.DataFrame, 
     draft = [
         "# 数据预处理论文段落草稿",
         "",
-        f"本文首先对附件数据进行覆盖性审计，共识别 {len(inventory)} 个数据表。审计内容包括工作表名称、记录数、字段数、时间字段、数值字段、缺失比例和 IQR 异常值。所有 Excel 文件均先读取全部工作表，再根据题意判断纳入范围；对同结构工作表，后续建模应合并并保留来源文件与来源工作表字段，以保证结果可追溯。",
+        f"本文首先对附件数据进行覆盖性审计，共识别 {len(inventory)} 个数据表。审计内容包括工作表名称、记录数、字段数、时间字段、空间字段、疑似主键、单位线索、缺失比例、重复记录和 IQR 异常值。所有 Excel 文件均先读取全部工作表，再根据题意判断纳入范围；对同结构工作表，后续建模应合并并保留来源文件与来源工作表字段，以保证结果可追溯。",
         "",
         "正式写入论文前，应将 `included_status` 和 `exclusion_reason` 补齐，并核对题面中的时间范围、样本范围和单位要求。",
     ]
@@ -338,9 +483,9 @@ def main() -> int:
         print("No CSV/XLSX files found.", file=sys.stderr)
         return 2
 
-    inventory, missing, numeric, categorical, sheets, time_ranges, duplicates, excluded, profiles = build_outputs(files)
+    inventory, missing, numeric, categorical, sheets, time_ranges, duplicates, excluded, unit_guess, merge_candidates, profiles, tables_by_signature = build_outputs(files)
     outdir = Path(args.output).expanduser().resolve()
-    write_reports(outdir, inventory, missing, numeric, categorical, sheets, time_ranges, duplicates, excluded, profiles)
+    write_reports(outdir, inventory, missing, numeric, categorical, sheets, time_ranges, duplicates, excluded, unit_guess, merge_candidates, profiles, tables_by_signature)
     print(f"Profiled {len(profiles)} table(s) from {len(files)} file(s).")
     print(f"Reports written to: {outdir}")
     return 0

@@ -1,0 +1,43 @@
+# Result Tracking
+
+Use this reference whenever a paper section, abstract, conclusion, or policy recommendation contains numbers.
+
+## Registry Rule
+
+Any numerical conclusion in the abstract, conclusion, result section, captions, or final recommendations must appear in `results/result_registry.csv`.
+
+Do not write final headline numbers directly from memory, chat text, or an unsaved terminal output. Save the source table/log first, then register the value.
+
+## Required Columns
+
+`templates/result_registry.csv` uses:
+
+```csv
+id,subquestion,claim,value,unit,source_file,source_line_or_cell,script,command,figure_or_table,validation,status
+```
+
+Recommended status values:
+
+- `draft`: value is extracted but not fully checked.
+- `verified`: source file exists and validation is complete.
+- `blocked`: value cannot be trusted because code/data/validation failed.
+
+## Claim Types
+
+Register:
+
+- optimal objective values and selected decisions;
+- prediction metrics and forecast headline values;
+- ranking results and top/bottom entities;
+- simulation peaks, thresholds, and final states;
+- sensitivity-analysis conclusions;
+- values quoted in abstract or conclusion.
+
+## Writer Rule
+
+Before writing final paper text:
+
+1. Read the registry.
+2. Use only `verified` rows for final claims.
+3. If a required claim is `draft`, label the paper section as draft.
+4. If a required claim is `blocked`, write the blocker instead of a conclusion.
