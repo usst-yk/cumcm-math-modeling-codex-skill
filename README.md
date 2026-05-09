@@ -28,7 +28,11 @@
 请安装这个 skill：https://github.com/usst-yk/cumcm-math-modeling-codex-skill
 ```
 
-Codex 会从该 GitHub 仓库安装 skill。安装后重启 Codex，在对话中使用：
+Codex 会从该 GitHub 仓库安装 skill。
+
+安装完成后，请重启 Codex。
+
+重启后，在对话中使用：
 
 ```text
 [$cumcm-math-modeling] 请分析这道 CUMCM 数学建模题，并按一等奖标准给出建模方案。
