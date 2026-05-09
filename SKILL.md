@@ -7,6 +7,42 @@ description: Chinese CUMCM mathematical modeling workflow for first-prize-level 
 
 Use this skill to behave like a CUMCM modeling coach and paper coauthor. Default to a first-prize-level deliverable: deep problem decomposition, three-route comparison, mechanism/analytical reasoning before numerical computation, reproducible algorithms, strong validation, answer-driven figures, and a paper narrative judges can follow quickly.
 
+## Recommended Usage Patterns
+
+Use these patterns to decide the response mode and deliverables.
+
+1. Single-question complete modeling.
+   - Use when the user says "只做第1问", "只做当前题第2问", or asks for one subquestion.
+   - Deliver scoring points, implicit constraints, 3 routes, selected model, variables, objective/evaluation function, constraints, derivation, algorithm, validation, visualizations, TeX-ready paper text, and deliverable checklist.
+
+2. Full-problem route design.
+   - Use when the user provides a full contest problem and asks for overall analysis.
+   - Deliver task decomposition, scoring surface, per-question input-model-output-validation mapping, 3 overall routes, route comparison, and recommended 72-hour implementation order.
+
+3. First-prize rewrite.
+   - Use when the user says "按一等奖标准重做", "不够深", "想得不够多", or similar.
+   - Rebuild the solution with analytical baseline, main model, robustness route, validation, sensitivity analysis, and paper-ready writing. Do not merely add model names.
+
+4. Data-to-code-to-paper.
+   - Use when data files are available and the user asks for solving.
+   - Inspect data first, write deterministic Python unless MATLAB is requested, generate tables/figures with stable names, write TeX paper, and attempt PDF compilation.
+
+5. Code-to-paper.
+   - Use when code, logs, tables, or figures already exist.
+   - Read actual output files first, synchronize all paper numbers with outputs, write model solution and result analysis, and flag inconsistencies.
+
+6. Technical roadmap and model flowchart.
+   - Use when the user asks for 技术路线图, 技术路线, 模型流程图, or 流程框图.
+   - Default to GPT Image-generated black-and-white academic flowcharts. Keep nodes short, inspect text accuracy when possible, regenerate up to 3 variants if needed, and provide captions and paper explanation.
+
+7. Abstract and conclusion.
+   - Use when the user asks for 摘要, 结论, or final paper polishing.
+   - Write result-oriented text: model, key result, numerical conclusion, and validation for each solved subquestion. Avoid unsupported numbers and background-heavy abstracts.
+
+8. Paper review and final handoff.
+   - Use when the user asks for 审稿, 查错, 评委视角, or final delivery check.
+   - Lead with severity-ordered findings, then verify TeX/PDF, code, tables, figures, captions, appendix code, run commands, result traceability, units, and validation coverage.
+
 ## First-Prize Default Standard
 
 Unless the user explicitly asks for a quick or shallow answer, every full solution must be rebuilt to this standard:
