@@ -1,6 +1,6 @@
 ---
 name: cumcm-math-modeling
-description: Chinese CUMCM mathematical modeling workflow for first-prize-level problem decomposition, 3-route comparison, analytical derivation, optimization/simulation, Python/MATLAB implementation planning, validation, visualization, and paper writing. Use when the user mentions 全国大学生数学建模竞赛, CUMCM, 数学建模, 建模论文, 赛题分析, 模型建立, 模型求解, 灵敏度分析, 摘要, 一等奖标准, or asks to turn a contest problem/data into a deep modeling solution and report.
+description: Chinese CUMCM mathematical modeling workflow for first-prize-level problem decomposition, 3-route comparison, analytical derivation, optimization/simulation, Python/MATLAB implementation planning, validation, technical roadmap diagrams, model flowcharts, visualization, and paper writing. Use when the user mentions 全国大学生数学建模竞赛, CUMCM, 数学建模, 建模论文, 赛题分析, 模型建立, 模型求解, 技术路线图, 流程框图, 模型流程图, 灵敏度分析, 摘要, 一等奖标准, or asks to turn a contest problem/data into a deep modeling solution and report.
 ---
 
 # CUMCM Math Modeling
@@ -75,11 +75,42 @@ Unless the user explicitly asks for a quick or shallow answer, every full soluti
    - Use compact figures/tables that answer subquestions directly.
    - Generate figures from code with stable filenames, units, readable labels, and paper-ready captions.
 
+## Technical Roadmap and Model Flowcharts
+
+Use this mode when the user asks for 技术路线图, 技术路线, 流程图, 流程框图, 模型流程图, or asks to draw a roadmap based on an existing paper.
+
+1. Base the diagram on the provided paper or draft.
+   - Extract the actual problem sequence, data sources, preprocessing steps, models, solving methods, validation methods, and final outputs from the paper.
+   - Do not add methods, data, metrics, or validation steps that are not in the paper. If a key step is missing, mark it as "需补充" in the explanation, not as a finished result.
+   - Keep the logic as "题目任务 -> 数据处理 -> 模型建立 -> 模型求解 -> 结果验证 -> 结论输出".
+
+2. Generate a paper-ready technical roadmap.
+   - Prefer a Mermaid `flowchart TD` or `flowchart LR` when an editable flowchart is acceptable.
+   - Default to black-and-white styling: white nodes, black lines, black text, no gradients, no color blocks, no decorative icons, and no illustrative mini-pictures.
+   - Use short node labels. Put detailed explanation after the chart, not inside the boxes.
+   - Group by subquestion only when it makes the logic clearer; avoid dense nested subgraphs.
+   - Avoid "AI-like" wording such as "我们可以", "建议可以", "本 AI", "智能生成", or empty transitional phrases. Use direct paper language.
+
+3. Always include a separate model flowchart for the adopted model.
+   - Default structure: 输入数据 -> 数据预处理 -> 变量构造 -> 模型假设 -> 模型方程/目标函数 -> 参数估计/算法求解 -> 结果输出 -> 验证与敏感性分析 -> 结论解释.
+   - If the paper uses multiple core models, provide one compact combined flowchart or one flowchart per model, depending on clarity.
+   - For optimization models, show objective, constraints, solver, feasibility check, and sensitivity analysis.
+   - For prediction or fitting models, show training/estimation, error metrics, residual checks, and validation set or baseline comparison.
+   - For evaluation models, show indicator construction, normalization, weighting, scoring/ranking, robustness check, and interpretation.
+
+4. Required output for roadmap requests.
+   - "技术路线图": Mermaid flowchart in black-and-white style.
+   - "模型流程框图": Mermaid flowchart for the adopted model or model family.
+   - "图注": one concise Chinese caption suitable for the paper.
+   - "论文说明段": one short Chinese paragraph explaining why the route supports the paper's solution.
+   - "需补充信息": only list missing paper details that affect the chart's correctness.
+
 ## Operating Rules
 
 - Answer in Chinese by default unless the user asks otherwise.
 - When the user provides a full problem statement, first produce a task decomposition and exactly 3 modeling routes before writing code.
 - When the user says the solution is not deep enough, "按 CUMCM 一等奖标准重做", "想得不够多", or similar, rewrite the solution using the First-Prize Default Standard instead of merely adding model names.
+- When the user asks for a technical roadmap or model flowchart, follow "Technical Roadmap and Model Flowcharts": base it on the paper, keep the content concise, default to black-and-white flowcharts, and do not use illustrative icons or decorative mini-pictures.
 - When data is provided, inspect columns, missingness, units, and obvious outliers before modeling.
 - When starting a new contest project, use `scripts/init_cumcm_project.py` to create `data/`, `src/`, `figures/`, `tables/`, `paper/`, and `appendix/`.
 - When CSV/XLSX data is available, use `scripts/data_profile.py` before modeling to generate field summaries, missing/outlier checks, correlations, descriptive statistics, and a data preprocessing draft.
