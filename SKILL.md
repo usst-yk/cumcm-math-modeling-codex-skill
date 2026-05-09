@@ -106,6 +106,51 @@ Use these rules for every modeling-paper deliverable unless the user explicitly 
    - Write in concise contest-paper style: define the model object, state the method, give the result, and explain the implication.
    - Do not overstate model capability; state uncertainty, approximation, and missing-data risk directly.
 
+## Single-Question and Code-to-Paper Modes
+
+Use these modes when the user narrows the scope to one subquestion, asks to write from existing code/results, asks for an abstract, or asks for a paper audit.
+
+1. Single-question mode.
+   - Trigger when the user says "只做第1问", "只写问题一", "仅分析第二问", "single question", or equivalent.
+   - Only solve and write the specified subquestion. Do not develop models for other subquestions.
+   - Still mention how this subquestion connects to later questions when it affects assumptions, variables, or reusable outputs.
+   - Required blocks: scoring points, implicit constraints, 3 modeling routes, selected route, variables, objective/evaluation function, constraints, analytical derivation, algorithm, validation, visualization, TeX-ready paper text, and deliverable checklist.
+   - If the specified subquestion requires data from another subquestion or missing external data, state the dependency and provide the reproducible input template instead of inventing values.
+
+2. Code-to-paper mode.
+   - Trigger when the user provides code, generated tables, figures, logs, notebooks, or asks "根据代码写论文", "把结果写成论文", "code to paper", or equivalent.
+   - Inspect the actual code outputs before writing results. Prefer reading saved CSV/XLSX/JSON/logs over manually copying numbers from memory.
+   - Write model solution, result analysis, validation, and figure/table captions using only traceable outputs.
+   - Keep all numerical values in the paper synchronized with output files; if a number appears in text, it should be found in a table, figure, log, code output, or stated assumption.
+   - If code and paper disagree, treat the code output as the source of truth unless the user specifies otherwise, and flag the inconsistency.
+
+3. Abstract generation rules.
+   - The abstract must be result-oriented, not background-oriented.
+   - For each solved subquestion, state the model used, core result, key numerical conclusion, and validation or robustness check.
+   - Do not include unsupported numbers, vague superiority claims, or method lists without results.
+   - If a subquestion has no computed result yet, write the model and pending input clearly instead of fabricating a conclusion.
+   - Keep the abstract concise: problem context only when needed, then model-result-validation in the order of the paper.
+
+4. Paper review and audit mode.
+   - Trigger when the user asks for "审稿", "查错", "论文审核", "评委视角", "还有什么问题", or equivalent.
+   - Lead with findings ordered by severity. Focus on answer coverage, missing constraints, unsupported results, inconsistent numbers, weak validation, unclear figures, and reproducibility gaps.
+   - Reference exact section names, equations, tables, figures, or file paths when available.
+   - If no major issue is found, state that clearly and list remaining risks such as missing sensitivity analysis, weak external validity, or formatting checks.
+   - Do not rewrite the whole paper unless requested; provide actionable fixes first.
+
+5. Final deliverable checklist.
+   - For a completed subquestion or full paper, check whether the workspace contains: `.tex`, compiled PDF when possible, source code, input data notes, generated tables, generated figures, captions, appendix code, and reproducible run commands.
+   - Verify that table and figure filenames follow the naming convention, and that paper references match the saved filenames.
+   - Verify that all headline conclusions are traceable to code output, data, formulas, or explicit assumptions.
+   - If any item is missing, list it under "需补充" rather than implying the handoff is complete.
+
+6. Appendix code standards.
+   - The appendix should identify the main entry script, input files, output files, random seed, dependencies, and run command.
+   - Code in the appendix should be sufficient for reproduction but may omit repetitive boilerplate if a full source file is provided separately.
+   - Use deterministic scripts where possible; fix random seeds for stochastic algorithms.
+   - Do not include private tokens, API keys, absolute personal credentials, or unrelated environment probing.
+   - Appendix code comments should explain modeling steps and outputs, not narrate obvious programming operations.
+
 ## Technical Roadmap and Model Flowcharts
 
 Use this mode when the user asks for 技术路线图, 技术路线, 流程图, 流程框图, 模型流程图, or asks to draw a roadmap based on an existing paper.
@@ -137,6 +182,10 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
    - Default to GPT Image for paper-ready 技术路线图 and 模型流程框图.
    - For GPT Image prompts, keep node text short and few, require black-and-white academic style, white background, black lines, rectangular nodes, no icons, no decorative pictures, no gradients, and high legibility.
    - Warn briefly that generated image text may need manual review, especially for Chinese labels, and offer to generate several variants when final publication quality matters.
+   - Before image generation, draft a short node list and keep it stable. The image prompt should include the exact title and node labels.
+   - After image generation, inspect the rendered chart when possible. Check for Chinese label errors, missing nodes, wrong arrows, unreadable text, and unintended decoration.
+   - If the chart has label errors or layout defects, regenerate with fewer nodes or shorter labels. Generate up to 3 variants when final publication quality matters.
+   - Save selected route images with names such as `fig_q1_route.png` and model flow images with names such as `fig_q1_model_flow.png`.
 
 5. Required output for roadmap requests.
    - "技术路线图": GPT Image-generated black-and-white flowchart.
@@ -150,6 +199,7 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
 
 - Answer in Chinese by default unless the user asks otherwise.
 - When the user provides a full problem statement, first produce a task decomposition and exactly 3 modeling routes before writing code.
+- When the user asks to solve only one subquestion, switch to single-question mode: solve only that subquestion, but include scoring points, implicit constraints, 3 routes, model details, validation, visualizations, and TeX-ready paper text.
 - When the user says the solution is not deep enough, "按 CUMCM 一等奖标准重做", "想得不够多", or similar, rewrite the solution using the First-Prize Default Standard instead of merely adding model names.
 - When the user asks for a technical roadmap or model flowchart, follow "Technical Roadmap and Model Flowcharts": base it on the paper, keep the roadmap focused on the main modeling idea rather than data-cleaning or code details, keep the content concise, default to black-and-white GPT Image-generated flowcharts, and do not use illustrative icons or decorative mini-pictures.
 - When data is provided, inspect columns, missingness, units, and obvious outliers before modeling.
@@ -160,6 +210,11 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
 - Enforce the hard traceability rules: no data-backed conclusion without data or code output, no invented geographic distance without coordinates or an explicit approximation method, no "得到" unless the result is traceable, and all example values must be labeled as examples.
 - Name generated figures and tables using stable patterns such as `fig_q1_route.png`, `fig_q1_cost_stack.png`, `tab_q1_summary.csv`, and `tab_q1_sensitivity.csv`.
 - Use formal Chinese paper language: prefer "本文构建", "结果表明", and "模型表明"; avoid "我们可以" and repetitive "通过上述分析可以看出".
+- When the user asks to write from code/results, use code-to-paper mode: read actual output files first, synchronize numbers with generated tables and figures, and flag inconsistencies.
+- When the user asks for an abstract, produce a result-oriented abstract with model, key result, numerical conclusion, and validation for each solved subquestion.
+- When the user asks for review or audit, lead with severity-ordered findings and focus on answer coverage, traceability, constraints, validation, figures, and reproducibility.
+- Before final handoff, run the final deliverable checklist and state missing TeX/PDF/code/table/figure/appendix/run-command items if any.
+- When providing appendix code, include main script, inputs, outputs, dependencies, random seed, and run command.
 - Prefer analytical modeling where feasible: derive simplified expressions, bounds, or structural conclusions before relying on numerical algorithms; then compare analytical predictions with numerical or data-driven results.
 - For every major conclusion, provide either an equation-based reason, a data/code-backed result, a baseline comparison, or a stated assumption with risk.
 - When creating plots, follow `references/figure-standards.md`; every figure should answer a subquestion, be generated reproducibly from code, include units, and be saved in a paper-ready format.
