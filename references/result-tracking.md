@@ -13,7 +13,7 @@ Do not write final headline numbers directly from memory, chat text, or an unsav
 `templates/result_registry.csv` uses:
 
 ```csv
-id,subquestion,claim,value,unit,source_file,source_line_or_cell,script,command,figure_or_table,validation,status
+id,subquestion,claim,value,unit,source_type,source_file,source_line_or_cell,script,command,figure_or_table,validation,status,created_at,verified_by,notes
 ```
 
 Recommended status values:

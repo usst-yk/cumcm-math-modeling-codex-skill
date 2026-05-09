@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
@@ -15,6 +16,7 @@ COLUMNS = [
     "claim",
     "value",
     "unit",
+    "source_type",
     "source_file",
     "source_line_or_cell",
     "script",
@@ -22,6 +24,9 @@ COLUMNS = [
     "figure_or_table",
     "validation",
     "status",
+    "created_at",
+    "verified_by",
+    "notes",
 ]
 
 
@@ -46,6 +51,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--claim", "--conclusion", default="", help="Headline claim or conclusion.")
     parser.add_argument("--value", default="", help="Numeric/text value.")
     parser.add_argument("--unit", default="", help="Unit.")
+    parser.add_argument("--source-type", default="", help="code, table, figure, equation, assumption, problem statement, or manual check.")
     parser.add_argument("--source-file", "--source-path", default="", help="Source file path.")
     parser.add_argument("--source-line-or-cell", "--source-location", default="", help="Sheet/cell/row/figure/equation/log line.")
     parser.add_argument("--script", default="", help="Script that produced the value.")
@@ -53,6 +59,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--figure-or-table", default="", help="Linked figure or table filename.")
     parser.add_argument("--validation", "--validation-check", default="", help="Baseline, error, feasibility, sensitivity, etc.")
     parser.add_argument("--status", default="draft", help="draft, verified, blocked.")
+    parser.add_argument("--created-at", default="", help="Creation time. Defaults to current local time.")
+    parser.add_argument("--verified-by", default="", help="Verifier name or role.")
+    parser.add_argument("--notes", default="", help="Extra notes or limitations.")
     return parser.parse_args()
 
 
@@ -69,6 +78,7 @@ def main() -> int:
             "claim": args.claim,
             "value": args.value,
             "unit": args.unit,
+            "source_type": args.source_type,
             "source_file": args.source_file,
             "source_line_or_cell": args.source_line_or_cell,
             "script": args.script,
@@ -76,6 +86,9 @@ def main() -> int:
             "figure_or_table": args.figure_or_table,
             "validation": args.validation,
             "status": args.status,
+            "created_at": args.created_at or datetime.now().isoformat(timespec="seconds"),
+            "verified_by": args.verified_by,
+            "notes": args.notes,
         }
         df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)
 

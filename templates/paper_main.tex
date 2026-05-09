@@ -1,18 +1,27 @@
 \documentclass[12pt]{ctexart}
+
 \usepackage[a4paper,margin=2.5cm]{geometry}
-\usepackage{amsmath,amssymb,booktabs,graphicx,float,hyperref}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs,longtable,threeparttable}
+\usepackage{graphicx,float,subcaption}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{hyperref}
 \usepackage{caption}
+
 \graphicspath{{../figures/}{figures/}}
+\sisetup{detect-all=true}
 
 \title{全国大学生数学建模竞赛论文题目}
 \author{}
 \date{}
 
 \begin{document}
+
 \maketitle
 
 \begin{abstract}
-待所有子问题结果进入结果注册表后再撰写摘要。
+待所有子问题的关键结果进入结果注册表并完成验证后，再撰写摘要。
 \end{abstract}
 
 \section{问题重述}
@@ -21,10 +30,16 @@
 
 \section{数据审计与预处理}
 
-\section{模型建立与求解}
+\section{问题一：模型建立、求解与检验}
 \input{sections/q1.tex}
 
-\section{模型检验与敏感性分析}
+\section{问题二：模型建立、求解与检验}
+\input{sections/q2.tex}
+
+\section{问题三：模型建立、求解与检验}
+\input{sections/q3.tex}
+
+\section{模型敏感性分析}
 
 \section{模型评价与推广}
 
