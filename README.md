@@ -22,7 +22,9 @@ git clone https://github.com/usst-yk/cumcm-math-modeling-codex-skill.git ~/.code
 
 ### 方式二：下载 GitHub 压缩包并本地解压
 
-不使用 Git 时，可以下载仓库 ZIP 压缩包：
+不使用 Git 时，可以下载仓库 ZIP 压缩包。
+
+macOS / Linux：
 
 ```bash
 mkdir -p ~/.codex/skills
@@ -32,9 +34,21 @@ unzip /tmp/cumcm-math-modeling-codex-skill.zip -d /tmp
 mv /tmp/cumcm-math-modeling-codex-skill-main ~/.codex/skills/cumcm-math-modeling
 ```
 
+Windows PowerShell：
+
+```powershell
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
+Invoke-WebRequest "https://github.com/usst-yk/cumcm-math-modeling-codex-skill/archive/refs/heads/main.zip" -OutFile "$env:TEMP\cumcm-math-modeling-codex-skill.zip"
+Remove-Item -Recurse -Force "$env:USERPROFILE\.codex\skills\cumcm-math-modeling" -ErrorAction SilentlyContinue
+Expand-Archive "$env:TEMP\cumcm-math-modeling-codex-skill.zip" -DestinationPath "$env:TEMP\cumcm-skill-install" -Force
+Move-Item "$env:TEMP\cumcm-skill-install\cumcm-math-modeling-codex-skill-main" "$env:USERPROFILE\.codex\skills\cumcm-math-modeling"
+```
+
 ### 方式三：已有本地压缩包时安装
 
 如果已经拿到 `cumcm-math-modeling-codex-skill.zip`，可直接解压到 Codex skills 目录：
+
+macOS / Linux：
 
 ```bash
 mkdir -p ~/.codex/skills
@@ -43,10 +57,25 @@ unzip /path/to/cumcm-math-modeling-codex-skill.zip -d /tmp/cumcm-skill-install
 mv /tmp/cumcm-skill-install/cumcm-math-modeling-codex-skill-main ~/.codex/skills/cumcm-math-modeling
 ```
 
+Windows PowerShell：
+
+```powershell
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
+Remove-Item -Recurse -Force "$env:USERPROFILE\.codex\skills\cumcm-math-modeling" -ErrorAction SilentlyContinue
+Expand-Archive "C:\path\to\cumcm-math-modeling-codex-skill.zip" -DestinationPath "$env:TEMP\cumcm-skill-install" -Force
+Move-Item "$env:TEMP\cumcm-skill-install\cumcm-math-modeling-codex-skill-main" "$env:USERPROFILE\.codex\skills\cumcm-math-modeling"
+```
+
 如果压缩包解压后的目录名不是 `cumcm-math-modeling-codex-skill-main`，将 `mv` 命令中的源目录改成实际解压出来的目录即可。最终目录应满足：
 
 ```text
 ~/.codex/skills/cumcm-math-modeling/SKILL.md
+```
+
+Windows 下最终目录应满足：
+
+```text
+%USERPROFILE%\.codex\skills\cumcm-math-modeling\SKILL.md
 ```
 
 ### 生成可分发压缩包
@@ -59,6 +88,12 @@ zip -r cumcm-math-modeling-codex-skill.zip cumcm-math-modeling -x "cumcm-math-mo
 ```
 
 使用该压缩包安装时，解压后的目录可能名为 `cumcm-math-modeling`，直接放入 `~/.codex/skills/` 即可。
+
+Windows PowerShell 生成压缩包：
+
+```powershell
+Compress-Archive -Path "$env:USERPROFILE\.codex\skills\cumcm-math-modeling" -DestinationPath "$env:USERPROFILE\Desktop\cumcm-math-modeling-codex-skill.zip" -Force
+```
 
 重启 Codex 后，在对话中使用：
 
