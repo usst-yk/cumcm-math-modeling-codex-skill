@@ -8,7 +8,7 @@ import shutil
 from pathlib import Path
 
 
-DIRS = ["data", "src", "figures", "tables", "paper", "appendix"]
+DIRS = ["data", "src", "figures", "tables", "tables/data_profile", "paper", "appendix"]
 
 
 def copy_file(src: Path, dst: Path, overwrite: bool) -> None:
@@ -35,6 +35,28 @@ def main() -> int:
     copy_file(assets / "assumptions-symbols-template.md", project_dir / "paper" / "assumptions-symbols.md", args.overwrite)
     copy_file(assets / "appendix-code-template.md", project_dir / "appendix" / "code-template.md", args.overwrite)
 
+    registry = project_dir / "tables" / "result_registry.csv"
+    if args.overwrite or not registry.exists():
+        registry.write_text(
+            ",".join(
+                [
+                    "subquestion",
+                    "conclusion",
+                    "value",
+                    "unit",
+                    "source_type",
+                    "source_path",
+                    "source_location",
+                    "reproduce_command",
+                    "validation_check",
+                    "paper_locations",
+                    "status",
+                ]
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+
     readme = project_dir / "project-structure.md"
     if args.overwrite or not readme.exists():
         readme.write_text(
@@ -46,6 +68,8 @@ def main() -> int:
                     "- `src/`: 数据处理、建模、求解和绘图代码。",
                     "- `figures/`: 代码生成的论文图片。",
                     "- `tables/`: 代码生成的统计表和结果表。",
+                    "- `tables/data_profile/`: 数据审计输出。",
+                    "- `tables/result_registry.csv`: 关键结论、数值来源和复现命令登记表。",
                     "- `paper/`: 论文正文、假设、符号说明和数据预处理草稿。",
                     "- `appendix/`: 附录代码、补充图表和参数说明。",
                     "",

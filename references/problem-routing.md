@@ -1,111 +1,45 @@
-# CUMCM题型细分路由
+# Problem Routing
 
-## 评价类：AHP / 熵权 / TOPSIS
+Use this reference after parsing the problem statement. Select models from the task form, data scale, validation path, and paper objective, not from method popularity.
 
-适用：综合实力、风险、韧性、质量、效率、优先级排序。
+## Routing Matrix
 
-路线：
+| 题型 | 优先基线 | 主模型候选 | 必做验证 |
+| --- | --- | --- | --- |
+| 预测 | 均值、移动平均、线性趋势、季节朴素预测 | ARIMA/SARIMA、指数平滑、状态空间、随机森林、XGBoost、SVR、LSTM only with enough data | 留出/滚动验证、MAE/RMSE/MAPE/R2、残差图、基线比较 |
+| 优化 | 贪心、规则方案、松弛下界/上界、小规模手算 | LP、MILP、DP、网络流、指派/背包、VRP、启发式/元启发式 | 可行性、约束违反表、目标值、基线比较、小规模精确解 |
+| 调度 | FIFO、最短加工时间、最近邻 | MILP、CP-SAT、动态规划、遗传算法、模拟退火、禁忌搜索 | 时间窗/容量可行性、延误/成本、基线方案、小规模枚举 |
+| 评价 | 等权评分、单指标排序 | 熵权-TOPSIS、AHP、组合赋权、PCA、灰色关联、模糊综合评价 | 指标方向、标准化、权重扰动、排序稳定性、替代权重 |
+| 传播 | 指数增长、Logistic | SIR/SEIR、差分方程、元胞自动机、Agent-based simulation | 参数敏感性、峰值/终态、边界案例、重复运行 |
+| 空间 | 欧氏距离、最近点、区域均值 | GIS、IDW/Kriging、Voronoi、p-median、最大覆盖、空间聚类 | 坐标/尺度检查、边界效应、距离敏感性、覆盖率 |
+| 分类 | 多数类、逻辑回归/简单树 | SVM、随机森林、XGBoost、CNN/迁移学习 only with enough images | 混淆矩阵、准确率/召回率/F1、误判分析、特征贡献 |
+| 聚类 | K-means with small K, 人工分组 | K-means、层次聚类、DBSCAN、GMM、谱聚类 | 轮廓系数、CH/DBI、稳定性、簇解释 |
+| 文本 | 词频、TF-IDF+线性模型 | LDA、SVM、逻辑回归、随机森林、BERT only with enough labeled data | 主题解释、分类指标、代表性文本、错误样例 |
+| 图像 | 手工颜色/纹理/形状特征 | SVM/RF/KNN、轻量 CNN、迁移学习 | 样例可视化、混淆矩阵、误判样例、特征重要性 |
 
-1. 构建指标体系，区分正向、负向和适度指标。
-2. 做标准化，记录单位和方向。
-3. 权重选择：
-   - 主观专家信息明确：AHP。
-   - 数据差异驱动：熵权法。
-   - 需要兼顾主客观：组合赋权。
-4. 排序模型：
-   - TOPSIS 用于接近理想解排序。
-   - 灰色关联用于样本少、信息不完全。
-   - 模糊综合评价用于等级模糊和定性指标多。
-5. 做权重扰动和指标删除检验。
+## Route Comparison Fields
 
-输出：指标权重表、综合得分表、排名图、排序稳定性分析。
+For every full problem and single-question deep solution, compare exactly three routes by:
 
-## 预测类：ARIMA / 灰色预测 / 机器学习
+- Fit to the subquestion.
+- Assumptions and data demand.
+- Interpretability.
+- Implementation risk within contest time.
+- Validation path.
+- Paper expressiveness.
 
-适用：时间序列、需求预测、趋势外推、空间或特征驱动预测。
+## Method Guardrails
 
-路线：
+- Do not use TOPSIS/AHP/entropy weighting unless the task is genuinely evaluation/ranking and indicator direction can be checked.
+- Do not use neural networks when the sample is small or no validation split is possible.
+- Do not use metaheuristics when an exact or convex formulation is tractable.
+- Do not treat simulation output as proof without boundary cases and parameter sensitivity.
+- Do not report optimality without solver status, objective value, and constraint violation check.
 
-1. 先做趋势、周期、异常和缺失检查。
-2. 建立基线：均值、移动平均、线性趋势或朴素预测。
-3. 小样本或短序列：GM(1,1)、指数平滑、简单回归。
-4. 明显时间结构：ARIMA/SARIMA、Prophet、状态空间模型。
-5. 特征较多且样本充足：随机森林、XGBoost/LightGBM、SVR、神经网络。
-6. 用留出集或滚动验证计算 MAE、RMSE、MAPE、R2。
+## Per-Question Mapping Template
 
-输出：预测曲线、误差表、真实值-预测值对比、残差图、未来区间。
-
-## 优化类：线性规划 / 整数规划 / 路径规划 / 调度
-
-适用：资源配置、选址、路径、生产计划、任务安排、应急调度。
-
-路线：
-
-1. 定义决策变量、目标函数、约束和参数。
-2. 先做解析或结构判断：可行域、边界、单调性、KKT 条件或松弛问题。
-3. 连续线性问题：线性规划。
-4. 离散选择问题：0-1 规划、整数规划、指派/背包。
-5. 路径问题：Dijkstra、Floyd、A*、最小生成树、VRP。
-6. 调度问题：整数规划、动态规划、启发式算法。
-7. 大规模或非凸：遗传算法、模拟退火、粒子群、蚁群等，并和贪心基线比较。
-
-输出：最优方案表、目标函数值、约束满足检查、敏感性分析。
-
-## 传播类：SIR / SEIR / 元胞自动机
-
-适用：疾病传播、信息传播、污染扩散、舆情扩散、风险传导。
-
-路线：
-
-1. 明确状态变量、转移规则和参数含义。
-2. 简化条件下推导平衡点、传播阈值或稳定性。
-3. 群体平均模型：SIR、SEIR、Logistic、差分方程。
-4. 空间或个体异质性明显：元胞自动机、Agent-based simulation。
-5. 参数估计：最小二乘、网格搜索、极大似然。
-6. 做参数敏感性：传播率、恢复率、迁移率、阈值。
-
-输出：状态变化曲线、峰值时间、最终规模、阈值分析、干预策略比较。
-
-## 空间类：GIS / 插值 / 空间聚类
-
-适用：地理分布、站点选址、污染/风险空间估计、区域差异。
-
-路线：
-
-1. 统一坐标、行政区划、时间粒度和空间尺度。
-2. 可视化空间分布：散点地图、热力图、分区统计图。
-3. 插值：IDW、Kriging、样条插值。
-4. 空间聚类：DBSCAN、K-means、层次聚类、热点分析。
-5. 空间优化：覆盖模型、p-median、最大覆盖、设施选址。
-6. 检查空间尺度和边界效应。
-
-输出：空间分布图、插值误差、聚类结果、选址方案和覆盖率。
-
-## 图像类：特征提取 / 分类模型
-
-适用：图像识别、缺陷检测、形状/颜色/纹理分析。
-
-路线：
-
-1. 明确标签或评价目标。
-2. 做图像预处理：裁剪、灰度化、去噪、归一化。
-3. 手工特征：颜色直方图、纹理、边缘、形状、面积、圆度。
-4. 传统分类：SVM、随机森林、KNN、逻辑回归。
-5. 样本充足时可用 CNN 或迁移学习。
-6. 输出混淆矩阵、准确率、召回率、F1。
-
-输出：样例图、特征重要性、分类结果、误判分析。
-
-## 文本类：特征提取 / 分类模型
-
-适用：评论、舆情、政策文本、问卷开放题、主题识别。
-
-路线：
-
-1. 清洗文本、分词、去停用词。
-2. 特征：词频、TF-IDF、关键词、主题模型、词向量。
-3. 分类：朴素贝叶斯、SVM、逻辑回归、随机森林、BERT 类模型。
-4. 聚类/主题：LDA、K-means、层次聚类。
-5. 输出关键词、主题解释、分类评价指标。
-
-输出：词频表、主题分布、分类指标、代表性文本解释。
+| 问题 | 输入 | 决策/模型对象 | 输出 | 基线 | 主模型 | 验证 | 图表 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Q1 |  |  |  |  |  |  |  |
+| Q2 |  |  |  |  |  |  |  |
+| Q3 |  |  |  |  |  |  |  |

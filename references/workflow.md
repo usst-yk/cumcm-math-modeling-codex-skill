@@ -1,76 +1,61 @@
-# CUMCM数学建模工作流
+# CUMCM Workflow
 
-## 72 小时节奏
+Use this reference for full-problem solving, route design, and contest-time planning.
 
-### 0-3 小时：审题定路线
+## 72-Hour Contest Workflow
 
-- 拆分每个问题的输入、输出、限制条件和评价指标。
-- 标出题目给出的数据、可外部获取的数据、不可得但可假设的数据。
-- 判断题型：预测、评价、优化、机理仿真、分类识别、网络传播、路径规划、资源配置、综合决策。
-- 形成主路线和备选路线，避免一开始陷入复杂推导。
+| Time | Goal | Outputs |
+| --- | --- | --- |
+| 0-4 h | Read problem, audit attachments, decompose questions, choose route | task map, must-satisfy checklist, data inventory, 3-route comparison |
+| 4-16 h | Q1 baseline model, data cleaning, first runnable code | baseline result, cleaned data, first tables/figures |
+| 16-32 h | Q2/Q3 main model, optimization/prediction/evaluation solving | main scripts, result tables, preliminary validation |
+| 32-44 h | Validation, sensitivity, robustness, figure finalization | error/feasibility/sensitivity tables, final figures |
+| 44-60 h | TeX paper body, abstract, conclusion, appendix code | main `.tex`, captions, appendix run commands |
+| 60-68 h | Judge-view review, consistency and traceability check | issue list, corrected numbers, result registry |
+| 68-72 h | Final PDF, code/data/figure packaging | compiled PDF, source code, tables, figures, final checklist |
 
-### 3-12 小时：数据和基础模型
+## Full Workflow
 
-- 完成数据字典：字段含义、单位、缺失、异常、重复、时间/空间粒度。
-- 先建立一个解析或半解析基线：推导简化条件下的公式、边界、单调性或最优性条件。
-- 建立第一版可跑通模型，先得到粗结果。
-- 将第一版数值结果与解析基线比较，检查数量级、趋势和边界是否一致。
-- 画出能解释问题的基础图：分布、趋势、相关性、空间分布、网络结构或误差图。
+1. Parse the problem.
+   - Split every subquestion into input -> decision/model object -> output -> validation.
+   - Extract hard constraints, units, required attachments, and judging clues.
+   - Build a must-satisfy checklist before solving.
 
-### 12-36 小时：模型深化
+2. Audit data when present.
+   - Run the data profile script.
+   - Inspect all Excel sheets and excluded tables.
+   - Confirm covered time ranges, row counts, task reconstruction, and unit conversions.
 
-- 对每个问题补齐目标函数、约束、变量、参数估计方式和求解算法。
-- 做至少一种模型对比或基线比较。
-- 如果最终采用复杂数值模型，保留解析模型作为解释依据或合理性检验。
-- 对关键参数做灵敏度分析，观察结论是否稳定。
-- 用代码生成核心图表，图名、坐标轴、单位、图注和文件名要能直接对应子问题。
-- 对核心结果做解释：为什么是这个方向、大小、排序或策略。
+3. Compare three routes.
+   - Route A: baseline or analytical route.
+   - Route B: main contest route.
+   - Route C: robustness/fallback/extension route.
+   - Select the route that maximizes correctness, validation, and paper clarity under time limits.
 
-### 36-60 小时：论文成型
+4. Build baseline before main computation.
+   - Use simple formulas, bounds, greedy rules, naive forecasts, or small cases.
+   - Use it to catch scale, direction, and feasibility errors.
 
-- 先写摘要、问题重述、模型总览和主要结论。
-- 每个问题按“模型建立 -> 求解过程 -> 结果 -> 检验/解释”组织。
-- 将代码输出固化为论文表格和图片，不手工改数。
-- 只把支撑结论的关键图放入正文，中间过程图放附录。
+5. Implement reproducibly.
+   - Prefer deterministic Python unless the user requests MATLAB.
+   - Save generated tables and figures with stable names.
+   - Fix random seeds and report solver status when relevant.
 
-### 60-72 小时：压缩和质检
+6. Validate.
+   - Match validation to task type: prediction error, optimization feasibility, ranking stability, simulation sensitivity, classification metrics, or boundary cases.
+   - Mark missing validation as a limitation, not as success.
 
-- 删除不能支撑结论的模型堆砌。
-- 检查符号、单位、图表编号、公式编号、引用、附录代码。
-- 把摘要改到能独立说明：做了什么、用了什么模型、得到什么数值结论、方案有什么优势。
+7. Write for judges.
+   - Put the answer before method inventory.
+   - Link every headline number to a table, figure, equation, output file, or assumption.
+   - Keep only figures that support a conclusion.
 
-## 审题模板
+## Final Deliverables
 
-对每个子问题填写：
-
-- 目标：题目要求判断、预测、评价、优化还是解释什么。
-- 输入：已给数据、需构造指标、需估计参数。
-- 输出：数值、排序、分类、策略、图表、公式或软件结果。
-- 约束：物理约束、资源约束、时间约束、空间约束、政策/规则约束。
-- 评价：误差、稳定性、成本、收益、公平性、鲁棒性、可解释性。
-- 可验证点：历史数据、留出集、边界情况、专家规则、常识约束。
-
-## 题型路由
-
-- 预测题：先建立时间/空间/特征结构，再比较基线、统计模型和机器学习模型。
-- 评价题：构建指标体系，说明正负向、标准化、权重来源和排序稳定性。
-- 优化题：先定义决策变量、目标函数和约束，再选择线性规划、整数规划、动态规划、启发式算法或仿真优化。
-- 机理题：先画机制流程图，再写微分方程、差分方程、元胞自动机或仿真规则。
-- 分类识别题：先定义标签或聚类目标，再做特征工程、模型训练、混淆矩阵和误差分析。
-- 网络题：明确节点、边、权重和传播/流动规则，再计算中心性、最短路、最大流、社团或传播仿真。
-
-## 解析优先要求
-
-- 能推导时，先推导再计算；不能完整求解时，也要尽量给出简化模型、边界、单调性或最优性条件。
-- 数值模型必须和解析模型、基线模型或常识边界做比较。
-- 论文中要说明数值模型相对于解析模型解决了什么限制，例如真实约束、随机扰动、离散变量、多目标权衡或高维数据。
-
-## 交付检查
-
-- 每个子问题都有明确结论，不只给方法。
-- 每个模型都有变量、参数、公式、求解方法和结果解释。
-- 核心数值结果经过解析基线、边界条件或简化模型校验。
-- 每张图表都能回答一个问题，图名和单位完整。
-- 代码生成的图表保存在固定目录，文件名可追踪，论文图注解释结论。
-- 有模型检验、误差分析或灵敏度分析。
-- 附录代码能复现核心表格和图片。
+- Paper source and PDF when possible.
+- Main code and run command.
+- Data inventory and preprocessing notes.
+- Result registry.
+- Tables and figures with stable names.
+- Figure captions and appendix code.
+- Final score gate result.

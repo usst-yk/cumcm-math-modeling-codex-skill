@@ -16,11 +16,11 @@
 - **结果可追溯红线**：不编造数值、距离、坐标、容量、误差或排名；论文中的关键结论必须来自题目条件、数据、代码输出、公式推导或明确假设。
 - **TeX 论文默认交付**：默认生成 `.tex`，有 TeX 环境时尝试编译 PDF；论文结构、公式、表格、图注和附录代码保持一致。
 - **图表与命名规范**：生成论文可用图表，统一使用 `fig_q1_*.png`、`tab_q1_*.csv/.xlsx` 等稳定命名，便于复现和插入论文。
-- **GPT Image 技术路线图**：默认直接生成浅底、低饱和配色的学术风格技术路线图和模型流程框图，要求节点简洁、文字接近正文大小、无装饰图标，并进行文字、遮挡和版式检查。
+- **可编辑技术路线图**：默认先生成 Mermaid、Graphviz 或 SVG 源文件，再导出论文图片；仅在明确需要设计感图片时使用 GPT Image，避免流程图文字和箭头不可控。
 - **验证与敏感性分析**：按题型提供最低验证集，例如预测误差、优化可行性、评价排序稳定性、仿真参数敏感性、分类混淆矩阵等。
 - **代码到论文模式**：可读取已有代码、日志、表格和图片，自动同步数值并写成模型求解、结果分析、验证和图注，避免论文与输出不一致。
 - **摘要、结论与审稿**：支持结果导向摘要、结论提炼、评委视角审稿、问题清单和最终交付清单。
-- **内置脚本和模板**：附带项目初始化脚本、数据概况脚本、论文模板、假设符号模板和附录代码模板。
+- **内置脚本和模板**：附带项目初始化、数据审计、结果注册表、统一绘图风格、论文模板、假设符号模板和附录代码模板。
 
 ## 安装
 
@@ -92,10 +92,10 @@ Codex 会从该 GitHub 仓库安装 skill。
 
 ### 7. 技术路线图和模型流程图
 
-默认使用 GPT Image 直接生成浅底、低饱和配色的学术流程图，并附图注和论文说明：
+默认先生成 Mermaid/Graphviz/SVG 可编辑源文件，再导出论文图片，并附图注和论文说明：
 
 ```text
-[$cumcm-math-modeling] 请基于这篇论文生成技术路线图和模型流程框图。要求浅底学术风格、统一但不全黑白的低饱和配色、文字接近正文大小、内容简洁、不要装饰性图标，并附论文图注和说明文字。
+[$cumcm-math-modeling] 请基于这篇论文生成技术路线图和模型流程框图。优先输出 Mermaid 或 Graphviz 可编辑源文件并导出论文图片；只有我明确要求设计感图片时才用 GPT Image。请附论文图注和说明文字。
 ```
 
 ### 8. 摘要和结论
@@ -143,9 +143,23 @@ cumcm-math-modeling/
 │   ├── assumptions-symbols-template.md
 │   ├── paper-template.docx
 │   └── paper-template.md
+├── examples/
+│   ├── prompt_code_to_paper.md
+│   ├── prompt_final_review.md
+│   ├── prompt_full_problem.md
+│   ├── prompt_roadmap.md
+│   └── prompt_single_question.md
+├── evals/
+│   ├── expected_outputs.md
+│   ├── toy_evaluation_problem/
+│   ├── toy_optimization_problem/
+│   └── toy_prediction_problem/
 ├── references/
 │   ├── analytical-vs-numerical.md
+│   ├── code-to-paper.md
 │   ├── contest-modes.md
+│   ├── data-audit.md
+│   ├── final-checklist.md
 │   ├── figure-standards.md
 │   ├── modeling-toolbox.md
 │   ├── paper-writing.md
@@ -154,10 +168,13 @@ cumcm-math-modeling/
 │   ├── python-matlab-guide.md
 │   ├── safety-rules.md
 │   ├── scoring-checklist.md
+│   ├── technical-roadmap.md
 │   └── workflow.md
 └── scripts/
     ├── data_profile.py
-    └── init_cumcm_project.py
+    ├── init_cumcm_project.py
+    ├── make_paper_figures.py
+    └── result_registry.py
 ```
 
 ## 说明
