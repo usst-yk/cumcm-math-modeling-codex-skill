@@ -145,19 +145,28 @@ Use these rules for every modeling-paper deliverable unless the user explicitly 
    - If a required value is missing, write the formula, input table template, and reproducible computation path instead of filling an unsupported number.
    - Maintain a result registry for important numbers: conclusion, value, unit, source file or equation, and reproduction command. Use this registry to keep abstract, body text, tables, and conclusions consistent.
 
-3. Unit and dimension discipline.
+3. Data coverage audit.
+   - Before solving with CSV/XLSX files, create a data inventory: file path, sheet/table name, row count, column count, key fields, time range, and whether it is included in the model.
+   - For every Excel workbook, list all sheet names first. Do not silently use only `sheet_name=0` unless the problem statement or data audit proves only the first sheet is relevant.
+   - If a workbook has multiple sheets with the same structure, read and concatenate all relevant sheets, then add a source-sheet field so every row remains traceable.
+   - If any sheet/table is excluded, state the reason explicitly, such as metadata sheet, empty sheet, duplicate summary, unrelated appendix, or outside the requested question scope.
+   - Compare the data inventory against problem-statement phrases such as "一周", "两个月", "全年", "附件2全部数据", and "所有样本"; if the covered time range or row count is inconsistent, stop and resolve the mismatch before writing numerical conclusions.
+   - For grouped task reconstruction, report both raw-row counts and reconstructed-task counts by source file/sheet; large differences must be explained by the grouping rule.
+   - Save the data inventory as a reproducible table when the answer depends on multiple files or sheets, using names such as `tab_q1_data_inventory.csv`.
+
+4. Unit and dimension discipline.
    - Every physical quantity should carry a unit in notation tables, formulas, tables, and figure axes.
    - Before writing final results, check common conversions such as days versus hours, km versus m, tons versus kg, yuan versus ten-thousand yuan, and one-way versus round-trip distance.
    - If a model mixes normalized indicators and physical quantities, state which variables are dimensionless and which retain units.
    - If a formula changes units, explain the conversion factor or keep the computation in code with a named variable.
 
-4. Figure and table naming convention.
+5. Figure and table naming convention.
    - Use stable lowercase filenames with the pattern `fig_q{subquestion}_{topic}.png` for figures and `tab_q{subquestion}_{topic}.csv` or `.xlsx` for tables.
    - Examples: `fig_q1_route.png`, `fig_q1_cost_stack.png`, `fig_q1_load_factor.png`, `tab_q1_summary.csv`, `tab_q1_sensitivity.csv`.
    - For generated paper-ready charts, save both a raster version for documents and, when practical, a vector or source version for reproducibility.
    - Keep filenames aligned with paper references so tables and figures can be regenerated and reinserted without renaming.
 
-5. Chinese paper language constraints.
+6. Chinese paper language constraints.
    - Avoid colloquial and AI-like phrasing such as "我们可以", "建议可以", "本 AI", "智能生成", and empty transitional sentences.
    - Avoid repeatedly using "通过上述分析可以看出"; prefer evidence-driven wording such as "结果表明", "模型表明", "敏感性分析显示", and "本文构建".
    - Each substantive paragraph should be supported by at least one of: equation, data result, code output, figure/table reference, explicit assumption, or validation statement.
@@ -220,6 +229,8 @@ Before treating a modeling answer, paper section, or artifact set as complete, a
 2. Evidence gate.
    - Each headline conclusion links to a formula, table, figure, code output, input data, or explicit assumption.
    - The result registry, if created, agrees with the abstract, conclusion, tables, and figure captions.
+   - The data inventory covers every file/sheet required by the problem statement. For Excel workbooks, all sheet names have been inspected, and any excluded sheet has a written reason.
+   - Raw-row counts, reconstructed-task counts, and covered time ranges are consistent with the problem statement before any total, average, ranking, or optimization result is reported.
 
 3. Model gate.
    - Variables, parameters, objective/evaluation function, and constraints are defined before dense formulas.
@@ -286,6 +297,7 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
 - When the user says the solution is not deep enough, "按 CUMCM 一等奖标准重做", "想得不够多", or similar, rewrite the solution using the First-Prize Default Standard instead of merely adding model names.
 - When the user asks for a technical roadmap or model flowchart, follow "Technical Roadmap and Model Flowcharts": base it on the paper, keep the roadmap focused on the main modeling idea rather than data-cleaning or code details, keep the content concise, default to black-and-white GPT Image-generated flowcharts, and do not use illustrative icons or decorative mini-pictures.
 - When data is provided, inspect columns, missingness, units, and obvious outliers before modeling.
+- When Excel data is provided, inspect all workbook sheet names before coding; read all relevant same-structure sheets, keep a source-sheet column, and produce a row/task/time-range coverage audit before writing totals.
 - When starting a new contest project, use `scripts/init_cumcm_project.py` to create `data/`, `src/`, `figures/`, `tables/`, `paper/`, and `appendix/`.
 - When CSV/XLSX data is available, use `scripts/data_profile.py` before modeling to generate field summaries, missing/outlier checks, correlations, descriptive statistics, and a data preprocessing draft.
 - When writing code, prefer Python unless the user asks for MATLAB; use deterministic scripts/notebooks that can regenerate tables and figures.
