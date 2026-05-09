@@ -1,148 +1,105 @@
-# CUMCM Math Modeling Codex skill
+# CUMCM Math Modeling Codex Skill
 
-面向全国大学生数学建模竞赛（CUMCM）的 Codex skill，用于赛题分析、建模路线设计、算法实现规划、论文写作、图表设计与结果验证。
+面向全国大学生数学建模竞赛（CUMCM）的 Codex skill，用于把建模任务组织成可审计、可复现、可写入论文的工作流。
 
-这个仓库不是完整 Web/后端多 Agent 系统，而是 Codex 内部可调用的严谨建模工作流规则包和可执行脚本模板。它吸收多角色流水线思想，但交付重点是可审计的目录、数据审计、结果注册表、验证报告、图表和论文一致性。
+这个仓库不是完整 Web/后端多 Agent 系统，也不承诺自动生成获奖论文。它更像一套 Codex 内部可调用的工作规范、项目模板和辅助脚本：帮助完成题意拆解、数据审计、建模路线设计、代码产物管理、结果追踪、验证检查、图表规范和论文写作。
 
-## 能力特点
+## 适合做什么
 
-- **角色流水线**：按 Coordinator、Data Auditor、Modeler、Solver、Validator、Writer、Reviewer 逐阶段推进，避免一次性写完整论文后再补数值。
-- **阶段门禁**：进入求解、写作、终审前必须满足 task plan、数据审计、结果注册表、验证报告和图表来源等检查。
-- **标准工作目录**：初始化 `problem/ data/raw data/processed src notebooks results figures tables paper logs`，让建模产物可追踪。
-- **从零到交付的完整工作流**：支持从题面和附件出发，一次推进赛题拆解、数据检查、建模路线选择、代码求解、图表生成、TeX 论文、技术路线图、模型流程图和最终交付检查。
-- **正确性优先于速度**：不为了快速完成而跳过读题、约束提取、数据覆盖审计、单位检查、基线模型、交叉验证和敏感性分析；若输入不足或验证失败，输出可复现的部分结果和阻塞项，而不是硬写最终结论。
-- **CUMCM 评分导向拆解**：先判断每问的评分点、隐含约束、输入数据、模型对象、输出形式和验证标准，避免答非所问。
-- **三路线建模比较**：默认给出基线解析路线、主建模路线和稳健/扩展路线，并从数据需求、解释性、实现风险、验证路径和论文表现力进行比较。
-- **单问深度模式**：支持“只做第 1 问/第 2 问”等局部推进，仍保留评分点、路线比较、变量定义、目标函数、约束、解析推导、算法、验证、图表和 TeX-ready 论文文本。
-- **解析优先的模型建立**：强调先做简化模型、单调性、边界、量纲、KKT 或平衡条件等机制分析，再进入数值优化、仿真、预测或评价模型。
-- **多题型模型路由**：覆盖预测、优化、调度、评价、传播、空间分析、分类、聚类、图像和文本等常见数模题型，并给出对应验证要求。
-- **数据检查与可复现代码**：支持 CSV/XLSX 字段检查、缺失值、异常值、单位、相关性和预处理方案设计；默认使用可复现 Python 脚本生成表格和图。
-- **多表覆盖审计**：读取 Excel 附件前先列出所有工作表，核对题面时间范围、行数、任务数和纳入范围；多 sheet 同结构数据默认合并，并保留来源 sheet 字段。
-- **结果可追溯红线**：不编造数值、距离、坐标、容量、误差或排名；论文中的关键结论必须来自题目条件、数据、代码输出、公式推导或明确假设。
-- **TeX 论文默认交付**：默认生成 `.tex`，有 TeX 环境时尝试编译 PDF；论文结构、公式、表格、图注和附录代码保持一致。
-- **图表与命名规范**：生成论文可用图表，统一使用 `fig_q1_*.png`、`tab_q1_*.csv/.xlsx` 等稳定命名，便于复现和插入论文。
-- **可编辑技术路线图**：默认先生成 Mermaid、Graphviz 或 SVG 源文件，再导出论文图片；仅在明确需要设计感图片时使用 GPT Image，避免流程图文字和箭头不可控。
-- **验证与敏感性分析**：按题型提供最低验证集，例如预测误差、优化可行性、评价排序稳定性、仿真参数敏感性、分类混淆矩阵等。
-- **代码到论文模式**：可读取已有代码、日志、表格和图片，自动同步数值并写成模型求解、结果分析、验证和图注，避免论文与输出不一致。
-- **摘要、结论与审稿**：支持结果导向摘要、结论提炼、评委视角审稿、问题清单和最终交付清单。
-- **内置脚本和模板**：附带项目初始化、数据审计、结果注册表、统一绘图风格、论文模板、假设符号模板和附录代码模板。
+- 拆解 CUMCM 题目，形成 `problem/task_plan.json`。
+- 审计附件数据，尤其是 CSV/XLSX 多文件、多 sheet 覆盖情况。
+- 比较三条建模路线，保留基线模型和主模型的取舍依据。
+- 按子问题逐问推进：模型卡、代码、表格、图、结果登记、验证、论文段落。
+- 用 `results/result_registry.csv` 追踪关键结论、数值来源和复现命令。
+- 生成可编辑的技术路线图 SVG，而不是默认依赖不可编辑图片。
+- 从评委视角检查论文、代码、表格、图和摘要是否一致。
 
-## 不做什么
+## 不适合做什么
 
-- 不保证获奖，也不替代人工确认关键假设。
+- 不保证获奖。
+- 不替代人工判断关键假设和建模取舍。
 - 不编造缺失数据、参考文献、指标、距离、排名或最优值。
 - 不自动提交竞赛材料。
-- 不把自身变成完整 Web 应用或后端 Agent 服务。
+- 不把 Codex skill 变成完整 Web 应用或后端 Agent 服务。
 
-## 安装
+## 工作流设计
 
-最简单的方式：直接在 Codex 里说：
+该 skill 借鉴多角色流水线，但不实现独立 Agent 后端。Codex 使用这些角色卡作为阶段提示：
 
-```text
-请安装这个 skill：https://github.com/usst-yk/cumcm-math-modeling-codex-skill
+1. Coordinator：题意拆解，生成任务计划。
+2. Data Auditor：附件和数据审计。
+3. Modeler：路线比较、模型卡和基线设计。
+4. Solver：代码求解，保存表格、图和运行日志。
+5. Validator：误差、可行性、敏感性和一致性检查。
+6. Writer：基于结果注册表写论文段落。
+7. Reviewer：评委视角终审。
+
+关键阶段门禁写在 `references/stage-gates.md`。例如：没有完成数据审计和基线路线，不进入求解；关键数值没有登记到结果注册表，不进入最终写作。
+
+## 项目初始化
+
+```bash
+python scripts/init_cumcm_project.py --name cumcm_2026_A
 ```
 
-Codex 会从该 GitHub 仓库安装 skill。
-
-安装完成后，请重启 Codex。
-
-重启后，在对话中使用：
+会生成：
 
 ```text
-[$cumcm-math-modeling] 请分析这道 CUMCM 数学建模题，并按一等奖标准给出建模方案。
+problem/                 # 题面、假设、task_plan、model cards
+data/raw/                # 原始附件
+data/processed/          # 清洗或重构后的数据
+src/                     # 按子问题组织的求解脚本
+notebooks/               # 可选探索 notebook
+results/                 # result_registry、validation report、敏感性分析
+figures/                 # 论文图和路线图
+tables/                  # 结果表和数据审计表
+paper/                   # TeX/Markdown 论文
+appendix/                # 附录代码和补充材料
+logs/                    # run_log 和 error_log
+```
+
+## 常用脚本
+
+```bash
+python scripts/build_task_plan.py --problem problem/problem_statement.md --output-dir problem
+python scripts/data_profile.py --input data/raw --output tables/data_profile
+python scripts/result_registry.py --registry results/result_registry.csv --subquestion Q1 --claim "..." --value "..." --source-file tables/tab_q1_result.csv
+python scripts/make_roadmap_svg.py --task-plan problem/task_plan.json --output figures/roadmap.svg
+python scripts/validate_results.py --project .
+python scripts/compile_tex.py --tex paper/main.tex
 ```
 
 ## 推荐使用方式
 
-### 1. 从零开始一口气求解整题
-
-适合什么都还没定，只提供题面和附件，希望从读题、建模、代码、图表到 TeX 论文一次推进：
+### 全题路线设计
 
 ```text
-[$cumcm-math-modeling] 请基于当前题面和附件，从零开始完整求解这道 CUMCM 题。要求先检查数据和题目任务，判断评分点与隐含约束，给出 3 条整体建模路线并选择主路线；随后完成代码求解、图表生成、TeX 论文、技术路线图和模型流程图，并做最终交付检查。所有数值必须可追溯。
+[$cumcm-math-modeling] 请分析这道 CUMCM 题，先拆解每问的输入、模型对象、输出和验证标准；再给出 3 条整体建模路线和 72 小时推进顺序。先不要写最终论文。
 ```
 
-### 2. 单问完整建模
-
-适合只推进某一问，例如第 1 问或第 2 问：
+### 单问推进
 
 ```text
-[$cumcm-math-modeling] 只做 B 题第 1 问。请先判断评分点和隐含约束，再给 3 条建模路线并比较，选择主路线；然后写出变量定义、目标函数、约束条件、解析推导、算法步骤、验证方案、可视化设计，并生成 TeX 论文。
+[$cumcm-math-modeling] 只推进第 1 问。请先写 Q1 model card，再给出基线、主模型、验证方案、预期表格和图表命名。没有可追溯数据时不要写最终数值结论。
 ```
 
-### 3. 全题建模路线设计
-
-适合比赛前期定方向：
+### 数据审计
 
 ```text
-[$cumcm-math-modeling] 请分析这道 CUMCM 题，拆解每个问题的任务、评分点和隐含约束；给出整体建模路线，说明每问采用的模型、输入输出、验证方式和论文结构。
+[$cumcm-math-modeling] 请审计当前 data/raw 中的附件，列出所有文件和 Excel sheet，生成数据覆盖、缺失、异常、时间范围和重复值检查，并指出哪些表可用于建模。
 ```
 
-### 4. 按一等奖标准重做
-
-适合已有方案但深度不够时：
+### 代码到论文
 
 ```text
-[$cumcm-math-modeling] 这个方案不够深，请按 CUMCM 一等奖标准重做。要求包含 3 条路线比较、解析推导、基线模型、主模型、验证、灵敏度分析和论文段落。
+[$cumcm-math-modeling] 根据当前代码输出、结果表和图片写第 1 问论文段落。请先读取结果注册表和输出文件；论文中的数值必须能追溯到表格、代码输出、公式或明确假设。
 ```
 
-### 5. 数据求解并生成 TeX 论文
-
-适合附件数据已经在当前项目目录时：
+### 终审检查
 
 ```text
-[$cumcm-math-modeling] 基于当前文件夹的数据，完成第 1 问代码求解，并把结果写成 TeX 论文。所有数值必须来自代码输出，图表按规范命名。
+[$cumcm-math-modeling] 请从评委视角检查当前项目，重点看题意覆盖、数据审计、结果注册表、验证报告、图表引用、摘要数字和代码复现命令是否一致。
 ```
-
-### 6. 代码到论文
-
-适合已经有代码、输出表格和图片时：
-
-```text
-[$cumcm-math-modeling] 根据当前项目里的代码、输出表格和图片，把第 1 问写成 TeX 论文。论文中的数值必须和输出文件一致。
-```
-
-### 7. 技术路线图和模型流程图
-
-默认先生成 Mermaid/Graphviz/SVG 可编辑源文件，再导出论文图片，并附图注和论文说明：
-
-```text
-[$cumcm-math-modeling] 请基于这篇论文生成技术路线图和模型流程框图。优先输出 Mermaid 或 Graphviz 可编辑源文件并导出论文图片；只有我明确要求设计感图片时才用 GPT Image。请附论文图注和说明文字。
-```
-
-### 8. 摘要和结论
-
-适合论文主体和结果已经完成后：
-
-```text
-[$cumcm-math-modeling] 基于当前论文和结果表，写 CUMCM 摘要。要求每问包含模型、核心结果、关键数值和验证方式，不要背景套话。
-```
-
-### 9. 论文审稿和查错
-
-适合提交前检查：
-
-```text
-[$cumcm-math-modeling] 请从评委视角审稿这篇论文，重点检查答题覆盖、约束条件、数值可追溯性、验证充分性、图表结论和复现性。
-```
-
-### 10. 最终交付检查
-
-适合比赛收尾：
-
-```text
-[$cumcm-math-modeling] 请检查当前项目是否达到最终交付标准：TeX、PDF、代码、结果表、图、图注、附录代码和运行命令是否齐全，并列出需补充项。
-```
-
-## 推荐工作流
-
-1. 全题拆解与路线选择。
-2. 单问建模与代码求解。
-3. 代码到 TeX 论文。
-4. 生成技术路线图和模型流程图。
-5. 写摘要和结论。
-6. 审稿查错。
-7. 最终交付检查。
 
 ## 文件结构
 
@@ -150,69 +107,18 @@ Codex 会从该 GitHub 仓库安装 skill。
 cumcm-math-modeling/
 ├── SKILL.md
 ├── agents/
-│   ├── coder.md
-│   ├── coordinator.md
-│   ├── modeler.md
-│   ├── openai.yaml
-│   ├── reviewer.md
-│   └── writer.md
 ├── assets/
-│   ├── appendix-code-template.md
-│   ├── assumptions-symbols-template.md
-│   ├── paper-template.docx
-│   └── paper-template.md
 ├── examples/
-│   ├── prompt_code_to_paper.md
-│   ├── prompt_final_review.md
-│   ├── prompt_full_problem.md
-│   ├── prompt_roadmap.md
-│   └── prompt_single_question.md
 ├── evals/
-│   ├── expected_outputs.md
-│   ├── toy_evaluation_problem/
-│   ├── toy_optimization_problem/
-│   └── toy_prediction_problem/
 ├── references/
-│   ├── analytical-vs-numerical.md
-│   ├── citation-policy.md
-│   ├── code-to-paper.md
-│   ├── contest-modes.md
-│   ├── data-audit.md
-│   ├── final-checklist.md
-│   ├── figure-standards.md
-│   ├── modeling-toolbox.md
-│   ├── paper-writing.md
-│   ├── problem-routing.md
-│   ├── project-templates.md
-│   ├── python-matlab-guide.md
-│   ├── safety-rules.md
-│   ├── scoring-checklist.md
-│   ├── stage-gates.md
-│   ├── technical-roadmap.md
-│   ├── validation.md
-│   └── workflow.md
-├── templates/
-│   ├── model_card.md
-│   ├── paper_main.tex
-│   ├── refs.bib
-│   ├── result_registry.csv
-│   ├── run_log.md
-│   ├── task_plan.json
-│   ├── task_plan.schema.json
-│   └── validation_report.md
-└── scripts/
-    ├── build_task_plan.py
-    ├── compile_tex.py
-    ├── data_profile.py
-    ├── init_cumcm_project.py
-    ├── make_paper_figures.py
-    ├── make_roadmap_svg.py
-    ├── validate_results.py
-    └── result_registry.py
+├── scripts/
+└── templates/
 ```
 
-## 说明
+## 设计原则
 
-这个 skill 追求竞赛可交付性：不堆砌模型名，优先把每一问转化为可解释、可计算、可验证、可写入论文的方案。数据结果、指标和结论应来自代码输出、题目数据、公式推导或明确假设。
-
-求解数学建模题时，正确性是最高优先级。遇到题意、数据、约束、单位、代码输出或验证结果相互矛盾时，应先定位问题并修正模型；无法修正时必须明确标注限制或阻塞，不能为了交付速度编造或弱化结论。
+- 先审题和审计数据，再建模。
+- 先基线和可解释结构，再复杂算法。
+- 先保存代码产物，再写论文结论。
+- 每个关键数值必须可追溯。
+- 验证失败或输入不足时，记录阻塞项，不硬写最终结论。
