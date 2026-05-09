@@ -5,7 +5,7 @@
 运行：
 
 ```bash
-python3 scripts/init_guosai_project.py /path/to/project
+python3 scripts/init_cumcm_project.py /path/to/project
 ```
 
 生成目录：

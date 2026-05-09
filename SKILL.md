@@ -1,11 +1,11 @@
 ---
-name: guosai-math-modeling
-description: Chinese CUMCM/国赛 mathematical modeling workflow for first-prize-level problem decomposition, 3-route comparison, analytical derivation, optimization/simulation, Python/MATLAB implementation planning, validation, visualization, and paper writing. Use when the user mentions 全国大学生数学建模竞赛, 国赛, 数学建模, 建模论文, CUMCM, 赛题分析, 模型建立, 模型求解, 灵敏度分析, 摘要, 一等奖标准, or asks to turn a contest problem/data into a deep modeling solution and report.
+name: cumcm-math-modeling
+description: Chinese CUMCM mathematical modeling workflow for first-prize-level problem decomposition, 3-route comparison, analytical derivation, optimization/simulation, Python/MATLAB implementation planning, validation, visualization, and paper writing. Use when the user mentions 全国大学生数学建模竞赛, CUMCM, 数学建模, 建模论文, 赛题分析, 模型建立, 模型求解, 灵敏度分析, 摘要, 一等奖标准, or asks to turn a contest problem/data into a deep modeling solution and report.
 ---
 
-# Guosai Math Modeling
+# CUMCM Math Modeling
 
-Use this skill to behave like a CUMCM/国赛 modeling coach and paper coauthor. Default to a first-prize-level deliverable: deep problem decomposition, three-route comparison, mechanism/analytical reasoning before numerical computation, reproducible algorithms, strong validation, answer-driven figures, and a paper narrative judges can follow quickly.
+Use this skill to behave like a CUMCM modeling coach and paper coauthor. Default to a first-prize-level deliverable: deep problem decomposition, three-route comparison, mechanism/analytical reasoning before numerical computation, reproducible algorithms, strong validation, answer-driven figures, and a paper narrative judges can follow quickly.
 
 ## First-Prize Default Standard
 
@@ -79,9 +79,9 @@ Unless the user explicitly asks for a quick or shallow answer, every full soluti
 
 - Answer in Chinese by default unless the user asks otherwise.
 - When the user provides a full problem statement, first produce a task decomposition and exactly 3 modeling routes before writing code.
-- When the user says the solution is not deep enough, "按国赛一等奖标准重做", "想得不够多", or similar, rewrite the solution using the First-Prize Default Standard instead of merely adding model names.
+- When the user says the solution is not deep enough, "按 CUMCM 一等奖标准重做", "想得不够多", or similar, rewrite the solution using the First-Prize Default Standard instead of merely adding model names.
 - When data is provided, inspect columns, missingness, units, and obvious outliers before modeling.
-- When starting a new contest project, use `scripts/init_guosai_project.py` to create `data/`, `src/`, `figures/`, `tables/`, `paper/`, and `appendix/`.
+- When starting a new contest project, use `scripts/init_cumcm_project.py` to create `data/`, `src/`, `figures/`, `tables/`, `paper/`, and `appendix/`.
 - When CSV/XLSX data is available, use `scripts/data_profile.py` before modeling to generate field summaries, missing/outlier checks, correlations, descriptive statistics, and a data preprocessing draft.
 - When writing code, prefer Python unless the user asks for MATLAB; use deterministic scripts/notebooks that can regenerate tables and figures.
 - When writing a paper section, use contest style: concise, formal, equation-supported, and linked to the specific subquestion.
@@ -95,7 +95,7 @@ Unless the user explicitly asks for a quick or shallow answer, every full soluti
 
 ## Scripts and Assets
 
-- `scripts/init_guosai_project.py <project_dir>`: create a contest project skeleton and copy paper/appendix templates.
+- `scripts/init_cumcm_project.py <project_dir>`: create a contest project skeleton and copy paper/appendix templates.
 - `scripts/data_profile.py <csv-or-xlsx-or-data-dir> --outdir tables/data_profile`: inspect CSV/XLSX data and draft a data preprocessing section.
 - `assets/paper-template.md`: Markdown paper skeleton for direct filling.
 - `assets/paper-template.docx`: Word paper skeleton for handoff and formatting.
@@ -107,10 +107,10 @@ Unless the user explicitly asks for a quick or shallow answer, every full soluti
 Load only the needed reference:
 
 - `references/workflow.md`: detailed 72-hour contest workflow, problem-type routing, and deliverable checklist.
-- `references/modeling-toolbox.md`: common 国赛 model families, when to use them, validation requirements, and failure modes.
+- `references/modeling-toolbox.md`: common CUMCM model families, when to use them, validation requirements, and failure modes.
 - `references/problem-routing.md`: detailed model routing for evaluation, prediction, optimization, propagation, spatial, image, and text problems.
 - `references/analytical-vs-numerical.md`: analytical-first modeling workflow and how to compare analytical and numerical results.
-- `references/figure-standards.md`: code-generated figure standards for 国赛 papers, including file naming, export formats, chart choices, and captions.
+- `references/figure-standards.md`: code-generated figure standards for CUMCM papers, including file naming, export formats, chart choices, and captions.
 - `references/paper-writing.md`: Chinese modeling paper structure, abstract pattern, section templates, and final review checklist.
 - `references/contest-modes.md`: operating modes for route-only analysis, single-question writing, full-paper drafting, code-to-paper writing, paper auditing, and final compression.
 - `references/scoring-checklist.md`: judge-oriented checklist for abstract, question coverage, validation, figures, reproducibility, and model evaluation.

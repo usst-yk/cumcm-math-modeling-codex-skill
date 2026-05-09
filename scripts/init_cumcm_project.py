@@ -18,7 +18,7 @@ def copy_file(src: Path, dst: Path, overwrite: bool) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Create a guosai math modeling project skeleton.")
+    parser = argparse.ArgumentParser(description="Create a CUMCM math modeling project skeleton.")
     parser.add_argument("project_dir", help="Directory to create or update.")
     parser.add_argument("--overwrite", action="store_true", help="Overwrite existing template files.")
     args = parser.parse_args()
@@ -40,7 +40,7 @@ def main() -> int:
         readme.write_text(
             "\n".join(
                 [
-                    "# 国赛项目结构",
+                    "# CUMCM 项目结构",
                     "",
                     "- `data/`: 原始数据和清洗后的数据。",
                     "- `src/`: 数据处理、建模、求解和绘图代码。",
@@ -56,7 +56,7 @@ def main() -> int:
             encoding="utf-8",
         )
 
-    print(f"Created guosai project skeleton at: {project_dir}")
+    print(f"Created CUMCM project skeleton at: {project_dir}")
     for name in DIRS:
         print(f"- {name}/")
     return 0
