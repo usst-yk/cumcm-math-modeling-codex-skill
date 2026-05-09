@@ -2,7 +2,9 @@
 
 ## 初始化项目
 
-运行：
+用户不需要手动运行初始化命令。优先让 Codex 根据用户的项目名调用脚本，创建标准工作区，然后继续后续建模任务。
+
+后台命令：
 
 ```bash
 python3 scripts/init_cumcm_project.py /path/to/project

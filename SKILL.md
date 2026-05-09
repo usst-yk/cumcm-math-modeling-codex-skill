@@ -80,6 +80,7 @@ For full-problem solving, process each subquestion as an independent loop:
 ## Task Routing
 
 - Full CUMCM problem solving: read `references/workflow.md`, `references/problem-routing.md`, `references/scoring-checklist.md`, and the relevant modeling reference. Initialize a project with `scripts/init_cumcm_project.py` when no project structure exists.
+- New project / start new problem / initialize workspace: run `scripts/init_cumcm_project.py` with the requested project name, then explain briefly that it created a standard workspace for problem files, data, code, results, figures, tables, paper, and logs. Do not ask the user to run the script manually unless they explicitly want manual commands.
 - Problem decomposition: use `scripts/build_task_plan.py` to create a reusable task-plan template, then refine it from the problem statement.
 - Single subquestion: read `references/contest-modes.md` and `references/problem-routing.md`; solve only the requested subquestion while noting dependencies on later questions.
 - Route design only: read `references/problem-routing.md` and `references/workflow.md`; deliver task decomposition, scoring surface, three overall routes, and a 72-hour order.

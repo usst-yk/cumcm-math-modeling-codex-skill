@@ -32,7 +32,17 @@
 
 ## 使用指南
 
-### 1. 全题路线设计
+### 1. 开始新题
+
+让 Codex 先建立一个标准工作区，后面的题面、数据、代码、图、表和论文都放在固定位置。你不需要手动运行脚本，直接这样说：
+
+```text
+[$cumcm-math-modeling] 请为这道题新建一个项目，项目名为 cumcm_2026_A，然后把后续数据、代码、图表、论文和日志都放进这个项目目录。
+```
+
+这个操作只是整理工作区，会生成 `problem/`、`data/raw/`、`src/`、`results/`、`figures/`、`tables/`、`paper/`、`logs/` 等目录，并放入任务计划、结果注册表和论文模板。它的作用是防止文件散乱、数字追踪断掉。
+
+### 2. 全题路线设计
 
 适合比赛前期定方向：
 
@@ -40,7 +50,7 @@
 [$cumcm-math-modeling] 请分析这道 CUMCM 题，先拆解每问的输入、模型对象、输出和验证标准；再给出 3 条整体建模路线和 72 小时推进顺序。先不要写最终论文。
 ```
 
-### 2. 单问推进
+### 3. 单问推进
 
 适合只做某一问，避免全题发散：
 
@@ -48,7 +58,7 @@
 [$cumcm-math-modeling] 只推进第 1 问。请先写 Q1 model card，再给出基线、主模型、验证方案、预期表格和图表命名。没有可追溯数据时不要写最终数值结论。
 ```
 
-### 3. 数据审计
+### 4. 数据审计
 
 适合已经有附件数据时：
 
@@ -56,7 +66,7 @@
 [$cumcm-math-modeling] 请审计当前 data/raw 中的附件，列出所有文件和 Excel sheet，生成数据覆盖、缺失、异常、时间范围和重复值检查，并指出哪些表可用于建模。
 ```
 
-### 4. 代码到论文
+### 5. 代码到论文
 
 适合已有代码、表格和图后写论文：
 
@@ -64,7 +74,7 @@
 [$cumcm-math-modeling] 根据当前代码输出、结果表和图片写第 1 问论文段落。请先读取结果注册表和输出文件；论文中的数值必须能追溯到表格、代码输出、公式或明确假设。
 ```
 
-### 5. 技术路线图
+### 6. 技术路线图
 
 默认优先生成可编辑 SVG / Mermaid / Graphviz 源，而不是直接生成不可编辑图片：
 
@@ -72,36 +82,12 @@
 [$cumcm-math-modeling] 请根据当前 task_plan.json 生成技术路线图，优先输出可编辑 SVG，并附论文图注。
 ```
 
-### 6. 终审检查
+### 7. 终审检查
 
 适合提交前检查：
 
 ```text
 [$cumcm-math-modeling] 请从评委视角检查当前项目，重点看题意覆盖、数据审计、结果注册表、验证报告、图表引用、摘要数字和代码复现命令是否一致。
-```
-
-### 7. 初始化项目目录
-
-在 skill 仓库中可使用：
-
-```bash
-python scripts/init_cumcm_project.py --name cumcm_2026_A
-```
-
-生成的项目目录包含：
-
-```text
-problem/      # 题面、假设、task_plan、model cards
-data/raw/     # 原始附件
-data/processed/
-src/          # 按子问题组织的求解脚本
-notebooks/
-results/      # result_registry、validation report、敏感性分析
-figures/
-tables/
-paper/
-appendix/
-logs/
 ```
 
 ## 文件架构
@@ -127,6 +113,7 @@ cumcm-math-modeling/
 - `scripts/data_profile.py`：附件数据审计。
 - `scripts/validate_results.py`：论文、图表、表格和结果注册表一致性检查。
 - `scripts/make_roadmap_svg.py`：生成可编辑技术路线图。
+- `scripts/init_cumcm_project.py`：后台初始化项目工作区；一般让 Codex 调用即可。
 
 ## 设计原则
 
