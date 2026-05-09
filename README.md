@@ -34,24 +34,6 @@ Codex 会从该 GitHub 仓库安装 skill。安装后重启 Codex，在对话中
 [$cumcm-math-modeling] 请分析这道 CUMCM 数学建模题，并按一等奖标准给出建模方案。
 ```
 
-如果需要手动安装，也可以从 Releases 下载压缩包：
-
-```text
-https://github.com/usst-yk/cumcm-math-modeling-codex-skill/releases/latest/download/cumcm-math-modeling-codex-skill.zip
-```
-
-解压后确保存在：
-
-```text
-~/.codex/skills/cumcm-math-modeling/SKILL.md
-```
-
-Windows 对应路径为：
-
-```text
-%USERPROFILE%\.codex\skills\cumcm-math-modeling\SKILL.md
-```
-
 ## 推荐使用方式
 
 ### 1. 从零开始一口气求解整题
