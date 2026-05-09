@@ -74,7 +74,7 @@ Use these patterns to decide the response mode and deliverables.
 
 7. Technical roadmap and model flowchart.
    - Use when the user asks for 技术路线图, 技术路线, 模型流程图, or 流程框图.
-   - Default to GPT Image-generated black-and-white academic flowcharts. Keep nodes short, inspect text accuracy when possible, regenerate up to 3 variants if needed, and provide captions and paper explanation.
+   - Default to GPT Image-generated academic flowcharts with a light background, high-contrast text, coherent low-saturation colors, and no decorative icons. Keep nodes short, scale text to the final paper canvas, inspect text accuracy and layout when possible, regenerate up to 3 variants if needed, and provide captions and paper explanation.
 
 8. Abstract and conclusion.
    - Use when the user asks for 摘要, 结论, or final paper polishing.
@@ -208,7 +208,7 @@ Use these rules for every modeling-paper deliverable unless the user explicitly 
 5. Figure and table naming convention.
    - Use stable lowercase filenames with the pattern `fig_q{subquestion}_{topic}.png` for figures and `tab_q{subquestion}_{topic}.csv` or `.xlsx` for tables.
    - Examples: `fig_q1_route.png`, `fig_q1_cost_stack.png`, `fig_q1_load_factor.png`, `tab_q1_summary.csv`, `tab_q1_sensitivity.csv`.
-   - For generated paper-ready charts, save both a raster version for documents and, when practical, a vector or source version for reproducibility.
+   - For generated paper-ready charts, save PNG as the default final image format. Keep plotting scripts and source data for reproducibility; export PDF/SVG/TIFF only when the user or target submission explicitly requires it.
    - Keep filenames aligned with paper references so tables and figures can be regenerated and reinserted without renaming.
 
 6. Figure readability and canvas scaling.
@@ -342,8 +342,8 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
    - Save selected route images with names such as `fig_q1_route.png` and model flow images with names such as `fig_q1_model_flow.png`.
 
 5. Required output for roadmap requests.
-   - "技术路线图": GPT Image-generated black-and-white flowchart.
-   - "模型流程框图": GPT Image-generated black-and-white flowchart.
+   - "技术路线图": GPT Image-generated academic flowchart with light background, readable body-text-sized labels, and coherent low-saturation colors.
+   - "模型流程框图": GPT Image-generated academic flowchart with light background, readable body-text-sized labels, and coherent low-saturation colors.
    - "图注": one concise Chinese caption suitable for the paper.
    - "论文说明段": one short Chinese paragraph explaining why the route supports the paper's solution.
    - For GPT Image output, output the generated image paths or rendered image previews, plus the same figure captions and paper explanation text.
@@ -357,7 +357,7 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
 - When the user provides a full problem statement, first produce a task decomposition and exactly 3 modeling routes before writing code.
 - When the user asks to solve only one subquestion, switch to single-question mode: solve only that subquestion, but include scoring points, implicit constraints, 3 routes, model details, validation, visualizations, and TeX-ready paper text.
 - When the user says the solution is not deep enough, "按 CUMCM 一等奖标准重做", "想得不够多", or similar, rewrite the solution using the First-Prize Default Standard instead of merely adding model names.
-- When the user asks for a technical roadmap or model flowchart, follow "Technical Roadmap and Model Flowcharts": base it on the paper, keep the roadmap focused on the main modeling idea rather than data-cleaning or code details, keep the content concise, default to black-and-white GPT Image-generated flowcharts, and do not use illustrative icons or decorative mini-pictures.
+- When the user asks for a technical roadmap or model flowchart, follow "Technical Roadmap and Model Flowcharts": base it on the paper, keep the roadmap focused on the main modeling idea rather than data-cleaning or code details, keep the content concise, default to light-background GPT Image-generated flowcharts with readable body-text-sized labels and coherent low-saturation colors, and do not use illustrative icons or decorative mini-pictures.
 - When data is provided, inspect columns, missingness, units, and obvious outliers before modeling.
 - When Excel data is provided, inspect all workbook sheet names before coding; read all relevant same-structure sheets, keep a source-sheet column, and produce a row/task/time-range coverage audit before writing totals.
 - Before reporting a final numeric answer, independently cross-check the value or conclusion against a baseline, reduced case, alternative calculation, feasibility check, or solver/status diagnostic.
