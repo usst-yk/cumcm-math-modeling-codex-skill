@@ -86,8 +86,7 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
    - The roadmap should show the paper's main modeling strategy, not implementation details. Omit routine data-cleaning steps, field fixes, file paths, parameter parsing, code outputs, and other operational details unless they are central to the model.
 
 2. Generate a paper-ready technical roadmap.
-   - Default to GPT Image direct generation for 技术路线图 and 模型流程框图 unless the user explicitly asks for Mermaid, SVG, LaTeX/TikZ, editable source, or text-only diagrams.
-   - Use Mermaid `flowchart TD` or `flowchart LR` only when the user requests editable flowcharts or when image generation is unavailable.
+   - Use GPT Image direct generation for 技术路线图 and 模型流程框图.
    - Default to black-and-white styling: white nodes, black lines, black text, no gradients, no color blocks, no decorative icons, and no illustrative mini-pictures.
    - Use short, high-level node labels. Put detailed explanation after the chart, not inside the boxes.
    - For a single-question paper, keep the roadmap to about 8-12 nodes when possible. For multi-question papers, group by subquestion only when it improves readability.
@@ -107,11 +106,10 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
    - Default to GPT Image for paper-ready 技术路线图 and 模型流程框图.
    - For GPT Image prompts, keep node text short and few, require black-and-white academic style, white background, black lines, rectangular nodes, no icons, no decorative pictures, no gradients, and high legibility.
    - Warn briefly that generated image text may need manual review, especially for Chinese labels, and offer to generate several variants when final publication quality matters.
-   - If the user asks for editable output, Mermaid source, SVG, LaTeX/TikZ, or strict text fidelity, use Mermaid/SVG/TikZ instead of image generation.
 
 5. Required output for roadmap requests.
-   - "技术路线图": GPT Image-generated black-and-white flowchart by default, or Mermaid flowchart when editable output is requested.
-   - "模型流程框图": GPT Image-generated black-and-white flowchart by default, or Mermaid flowchart when editable output is requested.
+   - "技术路线图": GPT Image-generated black-and-white flowchart.
+   - "模型流程框图": GPT Image-generated black-and-white flowchart.
    - "图注": one concise Chinese caption suitable for the paper.
    - "论文说明段": one short Chinese paragraph explaining why the route supports the paper's solution.
    - For GPT Image output, output the generated image paths or rendered image previews, plus the same figure captions and paper explanation text.
@@ -122,7 +120,7 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
 - Answer in Chinese by default unless the user asks otherwise.
 - When the user provides a full problem statement, first produce a task decomposition and exactly 3 modeling routes before writing code.
 - When the user says the solution is not deep enough, "按 CUMCM 一等奖标准重做", "想得不够多", or similar, rewrite the solution using the First-Prize Default Standard instead of merely adding model names.
-- When the user asks for a technical roadmap or model flowchart, follow "Technical Roadmap and Model Flowcharts": base it on the paper, keep the roadmap focused on the main modeling idea rather than data-cleaning or code details, keep the content concise, default to black-and-white GPT Image-generated flowcharts, and do not use illustrative icons or decorative mini-pictures. If the user explicitly requests editable Mermaid/SVG/TikZ output, provide that instead.
+- When the user asks for a technical roadmap or model flowchart, follow "Technical Roadmap and Model Flowcharts": base it on the paper, keep the roadmap focused on the main modeling idea rather than data-cleaning or code details, keep the content concise, default to black-and-white GPT Image-generated flowcharts, and do not use illustrative icons or decorative mini-pictures.
 - When data is provided, inspect columns, missingness, units, and obvious outliers before modeling.
 - When starting a new contest project, use `scripts/init_cumcm_project.py` to create `data/`, `src/`, `figures/`, `tables/`, `paper/`, and `appendix/`.
 - When CSV/XLSX data is available, use `scripts/data_profile.py` before modeling to generate field summaries, missing/outlier checks, correlations, descriptive statistics, and a data preprocessing draft.
