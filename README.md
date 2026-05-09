@@ -28,7 +28,15 @@ git clone https://github.com/usst-yk/cumcm-math-modeling-codex-skill.git ~/.code
 
 ## 推荐使用方式
 
-### 1. 单问完整建模
+### 1. 从零开始一口气求解整题
+
+适合什么都还没定，只提供题面和附件，希望从读题、建模、代码、图表到 TeX 论文一次推进：
+
+```text
+[$cumcm-math-modeling] 请基于当前题面和附件，从零开始完整求解这道 CUMCM 题。要求先检查数据和题目任务，判断评分点与隐含约束，给出 3 条整体建模路线并选择主路线；随后完成代码求解、图表生成、TeX 论文、技术路线图和模型流程图，并做最终交付检查。所有数值必须可追溯。
+```
+
+### 2. 单问完整建模
 
 适合只推进某一问，例如第 1 问或第 2 问：
 
@@ -36,7 +44,7 @@ git clone https://github.com/usst-yk/cumcm-math-modeling-codex-skill.git ~/.code
 [$cumcm-math-modeling] 只做 B 题第 1 问。请先判断评分点和隐含约束，再给 3 条建模路线并比较，选择主路线；然后写出变量定义、目标函数、约束条件、解析推导、算法步骤、验证方案、可视化设计，并生成 TeX 论文。
 ```
 
-### 2. 全题建模路线设计
+### 3. 全题建模路线设计
 
 适合比赛前期定方向：
 
@@ -44,7 +52,7 @@ git clone https://github.com/usst-yk/cumcm-math-modeling-codex-skill.git ~/.code
 [$cumcm-math-modeling] 请分析这道 CUMCM 题，拆解每个问题的任务、评分点和隐含约束；给出整体建模路线，说明每问采用的模型、输入输出、验证方式和论文结构。
 ```
 
-### 3. 按一等奖标准重做
+### 4. 按一等奖标准重做
 
 适合已有方案但深度不够时：
 
@@ -52,7 +60,7 @@ git clone https://github.com/usst-yk/cumcm-math-modeling-codex-skill.git ~/.code
 [$cumcm-math-modeling] 这个方案不够深，请按 CUMCM 一等奖标准重做。要求包含 3 条路线比较、解析推导、基线模型、主模型、验证、灵敏度分析和论文段落。
 ```
 
-### 4. 数据求解并生成 TeX 论文
+### 5. 数据求解并生成 TeX 论文
 
 适合附件数据已经在当前项目目录时：
 
@@ -60,7 +68,7 @@ git clone https://github.com/usst-yk/cumcm-math-modeling-codex-skill.git ~/.code
 [$cumcm-math-modeling] 基于当前文件夹的数据，完成第 1 问代码求解，并把结果写成 TeX 论文。所有数值必须来自代码输出，图表按规范命名。
 ```
 
-### 5. 代码到论文
+### 6. 代码到论文
 
 适合已经有代码、输出表格和图片时：
 
@@ -68,7 +76,7 @@ git clone https://github.com/usst-yk/cumcm-math-modeling-codex-skill.git ~/.code
 [$cumcm-math-modeling] 根据当前项目里的代码、输出表格和图片，把第 1 问写成 TeX 论文。论文中的数值必须和输出文件一致。
 ```
 
-### 6. 技术路线图和模型流程图
+### 7. 技术路线图和模型流程图
 
 默认使用 GPT Image 直接生成黑白流程图，并附图注和论文说明：
 
@@ -76,7 +84,7 @@ git clone https://github.com/usst-yk/cumcm-math-modeling-codex-skill.git ~/.code
 [$cumcm-math-modeling] 请基于这篇论文生成技术路线图和模型流程框图。要求黑白风格、内容简洁、不要装饰性图标，并附论文图注和说明文字。
 ```
 
-### 7. 摘要和结论
+### 8. 摘要和结论
 
 适合论文主体和结果已经完成后：
 
@@ -84,7 +92,7 @@ git clone https://github.com/usst-yk/cumcm-math-modeling-codex-skill.git ~/.code
 [$cumcm-math-modeling] 基于当前论文和结果表，写 CUMCM 摘要。要求每问包含模型、核心结果、关键数值和验证方式，不要背景套话。
 ```
 
-### 8. 论文审稿和查错
+### 9. 论文审稿和查错
 
 适合提交前检查：
 
@@ -92,7 +100,7 @@ git clone https://github.com/usst-yk/cumcm-math-modeling-codex-skill.git ~/.code
 [$cumcm-math-modeling] 请从评委视角审稿这篇论文，重点检查答题覆盖、约束条件、数值可追溯性、验证充分性、图表结论和复现性。
 ```
 
-### 9. 最终交付检查
+### 10. 最终交付检查
 
 适合比赛收尾：
 
