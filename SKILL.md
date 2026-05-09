@@ -75,6 +75,37 @@ Unless the user explicitly asks for a quick or shallow answer, every full soluti
    - Use compact figures/tables that answer subquestions directly.
    - Generate figures from code with stable filenames, units, readable labels, and paper-ready captions.
 
+## Paper Delivery, Traceability, and Style
+
+Use these rules for every modeling-paper deliverable unless the user explicitly asks for a different format or style.
+
+1. Default paper delivery format.
+   - Default to LaTeX/TeX as the primary paper handoff format.
+   - For substantial paper writing, generate a `.tex` file and compile or attempt to compile a PDF when a local TeX engine is available.
+   - Keep Markdown as a drafting aid only when the user asks for quick text or when TeX generation is unnecessary.
+   - If the user asks for Word, PPT, or Markdown, follow that request, but keep formulas, tables, figures, and captions consistent with the TeX version when both exist.
+
+2. Hard traceability rules.
+   - Do not write numerical conclusions without data, code output, problem-statement conditions, or an explicitly stated assumption.
+   - Do not invent distances, coordinates, prices, capacities, sample sizes, error metrics, rankings, or optimization results.
+   - Do not write "得到", "计算得到", "结果为", or equivalent result language unless the result is traceable to executed code, provided data, problem-statement conditions, or a clearly labeled assumption.
+   - If geographic distance is needed, do not fabricate distance without coordinates, a route table, a map/geocoding source, or an explicit approximation method.
+   - Example numbers must be labeled as "示例" and must not be mixed with real computed results.
+   - If a required value is missing, write the formula, input table template, and reproducible computation path instead of filling an unsupported number.
+
+3. Figure and table naming convention.
+   - Use stable lowercase filenames with the pattern `fig_q{subquestion}_{topic}.png` for figures and `tab_q{subquestion}_{topic}.csv` or `.xlsx` for tables.
+   - Examples: `fig_q1_route.png`, `fig_q1_cost_stack.png`, `fig_q1_load_factor.png`, `tab_q1_summary.csv`, `tab_q1_sensitivity.csv`.
+   - For generated paper-ready charts, save both a raster version for documents and, when practical, a vector or source version for reproducibility.
+   - Keep filenames aligned with paper references so tables and figures can be regenerated and reinserted without renaming.
+
+4. Chinese paper language constraints.
+   - Avoid colloquial and AI-like phrasing such as "我们可以", "建议可以", "本 AI", "智能生成", and empty transitional sentences.
+   - Avoid repeatedly using "通过上述分析可以看出"; prefer evidence-driven wording such as "结果表明", "模型表明", "敏感性分析显示", and "本文构建".
+   - Each substantive paragraph should be supported by at least one of: equation, data result, code output, figure/table reference, explicit assumption, or validation statement.
+   - Write in concise contest-paper style: define the model object, state the method, give the result, and explain the implication.
+   - Do not overstate model capability; state uncertainty, approximation, and missing-data risk directly.
+
 ## Technical Roadmap and Model Flowcharts
 
 Use this mode when the user asks for 技术路线图, 技术路线, 流程图, 流程框图, 模型流程图, or asks to draw a roadmap based on an existing paper.
@@ -125,7 +156,10 @@ Use this mode when the user asks for 技术路线图, 技术路线, 流程图, �
 - When starting a new contest project, use `scripts/init_cumcm_project.py` to create `data/`, `src/`, `figures/`, `tables/`, `paper/`, and `appendix/`.
 - When CSV/XLSX data is available, use `scripts/data_profile.py` before modeling to generate field summaries, missing/outlier checks, correlations, descriptive statistics, and a data preprocessing draft.
 - When writing code, prefer Python unless the user asks for MATLAB; use deterministic scripts/notebooks that can regenerate tables and figures.
-- When writing a paper section, use contest style: concise, formal, equation-supported, and linked to the specific subquestion.
+- When writing a paper section, default to TeX delivery for substantial outputs, and use contest style: concise, formal, equation-supported, data-supported, and linked to the specific subquestion.
+- Enforce the hard traceability rules: no data-backed conclusion without data or code output, no invented geographic distance without coordinates or an explicit approximation method, no "得到" unless the result is traceable, and all example values must be labeled as examples.
+- Name generated figures and tables using stable patterns such as `fig_q1_route.png`, `fig_q1_cost_stack.png`, `tab_q1_summary.csv`, and `tab_q1_sensitivity.csv`.
+- Use formal Chinese paper language: prefer "本文构建", "结果表明", and "模型表明"; avoid "我们可以" and repetitive "通过上述分析可以看出".
 - Prefer analytical modeling where feasible: derive simplified expressions, bounds, or structural conclusions before relying on numerical algorithms; then compare analytical predictions with numerical or data-driven results.
 - For every major conclusion, provide either an equation-based reason, a data/code-backed result, a baseline comparison, or a stated assumption with risk.
 - When creating plots, follow `references/figure-standards.md`; every figure should answer a subquestion, be generated reproducibly from code, include units, and be saved in a paper-ready format.
