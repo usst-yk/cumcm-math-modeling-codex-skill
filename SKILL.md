@@ -16,7 +16,7 @@ description: |
 
 # CUMCM Math Modeling
 
-Use this skill as a CUMCM modeling coach and paper coauthor. Default to a rigorous contest deliverable: exact task coverage, three-route comparison, analytical or baseline reasoning before computation, reproducible code, validation, traceable results, paper-ready figures, and Chinese modeling-paper prose.
+Use this skill as a CUMCM modeling workflow inside Codex, not as a Web/backend multi-agent system. Default to a rigorous contest deliverable: exact task coverage, staged role workflow, three-route comparison, analytical or baseline reasoning before computation, reproducible code, validation, traceable results, paper-ready figures, and Chinese modeling-paper prose.
 
 Answer in Chinese by default unless the user asks otherwise.
 
@@ -52,17 +52,44 @@ Answer in Chinese by default unless the user asks otherwise.
    - Use neural networks only when sample size and validation design justify them.
    - For stochastic methods, fix seeds, repeat runs, and report variation.
 
+## Stage Workflow
+
+For full-problem work, execute the role pipeline in order and read the matching role card when the stage starts:
+
+| Stage | Role card | Required artifact |
+| --- | --- | --- |
+| 0 Coordinator / 题意拆解 | `agents/coordinator.md` | `problem/task_plan.json` and `problem/task_plan.md` |
+| 1 Data Auditor / 附件审计 | `references/data-audit.md` | data inventory tables |
+| 2 Modeler / 建模路线 | `agents/modeler.md` | `problem/model_card_qx.md` |
+| 3 Solver / 代码求解 | `agents/coder.md` | Qx scripts, tables, figures, registry rows |
+| 4 Validator / 验证分析 | `references/validation.md` | `results/validation_report.md` |
+| 5 Writer / 论文写作 | `agents/writer.md` | Qx paper section |
+| 6 Reviewer / 终审 | `agents/reviewer.md` | final checklist and blockers |
+
+Read `references/stage-gates.md` before crossing stages. Do not enter Solver until task mapping, data inventory, and at least one baseline route exist. Do not enter Writer until headline numbers are registered. Do not draft the final abstract before all solved Q sections have registered results.
+
+For full-problem solving, process each subquestion as an independent loop:
+1. build Qx model card;
+2. implement Qx code;
+3. save Qx tables and figures;
+4. register Qx headline numbers;
+5. run Qx validation;
+6. write Qx paper section;
+7. move to Qx+1 only after unresolved blockers are recorded.
+
 ## Task Routing
 
 - Full CUMCM problem solving: read `references/workflow.md`, `references/problem-routing.md`, `references/scoring-checklist.md`, and the relevant modeling reference. Initialize a project with `scripts/init_cumcm_project.py` when no project structure exists.
+- Problem decomposition: use `scripts/build_task_plan.py` to create a reusable task-plan template, then refine it from the problem statement.
 - Single subquestion: read `references/contest-modes.md` and `references/problem-routing.md`; solve only the requested subquestion while noting dependencies on later questions.
 - Route design only: read `references/problem-routing.md` and `references/workflow.md`; deliver task decomposition, scoring surface, three overall routes, and a 72-hour order.
 - Data files present: run `scripts/data_profile.py` with `--input <data-or-dir> --output <tables-dir>` before modeling; read `references/data-audit.md`.
 - Code/logs/tables/figures to paper: read actual outputs first, then use `references/code-to-paper.md` and `scripts/result_registry.py`.
 - Paper writing, abstract, conclusion, or final polishing: read `references/paper-writing.md`, `references/scoring-checklist.md`, and use the result registry if numbers appear.
-- Technical roadmap or model flowchart: read `references/technical-roadmap.md`; default to Mermaid/Graphviz/SVG source first, and use GPT Image only when the user explicitly wants a designed image.
+- Technical roadmap or model flowchart: read `references/technical-roadmap.md`; default to `scripts/make_roadmap_svg.py`, Mermaid, Graphviz, or SVG source first, and use GPT Image only when the user explicitly wants a designed image.
 - Figures: read `references/figure-standards.md`; for common matplotlib styling, reuse `scripts/make_paper_figures.py`.
 - Final audit or judge review: read `references/final-checklist.md` and lead with severity-ordered findings.
+- Result validation: use `scripts/validate_results.py` when a project contains paper, result registry, figures, tables, or logs.
 - Python/MATLAB implementation details: read `references/python-matlab-guide.md`.
 - Safety and anti-fabrication questions: read `references/safety-rules.md`.
 

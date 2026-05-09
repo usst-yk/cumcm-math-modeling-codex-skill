@@ -2,8 +2,13 @@
 
 面向全国大学生数学建模竞赛（CUMCM）的 Codex skill，用于赛题分析、建模路线设计、算法实现规划、论文写作、图表设计与结果验证。
 
+这个仓库不是完整 Web/后端多 Agent 系统，而是 Codex 内部可调用的严谨建模工作流规则包和可执行脚本模板。它吸收多角色流水线思想，但交付重点是可审计的目录、数据审计、结果注册表、验证报告、图表和论文一致性。
+
 ## 能力特点
 
+- **角色流水线**：按 Coordinator、Data Auditor、Modeler、Solver、Validator、Writer、Reviewer 逐阶段推进，避免一次性写完整论文后再补数值。
+- **阶段门禁**：进入求解、写作、终审前必须满足 task plan、数据审计、结果注册表、验证报告和图表来源等检查。
+- **标准工作目录**：初始化 `problem/ data/raw data/processed src notebooks results figures tables paper logs`，让建模产物可追踪。
 - **从零到交付的完整工作流**：支持从题面和附件出发，一次推进赛题拆解、数据检查、建模路线选择、代码求解、图表生成、TeX 论文、技术路线图、模型流程图和最终交付检查。
 - **正确性优先于速度**：不为了快速完成而跳过读题、约束提取、数据覆盖审计、单位检查、基线模型、交叉验证和敏感性分析；若输入不足或验证失败，输出可复现的部分结果和阻塞项，而不是硬写最终结论。
 - **CUMCM 评分导向拆解**：先判断每问的评分点、隐含约束、输入数据、模型对象、输出形式和验证标准，避免答非所问。
@@ -21,6 +26,13 @@
 - **代码到论文模式**：可读取已有代码、日志、表格和图片，自动同步数值并写成模型求解、结果分析、验证和图注，避免论文与输出不一致。
 - **摘要、结论与审稿**：支持结果导向摘要、结论提炼、评委视角审稿、问题清单和最终交付清单。
 - **内置脚本和模板**：附带项目初始化、数据审计、结果注册表、统一绘图风格、论文模板、假设符号模板和附录代码模板。
+
+## 不做什么
+
+- 不保证获奖，也不替代人工确认关键假设。
+- 不编造缺失数据、参考文献、指标、距离、排名或最优值。
+- 不自动提交竞赛材料。
+- 不把自身变成完整 Web 应用或后端 Agent 服务。
 
 ## 安装
 
@@ -137,7 +149,13 @@ Codex 会从该 GitHub 仓库安装 skill。
 ```text
 cumcm-math-modeling/
 ├── SKILL.md
-├── agents/openai.yaml
+├── agents/
+│   ├── coder.md
+│   ├── coordinator.md
+│   ├── modeler.md
+│   ├── openai.yaml
+│   ├── reviewer.md
+│   └── writer.md
 ├── assets/
 │   ├── appendix-code-template.md
 │   ├── assumptions-symbols-template.md
@@ -156,6 +174,7 @@ cumcm-math-modeling/
 │   └── toy_prediction_problem/
 ├── references/
 │   ├── analytical-vs-numerical.md
+│   ├── citation-policy.md
 │   ├── code-to-paper.md
 │   ├── contest-modes.md
 │   ├── data-audit.md
@@ -168,12 +187,27 @@ cumcm-math-modeling/
 │   ├── python-matlab-guide.md
 │   ├── safety-rules.md
 │   ├── scoring-checklist.md
+│   ├── stage-gates.md
 │   ├── technical-roadmap.md
+│   ├── validation.md
 │   └── workflow.md
+├── templates/
+│   ├── model_card.md
+│   ├── paper_main.tex
+│   ├── refs.bib
+│   ├── result_registry.csv
+│   ├── run_log.md
+│   ├── task_plan.json
+│   ├── task_plan.schema.json
+│   └── validation_report.md
 └── scripts/
+    ├── build_task_plan.py
+    ├── compile_tex.py
     ├── data_profile.py
     ├── init_cumcm_project.py
     ├── make_paper_figures.py
+    ├── make_roadmap_svg.py
+    ├── validate_results.py
     └── result_registry.py
 ```
 

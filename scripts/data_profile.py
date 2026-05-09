@@ -15,9 +15,10 @@ except ImportError as exc:  # pragma: no cover
     raise SystemExit("Missing dependency: pandas. Install with: python3 -m pip install pandas openpyxl") from exc
 
 
-CSV_SUFFIXES = {".csv", ".txt"}
+CSV_SUFFIXES = {".csv", ".txt", ".tsv"}
 XLSX_SUFFIXES = {".xlsx", ".xls"}
-DATA_SUFFIXES = CSV_SUFFIXES | XLSX_SUFFIXES
+JSON_SUFFIXES = {".json"}
+DATA_SUFFIXES = CSV_SUFFIXES | XLSX_SUFFIXES | JSON_SUFFIXES
 
 
 def discover_inputs(inputs: Iterable[str]) -> list[Path]:
@@ -36,6 +37,8 @@ def discover_inputs(inputs: Iterable[str]) -> list[Path]:
 def read_csv(path: Path) -> pd.DataFrame:
     for encoding in ("utf-8-sig", "utf-8", "gbk", "gb18030"):
         try:
+            if path.suffix.lower() == ".tsv":
+                return pd.read_csv(path, encoding=encoding, sep="\t")
             return pd.read_csv(path, encoding=encoding)
         except UnicodeDecodeError:
             continue
@@ -46,6 +49,11 @@ def load_tables(path: Path) -> list[tuple[str, str, pd.DataFrame]]:
     suffix = path.suffix.lower()
     if suffix in CSV_SUFFIXES:
         return [(path.name, path.stem, read_csv(path))]
+    if suffix in JSON_SUFFIXES:
+        data = pd.read_json(path)
+        if isinstance(data, pd.Series):
+            data = data.to_frame("value")
+        return [(path.name, path.stem, data)]
     if suffix in XLSX_SUFFIXES:
         workbook = pd.ExcelFile(path)
         tables: list[tuple[str, str, pd.DataFrame]] = []
@@ -116,12 +124,15 @@ def profile_table(file_path: Path, file_name: str, sheet_name: str, df: pd.DataF
     }
 
 
-def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, list[dict[str, object]]]:
+def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, list[dict[str, object]]]:
     inventory: list[dict[str, object]] = []
     missing_rows: list[dict[str, object]] = []
     numeric_rows: list[dict[str, object]] = []
     categorical_rows: list[dict[str, object]] = []
     sheet_rows: list[dict[str, object]] = []
+    time_rows: list[dict[str, object]] = []
+    duplicate_rows: list[dict[str, object]] = []
+    excluded_rows: list[dict[str, object]] = []
     profiles: list[dict[str, object]] = []
     signatures: dict[str, int] = {}
 
@@ -160,6 +171,31 @@ def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.Dat
                     "exclusion_reason": "",
                 }
             )
+
+            if profile["empty"]:
+                excluded_rows.append({"file": file_name, "sheet": sheet_name, "reason": "empty sheet/table"})
+
+            duplicate_rows.append(
+                {
+                    "file": file_name,
+                    "sheet": sheet_name,
+                    "duplicate_full_rows": int(df.duplicated().sum()) if not df.empty else 0,
+                    "rows": int(len(df)),
+                }
+            )
+
+            for tcol in profile["time_columns"]:
+                parsed = pd.to_datetime(df[tcol], errors="coerce")
+                time_rows.append(
+                    {
+                        "file": file_name,
+                        "sheet": sheet_name,
+                        "column": tcol,
+                        "non_null_time_count": int(parsed.notna().sum()),
+                        "min_time": "" if parsed.dropna().empty else str(parsed.min()),
+                        "max_time": "" if parsed.dropna().empty else str(parsed.max()),
+                    }
+                )
 
             for col in df.columns:
                 missing_count = int(df[col].isna().sum())
@@ -218,6 +254,9 @@ def build_outputs(files: list[Path]) -> tuple[pd.DataFrame, pd.DataFrame, pd.Dat
         pd.DataFrame(numeric_rows),
         pd.DataFrame(categorical_rows),
         pd.DataFrame(sheet_rows),
+        pd.DataFrame(time_rows),
+        pd.DataFrame(duplicate_rows),
+        pd.DataFrame(excluded_rows),
         profiles,
     )
 
@@ -240,13 +279,16 @@ def markdown_table(df: pd.DataFrame, columns: list[str]) -> str:
     return "\n".join(lines)
 
 
-def write_reports(outdir: Path, inventory: pd.DataFrame, missing: pd.DataFrame, numeric: pd.DataFrame, categorical: pd.DataFrame, sheets: pd.DataFrame, profiles: list[dict[str, object]]) -> None:
+def write_reports(outdir: Path, inventory: pd.DataFrame, missing: pd.DataFrame, numeric: pd.DataFrame, categorical: pd.DataFrame, sheets: pd.DataFrame, time_ranges: pd.DataFrame, duplicates: pd.DataFrame, excluded: pd.DataFrame, profiles: list[dict[str, object]]) -> None:
     outdir.mkdir(parents=True, exist_ok=True)
     write_excel(inventory, outdir / "tab_data_inventory.xlsx")
     write_excel(missing, outdir / "tab_missing_summary.xlsx")
     write_excel(numeric, outdir / "tab_numeric_profile.xlsx")
     write_excel(categorical, outdir / "tab_categorical_profile.xlsx")
     write_excel(sheets, outdir / "tab_sheet_coverage.xlsx")
+    write_excel(time_ranges, outdir / "tab_time_range_summary.xlsx")
+    write_excel(duplicates, outdir / "tab_duplicate_summary.xlsx")
+    write_excel(excluded, outdir / "tab_excluded_sheets.xlsx")
     (outdir / "data_profile.json").write_text(json.dumps(profiles, ensure_ascii=False, indent=2), encoding="utf-8")
 
     summary = [
@@ -296,9 +338,9 @@ def main() -> int:
         print("No CSV/XLSX files found.", file=sys.stderr)
         return 2
 
-    inventory, missing, numeric, categorical, sheets, profiles = build_outputs(files)
+    inventory, missing, numeric, categorical, sheets, time_ranges, duplicates, excluded, profiles = build_outputs(files)
     outdir = Path(args.output).expanduser().resolve()
-    write_reports(outdir, inventory, missing, numeric, categorical, sheets, profiles)
+    write_reports(outdir, inventory, missing, numeric, categorical, sheets, time_ranges, duplicates, excluded, profiles)
     print(f"Profiled {len(profiles)} table(s) from {len(files)} file(s).")
     print(f"Reports written to: {outdir}")
     return 0

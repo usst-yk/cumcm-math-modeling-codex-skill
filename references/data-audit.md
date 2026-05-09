@@ -11,6 +11,9 @@ The data profile should create:
 - `tab_numeric_profile.xlsx`: count, mean, standard deviation, min, quartiles, max, and IQR outlier count.
 - `tab_categorical_profile.xlsx`: unique count and top values for categorical fields.
 - `tab_sheet_coverage.xlsx`: workbook sheet coverage and exclusion reasons.
+- `tab_time_range_summary.xlsx`: detected time fields and min/max coverage.
+- `tab_duplicate_summary.xlsx`: duplicate full-row counts by table.
+- `tab_excluded_sheets.xlsx`: empty or excluded sheets that require review.
 - `data_profile_summary.md`: judge-readable summary.
 - `data_preprocessing_draft.md`: Chinese paper paragraph draft.
 

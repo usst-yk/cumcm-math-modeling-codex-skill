@@ -1,0 +1,21 @@
+{
+  "contest": "CUMCM",
+  "problem_id": "",
+  "question_count": 3,
+  "subquestions": [
+    {
+      "id": "Q1",
+      "task_type": "unknown",
+      "required_output": [],
+      "input_data": [],
+      "decision_object": "",
+      "constraints": [],
+      "validation": ["baseline comparison"],
+      "figures_needed": [],
+      "tables_needed": [],
+      "status": "draft"
+    }
+  ],
+  "global_assumptions": [],
+  "risk_points": []
+}

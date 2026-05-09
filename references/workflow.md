@@ -16,39 +16,44 @@ Use this reference for full-problem solving, route design, and contest-time plan
 
 ## Full Workflow
 
-1. Parse the problem.
+1. Coordinator: parse the problem.
    - Split every subquestion into input -> decision/model object -> output -> validation.
    - Extract hard constraints, units, required attachments, and judging clues.
-   - Build a must-satisfy checklist before solving.
+   - Build `problem/task_plan.json`, `problem/task_plan.md`, and a must-satisfy checklist before solving.
 
-2. Audit data when present.
+2. Data Auditor: audit data when present.
    - Run the data profile script.
    - Inspect all Excel sheets and excluded tables.
    - Confirm covered time ranges, row counts, task reconstruction, and unit conversions.
 
-3. Compare three routes.
+3. Modeler: compare three routes.
    - Route A: baseline or analytical route.
    - Route B: main contest route.
    - Route C: robustness/fallback/extension route.
    - Select the route that maximizes correctness, validation, and paper clarity under time limits.
 
-4. Build baseline before main computation.
+4. Solver: solve subquestions one by one.
+   - For each Qx, write a model card, implement code, save outputs, update the result registry, and record run commands.
+   - Do not draft the final abstract before all solved Q sections have registered results.
+
+5. Build baseline before main computation.
    - Use simple formulas, bounds, greedy rules, naive forecasts, or small cases.
    - Use it to catch scale, direction, and feasibility errors.
 
-5. Implement reproducibly.
+6. Implement reproducibly.
    - Prefer deterministic Python unless the user requests MATLAB.
    - Save generated tables and figures with stable names.
    - Fix random seeds and report solver status when relevant.
 
-6. Validate.
+7. Validator: validate.
    - Match validation to task type: prediction error, optimization feasibility, ranking stability, simulation sensitivity, classification metrics, or boundary cases.
    - Mark missing validation as a limitation, not as success.
 
-7. Write for judges.
+8. Writer and Reviewer: write for judges, then review.
    - Put the answer before method inventory.
    - Link every headline number to a table, figure, equation, output file, or assumption.
    - Keep only figures that support a conclusion.
+   - Run final artifact checks before handoff.
 
 ## Final Deliverables
 

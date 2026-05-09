@@ -10,16 +10,17 @@ import pandas as pd
 
 
 COLUMNS = [
+    "id",
     "subquestion",
-    "conclusion",
+    "claim",
     "value",
     "unit",
-    "source_type",
-    "source_path",
-    "source_location",
-    "reproduce_command",
-    "validation_check",
-    "paper_locations",
+    "source_file",
+    "source_line_or_cell",
+    "script",
+    "command",
+    "figure_or_table",
+    "validation",
     "status",
 ]
 
@@ -40,16 +41,17 @@ def load_registry(path: Path) -> pd.DataFrame:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Create or append a result registry for CUMCM papers.")
     parser.add_argument("--registry", default="tables/result_registry.xlsx", help="Registry path.")
+    parser.add_argument("--id", default="", help="Result id, e.g. R001.")
     parser.add_argument("--subquestion", default="", help="Question id, e.g. Q1.")
-    parser.add_argument("--conclusion", default="", help="Headline conclusion.")
+    parser.add_argument("--claim", "--conclusion", default="", help="Headline claim or conclusion.")
     parser.add_argument("--value", default="", help="Numeric/text value.")
     parser.add_argument("--unit", default="", help="Unit.")
-    parser.add_argument("--source-type", default="", help="data, code, table, figure, equation, assumption.")
-    parser.add_argument("--source-path", default="", help="Source file path.")
-    parser.add_argument("--source-location", default="", help="Sheet/cell/row/figure/equation/log line.")
-    parser.add_argument("--reproduce-command", default="", help="Command used to reproduce the value.")
-    parser.add_argument("--validation-check", default="", help="Baseline, error, feasibility, sensitivity, etc.")
-    parser.add_argument("--paper-locations", default="", help="Abstract/body/table/figure/caption locations.")
+    parser.add_argument("--source-file", "--source-path", default="", help="Source file path.")
+    parser.add_argument("--source-line-or-cell", "--source-location", default="", help="Sheet/cell/row/figure/equation/log line.")
+    parser.add_argument("--script", default="", help="Script that produced the value.")
+    parser.add_argument("--command", "--reproduce-command", default="", help="Command used to reproduce the value.")
+    parser.add_argument("--figure-or-table", default="", help="Linked figure or table filename.")
+    parser.add_argument("--validation", "--validation-check", default="", help="Baseline, error, feasibility, sensitivity, etc.")
     parser.add_argument("--status", default="draft", help="draft, verified, blocked.")
     return parser.parse_args()
 
@@ -60,18 +62,19 @@ def main() -> int:
     path.parent.mkdir(parents=True, exist_ok=True)
     df = load_registry(path)
 
-    if any(getattr(args, field.replace("-", "_"), "") for field in ["subquestion", "conclusion", "value", "source-type", "source-path"]):
+    if any([args.subquestion, args.claim, args.value, args.source_file, args.figure_or_table]):
         row = {
+            "id": args.id or f"R{len(df) + 1:03d}",
             "subquestion": args.subquestion,
-            "conclusion": args.conclusion,
+            "claim": args.claim,
             "value": args.value,
             "unit": args.unit,
-            "source_type": args.source_type,
-            "source_path": args.source_path,
-            "source_location": args.source_location,
-            "reproduce_command": args.reproduce_command,
-            "validation_check": args.validation_check,
-            "paper_locations": args.paper_locations,
+            "source_file": args.source_file,
+            "source_line_or_cell": args.source_line_or_cell,
+            "script": args.script,
+            "command": args.command,
+            "figure_or_table": args.figure_or_table,
+            "validation": args.validation,
             "status": args.status,
         }
         df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)
