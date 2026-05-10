@@ -46,6 +46,9 @@
 [$cumcm-math-modeling] 请根据当前代码、结果表和图片写论文段落。论文里的关键数字必须能在结果文件中找到来源。
 ```
 
+需要完整论文或 benchmark 时，最终论文统一生成 TeX，入口文件是
+`paper/main.tex`。Markdown 只作为草稿说明，不作为最终论文。
+
 更多场景都放在：
 
 ```text

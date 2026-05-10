@@ -248,6 +248,8 @@ examples/real_cases/huadong_cup_a/
 ## 8. 根据结果写论文
 
 适合代码、表格和图片已经出来后。
+所有论文成品默认写成 TeX；完整论文入口是 `paper/main.tex`，单问论文
+可写成 `paper/sections/qx.tex`。Markdown 只用于草稿说明和阅读指南。
 
 ```text
 [$cumcm-math-modeling] 请根据当前代码、结果表和图片，写第 1 问论文部分。论文里的数字必须能在结果文件中找到来源。
@@ -343,7 +345,8 @@ examples/real_cases/huadong_cup_a/
 | --- | --- |
 | `single_question_minimal/` | 只做一问时的最小输出示例。 |
 | `full_problem_demo/` | 小型完整交付 demo，展示结果表、图、注册表、验证报告和论文片段。 |
-| `real_cases/cumcm_2025_a/` | 2025 年国赛 A 题完整 benchmark，含 Q1-Q5 求解、图表、结果注册表、验证报告和论文；不是标准答案。 |
+| `real_cases/cumcm_2025_a/` | 2025 年国赛 A 题完整 benchmark，含 Q1-Q5 求解、图表、结果注册表、验证报告和 TeX 论文；不是标准答案。 |
+| `real_cases/huadong_cup_a/` | 华东杯 A 题路线规划 benchmark，含静态路线、实时重规划、中文图表、结果注册表和 TeX 论文。 |
 | `README.md` | 所有自然语言提示集中在本文件，避免分散到多个小文件。 |
 
 真实案例用于检查 skill 在真实题面上的组织能力和建模短板，不等同于标准答案。2025 A 题 benchmark 已记录一个重要不足：同航向多弹联合优化不能只靠单弹方案叠加，需要更专门的联合搜索或动态规划。

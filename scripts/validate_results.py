@@ -119,7 +119,9 @@ def audit_paper(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
     if not paper.exists():
         if mode == "lean":
             return []
-        return ["P2: paper/main.tex not found."]
+        if (root / "paper" / "main.md").exists():
+            return ["P1: full paper exists only as paper/main.md; final benchmark papers must be TeX."]
+        return ["P1: paper/main.tex not found for full final paper."]
     text = paper.read_text(encoding="utf-8", errors="ignore")
     for match in FIG_RE.findall(text):
         if not rel_exists(root, match) and not rel_exists(root, f"figures/{Path(match).name}"):
@@ -166,6 +168,8 @@ def audit_paper_structure(root: Path, registry: pd.DataFrame, mode: str) -> list
     issues: list[str] = []
     if mode != "full":
         return issues
+    if (root / "paper" / "main.md").exists():
+        issues.append("P1: full-mode paper should not use paper/main.md; use paper/main.tex.")
     paper = root / "paper" / "main.tex"
     if not paper.exists():
         return issues

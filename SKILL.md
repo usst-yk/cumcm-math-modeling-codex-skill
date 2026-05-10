@@ -118,7 +118,10 @@ Read `references/task-routing.md` for the complete table.
   problem facts. In full project/final paper mode, paper numbers, captions,
   abstract, conclusion, and recommendations must trace to
   `results/result_registry.csv`.
-- Default substantial papers to TeX and compile PDF when available.
+- All final papers, benchmark papers, and complete solved reports must use TeX
+  (`paper/main.tex`) and compile PDF when available. Markdown may be used only
+  for draft notes, section planning, or README-style explanation, never as the
+  final contest-paper artifact.
 
 ## Final Handoff
 

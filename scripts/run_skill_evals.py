@@ -260,6 +260,9 @@ def clean_tex_text(text: str) -> str:
 
 def check_full_paper_structure(root: Path, label: str, issues: list[str], min_chars: int = 4000) -> None:
     paper = root / "paper" / "main.tex"
+    markdown_paper = root / "paper" / "main.md"
+    if markdown_paper.exists():
+        issues.append(f"{label} should use paper/main.tex for final papers, not paper/main.md")
     if not paper.exists():
         issues.append(f"{label} missing paper/main.tex")
         return
@@ -322,9 +325,9 @@ def check_real_case_huadong_a(issues: list[str]) -> None:
         "figures/fig_q2_validation.png",
         "results/result_registry.csv",
         "results/validation_report.md",
-        "paper/main.md",
-        "paper/sections/q1.md",
-        "paper/sections/q2.md",
+        "paper/main.tex",
+        "paper/sections/q1.tex",
+        "paper/sections/q2.tex",
     ]
     for rel in required:
         require(REAL_CASE_HUADONG_A / rel, issues)
@@ -363,6 +366,7 @@ def check_real_case_huadong_a(issues: list[str]) -> None:
         for key, value in expected.items():
             if values.get(key) != value:
                 issues.append(f"Huadong Cup A registry {key} should stay traceable as {value}")
+    check_full_paper_structure(REAL_CASE_HUADONG_A, "Huadong Cup A benchmark paper", issues, min_chars=4500)
 
 
 def check_folder_indexes(issues: list[str]) -> None:

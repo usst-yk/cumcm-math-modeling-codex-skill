@@ -5,6 +5,11 @@ full-problem report, final TeX, or contest deliverable.
 
 ## Core Rule
 
+A complete solved paper must be TeX. Use `paper/main.tex` as the final entry
+file for full reports and benchmark cases. Markdown is acceptable only for
+draft notes, section outlines, README examples, or quick single-section
+discussion; it must not be the final paper artifact.
+
 A complete paper is not a list of solved questions. It must read like one
 coherent modeling work:
 
@@ -72,3 +77,5 @@ For a full paper:
    `agents/abstract_writer.md`.
 7. Run `scripts/validate_results.py --mode full` and fix any paper-structure
    or traceability findings.
+8. If the only paper artifact is Markdown, mark the report incomplete and
+   assemble `paper/main.tex` before handoff.

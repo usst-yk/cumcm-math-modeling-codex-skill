@@ -147,6 +147,37 @@
 \end{equation}
 则认为该时刻形成有效遮蔽。对每枚烟幕弹得到的有效时刻集合取并集，即可得到该导弹的总遮蔽时长。
 
+导弹运动采用匀速直线模型。设第 \(j\) 枚导弹初始位置为
+\(\bm{m}_{j0}\)，速度大小为 \(v_{M,j}\)，目标点为假目标
+\(\bm{o}\)，则其单位飞行方向为
+\begin{equation}
+  \bm{e}_{M,j}=\frac{\bm{o}-\bm{m}_{j0}}
+  {\|\bm{o}-\bm{m}_{j0}\|},
+  \qquad
+  \bm{m}_j(t)=\bm{m}_{j0}+v_{M,j}t\bm{e}_{M,j}.
+\end{equation}
+无人机在确定航向角 \(\theta_i\) 和速度 \(v_i\) 后保持等高度直线飞行，
+第 \(i\) 架无人机的位置写为
+\begin{equation}
+  \bm{u}_i(t)=\bm{u}_{i0}
+  +v_i t(\cos\theta_i,\sin\theta_i,0).
+\end{equation}
+若烟幕弹在 \(t_r\) 时刻投放，引信延迟为 \(\tau\)，则起爆时刻
+\(t_d=t_r+\tau\)。起爆点由投放点水平惯性运动和竖直自由落体共同决定：
+\begin{equation}
+  \bm{b}
+  =
+  \bm{u}_i(t_r)
+  +v_i\tau(\cos\theta_i,\sin\theta_i,0)
+  -\frac{1}{2}g\tau^2(0,0,1).
+\end{equation}
+起爆后烟幕云团中心按题设速度下沉。若云团有效持续时间为 \(T_c\)，下沉速度为 \(v_c\)，则
+\begin{equation}
+  \bm{c}(t)=\bm{b}-v_c(t-t_d)(0,0,1),
+  \qquad t_d\le t\le t_d+T_c.
+\end{equation}
+Q2--Q5 的优化均是在这些运动学约束下选择无人机、导弹、投放时刻和引信延迟，使遮蔽并集时长尽可能大。
+
 \input{sections/q1}
 \input{sections/q2}
 \input{sections/q3}

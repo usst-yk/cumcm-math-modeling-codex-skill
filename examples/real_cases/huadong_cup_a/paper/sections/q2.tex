@@ -1,0 +1,57 @@
+\subsection{问题二：基于 APP 实时排队的路线重规划}
+
+\subsubsection{模型机制}
+
+问题二要求根据实时排队信息调整问题一的路线。与问题一相比，新的难点不是重新规划整天路线，而是在游客已经游玩了一部分项目后，对剩余路线做局部而可行的重规划。因此模型必须保留历史决策：已完成项目不能撤销；若游客在实时信息到达时正在体验某项目，则应在该项目结束后再重新规划；固定演出时间窗和闭园时间仍然是硬约束。
+
+设项目 \(i\) 在日期 \(d\) 和时刻 \(t\) 的基准排队为 \(q^0_{d,i}(t)\)，APP 实时信息给出的排队变化量为 \(\Delta_{d,i}\)。重规划时使用
+\begin{equation}
+  q^{\mathrm{real}}_{d,i}(t)
+  =
+  \max\{0,\ q^0_{d,i}(t)+\rho(t)\Delta_{d,i}\},
+  \label{eq:real-queue}
+\end{equation}
+其中 \(\rho(t)\) 表示实时拥挤状态随时间逐步回归基准预测的衰减系数。该处理避免把一次性排队异常无限外推到夜间，同时保留 APP 信息对午后路线选择的影响。
+
+\subsubsection{调整策略}
+
+本问设置两个可比较方案：
+\begin{enumerate}
+  \item 保持原剩余路线：锁定已完成项目后，继续执行问题一的剩余路线，仅用实时排队时间重新计算等待和得分。
+  \item 实时重规划路线：锁定已完成项目后，对未完成候选项目重新执行与问题一相同的动态规划搜索。
+\end{enumerate}
+
+这两个方案使用完全相同的效用函数、步行时间和时间窗约束，差异只来自是否允许 APP 信息改变剩余项目顺序和项目集合。因此二者的等待时间和得分差异可以直接解释为实时重规划的收益。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{../figures/fig_q2_model_schematic.png}
+  \caption{问题二实时重规划流程示意。模型先锁定已完成项目，再对剩余项目使用实时排队信息重新搜索。}
+  \label{fig:q2-model-schematic}
+\end{figure}
+
+\subsubsection{结果解释}
+
+调整结果保存在 \verb|tables/tab_q2_adjustment_summary.csv|，调整后的逐步路线保存在 \verb|tables/tab_q2_adjusted_routes.csv|。在九个游客--日期组合中，实时重规划较保持原剩余路线平均减少等待 \(19.67\) 分钟，平均得分增益 \(3.626\)，共有 \(6\) 个场景改变了剩余项目集合。最大等待节省出现在普通游客--节假日场景，节省等待 \(119\) 分钟。
+
+从结果机制看，工作日排队扰动较小时，普通游客和情侣游路线可以保持不变；双休日和节假日的热门项目排队扰动更大，模型倾向于插入或保留排队相对较低的演出、宝藏湾或休闲类节点，并跳过部分高排队项目。该结论与图 \ref{fig:q2-result} 中的等待节省和得分增益一致。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.94\linewidth]{../figures/fig_q2_result.png}
+  \caption{问题二实时重规划后的等待节省和得分增益。收益集中在排队扰动较大的双休日和节假日场景。}
+  \label{fig:q2-result}
+\end{figure}
+
+\subsubsection{验证}
+
+图 \ref{fig:q2-validation} 将保持原剩余路线与重规划路线放在同一坐标系下比较。散点落在“不变线”下方表示重规划减少等待，颜色表示项目集合变化数。验证结果表明，实时重规划的收益主要来自高排队场景，而不是对所有场景强行改变路线。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{../figures/fig_q2_validation.png}
+  \caption{问题二保持原剩余路线与实时重规划路线的对照验证。模型不会为了调整而调整，而是在排队变化足够大时改变后续项目集合。}
+  \label{fig:q2-validation}
+\end{figure}
+
+需要注意的是，本案例中的实时排队扰动是 benchmark 数据，不是 APP 真实抓取结果。因此模型的可靠性体现在“给定实时数据后如何调整路线”的方法链路，而不体现在具体排队数值本身。若用于真实场景，应将 \verb|realtime_wait_updates.csv| 替换为实际 APP 数据，并重新校准排队回归系数。

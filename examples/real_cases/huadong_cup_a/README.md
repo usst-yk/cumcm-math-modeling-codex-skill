@@ -1,6 +1,6 @@
 # 华东杯 A 题真实案例 benchmark
 
-本目录存放华东杯 A 题“游览路线规划问题”的可复现 benchmark。题面没有提供官方附件、真实排队数据或实时 APP 样例，因此本案例把项目位置、排队时间、游客偏好、固定演出时间和实时扰动全部保存为透明基准数据，用于检查 skill 是否能完成“审题 -> 建模 -> 求解 -> 验证 -> 图表 -> 论文片段”的闭环。
+本目录存放华东杯 A 题“游览路线规划问题”的可复现 benchmark。题面没有提供官方附件、真实排队数据或实时 APP 样例，因此本案例把项目位置、排队时间、游客偏好、固定演出时间和实时扰动全部保存为透明基准数据，用于检查 skill 是否能完成“审题 -> 建模 -> 求解 -> 验证 -> 图表 -> TeX 论文”的闭环。
 
 本案例不是上海迪士尼官方答案，也不是实时出游攻略。
 
@@ -30,8 +30,8 @@
 | `figures/fig_q2_validation.png` | Q2 保持原路线与重规划路线对照图。 |
 | `results/result_registry.csv` | 关键 benchmark 数值登记表。 |
 | `results/validation_report.md` | 可行性、基线和实时调整验证记录。 |
-| `paper/main.md` | 包含摘要、问题分析、假设、模型、结果验证和评价的 benchmark 论文稿。 |
-| `paper/sections/q1.md` / `q2.md` | 可直接改写进论文的中文段落。 |
+| `paper/main.tex` | 可编译完整 benchmark 论文入口。 |
+| `paper/sections/q1.tex` / `q2.tex` | 问题一、问题二的 TeX 论文段落。 |
 
 ## 核心 benchmark 结果
 

@@ -24,7 +24,8 @@ Responsibilities:
 
 Required outputs:
 
-- `paper/main.tex` or equivalent complete paper entry;
+- `paper/main.tex` as the complete paper entry for every final report,
+  benchmark paper, or full-problem deliverable;
 - complete section order matching `references/paper-assembly.md`;
 - Qx sections embedded under the main model/solution section, not as independent
   top-level mini-papers;
@@ -34,6 +35,8 @@ Quality gates:
 
 - Do not deliver a full paper that only contains `\input{sections/q1}` style
   concatenation.
+- Do not deliver a full paper as Markdown. Markdown is allowed only for notes or
+  README explanations, not for final contest-paper artifacts.
 - Do not skip problem analysis, assumptions, notation, data audit, validation,
   model evaluation, or conclusion.
 - Do not let a Qx section contain only result numbers and figures; it must

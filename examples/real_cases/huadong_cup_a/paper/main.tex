@@ -1,0 +1,203 @@
+%! TEX program = xelatex
+\documentclass[UTF8,12pt,a4paper]{ctexart}
+
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{array,booktabs,longtable,tabularx,threeparttable}
+\usepackage{graphicx,float,subcaption}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage[hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\graphicspath{{../figures/}{figures/}}
+\sisetup{detect-all=true}
+
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+\captionsetup[figure]{font={small,bf},labelsep=quad}
+\captionsetup[table]{font={small,bf},labelsep=quad}
+\captionsetup[sub]{font=small}
+\setlist{topsep=0.3em,itemsep=0.1em,parsep=0pt,leftmargin=2em}
+\linespread{1.35}
+
+\crefname{figure}{图}{图}
+\crefname{table}{表}{表}
+\crefname{equation}{式}{式}
+\newcommand{\keywords}[1]{\par\noindent\textbf{关键词：}#1}
+
+\title{华东杯 A 题游览路线规划 benchmark 解}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+针对主题乐园高密度项目、动态排队和固定演出的游览路线规划问题，本文将游览项目抽象为带空间位置、服务时长、排队时长、时间窗和游客偏好效用的节点，建立带时间窗约束的效用最大化路线规划模型。对于问题一，本文分别求解普通游客、家庭亲子游、情侣游在工作日、双休日、节假日下的路线，并以单位时间效用贪心策略作为基线。结果显示，动态规划路线相对贪心基线平均得分提升 \(16.74\)，其中家庭亲子游工作日场景得分最高，为 \(96.734\)，可完成 \(11\) 项非休整体验；节假日家庭亲子游在高排队压力下仍可完成 \(9\) 项非休整体验。
+
+对于问题二，本文以 APP 实时排队信息为触发点，锁定已完成项目，对剩余路线重新规划，并与“保持原剩余路线”进行对照。结果显示，实时重规划平均减少等待 \(19.67\) 分钟，平均得分增益 \(3.626\)，共有 \(6\) 个场景改变了剩余项目集合；最大等待节省为 \(119\) 分钟。模型优点是能统一处理游客偏好、步行、排队、固定演出和实时调整，且所有结果可由表格和代码复现。局限是题面未给官方客流附件，本文数值来自透明 benchmark 数据，不能作为实际园区实时攻略。
+
+\keywords{游览路线规划\quad 时间窗约束\quad 动态规划\quad 实时重规划\quad benchmark}
+\end{abstract}
+
+\section{问题重述}
+
+\subsection{问题背景}
+
+大型主题乐园的游览路线规划同时受到项目空间分布、排队时间、体验时长、固定演出时间、餐饮休整和游客偏好影响。游客若只按热门程度或距离远近选择项目，容易出现两个问题：一是高峰时段集中排队导致体验数下降；二是固定演出、烟花等时间窗项目被局部选择挤出。因此，路线规划不能简单等同于景点排序，而应建成带时间窗和偏好效用的序列决策问题。
+
+本 benchmark 使用透明构造的数据文件 \verb|data/raw/benchmark_activities.csv| 和 \verb|data/raw/realtime_wait_updates.csv|。这些数据用于检验 skill 是否能够完成题面解析、建模、求解、图表、结果注册和论文总装闭环，不代表真实园区官方数据。
+
+\subsection{问题要求}
+
+\begin{enumerate}
+  \item 问题一要求针对普通游客、家庭亲子游和情侣游，在工作日、双休日和节假日三类日期下给出可执行游览路线，并输出体验得分、完成项目数、排队时间、候场时间、步行时间和结束时间。
+  \item 问题二要求在问题一原路线基础上，根据 APP 实时排队信息调整剩余游览路线，并说明重规划相对保持原路线的等待时间和得分变化。
+\end{enumerate}
+
+\section{问题分析}
+
+\subsection{总体建模思路}
+
+本题的核心矛盾是“有限时间内的体验效用最大化”。游客希望尽可能多地体验高价值项目，但排队、步行、候场和固定演出会持续消耗时间；不同游客类型对项目的偏好不同，对排队和步行的敏感性也不同。若忽略这些差异，得到的路线很可能看似丰富却不可执行，或对某类游客缺少针对性。
+
+本文采用统一的“节点--时间--效用”框架处理两个问题。问题一先构造全天静态路线，形成每类游客和日期的基准方案；问题二继承问题一的已完成项目和剩余计划，只在实时排队信息改变后对未完成部分重规划。这样可以保证两个问题不是孤立求解，而是存在明确的策略传递关系。
+
+\subsection{几何背景示意}
+
+乐园项目被抽象为带区域、坐标、体验时长、排队时间和效用的节点。图 \ref{fig:problem-overview} 展示了 benchmark 中项目节点、区域位置和路线规划对象的关系。该图不是最终路线答案，而是帮助读者理解“为什么本题必须同时考虑空间距离和时间窗”。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{../figures/fig_problem_overview.png}
+  \caption{华东杯 A 题 benchmark 的项目空间与建模对象示意。项目节点同时带有空间位置、服务时长、排队时间和游客偏好效用。}
+  \label{fig:problem-overview}
+\end{figure}
+
+\section{模型假设}
+
+\begin{enumerate}
+  \item 乐园开放时段统一设为 \(\text{09:00}--\text{21:00}\)，所有项目、休整和演出必须在闭园前完成。
+  \item benchmark 数据中的坐标、项目时长、偏好效用、基准排队时间和实时排队扰动均用于复现实验，不代表官方数据。
+  \item 游客步行速度按 \(80\,\mathrm{m/min}\) 估计，并加入最短换乘时间，避免相邻节点距离过近导致不现实转移。
+  \item 固定演出按给定开始时刻参加。若提前到达，提前量计入候场时间；若到达晚于演出开始，则该转移不可行。
+  \item 实时排队扰动只影响尚未完成的项目，已完成项目不回退，正在体验项目完成后再重规划。
+\end{enumerate}
+
+\section{符号说明}
+
+\begin{table}[H]
+\centering
+\caption{主要符号说明}
+\begin{tabularx}{\textwidth}{CLC}
+\toprule
+符号 & 含义 & 单位 \\
+\midrule
+\(A\) & 可选游览项目集合 & -- \\
+\(p\) & 游客类型，包含普通游客、家庭亲子游和情侣游 & -- \\
+\(d\) & 日期类型，包含工作日、双休日和节假日 & -- \\
+\(S=(i_1,\ldots,i_k)\) & 一条游览路线的项目序列 & -- \\
+\(u_{p,i}\) & 游客类型 \(p\) 对项目 \(i\) 的偏好效用 & 分 \\
+\(q_{d,i}(t)\) & 日期类型 \(d\) 下项目 \(i\) 在时刻 \(t\) 的排队时间 & min \\
+\(w_{i,j}\) & 从项目 \(i\) 到项目 \(j\) 的步行时间 & min \\
+\(s_i\) & 项目 \(i\) 的体验或服务时长 & min \\
+\(\alpha_p,\beta_p\) & 游客类型 \(p\) 对排队和步行的惩罚系数 & -- \\
+\(F(S)\) & 路线 \(S\) 的综合体验得分 & 分 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{数据审计与预处理}
+
+本案例包含两个核心数据文件。其一是 \verb|benchmark_activities.csv|，记录项目编号、项目名称、所在区域、坐标、体验时长、不同日期基准排队时间、不同游客类型偏好效用以及固定演出时刻。其二是 \verb|realtime_wait_updates.csv|，记录 APP 实时排队信息相对基准排队的变化量，用于问题二重规划；脚本另输出 \verb|tables/tab_q2_realtime_waits.csv|，用于核对每个项目在实时信息下的排队变化。
+
+预处理时，将午餐和晚餐视为休整节点，把固定演出视为带硬时间窗的节点。对每个项目，先计算区域坐标下的步行时间矩阵，再按日期类型和游客类型生成候选转移收益。模型变量包括路线序列、当前时刻、已访问项目集合、候场时间和实时排队时间。所有结果表以 \verb|tab_qx_*.csv| 命名，所有核心数值写入 \verb|results/result_registry.csv|。这一步的目的不是制造复杂文件，而是保证论文中的每个关键数字都能追溯到表格或脚本输出。
+
+\section{模型建立、求解与结果}
+
+本文对两个问题使用同一效用函数。对路线 \(S=(i_1,\ldots,i_k)\)，其综合得分定义为
+\begin{equation}
+  F(S)=\sum_{r=1}^{k}\left[u_{p,i_r}
+  -\alpha_p q_{d,i_r}(t_r)
+  -\beta_p w_{i_{r-1},i_r}
+  -0.020\,h_{i_r}\right],
+  \label{eq:route-score}
+\end{equation}
+其中 \(h_{i_r}\) 为提前到达固定演出产生的候场时间。若项目 \(i_r\) 不是固定演出，则 \(h_{i_r}=0\)。路线可行性由时间递推检查：
+\begin{equation}
+  t_{r}^{\mathrm{arr}}=t_{r-1}^{\mathrm{end}}+w_{i_{r-1},i_r},
+  \qquad
+  t_{r}^{\mathrm{end}}=t_{r}^{\mathrm{arr}}+q_{d,i_r}(t_r)+h_{i_r}+s_{i_r}.
+\end{equation}
+若 \(t_r^{\mathrm{end}}\) 超过闭园时刻，或固定演出到达时刻晚于演出开始时刻，则该转移不可行。
+
+\input{sections/q1}
+\input{sections/q2}
+
+\section{模型检验与敏感性分析}
+
+\subsection{可行性检查}
+
+本文对所有输出路线逐项检查到达时间、开始时间、结束时间、步行时间、排队时间和候场时间。问题一的所有路线均满足开放时段边界，固定演出均在给定时间窗内参加；问题二的所有重规划路线均锁定已完成项目，没有把已经完成的项目回退到新的路线中。
+
+\subsection{基线与对照验证}
+
+问题一采用单位时间效用贪心策略作为可手工解释的基线。贪心基线每一步选择当前单位时间净效用最高的项目，但不主动为后续演出和晚间项目保留时间；动态规划则在同一约束下比较完整路线收益。问题二采用“保持原剩余路线”作为对照方案，只有当实时排队变化足以改变后续收益时，才允许改变剩余项目集合。因此，两个问题的验证都不是形式化口号，而是有可复现对照对象。
+
+\subsection{局限与敏感性}
+
+本 benchmark 的最大局限是缺少真实客流数据，项目效用和排队扰动均来自透明构造数据。若排队预测误差扩大，模型会更倾向于保守选择固定演出和低排队项目；若游客对步行更敏感，路线会更集中在同一区域内。正式比赛中应增加排队预测误差、步行速度和偏好权重扰动，并检查最优路线是否稳定。
+
+\section{模型评价与推广}
+
+\subsection{模型优点}
+
+\begin{itemize}
+  \item 将游客偏好、步行、排队、候场、休整和固定演出统一到同一效用函数中，避免把问题简化成单纯排序。
+  \item 问题二直接继承问题一的已完成路线，使两问之间存在清晰的策略衔接。
+  \item 每个子问题都有中文模型示意图、结果图和验证图，符合新手理解和论文展示需要。
+  \item 核心数值均登记在结果注册表中，便于检查摘要、正文、图表和代码是否一致。
+\end{itemize}
+
+\subsection{模型不足}
+
+\begin{itemize}
+  \item benchmark 数据不是官方客流记录，不能直接解释为真实园区攻略。
+  \item 效用函数仍是加权线性结构，无法完全刻画游客疲劳、同行人差异和临时关闭项目。
+  \item 动态规划搜索依赖候选项目规模；若真实项目数量大幅增加，应引入滚动优化、列生成或启发式剪枝。
+\end{itemize}
+
+\section{结论}
+
+本文完成了华东杯 A 题游览路线规划 benchmark 的完整建模和论文总装。问题一表明，带时间窗动态规划相对单位时间效用贪心基线有稳定提升，平均得分提升为 \(16.74\)，其中家庭亲子游工作日场景得分最高，为 \(96.734\)。问题二表明，在锁定已完成项目后使用实时排队信息重规划剩余路线，可以平均减少等待 \(19.67\) 分钟，并带来平均 \(3.626\) 的得分增益。
+
+该 benchmark 对 skill 的价值在于：它覆盖了题面解析、静态优化、实时重规划、中文图表、结果注册和完整 TeX 论文展示。它也指出后续应加强的方向：接入真实客流数据、引入更细的游客行为模型，并用更严格的敏感性分析检验路线稳定性。
+
+\appendix
+
+\section{文件列表与复现说明}
+
+\begin{table}[H]
+\centering
+\caption{核心文件列表}
+\begin{tabularx}{\textwidth}{LL}
+\toprule
+文件名 & 功能说明 \\
+\midrule
+\verb|src/solve_routes.py| & 生成问题一静态路线、问题二实时重规划结果和全部图表 \\
+\verb|tables/tab_q1_summary.csv| & 问题一各游客和日期场景路线汇总 \\
+\verb|tables/tab_q2_adjustment_summary.csv| & 问题二实时重规划收益汇总 \\
+\verb|results/result_registry.csv| & 摘要和正文关键数值来源登记表 \\
+\verb|results/validation_report.md| & 可行性、基线对照和局限说明 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+复现时先运行 \verb|src/solve_routes.py| 生成表格和图表，再编译 \verb|paper/main.tex|。完整论文以 TeX 为准，Markdown 只可作为草稿笔记，不作为 benchmark 成品论文。
+
+\end{document}
