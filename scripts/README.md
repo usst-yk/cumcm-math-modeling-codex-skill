@@ -4,10 +4,10 @@
 
 | Script | Purpose |
 | --- | --- |
-| `init_cumcm_project.py` | 创建标准数学建模项目目录。 |
+| `init_cumcm_project.py` | 默认创建精简项目目录；加 `--full` 才复制完整模板。 |
 | `problem_parser.py` | 离线规则解析题面，生成 `problem_parse.json/md`。 |
 | `build_task_plan.py` | 生成题目拆解模板。 |
-| `data_profile.py` | 审计 CSV/XLSX/JSON/TXT 数据和 Excel 多 sheet。 |
+| `data_profile.py` | 默认输出精简数据审计；加 `--full` 才输出全部审计表。 |
 | `result_registry.py` | 维护关键结果注册表。 |
 | `validate_results.py` | 检查论文、图表、表格和结果注册表是否一致。 |
 | `make_roadmap_svg.py` | 从任务计划生成可编辑路线图 SVG。 |

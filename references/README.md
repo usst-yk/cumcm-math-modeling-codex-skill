@@ -12,6 +12,7 @@
 | `stage-gates.md` | 每个阶段进入下一阶段前必须满足的条件。 |
 | `workflow.md` | 完整赛题流程和 72 小时节奏。 |
 | `task-modes.md` | 只审题、只做单问、写完整论文、终审等常见模式。 |
+| `output-policy.md` | 新手默认精简输出，避免生成过多模板和空文件。 |
 
 ## Modeling And Validation
 

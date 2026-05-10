@@ -439,18 +439,9 @@ def write_reports(
     merge_candidates: pd.DataFrame,
     profiles: list[dict[str, object]],
     tables_by_signature: dict[str, list[tuple[str, str, pd.DataFrame]]],
+    full: bool,
 ) -> None:
     outdir.mkdir(parents=True, exist_ok=True)
-    write_excel(inventory, outdir / "tab_data_inventory.xlsx")
-    write_excel(missing, outdir / "tab_missing_summary.xlsx")
-    write_excel(numeric, outdir / "tab_numeric_profile.xlsx")
-    write_excel(categorical, outdir / "tab_categorical_profile.xlsx")
-    write_excel(sheets, outdir / "tab_sheet_coverage.xlsx")
-    write_excel(time_ranges, outdir / "tab_time_range_summary.xlsx")
-    write_excel(duplicates, outdir / "tab_duplicate_summary.xlsx")
-    write_excel(excluded, outdir / "tab_excluded_sheets.xlsx")
-    write_excel(unit_guess, outdir / "tab_unit_guess.xlsx")
-    write_excel(merge_candidates, outdir / "tab_merge_candidates.xlsx")
     write_audit_workbook(
         outdir,
         {
@@ -466,11 +457,22 @@ def write_reports(
             "merge_candidates": merge_candidates,
         },
     )
-    write_merge_candidates(outdir, tables_by_signature)
-    (outdir / "data_profile.json").write_text(
-        json.dumps(profiles, ensure_ascii=False, indent=2),
-        encoding="utf-8",
-    )
+    if full:
+        write_excel(inventory, outdir / "tab_data_inventory.xlsx")
+        write_excel(missing, outdir / "tab_missing_summary.xlsx")
+        write_excel(numeric, outdir / "tab_numeric_profile.xlsx")
+        write_excel(categorical, outdir / "tab_categorical_profile.xlsx")
+        write_excel(sheets, outdir / "tab_sheet_coverage.xlsx")
+        write_excel(time_ranges, outdir / "tab_time_range_summary.xlsx")
+        write_excel(duplicates, outdir / "tab_duplicate_summary.xlsx")
+        write_excel(excluded, outdir / "tab_excluded_sheets.xlsx")
+        write_excel(unit_guess, outdir / "tab_unit_guess.xlsx")
+        write_excel(merge_candidates, outdir / "tab_merge_candidates.xlsx")
+        write_merge_candidates(outdir, tables_by_signature)
+        (outdir / "data_profile.json").write_text(
+            json.dumps(profiles, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
 
     summary = [
         "# 数据检查报告",
@@ -508,24 +510,25 @@ def write_reports(
         summary.append("数值字段未发现明显 IQR 异常值。")
     (outdir / "data_profile_summary.md").write_text("\n".join(summary) + "\n", encoding="utf-8")
 
-    draft = [
-        "# 数据预处理论文段落草稿",
-        "",
-        (
-            f"本文首先对附件数据进行覆盖性审计，共识别 {len(inventory)} 个数据表。"
-            "审计内容包括工作表名称、记录数、字段数、时间字段、空间字段、"
-            "疑似主键、单位线索、缺失比例、重复记录和 IQR 异常值。"
-            "所有 Excel 文件均先读取全部工作表，再根据题意判断纳入范围；"
-            "对同结构工作表，后续建模应合并并保留来源文件与来源工作表字段，"
-            "以保证结果可追溯。"
-        ),
-        "",
-        (
-            "正式写入论文前，应将 `included_status` 和 `exclusion_reason` 补齐，"
-            "并核对题面中的时间范围、样本范围和单位要求。"
-        ),
-    ]
-    (outdir / "data_preprocessing_draft.md").write_text("\n".join(draft) + "\n", encoding="utf-8")
+    if full:
+        draft = [
+            "# 数据预处理论文段落草稿",
+            "",
+            (
+                f"本文首先对附件数据进行覆盖性审计，共识别 {len(inventory)} 个数据表。"
+                "审计内容包括工作表名称、记录数、字段数、时间字段、空间字段、"
+                "疑似主键、单位线索、缺失比例、重复记录和 IQR 异常值。"
+                "所有 Excel 文件均先读取全部工作表，再根据题意判断纳入范围；"
+                "对同结构工作表，后续建模应合并并保留来源文件与来源工作表字段，"
+                "以保证结果可追溯。"
+            ),
+            "",
+            (
+                "正式写入论文前，应将 `included_status` 和 `exclusion_reason` 补齐，"
+                "并核对题面中的时间范围、样本范围和单位要求。"
+            ),
+        ]
+        (outdir / "data_preprocessing_draft.md").write_text("\n".join(draft) + "\n", encoding="utf-8")
 
 
 def parse_args() -> argparse.Namespace:
@@ -545,6 +548,11 @@ def parse_args() -> argparse.Namespace:
         dest="output",
         default="tables/data_profile",
         help="Output directory.",
+    )
+    parser.add_argument(
+        "--full",
+        action="store_true",
+        help="Write all detailed audit tables. Default writes only a compact workbook and summary.",
     )
     return parser.parse_args()
 
@@ -590,9 +598,11 @@ def main() -> int:
         merge_candidates,
         profiles,
         tables_by_signature,
+        args.full,
     )
     print(f"Profiled {len(profiles)} table(s) from {len(files)} file(s).")
-    print(f"Reports written to: {outdir}")
+    mode = "full audit" if args.full else "lean audit"
+    print(f"{mode} reports written to: {outdir}")
     return 0
 
 

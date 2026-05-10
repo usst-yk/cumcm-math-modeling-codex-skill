@@ -2,6 +2,10 @@
 
 Use these gates for full-problem solving and substantial single-question work. If a gate fails, either fix the blocker or record it in `logs/error_log.md` / `results/validation_report.md` before proceeding.
 
+For lightweight single-question work, apply the same checks mentally but do not
+create empty templates or logs just to satisfy a gate. Save only the necessary
+result files.
+
 ## Stage 0 -> Stage 1: Problem Parser To Coordinator
 
 Do not build the task plan until:
@@ -43,9 +47,10 @@ Do not validate final conclusions until:
 
 - code has produced saved output tables/figures;
 - any useful schematic figure has been generated, or the reason for skipping it
-  is recorded in `results/validation_report.md`;
-- every headline value is entered in `results/result_registry.csv`;
-- run commands are recorded in `logs/run_log.md`;
+  is stated in the final answer or recorded in `results/validation_report.md`;
+- every headline value is traceable to a saved table, code output, problem fact,
+  or `results/result_registry.csv`;
+- run commands are stated in the final answer or recorded in `logs/run_log.md`;
 - solver status, random seed, or failure status is recorded when relevant.
 
 ## Stage 5 -> Stage 6: Validator To Writer

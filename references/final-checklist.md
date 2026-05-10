@@ -31,6 +31,11 @@ If any item is 0, mark the deliverable incomplete and list the blocker.
 
 ## Artifact Checklist
 
+For lean single-question work, only check files that were actually needed for
+that question. Do not require empty templates, logs, or appendices.
+
+For full projects, check:
+
 - TeX or requested paper format exists.
 - PDF compiled or compile error reported.
 - Main code path and run command exist.

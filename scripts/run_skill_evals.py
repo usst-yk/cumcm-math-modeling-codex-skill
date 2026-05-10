@@ -204,6 +204,7 @@ def check_reference_names(issues: list[str]) -> None:
         "references/problem-parsing.md",
         "references/task-modes.md",
         "references/cumcm-a-problem-patterns.md",
+        "references/output-policy.md",
         "references/method-library.md",
         "references/method-cards.json",
         "references/paper-section-flow.md",

@@ -2,31 +2,38 @@
 
 ## 初始化项目
 
-用户不需要手动运行初始化命令。优先让 Codex 根据用户的项目名调用脚本，创建标准工作区，然后继续后续建模任务。
+用户不需要手动运行初始化命令。默认创建精简工作区，只放必要目录，不复制一堆空模板。只有用户明确要求“完整项目模板”“全流程交付包”时，才使用完整模式。
 
-后台命令：
+默认精简模式：
 
 ```bash
 python3 scripts/init_cumcm_project.py /path/to/project
 ```
 
+完整模板模式：
+
+```bash
+python3 scripts/init_cumcm_project.py /path/to/project --full
+```
+
 生成目录：
 
-- `problem/`: 题面原文、题面解析、任务计划、假设和模型卡。
+- `problem/`: 题面原文和必要的题面解析结果。
 - `data/`: 原始数据和清洗数据。
 - `src/`: 数据处理、建模、求解、绘图代码。
 - `figures/`: 代码生成的论文图片。
 - `tables/`: 代码生成的结果表和统计表。
-- `paper/`: 论文正文、假设符号表、数据预处理草稿。
-- `appendix/`: 附录代码和补充材料。
+- `paper/`: 用户要求写论文时再放分问段落或正文。
 
-复制模板：
+完整模式才复制模板：
 
 - `problem/problem_parse.schema.json`: 题面解析字段约束。
 - `problem/task_plan.schema.json`: 任务计划字段约束。
 - `problem/task_plan.json`: 任务计划草稿。
+- `problem/model_card_template.md`: 每问模型卡模板。
+- `problem/assumptions.md`: 假设和符号说明模板。
 - `paper/main.md`: 论文 Markdown 骨架。
-- `paper/assumptions-symbols.md`: 假设和符号说明模板。
+- `paper/main.tex`: TeX 论文骨架。
 - `appendix/code-template.md`: 附录代码格式模板。
 
 ## 数据检查
@@ -45,10 +52,9 @@ python3 scripts/data_profile.py /path/to/data --outdir /path/to/project/tables/d
 
 输出：
 
-- `data_profile_summary.md`: 字段、缺失值、异常值、统计量和相关性说明。
-- `data_preprocessing_draft.md`: 可放入论文的数据预处理段落草稿。
-- `data_profile.json`: 结构化检查结果。
-- `*_correlation.csv`: 数值字段相关系数矩阵。
+- 精简检查：先给数据问题清单和必要摘要。
+- 完整审计：再输出 `data_profile_summary.md`、`data_preprocessing_draft.md`、
+  `data_profile.json` 和多张审计表。需要完整审计时加 `--full`。
 
 ## 论文模板
 

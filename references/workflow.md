@@ -2,6 +2,9 @@
 
 Use this reference for full-problem solving, route design, and contest-time planning.
 
+For beginner-facing solving, keep outputs lean. Read
+`references/output-policy.md` before creating template files.
+
 ## 72-Hour Contest Workflow
 
 | Time | Goal | Outputs |
@@ -37,8 +40,12 @@ Use this reference for full-problem solving, route design, and contest-time plan
    - Select the route that maximizes correctness, validation, and paper clarity under time limits.
 
 5. Solver: solve subquestions one by one.
-   - For each Qx, write a model card, implement code, save outputs, update the result registry, and record run commands.
-   - Do not draft the final abstract before all solved Q sections have registered results.
+   - For each Qx, implement code and save only the needed result table, figure,
+     and paper section.
+   - Use model cards, result registry, and run logs for full projects or final
+     paper delivery, not for every small single-question solve.
+   - Do not draft the final abstract before solved sections have traceable
+     result tables or registered results.
 
 6. Build baseline before main computation.
    - Use simple formulas, bounds, greedy rules, naive forecasts, or small cases.
@@ -62,6 +69,15 @@ Use this reference for full-problem solving, route design, and contest-time plan
    - Run final artifact checks before handoff.
 
 ## Final Deliverables
+
+Lean single-question handoff:
+
+- Main answer and limitation.
+- Current-question code when code was needed.
+- One result table and one useful Chinese figure when appropriate.
+- Paper paragraph only when requested.
+
+Full-project handoff:
 
 - Paper source and PDF when possible.
 - Main code and run command.

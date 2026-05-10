@@ -18,7 +18,10 @@ paper-ready figures, and Chinese modeling-paper prose.
 
 Answer in Chinese by default. The primary audience is beginners: use natural
 language, hide script commands and file internals unless asked, and run useful
-scripts/templates in the background.
+scripts in the background. Do not expose or create templates unless needed.
+
+Default to lean outputs for beginner-facing solving. Read
+`references/output-policy.md` before creating project files or templates.
 
 ## Core Behavior
 
@@ -60,6 +63,8 @@ Read `references/task-routing.md` for the complete table.
 - Model selection: use `references/method-cards.json` for compact method checks,
   then `references/method-library.md` only when details are needed.
 - New project: run `scripts/init_cumcm_project.py` in the background.
+- Output scope: `references/output-policy.md`; do not create full templates
+  unless the user asks for a complete project/workspace.
 - Problem parsing: read `references/problem-parsing.md`, then use
   `scripts/problem_parser.py`.
 - Decomposition: parse first with `scripts/problem_parser.py`, then use
@@ -80,14 +85,19 @@ Read `references/task-routing.md` for the complete table.
 - Inspect all sheets in every Excel workbook. State why any table is excluded.
 - If sheets share a structure, concatenate them with a source-sheet column.
 - Use stable lowercase names: `fig_q1_topic.png`, `tab_q1_topic.csv`.
+- Create only files needed for the current task. For a single subquestion, do
+  not create full project templates, empty section files, schema files, or logs
+  unless the user explicitly asks for a complete project.
 - For every solved subquestion, draw a schematic or result figure when it helps
   explain geometry, flow, timing, ranking, optimization, constraints, or spatial
   layout. Skip the figure only when a compact table is clearer.
 - Contest-paper figures default to Chinese titles, axis labels, legends,
   annotations, and captions. Keep English only for variable names, file names,
   units, or unavoidable technical tokens.
-- Paper numbers, captions, abstract, conclusion, and recommendations must trace
-  to `results/result_registry.csv`.
+- In lean mode, key numbers must trace to saved result tables, code output, or
+  problem facts. In full project/final paper mode, paper numbers, captions,
+  abstract, conclusion, and recommendations must trace to
+  `results/result_registry.csv`.
 - Default substantial papers to TeX and compile PDF when available.
 
 ## Final Handoff

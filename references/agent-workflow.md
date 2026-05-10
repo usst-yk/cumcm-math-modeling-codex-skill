@@ -15,7 +15,17 @@ This skill uses role cards as staged prompts inside Codex. It does not create a 
 
 ## Subquestion Loop
 
-For full problems, process each Qx independently:
+For full problems, process each Qx independently. In beginner-facing lean mode,
+create only the files that are actually needed for the current question.
+
+Lean Qx loop:
+
+1. `src/solve_qx.py` when code is needed.
+2. `tables/tab_qx_result.csv|xlsx`.
+3. `figures/fig_qx_*.png|svg|pdf` when a figure helps.
+4. `paper/sections/qx.tex|md` only when paper text is requested.
+
+Full project Qx loop:
 
 1. `problem/model_card_qx.md`
 2. `src/qx_*.py`
@@ -25,7 +35,8 @@ For full problems, process each Qx independently:
 6. `results/validation_report.md`
 7. `paper/sections/qx.tex`
 
-Do not draft the final abstract until all solved subquestions have verified registry entries.
+Do not draft the final abstract until solved subquestions have traceable result
+tables or verified registry entries.
 
 ## Failure Policy
 

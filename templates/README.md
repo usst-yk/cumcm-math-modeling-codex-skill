@@ -1,6 +1,7 @@
 # Templates
 
-这些模板会在新建数学建模项目时复制到项目目录中。
+这些模板只在用户明确要求完整项目或使用 `init_cumcm_project.py --full`
+时复制到项目目录中。默认精简求解不会批量复制模板。
 
 | Template | Copied to | Purpose |
 | --- | --- | --- |

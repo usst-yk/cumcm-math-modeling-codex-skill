@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Create a CUMCM project skeleton with reproducible workflow files."""
+"""Create a CUMCM project workspace.
+
+Default mode is intentionally lean for beginners: create only useful folders.
+Use --full when a complete template-based project is explicitly needed.
+"""
 
 from __future__ import annotations
 
@@ -8,7 +12,17 @@ import shutil
 from pathlib import Path
 
 
-DIRS = [
+LEAN_DIRS = [
+    "problem",
+    "data/raw",
+    "src",
+    "figures",
+    "tables",
+    "results",
+    "paper/sections",
+]
+
+FULL_DIRS = [
     "problem",
     "data/raw",
     "data/processed",
@@ -42,6 +56,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Create a CUMCM math modeling project skeleton.")
     parser.add_argument("project_dir", nargs="?", help="Directory to create or update.")
     parser.add_argument("--name", help="Project directory name, e.g. cumcm_2026_A.")
+    parser.add_argument("--full", action="store_true", help="Copy full templates and logs.")
     parser.add_argument("--overwrite", action="store_true", help="Overwrite existing template files.")
     args = parser.parse_args()
 
@@ -51,8 +66,16 @@ def main() -> int:
     project_dir = Path(args.project_dir or args.name).expanduser().resolve()
     project_dir.mkdir(parents=True, exist_ok=True)
 
-    for name in DIRS:
+    dirs = FULL_DIRS if args.full else LEAN_DIRS
+    for name in dirs:
         (project_dir / name).mkdir(parents=True, exist_ok=True)
+
+    if not args.full:
+        print(f"Created lean CUMCM workspace at: {project_dir}")
+        for name in dirs:
+            print(f"- {name}/")
+        print("No template files were copied. Add files only as each task needs them.")
+        return 0
 
     skill_root = Path(__file__).resolve().parents[1]
     assets = skill_root / "assets"
@@ -107,8 +130,8 @@ def main() -> int:
         args.overwrite,
     )
 
-    print(f"Created CUMCM project skeleton at: {project_dir}")
-    for name in DIRS:
+    print(f"Created full CUMCM project skeleton at: {project_dir}")
+    for name in dirs:
         print(f"- {name}/")
     return 0
 
