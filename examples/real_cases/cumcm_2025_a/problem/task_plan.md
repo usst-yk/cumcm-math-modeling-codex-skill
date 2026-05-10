@@ -4,12 +4,6 @@
 - Problem: cumcm_2025_a
 - Question count: 5
 
-## Warnings
-- Q1: constraints 未识别到明确约束
-- Q2: constraints 未识别到明确约束
-- Q3: constraints 未识别到明确约束
-- Q4: constraints 未识别到明确约束
-
 | ID | Type | Input | Model object | Output | Validation | Status |
 | --- | --- | --- | --- | --- | --- | --- |
 | Q1 | simulation | attachment:result1.xlsx; attachment:result2.xlsx; attachment:result3.xlsx | 烟幕干扰弹对 M1 的有效遮蔽时长 | 请给出烟幕干扰弹对 M1 的有效遮蔽时长 | parameter sensitivity; boundary case | draft |

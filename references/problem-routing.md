@@ -4,6 +4,11 @@ Use this reference after parsing the problem statement. Select models from the t
 
 ## Routing Matrix
 
+For CUMCM A problems, also read `references/cumcm-a-problem-patterns.md`.
+Recent A problems often combine mechanism simulation, geometry, and constrained
+optimization; route them by physical object and validation path before choosing
+an algorithm.
+
 | 题型 | 优先基线 | 主模型候选 | 必做验证 |
 | --- | --- | --- | --- |
 | 预测 | 均值、移动平均、线性趋势、季节朴素预测 | ARIMA/SARIMA、指数平滑、状态空间、随机森林、XGBoost、SVR、LSTM only with enough data | 留出/滚动验证、MAE/RMSE/MAPE/R2、残差图、基线比较 |

@@ -9,6 +9,7 @@ communication natural; do not expose commands unless the user asks.
 | --- | --- |
 | Start a new problem or project | `scripts/init_cumcm_project.py`; explain the workspace in plain language |
 | Full CUMCM problem solving | `references/workflow.md`, `references/problem-routing.md`, `references/stage-gates.md`, `references/scoring-checklist.md` |
+| CUMCM A problem or engineering/physics problem | `references/cumcm-a-problem-patterns.md`, `references/method-cards.json`, `references/problem-routing.md` |
 | Parse problem statement | `agents/problem_parser.md`, `references/problem-parsing.md`, `scripts/problem_parser.py` |
 | Read and decompose a problem | parse first, then `scripts/build_task_plan.py`, `agents/coordinator.md`, `references/problem-routing.md` |
 | Only one subquestion | `references/task-modes.md`, `references/problem-routing.md`, `references/correctness-ladder.md` |
@@ -29,6 +30,9 @@ communication natural; do not expose commands unless the user asks.
 - For beginners, prefer direct natural-language guidance over showing internal
   file names.
 - Parse the problem statement before route design when an official statement is available.
+- For A problems, treat them as engineering mechanism problems first; build
+  coordinates, units, physical constraints, and a baseline before choosing an
+  optimizer.
 - For full problems, always work subquestion by subquestion.
 - For single-question requests, do not expand into a full-paper workflow unless
   the user asks.

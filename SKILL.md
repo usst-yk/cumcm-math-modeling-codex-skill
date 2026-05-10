@@ -55,6 +55,8 @@ sections have registered results.
 Read `references/task-routing.md` for the complete table.
 
 - Full problem: `references/workflow.md`, `references/problem-routing.md`.
+- CUMCM A problem: read `references/cumcm-a-problem-patterns.md` before route
+  comparison.
 - Model selection: use `references/method-cards.json` for compact method checks,
   then `references/method-library.md` only when details are needed.
 - New project: run `scripts/init_cumcm_project.py` in the background.

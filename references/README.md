@@ -18,6 +18,7 @@
 | File | Purpose |
 | --- | --- |
 | `problem-routing.md` | 按预测、优化、评价、仿真等题型选择路线。 |
+| `cumcm-a-problem-patterns.md` | 2020-2025 国赛 A 题模式统计和 A 题专项方法。 |
 | `method-library.md` | 常用数学建模方法库。 |
 | `method-cards.json` | 结构化方法卡，供题型到方法的快速路由和自检使用。 |
 | `correctness-ladder.md` | 基线、主模型、交叉检查、压力测试。 |

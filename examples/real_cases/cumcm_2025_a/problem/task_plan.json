@@ -15,7 +15,9 @@
         "attachment:result3.xlsx"
       ],
       "decision_object": "烟幕干扰弹对 M1 的有效遮蔽时长",
-      "constraints": [],
+      "constraints": [
+        "问题 1 利用无人机 FY1 投放 1 枚烟幕干扰弹实施对 M1 的干扰，若 FY1 以 120 m/s 的速度朝向假目标方向飞行，受领任务 1.5 s 后即投放 1 枚烟幕干扰弹，间隔 3.6 s 后起爆"
+      ],
       "validation": [
         "parameter sensitivity",
         "boundary case"
@@ -28,9 +30,7 @@
       ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": [
-        "constraints 未识别到明确约束"
-      ]
+      "parse_warnings": []
     },
     {
       "id": "Q2",
@@ -44,7 +44,9 @@
         "attachment:result3.xlsx"
       ],
       "decision_object": "FY1 的飞行方向、飞行速度、烟幕干扰弹投放点、烟幕干扰弹起爆点",
-      "constraints": [],
+      "constraints": [
+        "问题 2 利用无人机 FY1 投放 1 枚烟幕干扰弹实施对 M1 的干扰，确定 FY1 的飞行方向、飞行速度、烟幕干扰弹投放点、烟幕干扰弹起爆点，使得遮蔽时间尽可能长"
+      ],
       "validation": [
         "feasibility check",
         "constraint violation check",
@@ -58,9 +60,7 @@
       ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": [
-        "constraints 未识别到明确约束"
-      ]
+      "parse_warnings": []
     },
     {
       "id": "Q3",
@@ -72,7 +72,10 @@
         "attachment:result1.xlsx"
       ],
       "decision_object": "烟幕干扰弹的投放策略",
-      "constraints": [],
+      "constraints": [
+        "问题 3 利用无人机 FY1 投放 3 枚烟幕干扰弹，实施对 M1 的干扰",
+        "请给出烟幕干扰弹的投放策略，并将结果保存到文件 result1.xlsx 中（模板文件见附件）"
+      ],
       "validation": [
         "feasibility check",
         "constraint violation check",
@@ -86,9 +89,7 @@
       ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": [
-        "constraints 未识别到明确约束"
-      ]
+      "parse_warnings": []
     },
     {
       "id": "Q4",
@@ -100,7 +101,10 @@
         "attachment:result2.xlsx"
       ],
       "decision_object": "烟幕干扰弹的投放策略",
-      "constraints": [],
+      "constraints": [
+        "问题 4 利用 FY1、FY2、FY3 等 3 架无人机，各投放 1 枚烟幕干扰弹，实施对 M1 的干扰",
+        "请给出烟幕干扰弹的投放策略，并将结果保存到文件 result2.xlsx 中（模板文件见附件）"
+      ],
       "validation": [
         "feasibility check",
         "constraint violation check",
@@ -114,9 +118,7 @@
       ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": [
-        "constraints 未识别到明确约束"
-      ]
+      "parse_warnings": []
     },
     {
       "id": "Q5",
@@ -129,7 +131,8 @@
       ],
       "decision_object": "烟幕干扰弹的投放策略",
       "constraints": [
-        "问题 5 利用 5 架无人机，每架无人机至多投放 3 枚烟幕干扰弹，实施对 M1、M2、M3 等 3 枚来袭导弹的干扰"
+        "问题 5 利用 5 架无人机，每架无人机至多投放 3 枚烟幕干扰弹，实施对 M1、M2、M3 等 3 枚来袭导弹的干扰",
+        "请给出烟幕干扰弹的投放策略，并将结果保存到文件 result3.xlsx 中 （模板文件见附件）"
       ],
       "validation": [
         "feasibility check",
@@ -155,17 +158,8 @@
     "至多",
     "尽可能",
     "附件",
-    "给出",
-    "Q1: constraints 未识别到明确约束",
-    "Q2: constraints 未识别到明确约束",
-    "Q3: constraints 未识别到明确约束",
-    "Q4: constraints 未识别到明确约束"
+    "给出"
   ],
   "source_excerpt": "",
-  "warnings": [
-    "Q1: constraints 未识别到明确约束",
-    "Q2: constraints 未识别到明确约束",
-    "Q3: constraints 未识别到明确约束",
-    "Q4: constraints 未识别到明确约束"
-  ]
+  "warnings": []
 }

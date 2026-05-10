@@ -5,7 +5,7 @@
 | Folder/File | Purpose |
 | --- | --- |
 | `expected_outputs.md` | 人工检查时的期望行为。 |
-| `parser_cases/` | 题面解析测试：预测、优化调度、评价排序、预测+优化组合、括号编号误切。 |
+| `parser_cases/` | 题面解析测试：预测、优化调度、评价排序、预测+优化组合、括号编号误切、A题工程过程、A题几何光学、A题轨迹覆盖。 |
 | `toy_prediction_problem/prompt.md` | 预测题测试提示。 |
 | `toy_optimization_problem/prompt.md` | 优化题测试提示。 |
 | `toy_evaluation_problem/prompt.md` | 评价题测试提示。 |

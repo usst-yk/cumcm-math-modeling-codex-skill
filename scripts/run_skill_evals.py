@@ -53,6 +53,31 @@ PARSER_EXPECTATIONS = {
         "units": ["20 个"],
         "risk_words": ["评价", "分别", "排序", "每个"],
     },
+    "trajectory_coverage": {
+        "question_count": 2,
+        "task_types": ["simulation", "optimization"],
+        "attachments": ["附件1：uav_state.xlsx"],
+        "time_ranges": ["20 s", "1 s"],
+        "units": ["3 m/s", "10 m", "20 s", "70~140 m/s", "1 s"],
+        "risk_words": ["至少", "尽可能"],
+        "constraints": ["3 m/s", "70~140 m/s", "至少 1 s"],
+    },
+    "engineering_process_control": {
+        "question_count": 2,
+        "task_types": ["simulation", "optimization"],
+        "attachments": ["附件1：temperature_curve.xlsx"],
+        "units": ["70~90 cm/min", "250 ℃", "217 ℃"],
+        "risk_words": ["不超过", "满足", "最优"],
+        "constraints": ["70~90 cm/min", "250 ℃", "217 ℃"],
+    },
+    "geometry_optics_design": {
+        "question_count": 2,
+        "task_types": ["simulation", "optimization"],
+        "attachments": ["附件1：nodes.csv"],
+        "units": ["0.6 m"],
+        "risk_words": ["不超过", "连续", "最大"],
+        "constraints": ["0.6 m", "连续"],
+    },
 }
 
 
@@ -131,6 +156,7 @@ def check_reference_names(issues: list[str]) -> None:
     expected = [
         "references/problem-parsing.md",
         "references/task-modes.md",
+        "references/cumcm-a-problem-patterns.md",
         "references/method-library.md",
         "references/method-cards.json",
         "references/paper-section-flow.md",
@@ -155,6 +181,9 @@ def check_eval_prompts(issues: list[str]) -> None:
         "evals/parser_cases/evaluation/problem.md",
         "evals/parser_cases/hybrid_prediction_optimization/problem.md",
         "evals/parser_cases/bracket_inline/problem.md",
+        "evals/parser_cases/trajectory_coverage/problem.md",
+        "evals/parser_cases/engineering_process_control/problem.md",
+        "evals/parser_cases/geometry_optics_design/problem.md",
         "evals/toy_prediction_problem/prompt.md",
         "evals/toy_optimization_problem/prompt.md",
         "evals/toy_evaluation_problem/prompt.md",
@@ -252,6 +281,14 @@ def check_method_cards(issues: list[str]) -> None:
     ids = [card.get("id", "") for card in cards]
     if len(ids) != len(set(ids)):
         issues.append("method-cards.json contains duplicate card ids")
+    required_card_ids = {
+        "engineering_process_control",
+        "geometry_surface_optics_design",
+        "trajectory_coverage_optimization",
+    }
+    missing_card_ids = sorted(required_card_ids - set(ids))
+    if missing_card_ids:
+        issues.append(f"method-cards.json missing A-problem cards: {', '.join(missing_card_ids)}")
 
     covered_types = {task_type for card in cards for task_type in card.get("task_types", [])}
     required_types = {"prediction", "optimization", "evaluation", "simulation", "classification", "clustering"}
@@ -329,6 +366,9 @@ def check_parser_cases(issues: list[str]) -> None:
                 require_contains(parsed.get("units", []), value, f"parser case {case} units", issues)
             for value in expected.get("risk_words", []):
                 require_contains(parsed.get("risk_words", []), value, f"parser case {case} risk_words", issues)
+            all_constraints = [constraint for q in parsed.get("subquestions", []) for constraint in q.get("constraints", [])]
+            for value in expected.get("constraints", []):
+                require_contains(all_constraints, value, f"parser case {case} constraints", issues)
             if any("给出了" in item or "记录" in item for item in parsed.get("attachments", [])):
                 issues.append(f"parser case {case} attachment label includes descriptive text")
             if "每小" in parsed.get("time_ranges", []):

@@ -48,6 +48,7 @@ RISK_WORDS = [
     "分配",
     "规划",
     "约束",
+    "满足",
     "附件",
     "表",
     "给出",
@@ -79,6 +80,27 @@ CONSTRAINT_WORDS = [
     "不低于",
     "至少",
     "至多",
+    "间隔",
+    "速度",
+    "飞行方向",
+    "航向",
+    "投放",
+    "起爆",
+    "匀速",
+    "下沉",
+    "重力",
+    "温度",
+    "功率",
+    "阻尼",
+    "反射",
+    "曲面",
+    "坐标",
+    "间距",
+    "伸缩",
+    "碰撞",
+    "半径",
+    "高度",
+    "位置",
     "必须",
     "要求",
     "约束",
@@ -104,21 +126,53 @@ TASK_TYPE_KEYWORDS = [
             "选址",
             "最小",
             "最大",
+            "最大化",
+            "最小化",
             "成本最小",
             "收益最大",
             "尽可能",
             "确定",
             "策略",
+            "设计",
+            "调整",
+            "布局",
+            "伸缩量",
+            "间距",
+            "避碰",
         ],
     ),
     ("evaluation", ["评价", "排序", "排名", "指标", "综合得分", "优先级"]),
-    ("simulation", ["仿真", "模拟", "传播", "演化", "扩散", "动态", "运动", "轨迹", "时长"]),
+    (
+        "simulation",
+        [
+            "仿真",
+            "模拟",
+            "传播",
+            "演化",
+            "扩散",
+            "动态",
+            "运动",
+            "轨迹",
+            "时长",
+            "温度曲线",
+            "热传导",
+            "微分方程",
+            "动力学",
+            "运动学",
+            "振动",
+            "波浪",
+            "反射",
+            "接收比",
+            "遮蔽",
+        ],
+    ),
     ("classification", ["分类", "识别", "判别", "等级"]),
     ("clustering", ["聚类", "分群", "划分"]),
 ]
 
 UNIT_RE = re.compile(
-    r"(?:\d+(?:\.\d+)?\s*)?(?:万元|亿元|元|千克|公斤|kg|公里|千米|km|平方米|公顷|米|m|小时|分钟|秒|s|天|日|周|月|年|人|辆|台|架|枚|个|件|吨|次|%|百分比)"
+    r"(?:\d+(?:\.\d+)?(?:\s*[~～\-]\s*\d+(?:\.\d+)?)?\s*)?"
+    r"(?:m/s|米/秒|cm/min|m/min|r/min|MW|kW|W|℃|°C|万元|亿元|元|千克|公斤|kg|公里|千米|km|毫米|厘米|cm|mm|平方米|公顷|米|m|小时|分钟|秒|s|天|日|周|月|年|人|辆|台|架|枚|个|件|吨|次|度|%|百分比)"
 )
 TIME_RE = re.compile(
     r"\d{4}\s*年\s*\d{1,2}\s*月\s*[-—至到]\s*\d{4}\s*年\s*\d{1,2}\s*月"
@@ -283,6 +337,38 @@ def extract_by_words(text: str, words: list[str]) -> list[str]:
     return unique([s for s in sentences if any(word in s for word in words)])
 
 
+def extract_constraints(text: str) -> list[str]:
+    constraints = extract_by_words(text, CONSTRAINT_WORDS)
+    physics_words = [
+        "速度",
+        "方向",
+        "航向",
+        "投放",
+        "起爆",
+        "位置",
+        "半径",
+        "高度",
+        "匀速",
+        "下沉",
+        "间隔",
+        "温度",
+        "功率",
+        "阻尼",
+        "反射",
+        "曲面",
+        "坐标",
+        "间距",
+        "伸缩",
+        "碰撞",
+    ]
+    unit_sentences = [
+        sentence
+        for sentence in split_sentences(text)
+        if any(word in sentence for word in physics_words) and (UNIT_RE.search(sentence) or TIME_RE.search(sentence))
+    ]
+    return unique(constraints + unit_sentences)
+
+
 def infer_task_type(text: str) -> str:
     scores = []
     for task_type, words in TASK_TYPE_KEYWORDS:
@@ -351,7 +437,7 @@ def extract_parse(text: str, problem_id: str) -> dict:
         q_time_ranges = unique(TIME_RE.findall(qtext))
         q_risk_words = [word for word in RISK_WORDS if word in qtext]
         required_output = extract_by_words(qtext, OUTPUT_WORDS)
-        constraints = extract_by_words(qtext, CONSTRAINT_WORDS)
+        constraints = extract_constraints(qtext)
         input_data = [f"attachment:{item}" for item in q_attachments]
         decision_object = infer_decision_object(qtext, task_type)
         q_warnings = []
