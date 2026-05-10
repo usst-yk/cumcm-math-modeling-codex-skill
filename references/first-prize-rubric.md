@@ -3,6 +3,23 @@
 This rubric is for judge-style review. It estimates whether a solution has the
 ingredients of a strong CUMCM paper. It cannot guarantee an award.
 
+## Award-Critical Notes
+
+The evaluated product is the paper. Code, tables, and figures matter because
+they make the paper traceable and credible, but they cannot replace clear
+judge-facing writing. A route should not be treated as award-ready until the
+paper explains the model, assumptions, equations, algorithm, results,
+validation, limitations, and cross-question logic in one coherent narrative.
+
+For award-oriented work, paper planning starts during modeling:
+
+- each subquestion should produce paper-ready equations, figures, captions,
+  result interpretation, and validation wording as soon as it is solved;
+- abstract writing stays last, after body text, figures, tables, validation, and
+  result registry agree;
+- a mathematically strong solution with a thin, fragmented, or inconsistent
+  paper should be downgraded before a simpler but clearer complete paper.
+
 Score each item 0-2:
 
 | Item | 0 | 1 | 2 |
@@ -21,8 +38,8 @@ Score each item 0-2:
 ## Gate Rules
 
 - If any item scores 0, mark the answer incomplete.
-- If core mechanism, validation, or traceability scores below 2, do not call the
-  work "first-prize level".
+- If core mechanism, validation, traceability, or paper readiness scores below
+  2, do not call the work "first-prize level".
 - Strong solutions usually score at least 16/20 and have no 0 item.
 
 ## Official Benchmark Use
