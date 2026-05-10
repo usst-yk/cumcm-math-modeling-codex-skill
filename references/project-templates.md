@@ -58,7 +58,6 @@ python3 scripts/data_profile.py /path/to/data --outdir /path/to/project/tables/d
 
 ## 论文模板
 
-- `assets/paper-template.md`: 自动填充优先使用。
-- `assets/paper-template.docx`: 给队友继续 Word 排版时使用。
-- `assets/assumptions-symbols-template.md`: 单独维护假设和符号。
-- `assets/appendix-code-template.md`: 附录代码说明格式。
+- `templates/paper_main.tex`: TeX 论文骨架。
+- `templates/assumptions_symbols.md`: 单独维护假设和符号。
+- `templates/appendix_code.md`: 附录代码说明格式。

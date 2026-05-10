@@ -78,20 +78,18 @@ def main() -> int:
         return 0
 
     skill_root = Path(__file__).resolve().parents[1]
-    assets = skill_root / "assets"
     templates = skill_root / "templates"
 
-    copy_file(assets / "paper-template.md", project_dir / "paper" / "main.md", args.overwrite)
-    copy_file(assets / "assumptions-symbols-template.md", project_dir / "problem" / "assumptions.md", args.overwrite)
-    copy_file(assets / "appendix-code-template.md", project_dir / "appendix" / "code-template.md", args.overwrite)
     copy_file(templates / "problem_parse.schema.json", project_dir / "problem" / "problem_parse.schema.json", args.overwrite)
     copy_file(templates / "task_plan.schema.json", project_dir / "problem" / "task_plan.schema.json", args.overwrite)
     copy_file(templates / "task_plan.json", project_dir / "problem" / "task_plan.json", args.overwrite)
     copy_file(templates / "model_card.md", project_dir / "problem" / "model_card_template.md", args.overwrite)
+    copy_file(templates / "assumptions_symbols.md", project_dir / "problem" / "assumptions.md", args.overwrite)
     copy_file(templates / "result_registry.csv", project_dir / "results" / "result_registry.csv", args.overwrite)
     copy_file(templates / "validation_report.md", project_dir / "results" / "validation_report.md", args.overwrite)
     copy_file(templates / "paper_main.tex", project_dir / "paper" / "main.tex", args.overwrite)
     copy_file(templates / "refs.bib", project_dir / "paper" / "refs.bib", args.overwrite)
+    copy_file(templates / "appendix_code.md", project_dir / "appendix" / "code-template.md", args.overwrite)
     copy_file(templates / "run_log.md", project_dir / "logs" / "run_log.md", args.overwrite)
 
     write_text(project_dir / "logs" / "error_log.md", "# Error Log\n\nNo errors recorded yet.", args.overwrite)
