@@ -9,35 +9,58 @@ import json
 from pathlib import Path
 
 
+TASK_TYPE_LABELS = {
+    "prediction": "预测",
+    "optimization": "优化",
+    "evaluation": "评价",
+    "simulation": "仿真",
+    "classification": "分类",
+    "clustering": "聚类",
+    "unknown": "建模",
+}
+
+
 def load_nodes(task_plan: Path) -> list[str]:
     if not task_plan.exists():
         return [
-            "题目任务",
-            "数据与指标",
-            "建模思路",
-            "核心模型",
+            "题面解析",
+            "附件审计",
+            "建模路线",
             "模型求解",
-            "验证分析",
-            "结论输出",
+            "结果验证",
+            "论文输出",
         ]
     plan = json.loads(task_plan.read_text(encoding="utf-8"))
-    nodes = ["题目任务", "数据审计"]
+    nodes = ["题面解析", "附件审计", "路线比较"]
     for q in plan.get("subquestions", []):
         qid = q.get("id", "Q")
         task_type = q.get("task_type", "建模")
-        nodes.append(f"{qid} {task_type}")
+        nodes.append(f"{qid} {TASK_TYPE_LABELS.get(task_type, task_type)}")
     nodes.extend(["结果验证", "论文输出"])
     return nodes
 
 
+def wrap_label(label: str, max_chars: int = 9, max_lines: int = 3) -> list[str]:
+    text = str(label).strip()
+    lines = [text[i : i + max_chars] for i in range(0, len(text), max_chars)] or [""]
+    if len(lines) > max_lines:
+        lines = lines[:max_lines]
+        lines[-1] = lines[-1].rstrip(" .。") + "..."
+    return lines
+
+
 def svg(nodes: list[str], width: int = 1200) -> str:
-    box_w = 150
-    box_h = 58
+    wrapped = [wrap_label(node) for node in nodes]
+    line_h = 18
+    box_w = 170
+    box_h = max(64, max(len(lines) for lines in wrapped) * line_h + 24)
     gap = 30
-    margin = 40
-    per_row = max(1, (width - 2 * margin + gap) // (box_w + gap))
+    margin_x = 40
+    margin_y = 58
+    row_gap = 70
+    per_row = max(1, (width - 2 * margin_x + gap) // (box_w + gap))
     rows = (len(nodes) + per_row - 1) // per_row
-    height = margin * 2 + rows * box_h + (rows - 1) * 70
+    height = margin_y + rows * box_h + (rows - 1) * row_gap + 36
     parts = [
         (
             f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" '
@@ -57,25 +80,36 @@ def svg(nodes: list[str], width: int = 1200) -> str:
         ),
         f'<text x="{width/2}" y="28" text-anchor="middle" font-size="22" font-weight="700">技术路线图</text>',
     ]
-    centers: list[tuple[int, int]] = []
-    for i, label in enumerate(nodes):
+    rects: list[dict[str, int]] = []
+    for i, lines in enumerate(wrapped):
         row = i // per_row
         col = i % per_row
-        x = margin + col * (box_w + gap)
-        y = margin + row * (box_h + 70)
-        centers.append((x + box_w // 2, y + box_h // 2))
+        x = margin_x + col * (box_w + gap)
+        y = margin_y + row * (box_h + row_gap)
+        rects.append({"row": row, "x": x, "y": y, "cx": x + box_w // 2, "cy": y + box_h // 2})
         parts.append(
             f'<rect class="box" x="{x}" y="{y}" width="{box_w}" height="{box_h}"/>'
         )
-        safe = html.escape(label)
+        start_y = y + box_h / 2 - (len(lines) - 1) * line_h / 2 + 6
+        text_parts = [
+            f'<text x="{x + box_w / 2}" y="{start_y}" text-anchor="middle">'
+        ]
+        for idx, line in enumerate(lines):
+            dy = 0 if idx == 0 else line_h
+            text_parts.append(f'<tspan x="{x + box_w / 2}" dy="{dy}">{html.escape(line)}</tspan>')
+        text_parts.append("</text>")
+        parts.append("".join(text_parts))
+    for current, nxt in zip(rects, rects[1:]):
+        if current["row"] == nxt["row"]:
+            parts.append(
+                f'<path class="arrow" d="M{current["x"] + box_w - 6},{current["cy"]} '
+                f'L{nxt["x"] + 6},{nxt["cy"]}"/>'
+            )
+            continue
+        mid_y = current["y"] + box_h + row_gap // 2
         parts.append(
-            f'<text x="{x + box_w / 2}" y="{y + box_h / 2 + 6}" '
-            f'text-anchor="middle">{safe}</text>'
-        )
-    for (x1, y1), (x2, y2) in zip(centers, centers[1:]):
-        parts.append(
-            f'<path class="arrow" d="M{x1 + box_w / 2 - 6},{y1} '
-            f'L{x2 - box_w / 2 + 6},{y2}"/>'
+            f'<path class="arrow" d="M{current["cx"]},{current["y"] + box_h - 4} '
+            f'L{current["cx"]},{mid_y} L{nxt["cx"]},{mid_y} L{nxt["cx"]},{nxt["y"] + 4}"/>'
         )
     parts.append("</svg>")
     return "\n".join(parts)
