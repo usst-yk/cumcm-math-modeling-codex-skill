@@ -36,6 +36,7 @@
 | `result-tracking.md` | 关键数值和论文结论的来源追踪。 |
 | `code-to-paper.md` | 代码、表格、图片转论文。 |
 | `paper-writing.md` | CUMCM 论文结构和写法。 |
+| `paper-assembly.md` | 完整论文总装规则，防止只拼接各问片段。 |
 | `paper-section-flow.md` | 分段写作顺序和每节输入输出。 |
 | `technical-roadmap.md` | 技术路线图和模型流程图。 |
 | `figure-plan.md` | 单问/全题默认应该生成哪些中文示意图和结果图。 |

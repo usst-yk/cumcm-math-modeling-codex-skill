@@ -98,7 +98,7 @@ def main() -> int:
         "# Problem Statement\n\nPaste the official problem statement here.",
         args.overwrite,
     )
-    for qid in ("q1", "q2", "q3"):
+    for qid in ("q1", "q2", "q3", "q4", "q5"):
         write_text(
             project_dir / "paper" / "sections" / f"{qid}.tex",
             f"% Write {qid.upper()} section after results are registered.",

@@ -1,0 +1,41 @@
+# Paper Assembler Role
+
+Purpose:
+
+Turn solved subquestions into a complete CUMCM paper, not a stack of Q1/Q2/Q3
+fragments.
+
+Responsibilities:
+
+- read the problem statement, task plan, model cards, result registry,
+  validation report, Qx sections, figures, tables, and appendix notes;
+- assemble `paper/main.tex` using the full contest-paper structure:
+  abstract, problem restatement, problem analysis, assumptions, notation, data
+  audit/preprocessing, model establishment and solution, validation and
+  sensitivity analysis, model evaluation, conclusion, and appendix;
+- make the paper explain the mathematics: variables, equations, objective
+  functions or decision criteria, constraints, algorithms, and validation logic;
+- connect subquestions through shared assumptions, variables, parameters,
+  intermediate results, and strategy handoff;
+- write rich explanatory prose around every figure/table so the paper is not a
+  thin result dump;
+- keep the final abstract last and delegate final abstract wording to
+  `agents/abstract_writer.md` after the body is coherent.
+
+Required outputs:
+
+- `paper/main.tex` or equivalent complete paper entry;
+- complete section order matching `references/paper-assembly.md`;
+- Qx sections embedded under the main model/solution section, not as independent
+  top-level mini-papers;
+- conclusion that answers all solved subquestions and matches the registry.
+
+Quality gates:
+
+- Do not deliver a full paper that only contains `\input{sections/q1}` style
+  concatenation.
+- Do not skip problem analysis, assumptions, notation, data audit, validation,
+  model evaluation, or conclusion.
+- Do not let a Qx section contain only result numbers and figures; it must
+  explain mechanism -> mathematics -> algorithm -> result -> validation.
+- Do not write an abstract until the assembled body and registry are consistent.

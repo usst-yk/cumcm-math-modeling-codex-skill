@@ -49,12 +49,16 @@ and `references/stage-gates.md` before stage changes.
 | 4 Solver / 代码求解 | `agents/coder.md` | scripts, tables, figures, registry rows |
 | 5 Validator / 验证分析 | `references/validation.md` | validation report |
 | 6 Writer / 论文写作 | `agents/writer.md` | Qx paper section |
-| 7 Abstract Writer / 摘要写作 | `agents/abstract_writer.md` | final abstract |
-| 8 Reviewer / 终审 | `agents/reviewer.md` | final findings and blockers |
+| 7 Paper Assembler / 论文总装 | `agents/paper_assembler.md` | complete paper |
+| 8 Abstract Writer / 摘要写作 | `agents/abstract_writer.md` | final abstract |
+| 9 Reviewer / 终审 | `agents/reviewer.md` | final findings and blockers |
 
 Process each subquestion as: model card -> code -> tables/figures -> registry ->
 validation -> paper section. Write the final abstract only after solved sections
 have registered or otherwise traceable results.
+For full papers or benchmark cases, assemble Qx sections into the complete
+CUMCM paper structure before writing the final abstract; never deliver a paper
+that is only a concatenation of per-question fragments.
 
 ## Task Routing
 
@@ -81,7 +85,10 @@ Read `references/task-routing.md` for the complete table.
   plus result figure for each solved subquestion.
 - Outputs to paper: read files first, then use `references/code-to-paper.md` and
   `references/result-tracking.md`.
-- Paper writing: `references/paper-writing.md`, `references/scoring-checklist.md`.
+- Paper writing: `references/paper-writing.md`, `references/paper-assembly.md`,
+  `references/scoring-checklist.md`.
+- Full paper assembly: `agents/paper_assembler.md`,
+  `references/paper-assembly.md`, and `templates/paper_main.tex`.
 - Final abstract: `agents/abstract_writer.md`, `references/paper-writing.md`,
   `references/result-tracking.md`, `references/scoring-checklist.md`.
 - Roadmap/flowchart: `references/technical-roadmap.md`; prefer editable

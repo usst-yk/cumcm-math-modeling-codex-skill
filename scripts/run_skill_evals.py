@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 import subprocess
 import tempfile
 from pathlib import Path
@@ -245,12 +246,58 @@ def check_real_case_2025_a(issues: list[str]) -> None:
                 issues.append(f"2025 A real case solved {question.upper()} should keep at least 3 figures")
             if not any("schematic" in fig.name for fig in figures):
                 issues.append(f"2025 A real case solved {question.upper()} should include a schematic figure")
+    check_full_paper_structure(REAL_CASE_2025_A, "2025 A benchmark paper", issues, min_chars=4500)
+
+
+def clean_tex_text(text: str) -> str:
+    text = re.sub(r"%.*", " ", text)
+    text = re.sub(r"\\(?:begin|end)\{[^}]+\}", " ", text)
+    text = re.sub(r"\\[A-Za-z]+\*?(?:\[[^\]]*\])?(?:\{[^{}]*\})?", " ", text)
+    text = re.sub(r"[{}$^_\\]", " ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def check_full_paper_structure(root: Path, label: str, issues: list[str], min_chars: int = 4000) -> None:
+    paper = root / "paper" / "main.tex"
+    if not paper.exists():
+        issues.append(f"{label} missing paper/main.tex")
+        return
+    main_text = paper.read_text(encoding="utf-8", errors="ignore")
+    full_text = main_text
+    section_dir = root / "paper" / "sections"
+    if section_dir.exists():
+        for section in sorted(section_dir.glob("*.tex")):
+            full_text += "\n" + section.read_text(encoding="utf-8", errors="ignore")
+    required = [
+        "问题重述",
+        "问题分析",
+        "模型假设",
+        "符号说明",
+        "数据",
+        "模型建立",
+        "模型检验",
+        "模型评价",
+        "结论",
+        "附录",
+    ]
+    for item in required:
+        if item == "附录" and "\\appendix" in main_text:
+            continue
+        if item not in main_text:
+            issues.append(f"{label} should contain global section: {item}")
+    cleaned = clean_tex_text(full_text)
+    if len(cleaned) < min_chars:
+        issues.append(f"{label} is too thin; expected richer modeling prose and validation")
+    top_sections = re.findall(r"\\section\{([^}]+)\}", main_text)
+    if len(top_sections) < 8:
+        issues.append(f"{label} should have a complete paper section structure, not only Qx inputs")
 
 
 def check_folder_indexes(issues: list[str]) -> None:
     expected = [
         "agents/README.md",
         "agents/abstract_writer.md",
+        "agents/paper_assembler.md",
         "evals/README.md",
         "examples/README.md",
         "references/README.md",
@@ -271,6 +318,7 @@ def check_reference_names(issues: list[str]) -> None:
         "references/output-policy.md",
         "references/method-library.md",
         "references/method-cards.json",
+        "references/paper-assembly.md",
         "references/paper-section-flow.md",
         "references/external-agent-patterns.md",
         "references/figure-plan.md",

@@ -64,7 +64,32 @@ Do not write final paper text until:
 - every figure/table has a source script or source data;
 - sensitivity analysis is based on actual perturbation or a reproducible perturbation plan.
 
-## Stage 6 -> Stage 7: Writer To Reviewer
+## Stage 6 -> Stage 7: Writer To Paper Assembler
+
+Do not write the final abstract or enter final review until:
+
+- Qx sections are assembled into a complete paper structure, not just
+  concatenated fragments;
+- `paper/main.tex` contains problem restatement, problem analysis, assumptions,
+  notation, data audit/preprocessing, model establishment and solution,
+  validation/sensitivity analysis, model evaluation, conclusion, and appendix
+  or clear equivalents;
+- each solved Qx section explains mechanism, mathematics, algorithm, result, and
+  validation, not only numbers and figures;
+- later questions explicitly state how they reuse earlier assumptions,
+  variables, parameters, results, or strategy outputs.
+
+## Stage 7 -> Stage 8: Paper Assembler To Abstract Writer
+
+Do not write the final abstract until:
+
+- the assembled paper body is coherent and no longer a collection of fragments;
+- conclusion numbers and paper captions match the registry and generated
+  artifacts;
+- `scripts/validate_results.py --mode full` has no blocking paper-structure or
+  traceability findings when project artifacts exist.
+
+## Stage 8 -> Stage 9: Abstract Writer To Reviewer
 
 Do not enter final review until:
 

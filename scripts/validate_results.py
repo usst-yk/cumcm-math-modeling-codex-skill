@@ -14,6 +14,18 @@ NUM_RE = re.compile(r"(?<![A-Za-z])\d+(?:\.\d+)?%?")
 FIG_RE = re.compile(r"(fig_[A-Za-z0-9_./-]+\.(?:png|jpg|jpeg|pdf|svg))")
 TAB_RE = re.compile(r"(tab_[A-Za-z0-9_./-]+\.(?:csv|xlsx|xls))")
 FIGURE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".pdf", ".svg"}
+REQUIRED_FULL_PAPER_SECTIONS = [
+    r"问题重述",
+    r"问题分析",
+    r"模型假设",
+    r"符号说明",
+    r"数据(?:审计|预处理|处理)",
+    r"模型建立",
+    r"模型检验|灵敏度|敏感性",
+    r"模型评价",
+    r"结论",
+    r"附录|复现说明",
+]
 
 
 def read_registry(path: Path) -> pd.DataFrame:
@@ -127,6 +139,75 @@ def audit_paper(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
             missing = [n for n in numbers if not any(n in v for v in values)]
             if missing:
                 issues.append(f"P1: abstract number(s) not found in result registry: {', '.join(sorted(set(missing)))}")
+    return issues
+
+
+def read_full_paper_text(root: Path) -> str:
+    paper = root / "paper" / "main.tex"
+    if not paper.exists():
+        return ""
+    text = paper.read_text(encoding="utf-8", errors="ignore")
+    section_dir = root / "paper" / "sections"
+    if section_dir.exists():
+        for section in sorted(section_dir.glob("*.tex")):
+            text += "\n" + section.read_text(encoding="utf-8", errors="ignore")
+    return text
+
+
+def strip_tex_commands(text: str) -> str:
+    text = re.sub(r"%.*", " ", text)
+    text = re.sub(r"\\(?:begin|end)\{[^}]+\}", " ", text)
+    text = re.sub(r"\\[A-Za-z]+\*?(?:\[[^\]]*\])?(?:\{[^{}]*\})?", " ", text)
+    text = re.sub(r"[{}$^_\\]", " ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def audit_paper_structure(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
+    issues: list[str] = []
+    if mode != "full":
+        return issues
+    paper = root / "paper" / "main.tex"
+    if not paper.exists():
+        return issues
+
+    main_text = paper.read_text(encoding="utf-8", errors="ignore")
+    full_text = read_full_paper_text(root)
+    missing = [
+        pattern
+        for pattern in REQUIRED_FULL_PAPER_SECTIONS
+        if not re.search(pattern, main_text)
+    ]
+    if missing:
+        issues.append(
+            "P1: full paper is missing required global section(s): "
+            + ", ".join(missing)
+        )
+
+    top_sections = re.findall(r"\\section\{([^}]+)\}", main_text)
+    if len(top_sections) < 8:
+        issues.append(
+            "P1: full paper has too few top-level sections; it may be a concatenation of Qx fragments."
+        )
+    if top_sections and all(re.search(r"问题\s*[一二三四五六七八九十\d]+|Q\s*\d+", title) for title in top_sections[: min(3, len(top_sections))]):
+        issues.append("P1: full paper starts with per-question sections instead of global paper sections.")
+
+    cleaned = strip_tex_commands(full_text)
+    if len(cleaned) < 4500:
+        issues.append(
+            "P1: full paper is too thin; expected richer modeling prose, equations, result explanation, validation, and conclusion."
+        )
+
+    questions = solved_subquestions(registry)
+    for question in questions:
+        q_num = question[1:]
+        q_pattern = rf"问题\s*{q_num}|问题\s*{'一二三四五六七八九十'[int(q_num)-1] if q_num.isdigit() and 1 <= int(q_num) <= 10 else q_num}|Q\s*{q_num}"
+        if not re.search(q_pattern, full_text, flags=re.IGNORECASE):
+            issues.append(f"P1: solved {question.upper()} is not discussed in the paper body.")
+
+    required_words = ["变量", "约束", "算法", "验证"]
+    for word in required_words:
+        if word not in full_text:
+            issues.append(f"P2: full paper does not explicitly discuss {word}.")
     return issues
 
 
@@ -258,6 +339,7 @@ def main() -> int:
     issues.extend(audit_registry(root, registry, args.mode))
     issues.extend(audit_tables(root))
     issues.extend(audit_paper(root, registry, args.mode))
+    issues.extend(audit_paper_structure(root, registry, args.mode))
     issues.extend(audit_figure_coverage(root, registry, args.mode))
     if args.mode == "full":
         issues.extend(audit_unreferenced(root, registry))

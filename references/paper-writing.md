@@ -2,6 +2,8 @@
 
 For section-by-section handoff from code outputs to paper sections, also read
 `references/paper-section-flow.md`.
+For complete reports, full benchmark cases, final TeX, or contest deliverables,
+also read `references/paper-assembly.md`.
 
 ## 论文结构
 
@@ -18,6 +20,8 @@ For section-by-section handoff from code outputs to paper sections, also read
 9. 模型评价与推广
 10. 参考文献
 11. 附录
+
+完整论文不能只是把 Q1/Q2/Q3 片段连续 `\input` 到 `main.tex`。每问内容应嵌入完整论文结构中，并且正文要先交代问题重述、问题分析、假设、符号和数据，再进入分问题模型建立与求解。
 
 ## 摘要模式
 
@@ -75,6 +79,16 @@ For section-by-section handoff from code outputs to paper sections, also read
 7. 补充误差、稳定性或局限。
 
 不要让论文只堆表格；表格之后必须有解释。
+
+## 饱满度要求
+
+一篇完整论文至少要回答三类问题：
+
+- 为什么这样建模：题目机制、合理假设、变量选择和数学结构。
+- 怎么求解：公式、约束、算法、参数、随机种子或求解状态。
+- 结果说明什么：核心数值、图表解释、验证、局限和与其他问题的联系。
+
+如果正文只写“建立模型、运行代码、得到结果”，即使数值正确，也是不合格的瘦论文。
 
 ## 图表要求
 

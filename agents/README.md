@@ -9,6 +9,7 @@
 | `modeler.md` | 比较三条建模路线，形成每问模型卡。 |
 | `coder.md` | 写可复现代码，保存表格、图和结果记录。 |
 | `writer.md` | 从已登记结果写论文段落。 |
+| `paper_assembler.md` | 把各问段落、图表、验证和结论总装成完整论文。 |
 | `abstract_writer.md` | 在各问正文和结果确定后，最后写并检查摘要。 |
 | `reviewer.md` | 从评委视角做终审和阻塞项检查。 |
 | `openai.yaml` | Codex UI 展示元数据。 |
