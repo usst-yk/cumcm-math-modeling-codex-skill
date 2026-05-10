@@ -267,11 +267,50 @@ def write_figure(intervals: list[tuple[float, float]]) -> None:
     plt.close(fig)
 
 
+def write_validation_figure(intervals: list[tuple[float, float]]) -> None:
+    setup_chinese_plot()
+    FIGURE_DIR.mkdir(parents=True, exist_ok=True)
+    times = np.linspace(DETONATION_TIME, DETONATION_TIME + SMOKE_EFFECTIVE_SECONDS, 1200)
+    margins = []
+    projections = []
+    for t in times:
+        margin, _, projection = distance_margin(float(t))
+        margins.append(margin)
+        projections.append(projection)
+    margins_arr = np.array(margins)
+    projections_arr = np.array(projections)
+
+    fig, axes = plt.subplots(2, 1, figsize=(10, 6.2), dpi=180, sharex=True)
+
+    axes[0].plot(times, margins_arr, color="#2f5597", linewidth=1.8, label="距离裕度")
+    axes[0].axhline(0, color="#c00000", linestyle="--", linewidth=1.3, label="有效边界")
+    for start, end in intervals:
+        axes[0].axvspan(start, end, color="#92d050", alpha=0.25)
+    axes[0].set_ylabel("距离裕度 / m")
+    axes[0].set_title("问题一：遮蔽判据验证")
+    axes[0].legend(frameon=False)
+    axes[0].grid(alpha=0.25)
+
+    axes[1].plot(times, projections_arr, color="#548235", linewidth=1.8, label="垂足位置参数")
+    axes[1].axhspan(0, 1, color="#d9ead3", alpha=0.45, label="线段内部")
+    for start, end in intervals:
+        axes[1].axvspan(start, end, color="#92d050", alpha=0.18)
+    axes[1].set_xlabel("时间 / s")
+    axes[1].set_ylabel("投影参数")
+    axes[1].legend(frameon=False)
+    axes[1].grid(alpha=0.25)
+
+    fig.tight_layout()
+    fig.savefig(FIGURE_DIR / "fig_q1_validation_margin.png", bbox_inches="tight")
+    plt.close(fig)
+
+
 def main() -> int:
     intervals = find_intervals()
     write_tables(intervals)
     write_model_schematic(intervals)
     write_figure(intervals)
+    write_validation_figure(intervals)
 
     total_duration = sum(end - start for start, end in intervals)
     print(f"release_point={uav_position(RELEASE_TIME)}")

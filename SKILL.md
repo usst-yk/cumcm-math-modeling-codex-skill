@@ -94,7 +94,8 @@ Read `references/task-routing.md` for the complete table.
   unless the user explicitly asks for a complete project.
 - For every solved subquestion, create a figure plan and normally generate at
   least two Chinese figures: one model/problem schematic and one result figure.
-  Add validation/sensitivity figures when the result needs checking.
+  Add validation/sensitivity/feasibility figures for optimization, prediction,
+  ranking, scheduling, simulation, or any result that needs checking.
 - Skip schematic figures only when a compact table is clearly better, and state
   the reason.
 - Contest-paper figures default to Chinese titles, axis labels, legends,

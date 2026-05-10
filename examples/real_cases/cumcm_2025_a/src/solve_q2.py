@@ -396,12 +396,49 @@ def write_figure(decision: np.ndarray, intervals: list[tuple[float, float]]) -> 
     plt.close(fig)
 
 
+def write_sensitivity_figure(decision: np.ndarray) -> None:
+    setup_chinese_plot()
+    FIGURE_DIR.mkdir(parents=True, exist_ok=True)
+    labels = [
+        ("速度 v", 0, 6.0, "速度扰动 / (m/s)"),
+        ("航向角 θ", 1, 0.06, "航向角扰动 / rad"),
+        ("投放时刻", 2, 0.35, "投放时刻扰动 / s"),
+        ("引信延迟", 3, 0.35, "引信延迟扰动 / s"),
+    ]
+    baseline = float(score_batch(decision[None, :], dt=0.02)[0])
+    offsets = np.linspace(-1.0, 1.0, 31)
+
+    fig, axes = plt.subplots(2, 2, figsize=(11, 7.2), dpi=180)
+    for ax, (title, index, scale, xlabel) in zip(axes.ravel(), labels):
+        candidates = np.repeat(decision[None, :], len(offsets), axis=0)
+        candidates[:, index] = candidates[:, index] + offsets * scale
+        candidates[:, 0] = np.clip(candidates[:, 0], MIN_UAV_SPEED, MAX_UAV_SPEED)
+        candidates[:, 2] = np.clip(candidates[:, 2], 0.0, None)
+        candidates[:, 3] = np.clip(candidates[:, 3], 0.1, None)
+        scores = score_batch(candidates, dt=0.02)
+
+        ax.plot(offsets * scale, scores, color="#2f5597", linewidth=1.9)
+        ax.axhline(baseline, color="#c00000", linestyle="--", linewidth=1.2, label="当前方案")
+        ax.axvline(0, color="#808080", linestyle=":", linewidth=1.0)
+        ax.set_title(f"{title}的局部敏感性")
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel("遮蔽时长 / s")
+        ax.grid(alpha=0.25)
+        ax.legend(frameon=False)
+
+    fig.suptitle("问题二：推荐策略的局部敏感性检查", y=1.02)
+    fig.tight_layout()
+    fig.savefig(FIGURE_DIR / "fig_q2_sensitivity.png", bbox_inches="tight")
+    plt.close(fig)
+
+
 def main() -> int:
     decision, coarse_score = search_best()
     intervals = find_intervals(decision)
     write_tables(decision, intervals)
     write_model_schematic(decision, intervals)
     write_figure(decision, intervals)
+    write_sensitivity_figure(decision)
     total_duration = sum(end - start for start, end in intervals)
     detonation_time, _, release_point, detonation_point = decision_geometry(decision)
 

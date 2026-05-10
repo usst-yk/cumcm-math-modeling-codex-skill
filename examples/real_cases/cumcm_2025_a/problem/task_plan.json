@@ -23,7 +23,9 @@
         "boundary case"
       ],
       "figures_needed": [
-        "fig_q1_result.png"
+        "fig_q1_model_schematic.png",
+        "fig_q1_distance_geometry.png",
+        "fig_q1_validation_margin.png"
       ],
       "tables_needed": [
         "tab_q1_result.csv"
@@ -53,7 +55,9 @@
         "baseline scheme comparison"
       ],
       "figures_needed": [
-        "fig_q2_result.png"
+        "fig_q2_model_schematic.png",
+        "fig_q2_optimized_distance_geometry.png",
+        "fig_q2_sensitivity.png"
       ],
       "tables_needed": [
         "tab_q2_result.csv"
@@ -82,7 +86,9 @@
         "baseline scheme comparison"
       ],
       "figures_needed": [
-        "fig_q3_result.png"
+        "fig_q3_model_schematic.png",
+        "fig_q3_result.png",
+        "fig_q3_validation.png"
       ],
       "tables_needed": [
         "tab_q3_result.csv"
@@ -111,7 +117,9 @@
         "baseline scheme comparison"
       ],
       "figures_needed": [
-        "fig_q4_result.png"
+        "fig_q4_model_schematic.png",
+        "fig_q4_result.png",
+        "fig_q4_validation.png"
       ],
       "tables_needed": [
         "tab_q4_result.csv"
@@ -140,7 +148,9 @@
         "baseline scheme comparison"
       ],
       "figures_needed": [
-        "fig_q5_result.png"
+        "fig_q5_model_schematic.png",
+        "fig_q5_result.png",
+        "fig_q5_validation.png"
       ],
       "tables_needed": [
         "tab_q5_result.csv"

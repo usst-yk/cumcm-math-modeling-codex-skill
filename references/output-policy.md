@@ -14,7 +14,7 @@
 - `tables/tab_qx_result.csv`：当前问题的核心结果表。必要时再拆成 1-2 个更清楚的表。
 - `figures/fig_qx_model_schematic.png|svg`：当前问题的模型/题意示意图。
 - `figures/fig_qx_result.png`：当前问题的核心结果图。
-- `figures/fig_qx_validation.png`：有验证、约束或敏感性分析时再生成。
+- `figures/fig_qx_validation.png`：优化、预测、评价排序、调度、仿真或有约束检查时通常要生成。
 - `paper/sections/qx.tex` 或 `.md`：只有用户要求写论文段落时才生成。
 
 可以在最终回复里用自然语言说明验证结果，不必为了每次小任务都生成 `logs/`、`model_card`、`task_plan`、空论文模板、空附录模板或 schema 文件。

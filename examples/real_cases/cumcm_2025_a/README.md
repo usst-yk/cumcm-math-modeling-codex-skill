@@ -39,8 +39,10 @@
 | `figures/fig_problem_question_scope.png` | 五个子问题的资源范围和输出要求示意图。 |
 | `figures/fig_q1_model_schematic.png` | 问题 1 时序和遮蔽判定示意图。 |
 | `figures/fig_q1_distance_geometry.png` | 问题 1 距离阈值和侧视几何图。 |
+| `figures/fig_q1_validation_margin.png` | 问题 1 距离裕度和投影参数验证图。 |
 | `figures/fig_q2_model_schematic.png` | 问题 2 优化变量和投放时序示意图。 |
 | `figures/fig_q2_optimized_distance_geometry.png` | 问题 2 距离阈值和侧视几何图。 |
+| `figures/fig_q2_sensitivity.png` | 问题 2 推荐策略的局部敏感性图。 |
 | `results/validation_audit.md` | 问题 1 产物一致性自动检查结果。 |
 | `paper/main.tex` | 可编译论文片段入口。 |
 | `paper/sections/problem_overview.tex` | 题面结构与几何背景论文片段。 |
@@ -63,7 +65,7 @@
 
 如果要继续完整求解，建议按子问题推进：当前已完成 Q1 的几何遮蔽计算和 Q2 的单机单弹搜索示例，随后可扩展到 Q3、Q4、Q5 的多弹、多机、多导弹联合优化。
 
-本案例的图默认使用中文标题、坐标轴和图例。正式做题时，只要几何关系、时间过程、优化变量、空间布局或任务拆解能用图讲清楚，就应优先生成中文示意图，再写入论文图注。
+本案例的图默认使用中文标题、坐标轴和图例。正式做题时，只要几何关系、时间过程、优化变量、空间布局或任务拆解能用图讲清楚，就应优先生成中文示意图，再写入论文图注。已经求解的每一问至少保留“模型/题意示意图 + 核心结果图”，涉及优化、验证或敏感性分析时再补一张检查图。
 
 ## 当前限制
 

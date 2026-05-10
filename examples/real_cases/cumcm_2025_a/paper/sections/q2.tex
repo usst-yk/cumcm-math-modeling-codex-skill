@@ -24,4 +24,13 @@
   \label{fig:q2-distance-geometry}
 \end{figure}
 
+由于问题二属于优化问题，除给出推荐策略外，还需说明该策略附近的稳定性。图 \ref{fig:q2-sensitivity} 对速度、航向角、投放时刻和引信延迟做单因素扰动，比较遮蔽时长的变化。该图用于提醒论文中不能只写“搜索得到最优”，还要说明推荐方案对关键变量扰动是否敏感。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.94\linewidth]{../figures/fig_q2_sensitivity.png}
+  \caption{问题二推荐策略的局部敏感性检查。各子图分别扰动一个决策变量，红色虚线表示当前推荐策略的遮蔽时长。}
+  \label{fig:q2-sensitivity}
+\end{figure}
+
 需要说明的是，本文示例使用确定性粗到细搜索得到 best-found 方案，尚未证明全局最优；同时，遮蔽判据仍是真目标轴中点视线判据。正式论文若采用完整圆柱目标遮蔽判据，需要进一步检查圆柱目标边界点的可见性，并重新登记结果。

@@ -13,6 +13,7 @@ import pandas as pd
 NUM_RE = re.compile(r"(?<![A-Za-z])\d+(?:\.\d+)?%?")
 FIG_RE = re.compile(r"(fig_[A-Za-z0-9_./-]+\.(?:png|jpg|jpeg|pdf|svg))")
 TAB_RE = re.compile(r"(tab_[A-Za-z0-9_./-]+\.(?:csv|xlsx|xls))")
+FIGURE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".pdf", ".svg"}
 
 
 def read_registry(path: Path) -> pd.DataFrame:
@@ -137,6 +138,65 @@ def registry_artifact_names(registry: pd.DataFrame) -> set[str]:
     return names
 
 
+def solved_subquestions(registry: pd.DataFrame) -> list[str]:
+    if registry.empty or "subquestion" not in registry.columns:
+        return []
+    questions: set[str] = set()
+    for value in registry["subquestion"].dropna().astype(str):
+        match = re.search(r"q\s*(\d+)", value, flags=re.IGNORECASE)
+        if match:
+            questions.add(f"q{match.group(1)}")
+    return sorted(questions)
+
+
+def figure_files_for_question(root: Path, question: str) -> list[Path]:
+    figures = root / "figures"
+    if not figures.exists():
+        return []
+    return sorted(
+        path
+        for path in figures.glob(f"fig_{question}_*.*")
+        if path.suffix.lower() in FIGURE_EXTENSIONS
+    )
+
+
+def audit_figure_coverage(root: Path, registry: pd.DataFrame) -> list[str]:
+    issues: list[str] = []
+    for question in solved_subquestions(registry):
+        figures = figure_files_for_question(root, question)
+        names = [path.name for path in figures]
+        if len(figures) < 2:
+            issues.append(
+                f"P1: solved {question.upper()} has fewer than two figures; "
+                "expected a model/problem schematic plus a result figure."
+            )
+        if not any("schematic" in name or "示意" in name for name in names):
+            issues.append(f"P1: solved {question.upper()} is missing a model/problem schematic figure.")
+
+        if "subquestion" not in registry.columns:
+            continue
+        q_rows = registry[registry["subquestion"].astype(str).str.lower().str.replace(" ", "") == question]
+        q_text = " ".join(
+            str(row.get(col, ""))
+            for _, row in q_rows.iterrows()
+            for col in ["claim", "validation", "notes"]
+        )
+        needs_check_figure = re.search(
+            r"优化|最优|搜索|best-found|可行|约束|敏感|扰动|边界|validation|feasibility|sensitivity",
+            q_text,
+            flags=re.IGNORECASE,
+        )
+        has_check_figure = any(
+            "validation" in name or "sensitivity" in name or "feasibility" in name for name in names
+        )
+        if needs_check_figure and len(figures) < 3 and not has_check_figure:
+            issues.append(
+                f"P2: solved {question.upper()} likely needs a validation/sensitivity figure; "
+                "lean output should remove templates, not checking figures."
+            )
+    return issues
+
+
 def audit_unreferenced(root: Path, registry: pd.DataFrame) -> list[str]:
     issues: list[str] = []
     paper_text = ""
@@ -173,6 +233,7 @@ def main() -> int:
     issues.extend(audit_registry(root, registry))
     issues.extend(audit_tables(root))
     issues.extend(audit_paper(root, registry))
+    issues.extend(audit_figure_coverage(root, registry))
     issues.extend(audit_unreferenced(root, registry))
 
     out = root / args.output
