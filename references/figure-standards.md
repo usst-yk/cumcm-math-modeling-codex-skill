@@ -9,9 +9,13 @@ For SCI/Nature/PRL-style publication graphics, read `references/figure-standards
 - Every figure must support one subquestion conclusion.
 - Every figure must be reproducible from code or a saved source table.
 - Figure numbers, captions, and filenames must match the paper text.
-- If a schematic can make the model easier to understand, draw it. This applies
-  to geometry, trajectories, timing, optimization variables, evaluation
-  indicators, process flows, spatial layouts, and constraint relationships.
+- For each solved subquestion, make a figure plan before coding or writing.
+- Default to at least two figures for most solved subquestions: a model/problem
+  schematic and a result figure. Add validation/sensitivity figures when the
+  result needs checking.
+- Schematic figures are expected for geometry, trajectories, timing,
+  optimization variables, evaluation indicators, process flows, spatial layouts,
+  and constraint relationships.
 - For Chinese contest papers, figure titles, axis labels, legends, annotations,
   and captions should be in Chinese by default. Use English only for variables,
   file names, algorithm names, or standard units.
@@ -21,7 +25,8 @@ For SCI/Nature/PRL-style publication graphics, read `references/figure-standards
   figures are scaled down in the paper. After insertion, axis labels and legends
   should be close to body-text size, tick labels should remain clearly readable,
   and the figure title may be slightly larger than body text.
-- Do not use a figure when a compact table answers the question more clearly.
+- Do not use a figure only when a compact table answers the question more
+  clearly; record that reason.
 
 ## Recommended Figure Types
 

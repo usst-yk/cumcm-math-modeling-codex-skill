@@ -36,6 +36,7 @@
 | `paper-writing.md` | CUMCM 论文结构和写法。 |
 | `paper-section-flow.md` | 分段写作顺序和每节输入输出。 |
 | `technical-roadmap.md` | 技术路线图和模型流程图。 |
+| `figure-plan.md` | 单问/全题默认应该生成哪些中文示意图和结果图。 |
 | `figure-standards.md` | CUMCM 默认图表标准。 |
 | `figure-standards-journal.md` | SCI/Nature/PRL 等期刊图表扩展标准。 |
 

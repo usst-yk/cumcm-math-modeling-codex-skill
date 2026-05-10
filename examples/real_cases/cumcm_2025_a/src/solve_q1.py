@@ -181,6 +181,57 @@ def write_tables(intervals: list[tuple[float, float]]) -> None:
             )
 
 
+def write_model_schematic(intervals: list[tuple[float, float]]) -> None:
+    setup_chinese_plot()
+    FIGURE_DIR.mkdir(parents=True, exist_ok=True)
+    start, end = intervals[0]
+
+    fig, ax = plt.subplots(figsize=(11, 4.8), dpi=180)
+    ax.axis("off")
+    y = 0.55
+    events = [
+        (0.0, "发现目标\n受领任务"),
+        (RELEASE_TIME, "投放烟幕弹\n1.5 s"),
+        (DETONATION_TIME, "烟幕弹起爆\n5.1 s"),
+        (start, "有效遮蔽开始"),
+        (end, "有效遮蔽结束"),
+    ]
+    x_min, x_max = -1.0, end + 1.2
+
+    ax.annotate(
+        "",
+        xy=(x_max, y),
+        xytext=(x_min, y),
+        arrowprops={"arrowstyle": "->", "linewidth": 2.2, "color": "#1f4e79"},
+    )
+    ax.plot([start, end], [y, y], color="#70ad47", linewidth=12, alpha=0.35, solid_capstyle="round")
+    ax.text((start + end) / 2, y + 0.18, "有效遮蔽区间", ha="center", va="bottom", color="#548235", weight="bold")
+
+    for idx, (time, label) in enumerate(events):
+        ax.scatter([time], [y], s=70, color="#c00000" if idx >= 3 else "#2f5597", zorder=3)
+        offset = 0.28 if idx % 2 == 0 else -0.33
+        va = "bottom" if offset > 0 else "top"
+        ax.plot([time, time], [y, y + offset * 0.74], color="#808080", linewidth=1.0)
+        ax.text(time, y + offset, label, ha="center", va=va, fontsize=14)
+
+    ax.text(
+        0.02,
+        0.08,
+        "判定逻辑：烟幕云团中心到 M1-真目标轴中点视线线段的距离不超过 10 m，且垂足在线段内部。",
+        transform=ax.transAxes,
+        fontsize=14,
+        ha="left",
+        va="center",
+        bbox={"boxstyle": "round,pad=0.45", "facecolor": "#f2f7fb", "edgecolor": "#9dc3e6"},
+    )
+    ax.set_xlim(x_min, x_max)
+    ax.set_ylim(-0.12, 1.14)
+    ax.set_title("问题一：给定投放方案的时序与遮蔽判定示意")
+    fig.tight_layout()
+    fig.savefig(FIGURE_DIR / "fig_q1_model_schematic.png", bbox_inches="tight")
+    plt.close(fig)
+
+
 def write_figure(intervals: list[tuple[float, float]]) -> None:
     setup_chinese_plot()
     FIGURE_DIR.mkdir(parents=True, exist_ok=True)
@@ -219,6 +270,7 @@ def write_figure(intervals: list[tuple[float, float]]) -> None:
 def main() -> int:
     intervals = find_intervals()
     write_tables(intervals)
+    write_model_schematic(intervals)
     write_figure(intervals)
 
     total_duration = sum(end - start for start, end in intervals)

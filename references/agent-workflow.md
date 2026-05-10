@@ -22,8 +22,10 @@ Lean Qx loop:
 
 1. `src/solve_qx.py` when code is needed.
 2. `tables/tab_qx_result.csv|xlsx`.
-3. `figures/fig_qx_*.png|svg|pdf` when a figure helps.
-4. `paper/sections/qx.tex|md` only when paper text is requested.
+3. `figures/fig_qx_model_schematic.png|svg`.
+4. `figures/fig_qx_result.png|svg`.
+5. `figures/fig_qx_validation.png|svg` when a check is needed.
+6. `paper/sections/qx.tex|md` only when paper text is requested.
 
 Full project Qx loop:
 

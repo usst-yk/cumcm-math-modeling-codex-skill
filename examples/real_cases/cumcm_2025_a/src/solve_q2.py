@@ -286,6 +286,78 @@ def write_tables(decision: np.ndarray, intervals: list[tuple[float, float]]) -> 
             )
 
 
+def write_model_schematic(decision: np.ndarray, intervals: list[tuple[float, float]]) -> None:
+    setup_chinese_plot()
+    FIGURE_DIR.mkdir(parents=True, exist_ok=True)
+    speed, heading, release_time, fuse_delay = decision
+    detonation_time, direction, release_point, detonation_point = decision_geometry(decision)
+    start, end = intervals[0]
+
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5.2), dpi=180)
+
+    ax = axes[0]
+    ax.axis("off")
+    boxes = [
+        (0.08, 0.78, "决策变量", f"速度 v={speed:.2f} m/s\n航向角 θ={np.degrees(heading):.2f}°"),
+        (0.08, 0.48, "投放时序", f"投放 t_r={release_time:.3f} s\n延迟 τ={fuse_delay:.3f} s"),
+        (0.08, 0.18, "优化目标", "最大化有效遮蔽时长\n满足 70≤v≤140 m/s"),
+        (0.58, 0.64, "投放点", f"({release_point[0]:.1f}, {release_point[1]:.1f}, {release_point[2]:.1f})"),
+        (0.58, 0.34, "起爆点", f"({detonation_point[0]:.1f}, {detonation_point[1]:.1f}, {detonation_point[2]:.1f})"),
+    ]
+    for x, y, title, body in boxes:
+        ax.text(
+            x,
+            y,
+            f"{title}\n{body}",
+            transform=ax.transAxes,
+            ha="left",
+            va="center",
+            fontsize=13,
+            bbox={"boxstyle": "round,pad=0.45", "facecolor": "#f8fbff", "edgecolor": "#5b9bd5"},
+        )
+    for y1, y2 in [(0.78, 0.64), (0.48, 0.34), (0.18, 0.34)]:
+        ax.annotate(
+            "",
+            xy=(0.56, y2),
+            xytext=(0.42, y1),
+            xycoords="axes fraction",
+            arrowprops={"arrowstyle": "->", "linewidth": 1.6, "color": "#1f4e79"},
+        )
+    ax.set_title("问题二：优化变量与投放策略示意")
+
+    ax = axes[1]
+    ax.annotate(
+        "",
+        xy=(end + 0.8, 0.5),
+        xytext=(0.0, 0.5),
+        arrowprops={"arrowstyle": "->", "linewidth": 2.2, "color": "#1f4e79"},
+    )
+    ax.plot([start, end], [0.5, 0.5], color="#70ad47", linewidth=13, alpha=0.35, solid_capstyle="round")
+    timeline = [
+        (release_time, "投放"),
+        (detonation_time, "起爆"),
+        (start, "遮蔽开始"),
+        (end, "遮蔽结束"),
+    ]
+    for idx, (time, label) in enumerate(timeline):
+        ax.scatter([time], [0.5], s=72, color="#c00000" if idx >= 2 else "#2f5597", zorder=3)
+        offset = 0.22 if idx % 2 == 0 else -0.24
+        va = "bottom" if offset > 0 else "top"
+        ax.plot([time, time], [0.5, 0.5 + offset * 0.7], color="#808080", linewidth=1.0)
+        ax.text(time, 0.5 + offset, f"{label}\n{time:.3f} s", ha="center", va=va, fontsize=13)
+    ax.text((start + end) / 2, 0.72, f"有效遮蔽 {end - start:.3f} s", ha="center", color="#548235", weight="bold")
+    ax.set_xlim(0, end + 0.9)
+    ax.set_ylim(0.05, 0.98)
+    ax.set_yticks([])
+    ax.set_xlabel("时间 / s")
+    ax.set_title("问题二：投放、起爆与遮蔽时序")
+    ax.grid(axis="x", alpha=0.22)
+
+    fig.tight_layout()
+    fig.savefig(FIGURE_DIR / "fig_q2_model_schematic.png", bbox_inches="tight")
+    plt.close(fig)
+
+
 def write_figure(decision: np.ndarray, intervals: list[tuple[float, float]]) -> None:
     setup_chinese_plot()
     FIGURE_DIR.mkdir(parents=True, exist_ok=True)
@@ -328,6 +400,7 @@ def main() -> int:
     decision, coarse_score = search_best()
     intervals = find_intervals(decision)
     write_tables(decision, intervals)
+    write_model_schematic(decision, intervals)
     write_figure(decision, intervals)
     total_duration = sum(end - start for start, end in intervals)
     detonation_time, _, release_point, detonation_point = decision_geometry(decision)

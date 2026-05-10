@@ -156,7 +156,9 @@ def check_real_case_2025_a(issues: list[str]) -> None:
         "tables/tab_q2_intervals.csv",
         "figures/fig_problem_overview_xy.png",
         "figures/fig_problem_question_scope.png",
+        "figures/fig_q1_model_schematic.png",
         "figures/fig_q1_distance_geometry.png",
+        "figures/fig_q2_model_schematic.png",
         "figures/fig_q2_optimized_distance_geometry.png",
         "results/result_registry.csv",
         "results/validation_report.md",
@@ -209,6 +211,7 @@ def check_reference_names(issues: list[str]) -> None:
         "references/method-cards.json",
         "references/paper-section-flow.md",
         "references/external-agent-patterns.md",
+        "references/figure-plan.md",
     ]
     for rel in expected:
         require(ROOT / rel, issues)

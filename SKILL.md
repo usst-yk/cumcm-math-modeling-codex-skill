@@ -22,6 +22,8 @@ scripts in the background. Do not expose or create templates unless needed.
 
 Default to lean outputs for beginner-facing solving. Read
 `references/output-policy.md` before creating project files or templates.
+Lean output means fewer templates, not fewer figures. Read
+`references/figure-plan.md` before solving or writing code for any subquestion.
 
 ## Core Behavior
 
@@ -72,6 +74,8 @@ Read `references/task-routing.md` for the complete table.
 - Single subquestion/paper: `references/task-modes.md` and
   `references/problem-routing.md`.
 - Data files: run `scripts/data_profile.py`, then read `references/data-audit.md`.
+- Figure planning: read `references/figure-plan.md`; default to model schematic
+  plus result figure for each solved subquestion.
 - Outputs to paper: read files first, then use `references/code-to-paper.md` and
   `references/result-tracking.md`.
 - Paper writing: `references/paper-writing.md`, `references/scoring-checklist.md`.
@@ -88,9 +92,11 @@ Read `references/task-routing.md` for the complete table.
 - Create only files needed for the current task. For a single subquestion, do
   not create full project templates, empty section files, schema files, or logs
   unless the user explicitly asks for a complete project.
-- For every solved subquestion, draw a schematic or result figure when it helps
-  explain geometry, flow, timing, ranking, optimization, constraints, or spatial
-  layout. Skip the figure only when a compact table is clearer.
+- For every solved subquestion, create a figure plan and normally generate at
+  least two Chinese figures: one model/problem schematic and one result figure.
+  Add validation/sensitivity figures when the result needs checking.
+- Skip schematic figures only when a compact table is clearly better, and state
+  the reason.
 - Contest-paper figures default to Chinese titles, axis labels, legends,
   annotations, and captions. Keep English only for variable names, file names,
   units, or unavoidable technical tokens.

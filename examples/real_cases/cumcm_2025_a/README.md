@@ -37,7 +37,9 @@
 | `tables/tab_q2_intervals.csv` | 问题 2 有效遮蔽区间和时长。 |
 | `figures/fig_problem_overview_xy.png` | 题面坐标系、导弹、无人机和目标平面示意图。 |
 | `figures/fig_problem_question_scope.png` | 五个子问题的资源范围和输出要求示意图。 |
+| `figures/fig_q1_model_schematic.png` | 问题 1 时序和遮蔽判定示意图。 |
 | `figures/fig_q1_distance_geometry.png` | 问题 1 距离阈值和侧视几何图。 |
+| `figures/fig_q2_model_schematic.png` | 问题 2 优化变量和投放时序示意图。 |
 | `figures/fig_q2_optimized_distance_geometry.png` | 问题 2 距离阈值和侧视几何图。 |
 | `results/validation_audit.md` | 问题 1 产物一致性自动检查结果。 |
 | `paper/main.tex` | 可编译论文片段入口。 |

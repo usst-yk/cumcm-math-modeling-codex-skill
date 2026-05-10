@@ -46,8 +46,10 @@ Do not enter Solver until:
 Do not validate final conclusions until:
 
 - code has produced saved output tables/figures;
-- any useful schematic figure has been generated, or the reason for skipping it
-  is stated in the final answer or recorded in `results/validation_report.md`;
+- the figure plan has been executed: model schematic plus result figure for most
+  solved questions, and validation/sensitivity figure when needed;
+- if fewer than two figures are generated for a solved question, the reason is
+  stated in the final answer or recorded in `results/validation_report.md`;
 - every headline value is traceable to a saved table, code output, problem fact,
   or `results/result_registry.csv`;
 - run commands are stated in the final answer or recorded in `logs/run_log.md`;

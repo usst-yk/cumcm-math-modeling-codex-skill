@@ -3,7 +3,8 @@
 Use this reference for full-problem solving, route design, and contest-time planning.
 
 For beginner-facing solving, keep outputs lean. Read
-`references/output-policy.md` before creating template files.
+`references/output-policy.md` before creating template files. Lean output means
+fewer templates, not fewer figures.
 
 ## 72-Hour Contest Workflow
 
@@ -42,6 +43,8 @@ For beginner-facing solving, keep outputs lean. Read
 5. Solver: solve subquestions one by one.
    - For each Qx, implement code and save only the needed result table, figure,
      and paper section.
+   - Before coding each Qx, make a figure plan using `references/figure-plan.md`.
+     Default to a model schematic plus a result figure.
    - Use model cards, result registry, and run logs for full projects or final
      paper delivery, not for every small single-question solve.
    - Do not draft the final abstract before solved sections have traceable
@@ -54,8 +57,8 @@ For beginner-facing solving, keep outputs lean. Read
 7. Implement reproducibly.
    - Prefer deterministic Python unless the user requests MATLAB.
    - Save generated tables and figures with stable names.
-   - When a schematic can explain the model, generate it with the result figure;
-     use Chinese labels by default.
+   - Generate Chinese model schematics, result figures, and validation figures
+     according to the figure plan.
    - Fix random seeds and report solver status when relevant.
 
 8. Validator: validate.
@@ -74,7 +77,9 @@ Lean single-question handoff:
 
 - Main answer and limitation.
 - Current-question code when code was needed.
-- One result table and one useful Chinese figure when appropriate.
+- One result table.
+- Usually two Chinese figures: model schematic and result figure.
+- Validation/sensitivity figure when needed.
 - Paper paragraph only when requested.
 
 Full-project handoff:

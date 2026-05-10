@@ -24,7 +24,11 @@
 - Baseline:
 - Algorithm:
 - Expected tables:
-- Expected Chinese schematic/result figures:
+- Figure plan:
+  - Model/problem schematic:
+  - Result figure:
+  - Validation/sensitivity figure:
+  - Skip reason if fewer than two figures:
 - Sensitivity plan:
 
 ## Paper Notes

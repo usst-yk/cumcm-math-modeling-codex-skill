@@ -17,6 +17,7 @@ communication natural; do not expose commands unless the user asks.
 | Data attachments present | `scripts/data_profile.py`, `references/data-audit.md` |
 | Choose a model | `agents/modeler.md`, `references/problem-routing.md`, `references/method-cards.json`, `references/method-library.md` |
 | Write or fix solving code | `agents/coder.md`, `references/python-matlab-guide.md` |
+| Figure planning for a solved question | `references/figure-plan.md`, `references/figure-standards.md` |
 | Validate results | `references/validation.md`, `scripts/validate_results.py` when project artifacts exist |
 | Code/tables/figures to paper | `references/code-to-paper.md`, `references/result-tracking.md`, `agents/writer.md` |
 | Abstract, conclusion, or polishing | `references/paper-writing.md`, `references/paper-section-flow.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
@@ -31,6 +32,8 @@ communication natural; do not expose commands unless the user asks.
   file names.
 - Before creating files, choose the smallest useful output set from
   `references/output-policy.md`.
+- Do not confuse lean output with too few figures. For solved questions, load
+  `references/figure-plan.md` and generate the planned Chinese figures.
 - Do not initialize a full project, copy templates, or create empty files for a
   single-question solve unless the user asks for a complete project.
 - Parse the problem statement before route design when an official statement is available.
