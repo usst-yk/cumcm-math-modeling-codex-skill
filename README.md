@@ -253,7 +253,16 @@ cumcm-math-modeling/
 └── templates/                # 项目模板
 ```
 
-其中你通常只需要看 README 和使用指南。其他目录主要给 Codex 在后台使用。
+现在的设计是：`SKILL.md` 只做总入口和总规则，细节放在 `references/` 里，需要时再读取。这样 Codex 不会每次都加载一大堆规则，新手也不需要理解内部文件。
+
+几个关键参考文件：
+
+- `references/task-routing.md`：判断当前需求该走哪种流程。
+- `references/correctness-ladder.md`：检查结果是否可靠。
+- `references/workflow.md`：完整比赛流程和 72 小时节奏。
+- `references/problem-routing.md`：不同题型的建模路线。
+- `references/result-tracking.md`：论文数字如何追踪来源。
+- `references/scoring-checklist.md`：提交前评分检查。
 
 Codex 会根据任务自动使用后台工具，例如整理项目、检查数据、记录关键结果、检查论文数字和图表是否一致。新手不需要手动运行这些工具。
 
