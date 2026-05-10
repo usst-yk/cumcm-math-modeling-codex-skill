@@ -1,4 +1,4 @@
 interface:
   display_name: "CUMCM 数学建模"
-  short_description: "CUMCM 建模、求解与论文写作流程"
-  default_prompt: "Use $cumcm-math-modeling to analyze this CUMCM problem and build a complete modeling plan."
+  short_description: "面向新手的 CUMCM 建模、求解、验证和论文工作流"
+  default_prompt: "使用 $cumcm-math-modeling 帮我拆解这道数学建模题，检查附件数据，并给出三条建模路线。"

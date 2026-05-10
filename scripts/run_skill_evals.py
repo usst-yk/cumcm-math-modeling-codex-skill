@@ -19,6 +19,17 @@ def require(path: Path, issues: list[str]) -> None:
 
 def check_demo(issues: list[str]) -> None:
     required = [
+        "README.md",
+        "prompt_full_problem.md",
+        "prompt_single_question.md",
+        "prompt_code_to_paper.md",
+        "prompt_roadmap.md",
+        "prompt_final_review.md",
+    ]
+    for rel in required:
+        require(ROOT / "examples" / rel, issues)
+
+    demo_required = [
         "problem/problem_statement.md",
         "problem/task_plan.json",
         "data/raw/station_demand.csv",
@@ -34,7 +45,7 @@ def check_demo(issues: list[str]) -> None:
         "paper/main.tex",
         "paper/sections/q1.tex",
     ]
-    for rel in required:
+    for rel in demo_required:
         require(DEMO / rel, issues)
 
     task_plan = DEMO / "problem" / "task_plan.json"
