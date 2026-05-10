@@ -50,7 +50,7 @@ def write_overview_xy() -> None:
 
     for name, pos in MISSILES.items():
         ax.scatter(pos[0], pos[1], marker="^", s=82, color="#7030a0")
-        ax.text(pos[0] + 300, pos[1] + 120, f"{name} 导弹", fontsize=9)
+        ax.text(pos[0] + 300, pos[1] + 120, f"{name} 导弹", fontsize=13)
         ax.annotate(
             "",
             xy=(DECOY[0], DECOY[1]),
@@ -60,7 +60,7 @@ def write_overview_xy() -> None:
 
     for name, pos in UAVS.items():
         ax.scatter(pos[0], pos[1], marker="s", s=58, color="#548235")
-        ax.text(pos[0] + 220, pos[1] - 180, f"{name} 无人机", fontsize=9)
+        ax.text(pos[0] + 220, pos[1] - 180, f"{name} 无人机", fontsize=13)
 
     ax.add_patch(
         patches.Circle(
@@ -73,7 +73,7 @@ def write_overview_xy() -> None:
             alpha=0.75,
         )
     )
-    ax.text(350, 320, "真目标投影\n(示意放大)", fontsize=9, color="#c00000")
+    ax.text(350, 320, "真目标投影\n(示意放大)", fontsize=13, color="#c00000")
 
     ax.set_title("2025 A 题：导弹、无人机与目标的平面位置示意")
     ax.set_xlabel("x 坐标 / m")
@@ -92,24 +92,24 @@ def write_question_scope() -> None:
     FIGURE_DIR.mkdir(parents=True, exist_ok=True)
 
     rows = [
-        ["问题一", "FY1", "1 枚", "M1", "给定策略，计算遮蔽时长"],
-        ["问题二", "FY1", "1 枚", "M1", "优化方向、速度、投放点、起爆点"],
-        ["问题三", "FY1", "3 枚", "M1", "多弹协同，写入 result1.xlsx"],
-        ["问题四", "FY1-FY3", "各 1 枚", "M1", "多机协同，写入 result2.xlsx"],
-        ["问题五", "FY1-FY5", "每机至多 3 枚", "M1-M3", "多机多弹多导弹，写入 result3.xlsx"],
+        ["问题一", "FY1", "1 枚", "M1", "给定策略\n计算遮蔽时长"],
+        ["问题二", "FY1", "1 枚", "M1", "优化方向/速度\n投放点/起爆点"],
+        ["问题三", "FY1", "3 枚", "M1", "多弹协同\n写入 result1.xlsx"],
+        ["问题四", "FY1-FY3", "各 1 枚", "M1", "多机协同\n写入 result2.xlsx"],
+        ["问题五", "FY1-FY5", "每机至多 3 枚", "M1-M3", "多机多弹多导弹\n写入 result3.xlsx"],
     ]
     columns = ["子问题", "可用无人机", "烟幕弹数量", "干扰对象", "核心输出"]
 
-    fig, ax = plt.subplots(figsize=(10.5, 4.6), dpi=180)
+    fig, ax = plt.subplots(figsize=(12, 5.2), dpi=180)
     ax.axis("off")
     table = ax.table(
         cellText=rows,
         colLabels=columns,
         cellLoc="center",
-        bbox=[0.01, 0.08, 0.98, 0.74],
+        bbox=[0.02, 0.06, 0.96, 0.76],
     )
     table.auto_set_font_size(False)
-    table.set_fontsize(9)
+    table.set_fontsize(13)
     table.scale(1.0, 1.55)
 
     for (row, _col), cell in table.get_celld().items():

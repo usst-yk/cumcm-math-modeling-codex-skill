@@ -17,6 +17,10 @@ For SCI/Nature/PRL-style publication graphics, read `references/figure-standards
   file names, algorithm names, or standard units.
 - Axis labels must include units when variables have units.
 - The figure must be readable at normal paper size.
+- Source-figure font sizes should usually be larger than body text because
+  figures are scaled down in the paper. After insertion, axis labels and legends
+  should be close to body-text size, tick labels should remain clearly readable,
+  and the figure title may be slightly larger than body text.
 - Do not use a figure when a compact table answers the question more clearly.
 
 ## Recommended Figure Types
@@ -77,5 +81,6 @@ Before final handoff:
 - legend does not cover data;
 - long category names are horizontal or wrapped;
 - units and sample ranges are visible;
-- figure text is close to body-text size after insertion;
+- figure text is close to body-text size after insertion, not visibly smaller
+  than the surrounding paragraph;
 - paper statements do not overclaim beyond what the figure shows.

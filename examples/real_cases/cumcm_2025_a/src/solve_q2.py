@@ -306,7 +306,7 @@ def write_figure(decision: np.ndarray, intervals: list[tuple[float, float]]) -> 
     axes[0].set_xlabel("时间 / s")
     axes[0].set_ylabel("距离 / m")
     axes[0].set_title("问题二：搜索得到的遮蔽区间")
-    axes[0].legend(frameon=False, fontsize=8)
+    axes[0].legend(frameon=False)
     axes[0].grid(alpha=0.25)
 
     axes[1].plot(missile_points[:, 0], missile_points[:, 2], color="#7030a0", linewidth=1.5, label="M1 轨迹")
@@ -316,7 +316,7 @@ def write_figure(decision: np.ndarray, intervals: list[tuple[float, float]]) -> 
     axes[1].set_xlabel("x 坐标 / m")
     axes[1].set_ylabel("z 坐标 / m")
     axes[1].set_title("侧视几何关系")
-    axes[1].legend(frameon=False, fontsize=8)
+    axes[1].legend(frameon=False)
     axes[1].grid(alpha=0.25)
 
     fig.tight_layout()
