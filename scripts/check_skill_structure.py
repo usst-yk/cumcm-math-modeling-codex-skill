@@ -53,6 +53,7 @@ def check_required_entrypoints(issues: list[str]) -> None:
         "agents/problem_parser.md",
         "agents/coordinator.md",
         "agents/coder.md",
+        "agents/abstract_writer.md",
         "references/task-routing.md",
         "references/output-policy.md",
         "references/figure-plan.md",

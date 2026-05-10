@@ -20,7 +20,8 @@ communication natural; do not expose commands unless the user asks.
 | Figure planning for a solved question | `references/figure-plan.md`, `references/figure-standards.md` |
 | Validate results | `references/validation.md`, `scripts/validate_results.py` when project artifacts exist |
 | Code/tables/figures to paper | `references/code-to-paper.md`, `references/result-tracking.md`, `agents/writer.md` |
-| Abstract, conclusion, or polishing | `references/paper-writing.md`, `references/paper-section-flow.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
+| Final abstract | `agents/abstract_writer.md`, `references/paper-writing.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
+| Conclusion or polishing | `references/paper-writing.md`, `references/paper-section-flow.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
 | Technical roadmap or model flowchart | `references/technical-roadmap.md`, `scripts/make_roadmap_svg.py` |
 | Figure standards | `references/figure-standards.md`, optionally `scripts/make_paper_figures.py` |
 | Final judge review | `references/final-review.md`, `references/final-checklist.md`, `agents/reviewer.md` |

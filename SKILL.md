@@ -49,11 +49,12 @@ and `references/stage-gates.md` before stage changes.
 | 4 Solver / 代码求解 | `agents/coder.md` | scripts, tables, figures, registry rows |
 | 5 Validator / 验证分析 | `references/validation.md` | validation report |
 | 6 Writer / 论文写作 | `agents/writer.md` | Qx paper section |
-| 7 Reviewer / 终审 | `agents/reviewer.md` | final findings and blockers |
+| 7 Abstract Writer / 摘要写作 | `agents/abstract_writer.md` | final abstract |
+| 8 Reviewer / 终审 | `agents/reviewer.md` | final findings and blockers |
 
 Process each subquestion as: model card -> code -> tables/figures -> registry ->
-validation -> paper section. Do not draft the final abstract before solved
-sections have registered results.
+validation -> paper section. Write the final abstract only after solved sections
+have registered or otherwise traceable results.
 
 ## Task Routing
 
@@ -81,6 +82,8 @@ Read `references/task-routing.md` for the complete table.
 - Outputs to paper: read files first, then use `references/code-to-paper.md` and
   `references/result-tracking.md`.
 - Paper writing: `references/paper-writing.md`, `references/scoring-checklist.md`.
+- Final abstract: `agents/abstract_writer.md`, `references/paper-writing.md`,
+  `references/result-tracking.md`, `references/scoring-checklist.md`.
 - Roadmap/flowchart: `references/technical-roadmap.md`; prefer editable
   Mermaid, Graphviz, or SVG.
 - Final audit or judge review: read `references/final-review.md` and

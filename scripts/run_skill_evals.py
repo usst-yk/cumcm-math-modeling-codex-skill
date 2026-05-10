@@ -218,6 +218,7 @@ def check_real_case_2025_a(issues: list[str]) -> None:
 def check_folder_indexes(issues: list[str]) -> None:
     expected = [
         "agents/README.md",
+        "agents/abstract_writer.md",
         "assets/README.md",
         "evals/README.md",
         "examples/README.md",

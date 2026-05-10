@@ -14,8 +14,9 @@ fewer templates, not fewer figures.
 | 4-16 h | Q1 baseline model, data cleaning, first runnable code | baseline result, cleaned data, first tables/figures |
 | 16-32 h | Q2/Q3 main model, optimization/prediction/evaluation solving | main scripts, result tables, preliminary validation |
 | 32-44 h | Validation, sensitivity, robustness, figure finalization | error/feasibility/sensitivity tables, final figures |
-| 44-60 h | TeX paper body, abstract, conclusion, appendix code | main `.tex`, captions, appendix run commands |
-| 60-68 h | Judge-view review, consistency and traceability check | issue list, corrected numbers, result registry |
+| 44-60 h | TeX paper body, conclusion, appendix code | main `.tex`, captions, appendix run commands |
+| 60-64 h | Final abstract after Q sections, figures, and validation are stable | traceable abstract draft |
+| 64-68 h | Judge-view review, consistency and traceability check | issue list, corrected numbers, result registry |
 | 68-72 h | Final PDF, code/data/figure packaging | compiled PDF, source code, tables, figures, final checklist |
 
 ## Full Workflow
@@ -65,10 +66,19 @@ fewer templates, not fewer figures.
    - Match validation to task type: prediction error, optimization feasibility, ranking stability, simulation sensitivity, classification metrics, or boundary cases.
    - Mark missing validation as a limitation, not as success.
 
-9. Writer and Reviewer: write for judges, then review.
+9. Writer: write Qx paper sections for judges.
    - Put the answer before method inventory.
    - Link every headline number to a table, figure, equation, output file, or assumption.
    - Keep only figures that support a conclusion.
+
+10. Abstract Writer: write the final abstract last.
+   - Use `agents/abstract_writer.md`.
+   - Summarize every solved subquestion with method, headline result, and
+     validation evidence.
+   - Check abstract numbers against body, tables, figures, conclusion, and
+     result registry.
+
+11. Reviewer: review before handoff.
    - Run final artifact checks before handoff.
 
 ## Final Deliverables

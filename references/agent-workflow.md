@@ -11,7 +11,8 @@ This skill uses role cards as staged prompts inside Codex. It does not create a 
 5. Solver: implement deterministic scripts and save outputs.
 6. Validator: test feasibility, error, robustness, sensitivity, and artifact consistency.
 7. Writer: write paper sections from registered results.
-8. Reviewer: run final review and list blockers.
+8. Abstract Writer: write the final abstract after Q sections and results are stable.
+9. Reviewer: run final review and list blockers.
 
 ## Subquestion Loop
 
@@ -38,7 +39,8 @@ Full project Qx loop:
 7. `paper/sections/qx.tex`
 
 Do not draft the final abstract until solved subquestions have traceable result
-tables or verified registry entries.
+tables or verified registry entries. When writing the abstract, use
+`agents/abstract_writer.md`.
 
 ## Failure Policy
 
