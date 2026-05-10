@@ -55,7 +55,8 @@ Read `references/task-routing.md` for the complete table.
 - New project: run `scripts/init_cumcm_project.py` in the background.
 - Problem parsing: read `references/problem-parsing.md`, then use
   `scripts/problem_parser.py`.
-- Decomposition: use `scripts/build_task_plan.py`, then refine from the problem.
+- Decomposition: parse first with `scripts/problem_parser.py`, then use
+  `scripts/build_task_plan.py`.
 - Single subquestion/paper: `references/task-modes.md` and
   `references/problem-routing.md`.
 - Data files: run `scripts/data_profile.py`, then read `references/data-audit.md`.

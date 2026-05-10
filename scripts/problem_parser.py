@@ -98,16 +98,15 @@ TASK_TYPE_KEYWORDS = [
 ]
 
 UNIT_RE = re.compile(
-    r"(?:\d+(?:\.\d+)?\s*)?(?:元|万元|亿元|(?<!附)件|个|吨|千克|公斤|克|公里|千米|米|平方米|亩|公顷|小时|分钟|秒|天|日|周|月|年|%|百分比|人|辆|次|台)"
+    r"(?:\d+(?:\.\d+)?\s*)?(?:元|万元|亿元|件|吨|千克|kg|公里|千米|km|米|m|小时|分钟|天|周|月|年|人|辆|台|个|次|%|百分比)"
 )
 TIME_RE = re.compile(
-    r"(?:\d{4}\s*[-至到]\s*\d{4}\s*年?|\d+\s*[-至到]\s*\d+\s*(?:天|日|周|月|年|小时)|连续\s*\d+\s*(?:天|日|周|月|年|小时)|每\s*(?:天|日|周|月|年|小时)|第\s*\d+\s*(?:天|日|周|月|年|小时)|\d{4}\s*年)"
+    r"\d{4}\s*[-—至到]\s*\d{4}|连续\s*\d+\s*(?:天|小时|周|月|年)|每\s*(?:天|小时|周|月|年)|第\s*\d+\s*(?:天|小时|周|月|年)"
 )
 ATTACHMENT_LABEL_RE = re.compile(
-    r"(?:附件|附录|表)\s*[一二三四五六七八九十\dA-Za-z_-]+(?:\s*[：:]\s*[\w\u4e00-\u9fff.-]+\.(?:xlsx|xls|csv|txt|json|mat|zip))?",
-    re.IGNORECASE,
+    r"附件\s*[一二三四五六七八九十\d]+(?:[：:][^，。；;\n]+)?"
 )
-FILE_RE = re.compile(r"[\w\u4e00-\u9fff.-]+\.(?:xlsx|xls|csv|txt|json|mat|zip)", re.IGNORECASE)
+FILE_RE = re.compile(r"[\w\u4e00-\u9fa5\-]+?\.(?:csv|xlsx|xls|txt|json|mat|docx|pdf)", re.IGNORECASE)
 QUESTION_MARK_RE = re.compile(
     r"(?P<label>问题\s*[一二三四五六七八九十\d]+|第\s*[一二三四五六七八九十\d]+\s*问|Q\s*\d+|[（(]\s*\d+\s*[）)])",
     re.IGNORECASE,
@@ -125,10 +124,21 @@ def unique(items: list[str]) -> list[str]:
     return out
 
 
+def normalize_attachment(item: str) -> str:
+    item = re.sub(r"\s+", " ", item).strip("，。；;:：、 ")
+    file_match = FILE_RE.search(item)
+    if not file_match:
+        return item
+    if "：" in item or ":" in item:
+        label = re.split(r"[：:]", item, maxsplit=1)[0].strip()
+        return f"{label}：{file_match.group(0)}"
+    return file_match.group(0)
+
+
 def extract_attachments(text: str) -> list[str]:
     items = ATTACHMENT_LABEL_RE.findall(text)
     items.extend(FILE_RE.findall(text))
-    cleaned = unique(items)
+    cleaned = unique([normalize_attachment(item) for item in items])
     expanded_labels = [item for item in cleaned if "：" in item or ":" in item]
     result = []
     for item in cleaned:
@@ -138,12 +148,22 @@ def extract_attachments(text: str) -> list[str]:
     return result
 
 
+def extract_units(text: str) -> list[str]:
+    units = []
+    for match in UNIT_RE.finditer(text):
+        if match.start() > 0 and text[match.start() - 1] == "附" and match.group(0) == "件":
+            continue
+        units.append(match.group(0))
+    return unique(units)
+
+
 def expand_attachments(items: list[str], all_attachments: list[str]) -> list[str]:
     expanded = []
     for item in items:
         replacement = item
         for full in all_attachments:
-            if full.startswith(f"{item}：") or full.startswith(f"{item}:"):
+            label = re.split(r"[：:]", full, maxsplit=1)[0]
+            if item == label:
                 replacement = full
                 break
         expanded.append(replacement)
@@ -248,7 +268,7 @@ def extract_implicit_scoring(text: str, task_type: str) -> list[str]:
 
 def extract_parse(text: str, problem_id: str) -> dict:
     attachments = extract_attachments(text)
-    units = unique(UNIT_RE.findall(text))
+    units = extract_units(text)
     time_ranges = unique(TIME_RE.findall(text))
     risk_words = [word for word in RISK_WORDS if word in text]
     sections = split_subquestions(text)
@@ -259,7 +279,7 @@ def extract_parse(text: str, problem_id: str) -> dict:
         qtext = section["text"]
         task_type = infer_task_type(qtext)
         q_attachments = expand_attachments(extract_attachments(qtext), attachments) or attachments
-        q_units = unique(UNIT_RE.findall(qtext))
+        q_units = extract_units(qtext)
         q_time_ranges = unique(TIME_RE.findall(qtext))
         q_risk_words = [word for word in RISK_WORDS if word in qtext]
         required_output = extract_by_words(qtext, OUTPUT_WORDS)

@@ -1,20 +1,13 @@
 # Problem Parser Role
 
-Responsibilities:
+职责：
 
-- read the official problem statement before any modeling route is selected;
-- run or use `scripts/problem_parser.py` when a text file is available;
-- split the statement into subquestions;
-- extract input data, required outputs, decision objects, constraints, units,
-  time ranges, attachment dependencies, implicit scoring points, and risk words;
-- write or update `problem/problem_parse.json` and `problem/problem_parse.md`;
-- report parse warnings in natural language for beginners.
+- 只解析题意，不选择模型。
+- 输出 `problem/problem_parse.json` 和 `problem/problem_parse.md`。
+- 抽取子问题、附件、输入数据、输出要求、约束、单位、时间范围、风险词和隐含评分点。
+- 对无法确定的字段写入 warnings，不要猜。
 
-Required outputs:
+交接：
 
-- `problem/problem_parse.json`
-- `problem/problem_parse.md`
-
-Do not choose final models, invent data fields, or write numerical conclusions.
-Parsing is a factual handoff to the Coordinator and Modeler.
-
+- 解析完成后交给 coordinator 生成 task_plan。
+- 如果 warnings 不为空，task_plan 保持 draft。

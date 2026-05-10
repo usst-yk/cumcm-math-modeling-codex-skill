@@ -201,6 +201,10 @@ def check_parser_cases(issues: list[str]) -> None:
                 issues.append(f"parser case {case} found no subquestions")
             if not parsed.get("attachments"):
                 issues.append(f"parser case {case} found no attachments")
+            if any("给出了" in item or "记录" in item for item in parsed.get("attachments", [])):
+                issues.append(f"parser case {case} attachment label includes descriptive text")
+            if "每小" in parsed.get("time_ranges", []):
+                issues.append(f"parser case {case} truncated time range 每小时 to 每小")
             task_types = {q.get("task_type") for q in parsed.get("subquestions", [])}
             if expected_type not in task_types:
                 issues.append(f"parser case {case} expected task type {expected_type}, got {sorted(task_types)}")
