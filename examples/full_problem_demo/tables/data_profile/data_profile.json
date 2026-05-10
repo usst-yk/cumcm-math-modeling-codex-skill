@@ -1,6 +1,6 @@
 [
   {
-    "source_path": "/Users/yangke/.codex/skills/guosai-math-modeling/examples/full_problem_demo/data/raw/station_demand.csv",
+    "source_path": "/Users/yangke/.codex/skills/cumcm-math-modeling/examples/full_problem_demo/data/raw/station_demand.csv",
     "file": "station_demand.csv",
     "sheet": "station_demand",
     "rows": 36,

@@ -1,6 +1,6 @@
 [
   {
-    "source_path": "/Users/yangke/.codex/skills/guosai-math-modeling/examples/real_cases/cumcm_2025_a/data/raw/result1.xlsx",
+    "source_path": "/Users/yangke/.codex/skills/cumcm-math-modeling/examples/real_cases/cumcm_2025_a/data/raw/result1.xlsx",
     "file": "result1.xlsx",
     "sheet": "Sheet1",
     "rows": 5,
@@ -41,7 +41,7 @@
     "empty": false
   },
   {
-    "source_path": "/Users/yangke/.codex/skills/guosai-math-modeling/examples/real_cases/cumcm_2025_a/data/raw/result2.xlsx",
+    "source_path": "/Users/yangke/.codex/skills/cumcm-math-modeling/examples/real_cases/cumcm_2025_a/data/raw/result2.xlsx",
     "file": "result2.xlsx",
     "sheet": "Sheet1",
     "rows": 5,
@@ -82,7 +82,7 @@
     "empty": false
   },
   {
-    "source_path": "/Users/yangke/.codex/skills/guosai-math-modeling/examples/real_cases/cumcm_2025_a/data/raw/result3.xlsx",
+    "source_path": "/Users/yangke/.codex/skills/cumcm-math-modeling/examples/real_cases/cumcm_2025_a/data/raw/result3.xlsx",
     "file": "result3.xlsx",
     "sheet": "Sheet1",
     "rows": 17,
