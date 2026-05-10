@@ -4,6 +4,17 @@ For section-by-section handoff from code outputs to paper sections, also read
 `references/paper-section-flow.md`.
 For complete reports, full benchmark cases, final TeX, or contest deliverables,
 also read `references/paper-assembly.md`.
+For final quality gates, also read `references/paper-quality-standard.md`.
+
+## 最高优先级
+
+论文质量优先于速度。完整论文必须是 TeX 成品，不允许为了快而把
+题意解析、建模路线比较、假设理由、数学公式、求解过程、验证分析和摘要
+压缩成“结果说明”。如果时间不够，应明确标记缺口，而不是交付一篇瘦论文。
+
+写论文前必须沿用 `examples/README.md` 的分阶段思路：先读题和分工，
+再多轮比较建模思路，第四轮确定主模型，完成求解和验证后再写正文，
+最后单独写摘要。
 
 ## 论文结构
 
@@ -89,6 +100,15 @@ also read `references/paper-assembly.md`.
 - 结果说明什么：核心数值、图表解释、验证、局限和与其他问题的联系。
 
 如果正文只写“建立模型、运行代码、得到结果”，即使数值正确，也是不合格的瘦论文。
+
+每个子问题至少要写清：
+
+- 本问在整篇论文中的作用；
+- 本问继承了前面哪些假设、变量、参数或结果；
+- 为什么选择这个数学模型，而不是只套一个方法名；
+- 变量、目标函数或评价函数、约束、边界条件和算法；
+- 图表里的数值说明了什么，能回答题目哪一句要求；
+- 验证结果说明模型可信到什么程度，哪些地方仍然有限制。
 
 ## 图表要求
 

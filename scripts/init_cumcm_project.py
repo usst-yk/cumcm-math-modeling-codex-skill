@@ -118,7 +118,7 @@ def main() -> int:
                 "- `results/`: result registry, validation report, and sensitivity outputs.",
                 "- `figures/`: code-generated paper figures and editable roadmap outputs.",
                 "- `tables/`: generated result tables and data audit tables.",
-                "- `paper/`: TeX/Markdown paper, sections, references, and compiled PDF.",
+                "- `paper/`: TeX paper, sections, references, and compiled PDF.",
                 "- `appendix/`: appendix code and supplemental material.",
                 "- `logs/`: run log and error recovery log.",
                 "",

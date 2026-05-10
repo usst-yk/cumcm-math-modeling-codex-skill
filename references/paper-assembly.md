@@ -10,6 +10,10 @@ file for full reports and benchmark cases. Markdown is acceptable only for
 draft notes, section outlines, README examples, or quick single-section
 discussion; it must not be the final paper artifact.
 
+Paper quality comes before speed. The assembler must preserve the full modeling
+chain from `examples/README.md`: staged parsing, multiple modeling rounds,
+assumption justification, solving, validation, body writing, and abstract last.
+
 A complete paper is not a list of solved questions. It must read like one
 coherent modeling work:
 
@@ -61,6 +65,8 @@ For a full paper:
 - explain every important figure and table in prose;
 - do not leave the model as code-only logic;
 - avoid method-name lists without equations or variables;
+- include the route comparison or model-selection reasoning that led to the
+  final model;
 - state why assumptions make the problem solvable without changing the problem;
 - connect later questions to earlier results and shared assumptions;
 - write the conclusion as an answer to the original problem, not as a file list.

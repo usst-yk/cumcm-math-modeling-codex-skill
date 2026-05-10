@@ -9,12 +9,17 @@ Responsibilities:
 
 - read the problem statement, task plan, model cards, result registry,
   validation report, Qx sections, figures, tables, and appendix notes;
+- read `examples/README.md` usage guidance when assembling benchmark or full
+  contest papers, especially the staged modeling and abstract-writing sections;
 - assemble `paper/main.tex` using the full contest-paper structure:
   abstract, problem restatement, problem analysis, assumptions, notation, data
   audit/preprocessing, model establishment and solution, validation and
   sensitivity analysis, model evaluation, conclusion, and appendix;
 - make the paper explain the mathematics: variables, equations, objective
   functions or decision criteria, constraints, algorithms, and validation logic;
+- preserve the modeling process: route comparison, assumption justification,
+  baseline, primary model, fallback or limitation, and why the chosen model is
+  just solvable in contest time;
 - connect subquestions through shared assumptions, variables, parameters,
   intermediate results, and strategy handoff;
 - write rich explanatory prose around every figure/table so the paper is not a
@@ -37,6 +42,7 @@ Quality gates:
   concatenation.
 - Do not deliver a full paper as Markdown. Markdown is allowed only for notes or
   README explanations, not for final contest-paper artifacts.
+- Do not optimize for speed by shrinking the paper into a result summary.
 - Do not skip problem analysis, assumptions, notation, data audit, validation,
   model evaluation, or conclusion.
 - Do not let a Qx section contain only result numbers and figures; it must

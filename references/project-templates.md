@@ -32,8 +32,8 @@ python3 scripts/init_cumcm_project.py /path/to/project --full
 - `problem/task_plan.json`: 任务计划草稿。
 - `problem/model_card_template.md`: 每问模型卡模板。
 - `problem/assumptions.md`: 假设和符号说明模板。
-- `paper/main.md`: 论文 Markdown 骨架。
-- `paper/main.tex`: TeX 论文骨架。
+- `paper/main.tex`: TeX 论文骨架。最终论文、benchmark 和完整报告都使用
+  TeX，Markdown 只用于说明文档或草稿笔记。
 - `appendix/code-template.md`: 附录代码格式模板。
 
 ## 数据检查

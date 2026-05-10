@@ -104,7 +104,7 @@ def check_demo(issues: list[str]) -> None:
         "../single_question_minimal/tables/tab_q1_result.csv",
         "../single_question_minimal/figures/fig_q1_model_schematic.svg",
         "../single_question_minimal/figures/fig_q1_result.svg",
-        "../single_question_minimal/paper/sections/q1.md",
+        "../single_question_minimal/paper/sections/q1.tex",
         "problem/problem_statement.md",
         "problem/task_plan.json",
         "data/raw/station_demand.csv",
@@ -247,7 +247,7 @@ def check_real_case_2025_a(issues: list[str]) -> None:
                 issues.append(f"2025 A real case solved {question.upper()} should keep at least 3 figures")
             if not any("schematic" in fig.name for fig in figures):
                 issues.append(f"2025 A real case solved {question.upper()} should include a schematic figure")
-    check_full_paper_structure(REAL_CASE_2025_A, "2025 A benchmark paper", issues, min_chars=4500)
+    check_full_paper_structure(REAL_CASE_2025_A, "2025 A benchmark paper", issues, min_chars=7000)
 
 
 def clean_tex_text(text: str) -> str:
@@ -366,7 +366,7 @@ def check_real_case_huadong_a(issues: list[str]) -> None:
         for key, value in expected.items():
             if values.get(key) != value:
                 issues.append(f"Huadong Cup A registry {key} should stay traceable as {value}")
-    check_full_paper_structure(REAL_CASE_HUADONG_A, "Huadong Cup A benchmark paper", issues, min_chars=4500)
+    check_full_paper_structure(REAL_CASE_HUADONG_A, "Huadong Cup A benchmark paper", issues, min_chars=7000)
 
 
 def check_folder_indexes(issues: list[str]) -> None:
@@ -395,6 +395,7 @@ def check_reference_names(issues: list[str]) -> None:
         "references/method-library.md",
         "references/method-cards.json",
         "references/paper-assembly.md",
+        "references/paper-quality-standard.md",
         "references/paper-section-flow.md",
         "references/external-agent-patterns.md",
         "references/figure-plan.md",

@@ -26,6 +26,36 @@ REQUIRED_FULL_PAPER_SECTIONS = [
     r"结论",
     r"附录|复现说明",
 ]
+QUALITY_REQUIRED_TERMS = [
+    "变量",
+    "约束",
+    "算法",
+    "验证",
+    "假设",
+    "基线",
+    "图",
+    "表",
+]
+QUALITY_MODEL_TERMS = [
+    "目标函数",
+    "评价函数",
+    "决策规则",
+    "递推",
+    "状态转移",
+    "几何判据",
+    "遮蔽判据",
+    "判据",
+    "误差函数",
+]
+QUALITY_PROCESS_TERMS = [
+    "路线",
+    "比较",
+    "选择",
+    "可行",
+    "灵敏度",
+    "敏感性",
+    "局限",
+]
 
 
 def read_registry(path: Path) -> pd.DataFrame:
@@ -196,7 +226,7 @@ def audit_paper_structure(root: Path, registry: pd.DataFrame, mode: str) -> list
         issues.append("P1: full paper starts with per-question sections instead of global paper sections.")
 
     cleaned = strip_tex_commands(full_text)
-    if len(cleaned) < 4500:
+    if len(cleaned) < 6500:
         issues.append(
             "P1: full paper is too thin; expected richer modeling prose, equations, result explanation, validation, and conclusion."
         )
@@ -208,10 +238,22 @@ def audit_paper_structure(root: Path, registry: pd.DataFrame, mode: str) -> list
         if not re.search(q_pattern, full_text, flags=re.IGNORECASE):
             issues.append(f"P1: solved {question.upper()} is not discussed in the paper body.")
 
-    required_words = ["变量", "约束", "算法", "验证"]
-    for word in required_words:
+    for word in QUALITY_REQUIRED_TERMS:
         if word not in full_text:
             issues.append(f"P2: full paper does not explicitly discuss {word}.")
+    if not any(word in full_text for word in QUALITY_MODEL_TERMS):
+        issues.append("P1: full paper lacks a clear mathematical objective, decision rule, recurrence, or criterion.")
+    missing_process = [word for word in QUALITY_PROCESS_TERMS if word not in full_text]
+    if len(missing_process) >= 4:
+        issues.append(
+            "P2: full paper may be rushed; it lacks enough route comparison, feasibility, sensitivity, or limitation discussion."
+        )
+    formula_count = len(re.findall(r"\\begin\{equation\}|\\\[", full_text))
+    if formula_count < 2:
+        issues.append("P1: full paper has too few displayed mathematical expressions for a modeling paper.")
+    figure_count = len(FIG_RE.findall(full_text))
+    if figure_count < max(2, len(questions) * 2):
+        issues.append("P2: full paper references too few figures for the solved subquestions.")
     return issues
 
 

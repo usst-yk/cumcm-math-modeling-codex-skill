@@ -888,7 +888,7 @@ def write_paper_sections(q1_summary: pd.DataFrame, comparison: pd.DataFrame, q2_
 
 ## 4 结果与验证
 
-问题一结果见 `paper/sections/q1.md`，对应表格为 `tab_q1_summary.csv`、`tab_q1_routes.csv`、`tab_q1_baseline_comparison.csv`。问题二结果见 `paper/sections/q2.md`，对应表格为 `tab_q2_realtime_waits.csv`、`tab_q2_adjustment_summary.csv`、`tab_q2_adjusted_routes.csv`。关键数值统一登记在 `results/result_registry.csv`。
+问题一结果见 `paper/sections/q1.tex`，对应表格为 `tab_q1_summary.csv`、`tab_q1_routes.csv`、`tab_q1_baseline_comparison.csv`。问题二结果见 `paper/sections/q2.tex`，对应表格为 `tab_q2_realtime_waits.csv`、`tab_q2_adjustment_summary.csv`、`tab_q2_adjusted_routes.csv`。关键数值统一登记在 `results/result_registry.csv`。
 
 图 `fig_q1_result.png` 表明，节假日排队时间显著抬升，路线会牺牲项目数量以保留高效用体验；图 `fig_q1_validation.png` 说明动态规划相对贪心基线具有稳定增益。图 `fig_q2_result.png` 和 `fig_q2_validation.png` 表明，实时重规划并非每个场景都必须改变路线，其主要作用是在热门项目排队显著偏离预测时减少等待并提升效用。
 
@@ -896,9 +896,12 @@ def write_paper_sections(q1_summary: pd.DataFrame, comparison: pd.DataFrame, q2_
 
 模型的优点是结构清晰、约束可查、结果可复现，适合教学或 benchmark 使用；同时它保留了基线对照，能说明复杂路线搜索相对简单规则的增益。主要不足是缺少真实客流校准，项目效用和排队扰动来自人工 benchmark。若用于正式比赛论文，应进一步接入真实 APP 排队记录、园区道路网络、身高限制、快速通道、天气和餐饮容量等因素，并对排队预测误差做敏感性分析。
 """
-    (PAPER_DIR / "q1.md").write_text(q1_text, encoding="utf-8")
-    (PAPER_DIR / "q2.md").write_text(q2_text, encoding="utf-8")
-    (PAPER_DIR.parent / "main.md").write_text(main_text, encoding="utf-8")
+    note = (
+        "TeX paper files are maintained in paper/main.tex and "
+        "paper/sections/q1.tex, paper/sections/q2.tex. "
+        "Markdown paper output is intentionally disabled for benchmark papers."
+    )
+    (RESULT_DIR / "paper_generation_note.txt").write_text(note + "\n", encoding="utf-8")
 
 
 def main() -> int:

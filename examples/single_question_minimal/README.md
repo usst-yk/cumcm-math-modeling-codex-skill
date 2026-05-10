@@ -10,8 +10,10 @@ src/solve_q1.py
 tables/tab_q1_result.csv
 figures/fig_q1_model_schematic.svg
 figures/fig_q1_result.svg
-paper/sections/q1.md
+paper/sections/q1.tex
 ```
 
 如果这一问是优化、预测、评价、调度或仿真，还应再补一张验证、敏感性或约束检查图。
 
+论文片段也使用 TeX：`paper/sections/q1.tex`。Markdown 只用于 README
+说明，不作为论文成品。

@@ -15,6 +15,9 @@ Use this skill as a CUMCM workflow inside Codex, not as a Web/backend system.
 Default to exact task coverage, staged workflow, three-route comparison,
 baseline reasoning, reproducible solving, validation, traceable results,
 paper-ready figures, and Chinese modeling-paper prose.
+Paper quality has priority over speed for final deliverables: do not shorten
+the modeling discussion, assumptions, equations, validation, or abstract merely
+to finish faster.
 
 Answer in Chinese by default. The primary audience is beginners: use natural
 language, hide script commands and file internals unless asked, and run useful
@@ -29,8 +32,13 @@ Lean output means fewer templates, not fewer figures. Read
 
 - Correctness before speed: parse questions, constraints, units, outputs,
   attachments, and scoring clues first.
+- Paper quality before speed: for final papers, a slow but complete TeX paper
+  is better than a quick thin report.
 - Full route design defaults to three routes: baseline, primary route, fallback.
   For urgent or single-question work, keep the same logic but stay concise.
+- Before writing a full paper, follow the staged usage logic in
+  `examples/README.md`: parse -> compare routes -> deepen the model through
+  multiple rounds -> solve -> validate -> write body -> write abstract last.
 - For major results, use `references/correctness-ladder.md`.
 - Do not write final numbers without a saved, traceable source.
 - Prefer transparent rigor over fashionable methods.
@@ -86,9 +94,10 @@ Read `references/task-routing.md` for the complete table.
 - Outputs to paper: read files first, then use `references/code-to-paper.md` and
   `references/result-tracking.md`.
 - Paper writing: `references/paper-writing.md`, `references/paper-assembly.md`,
-  `references/scoring-checklist.md`.
+  `references/paper-quality-standard.md`, `references/scoring-checklist.md`.
 - Full paper assembly: `agents/paper_assembler.md`,
-  `references/paper-assembly.md`, and `templates/paper_main.tex`.
+  `references/paper-assembly.md`, `references/paper-quality-standard.md`, and
+  `templates/paper_main.tex`.
 - Final abstract: `agents/abstract_writer.md`, `references/paper-writing.md`,
   `references/result-tracking.md`, `references/scoring-checklist.md`.
 - Roadmap/flowchart: `references/technical-roadmap.md`; prefer editable
@@ -122,6 +131,10 @@ Read `references/task-routing.md` for the complete table.
   (`paper/main.tex`) and compile PDF when available. Markdown may be used only
   for draft notes, section planning, or README-style explanation, never as the
   final contest-paper artifact.
+- Final papers must be written as complete mathematical modeling papers: explain
+  why the model is reasonable, how assumptions make the problem just solvable,
+  how variables/equations/constraints are built, why the algorithm is chosen,
+  what each result means, and how later questions inherit earlier work.
 
 ## Final Handoff
 
