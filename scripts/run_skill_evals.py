@@ -14,6 +14,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 DEMO = ROOT / "examples" / "full_problem_demo"
 REAL_CASE_2025_A = ROOT / "examples" / "real_cases" / "cumcm_2025_a"
+CHECK_FIGURE_TYPES = {"prediction", "optimization", "evaluation", "simulation", "scheduling"}
 
 PARSER_EXPECTATIONS = {
     "prediction": {
@@ -114,8 +115,10 @@ def check_demo(issues: list[str]) -> None:
         "figures/fig_q1_validation.svg",
         "figures/fig_q2_model_schematic.svg",
         "figures/fig_q2_result.svg",
+        "figures/fig_q2_sensitivity.svg",
         "figures/fig_q3_model_schematic.svg",
         "figures/fig_q3_priority_ranking.png",
+        "figures/fig_q3_validation.svg",
         "figures/roadmap.svg",
         "results/result_registry.csv",
         "results/validation_report.md",
@@ -128,6 +131,7 @@ def check_demo(issues: list[str]) -> None:
     task_plan = DEMO / "problem" / "task_plan.json"
     if task_plan.exists():
         data = json.loads(task_plan.read_text(encoding="utf-8"))
+        score_task_plan_quality(data, "full_problem_demo task_plan.json", issues, min_score=11)
         subquestions = data.get("subquestions", [])
         ids = {item.get("id") for item in subquestions}
         if not {"Q1", "Q2", "Q3"}.issubset(ids):
@@ -181,6 +185,14 @@ def check_real_case_2025_a(issues: list[str]) -> None:
         require(REAL_CASE_2025_A / rel, issues)
 
     registry = REAL_CASE_2025_A / "results" / "result_registry.csv"
+    task_plan = REAL_CASE_2025_A / "problem" / "task_plan.json"
+    if task_plan.exists():
+        score_task_plan_quality(
+            json.loads(task_plan.read_text(encoding="utf-8")),
+            "2025 A real case task_plan.json",
+            issues,
+            min_score=11,
+        )
     if registry.exists():
         with registry.open(newline="", encoding="utf-8-sig") as handle:
             rows = list(csv.DictReader(handle))
@@ -243,6 +255,7 @@ def check_reference_names(issues: list[str]) -> None:
 def check_eval_prompts(issues: list[str]) -> None:
     expected = [
         "evals/expected_outputs.md",
+        "evals/modeling_quality_rubric.json",
         "evals/parser_cases/prediction/problem.md",
         "evals/parser_cases/prediction/expected_problem_parse.json",
         "evals/parser_cases/optimization/problem.md",
@@ -413,6 +426,91 @@ def check_method_cards(issues: list[str]) -> None:
             issues.append(f"method card {label} should have at least two minimum_validation items")
 
 
+def check_quality_rubric(issues: list[str]) -> None:
+    path = ROOT / "evals" / "modeling_quality_rubric.json"
+    if not path.exists():
+        issues.append("missing modeling quality rubric")
+        return
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        issues.append(f"invalid modeling_quality_rubric.json: {exc}")
+        return
+
+    criteria = data.get("criteria", [])
+    if len(criteria) < 8:
+        issues.append("modeling_quality_rubric.json should contain at least 8 criteria")
+    required_ids = {
+        "problem_coverage",
+        "route_comparison",
+        "baseline",
+        "data_and_units",
+        "model_formulation",
+        "validation",
+        "figures",
+        "traceability",
+        "paper_readiness",
+    }
+    ids = {item.get("id") for item in criteria}
+    missing = sorted(required_ids - ids)
+    if missing:
+        issues.append(f"modeling_quality_rubric.json missing criteria: {', '.join(missing)}")
+    for item in criteria:
+        if item.get("max_score") != 2:
+            issues.append(f"rubric criterion {item.get('id', 'unknown')} should use 0-2 scoring")
+        if not item.get("pass_condition"):
+            issues.append(f"rubric criterion {item.get('id', 'unknown')} missing pass_condition")
+        if not item.get("beginner_visible_check"):
+            issues.append(f"rubric criterion {item.get('id', 'unknown')} missing beginner_visible_check")
+
+
+def score_task_plan_quality(plan: dict, label: str, issues: list[str], min_score: int = 10) -> None:
+    subquestions = plan.get("subquestions", [])
+    if not subquestions:
+        issues.append(f"{label} has no subquestions for quality scoring")
+        return
+
+    for item in subquestions:
+        qid = str(item.get("id", "Q?"))
+        task_type = str(item.get("task_type", "unknown")).lower()
+        q_label = f"{label} {qid}"
+        score = 0
+        checks = [
+            bool(task_type and task_type != "unknown"),
+            bool(item.get("required_output")),
+            bool(item.get("input_data")),
+            bool(str(item.get("decision_object", "")).strip()),
+            bool(item.get("constraints")),
+            len(item.get("validation", [])) >= 2,
+            bool(str(item.get("baseline_route", "")).strip()),
+            bool(str(item.get("primary_route", "")).strip()),
+            bool(str(item.get("fallback_route", "")).strip()),
+            len(item.get("minimum_validation", [])) >= 2,
+            bool(item.get("tables_needed")),
+        ]
+        score += sum(1 for passed in checks if passed)
+
+        figures = [str(fig).lower() for fig in item.get("figures_needed", [])]
+        if any("schematic" in fig for fig in figures):
+            score += 1
+        else:
+            issues.append(f"{q_label} should include a model/problem schematic figure")
+        if any("result" in fig or "forecast" in fig or "ranking" in fig or "geometry" in fig for fig in figures):
+            score += 1
+        else:
+            issues.append(f"{q_label} should include a core result figure")
+        if task_type in CHECK_FIGURE_TYPES:
+            if any("validation" in fig or "sensitivity" in fig or "feasibility" in fig for fig in figures):
+                score += 1
+            else:
+                issues.append(f"{q_label} should include a validation/sensitivity/feasibility figure")
+        else:
+            score += 1
+
+        if score < min_score:
+            issues.append(f"{q_label} modeling quality score {score}/14 is below {min_score}")
+
+
 def check_parser_cases(issues: list[str]) -> None:
     parser = ROOT / "scripts" / "problem_parser.py"
     planner = ROOT / "scripts" / "build_task_plan.py"
@@ -496,6 +594,11 @@ def check_parser_cases(issues: list[str]) -> None:
                     issues.append(f"parser case {case} {qid.upper()} plan missing model schematic figure")
                 if f"fig_{qid}_result.png" not in figures:
                     issues.append(f"parser case {case} {qid.upper()} plan missing result figure")
+                for field in ["baseline_route", "primary_route", "fallback_route"]:
+                    if not q.get(field):
+                        issues.append(f"parser case {case} {qid.upper()} plan missing {field}")
+                if len(q.get("minimum_validation", [])) < 2:
+                    issues.append(f"parser case {case} {qid.upper()} plan missing minimum validation")
             golden_path = problem.parent / "expected_problem_parse.json"
             if not golden_path.exists():
                 issues.append(f"parser case {case} missing golden output: {golden_path.relative_to(ROOT)}")
@@ -512,6 +615,7 @@ def main() -> int:
     check_reference_names(issues)
     check_templates(issues)
     check_method_cards(issues)
+    check_quality_rubric(issues)
     check_demo(issues)
     check_real_case_2025_a(issues)
     check_eval_prompts(issues)

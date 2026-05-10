@@ -81,6 +81,21 @@
               "type": "string"
             }
           },
+          "baseline_route": {
+            "type": "string"
+          },
+          "primary_route": {
+            "type": "string"
+          },
+          "fallback_route": {
+            "type": "string"
+          },
+          "minimum_validation": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "status": {
             "type": "string"
           }

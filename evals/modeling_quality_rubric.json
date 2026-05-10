@@ -1,0 +1,61 @@
+{
+  "name": "CUMCM modeling quality rubric",
+  "purpose": "Score whether a skill run is likely to help a beginner produce a contest-usable modeling answer, not just whether files exist.",
+  "scoring": "Each criterion is scored 0, 1, or 2. If any criterion is 0, the answer is incomplete.",
+  "criteria": [
+    {
+      "id": "problem_coverage",
+      "max_score": 2,
+      "pass_condition": "Every requested subquestion has required output, input data, constraints, and dependencies stated in problem language.",
+      "beginner_visible_check": "The student can see what each question asks and what must be handed in."
+    },
+    {
+      "id": "route_comparison",
+      "max_score": 2,
+      "pass_condition": "The solution has baseline, primary, and fallback routes, with a reason for choosing the primary route.",
+      "beginner_visible_check": "The student understands why this model was chosen instead of only seeing a method name."
+    },
+    {
+      "id": "baseline",
+      "max_score": 2,
+      "pass_condition": "A simple baseline or hand-checkable reference is defined before complex modeling claims.",
+      "beginner_visible_check": "The student has a simple result to compare against."
+    },
+    {
+      "id": "data_and_units",
+      "max_score": 2,
+      "pass_condition": "Attachments, Excel sheets, fields, units, time ranges, missing values, and exclusions are audited before numerical conclusions.",
+      "beginner_visible_check": "The student knows which data were used and which data were not used."
+    },
+    {
+      "id": "model_formulation",
+      "max_score": 2,
+      "pass_condition": "Variables, objective or equations, constraints, assumptions, and outputs are connected to the original question.",
+      "beginner_visible_check": "The student can explain the model in the paper without guessing."
+    },
+    {
+      "id": "validation",
+      "max_score": 2,
+      "pass_condition": "The answer includes the minimum validation required by the task type, such as error metrics, feasibility checks, baseline comparison, or sensitivity.",
+      "beginner_visible_check": "The student can defend why the result is credible."
+    },
+    {
+      "id": "figures",
+      "max_score": 2,
+      "pass_condition": "Each solved subquestion has a Chinese schematic/problem figure and a result figure; validation or sensitivity figures are added when needed.",
+      "beginner_visible_check": "The paper has enough clear figures to explain the method and result."
+    },
+    {
+      "id": "traceability",
+      "max_score": 2,
+      "pass_condition": "Every headline number in the paper can be traced to a table, script output, problem fact, or result registry row.",
+      "beginner_visible_check": "The student can find where each important number came from."
+    },
+    {
+      "id": "paper_readiness",
+      "max_score": 2,
+      "pass_condition": "Generated text is judge-facing: concise, Chinese, result-first, and free of placeholders or unsupported award-level claims.",
+      "beginner_visible_check": "The student can paste or adapt the section into a modeling paper."
+    }
+  ]
+}

@@ -2,6 +2,14 @@
 
 Use these expectations for manual checks after skill updates.
 
+## Quality Rubric
+
+- Use `evals/modeling_quality_rubric.json` for 0-2 scoring.
+- A usable answer should pass problem coverage, route comparison, baseline,
+  data/units, model formulation, validation, figures, traceability, and
+  paper-readiness.
+- If any criterion is 0, the answer is incomplete even when all files exist.
+
 ## Full Problem
 
 - Starts with problem decomposition, not model names.
@@ -10,11 +18,15 @@ Use these expectations for manual checks after skill updates.
 - Builds a baseline before or beside the main model.
 - Produces validation and sensitivity checks matched to task type.
 - Keeps result numbers traceable through a registry or source references.
+- For each subquestion, records baseline, primary, fallback route, and minimum
+  validation requirements.
 
 ## Single Question
 
 - Solves only the requested subquestion.
 - Still includes scoring points, hidden constraints, three routes, baseline, model, validation, figures, and paper text.
+- Keeps outputs lean: only necessary code, result tables, Chinese figures, and
+  requested paper text.
 - Notes dependencies on later questions without expanding them.
 
 ## Code To Paper

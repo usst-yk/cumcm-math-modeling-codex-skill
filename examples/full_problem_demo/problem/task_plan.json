@@ -19,7 +19,8 @@
         "不编造额外历史数据"
       ],
       "validation": [
-        "近3日均值基线比较"
+        "近3日均值基线比较",
+        "线性趋势外推风险说明"
       ],
       "figures_needed": [
         "fig_q1_model_schematic.svg",
@@ -28,6 +29,13 @@
       ],
       "tables_needed": [
         "tab_q1_daily_forecast.csv"
+      ],
+      "baseline_route": "使用近3日均值作为手算基线，先判断第7天需求的大致量级。",
+      "primary_route": "使用线性趋势模型演示预测流程，并与基线结果比较。",
+      "fallback_route": "若历史天数不足以支撑趋势外推，则保留近3日均值并扩大不确定性说明。",
+      "minimum_validation": [
+        "与近3日均值基线比较",
+        "说明样本过少导致的外推风险"
       ],
       "status": "demo"
     },
@@ -47,14 +55,23 @@
       ],
       "validation": [
         "容量约束检查",
-        "未满足需求统计"
+        "未满足需求统计",
+        "按原始优先级贪心基线比较"
       ],
       "figures_needed": [
         "fig_q2_model_schematic.svg",
-        "fig_q2_result.svg"
+        "fig_q2_result.svg",
+        "fig_q2_sensitivity.svg"
       ],
       "tables_needed": [
         "tab_q2_allocation.csv"
+      ],
+      "baseline_route": "先按原始优先级贪心分配，得到可行基线方案。",
+      "primary_route": "在容量260件约束下进行可行分配，优先满足高需求和高优先级站点。",
+      "fallback_route": "若容量不足或权重不确定，则输出未满足需求清单并给出人工调整建议。",
+      "minimum_validation": [
+        "检查总配送量不超过260件",
+        "与贪心基线比较未满足需求"
       ],
       "status": "demo"
     },
@@ -72,14 +89,23 @@
         "需求和原始优先级共同参与排序"
       ],
       "validation": [
-        "排序表和图一致"
+        "排序表和图一致",
+        "权重扰动后排序稳定性检查"
       ],
       "figures_needed": [
         "fig_q3_model_schematic.svg",
-        "fig_q3_priority_ranking.png"
+        "fig_q3_priority_ranking.png",
+        "fig_q3_validation.svg"
       ],
       "tables_needed": [
         "tab_q3_priority_ranking.csv"
+      ],
+      "baseline_route": "先用等权评价得到站点排序基线。",
+      "primary_route": "结合需求量和原始优先级计算综合得分，并输出排序表和排名图。",
+      "fallback_route": "若权重缺少依据，则报告前后名次是否稳定，而不是过度解释单一排序。",
+      "minimum_validation": [
+        "核对排序表和排名图一致",
+        "进行权重扰动或排序稳定性检查"
       ],
       "status": "demo"
     }

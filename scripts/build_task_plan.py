@@ -45,6 +45,61 @@ def infer_validation(task_type: str, scoring_points: list[str]) -> list[str]:
     return list(dict.fromkeys(validation))
 
 
+def infer_routes(task_type: str) -> dict[str, str]:
+    routes = {
+        "prediction": {
+            "baseline_route": "Use recent mean or linear trend as a transparent baseline.",
+            "primary_route": "Use a validated forecasting model matched to trend, seasonality, and sample size.",
+            "fallback_route": "If data are sparse, keep the interpretable baseline and report uncertainty.",
+        },
+        "optimization": {
+            "baseline_route": "Build a greedy or rule-based feasible scheme first.",
+            "primary_route": "Formulate decision variables, objective, and constraints, then solve reproducibly.",
+            "fallback_route": "If exact solving is unstable, use a simpler feasible heuristic and compare with baseline.",
+        },
+        "evaluation": {
+            "baseline_route": "Start from equal-weight scoring after confirming indicator directions.",
+            "primary_route": "Use a justified weighting and ranking method with stability checks.",
+            "fallback_route": "If weights are uncertain, report rank intervals or groups instead of a single overclaimed order.",
+        },
+        "simulation": {
+            "baseline_route": "Use a simplified analytical or boundary-case simulation first.",
+            "primary_route": "Run a parameterized simulation with explicit state variables and units.",
+            "fallback_route": "If parameters are uncertain, report scenario bands and sensitivity instead of one value.",
+        },
+        "classification": {
+            "baseline_route": "Use majority class or simple rule baseline.",
+            "primary_route": "Train a validated classifier with proper split and interpretable metrics.",
+            "fallback_route": "If labels are weak or scarce, prefer rules or descriptive grouping.",
+        },
+        "clustering": {
+            "baseline_route": "Use descriptive grouping or simple k-means as a baseline.",
+            "primary_route": "Cluster after scaling and justify feature choice and cluster number.",
+            "fallback_route": "If clusters are unstable, report descriptive strata instead of hard labels.",
+        },
+    }
+    return routes.get(
+        task_type,
+        {
+            "baseline_route": "Build a simple hand-checkable baseline first.",
+            "primary_route": "Use the most transparent model that answers the required output.",
+            "fallback_route": "If evidence is insufficient, simplify the model and state limitations.",
+        },
+    )
+
+
+def infer_minimum_validation(task_type: str) -> list[str]:
+    validation = {
+        "prediction": ["compare with a simple baseline", "report at least one error metric or residual check"],
+        "optimization": ["check feasibility and solver/status evidence", "compare with a baseline scheme"],
+        "evaluation": ["check indicator direction and weight source", "run ranking stability or weight perturbation"],
+        "simulation": ["test a boundary case", "run parameter sensitivity on key assumptions"],
+        "classification": ["use a held-out or cross-validation metric", "inspect confusion or error cases"],
+        "clustering": ["check cluster stability", "explain each cluster in problem language"],
+    }
+    return validation.get(task_type, ["compare with a baseline", "state limitations and uncertainty"])
+
+
 def infer_figures(qid: str, task_type: str) -> list[str]:
     qid_lower = qid.lower()
     figures = [
@@ -71,6 +126,8 @@ def build_empty_plan(problem_text: str, question_count: int, problem_id: str) ->
                 "validation": ["baseline comparison"],
                 "figures_needed": infer_figures(f"Q{idx}", "unknown"),
                 "tables_needed": [f"tab_q{idx}_result.csv"],
+                **infer_routes("unknown"),
+                "minimum_validation": infer_minimum_validation("unknown"),
                 "status": "draft",
             }
         )
@@ -102,6 +159,8 @@ def build_plan_from_parse(parsed: dict, problem_id: str) -> dict:
             "validation": infer_validation(task_type, item.get("implicit_scoring_points", [])),
             "figures_needed": infer_figures(qid, task_type),
             "tables_needed": [f"tab_{qid.lower()}_result.csv"],
+            **infer_routes(task_type),
+            "minimum_validation": infer_minimum_validation(task_type),
             "status": "draft",
             "parse_source": "problem_parse.json",
             "parse_warnings": item.get("warnings", []),

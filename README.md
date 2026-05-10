@@ -61,15 +61,12 @@ paper/sections/   只有要求写论文时才生成分问段落
 ```text
 SKILL.md           Codex 读取的 skill 入口
 README.md          简短说明
-agents/            题面解析、建模、代码、写作、审稿等角色提示
-references/        按需读取的规则和方法库
-scripts/           后台辅助工具
-templates/         完整项目模式下使用的模板
-assets/            静态模板材料
 examples/          使用提示、最小单问 demo、完整 demo、真实案例
-evals/             轻量测试题，防止能力退化
-.github/workflows/ GitHub 自动检查
 ```
+
+新手主要看 `README.md` 和 `examples/README.md` 就够了。`agents/`、
+`references/`、`scripts/`、`templates/`、`evals/` 等目录是后台工作流和质量检查，
+一般不需要手动打开。
 
 ## 示例
 

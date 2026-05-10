@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420">
+  <rect width="720" height="420" fill="#ffffff"/>
+  <text x="360" y="42" text-anchor="middle" font-size="24" font-family="Arial, 'PingFang SC', sans-serif" font-weight="700">问题二容量敏感性检查</text>
+  <line x1="90" y1="340" x2="650" y2="340" stroke="#333" stroke-width="2"/>
+  <line x1="90" y1="80" x2="90" y2="340" stroke="#333" stroke-width="2"/>
+  <text x="370" y="385" text-anchor="middle" font-size="18" font-family="Arial, 'PingFang SC', sans-serif">车辆容量（件）</text>
+  <text x="30" y="210" text-anchor="middle" transform="rotate(-90 30 210)" font-size="18" font-family="Arial, 'PingFang SC', sans-serif">未满足需求（件）</text>
+  <polyline points="120,300 245,260 370,210 495,150 620,105" fill="none" stroke="#1f77b4" stroke-width="4"/>
+  <circle cx="120" cy="300" r="6" fill="#1f77b4"/>
+  <circle cx="245" cy="260" r="6" fill="#1f77b4"/>
+  <circle cx="370" cy="210" r="6" fill="#1f77b4"/>
+  <circle cx="495" cy="150" r="6" fill="#1f77b4"/>
+  <circle cx="620" cy="105" r="6" fill="#1f77b4"/>
+  <text x="120" y="363" text-anchor="middle" font-size="15" font-family="Arial, 'PingFang SC', sans-serif">180</text>
+  <text x="245" y="363" text-anchor="middle" font-size="15" font-family="Arial, 'PingFang SC', sans-serif">220</text>
+  <text x="370" y="363" text-anchor="middle" font-size="15" font-family="Arial, 'PingFang SC', sans-serif">260</text>
+  <text x="495" y="363" text-anchor="middle" font-size="15" font-family="Arial, 'PingFang SC', sans-serif">300</text>
+  <text x="620" y="363" text-anchor="middle" font-size="15" font-family="Arial, 'PingFang SC', sans-serif">340</text>
+  <text x="520" y="125" font-size="16" font-family="Arial, 'PingFang SC', sans-serif" fill="#1f77b4">容量增加后缺口下降</text>
+</svg>

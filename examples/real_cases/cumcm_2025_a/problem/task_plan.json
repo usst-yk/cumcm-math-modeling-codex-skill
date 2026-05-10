@@ -32,7 +32,14 @@
       ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": []
+      "parse_warnings": [],
+      "baseline_route": "先用边界条件或简化几何关系计算遮蔽时长量级。",
+      "primary_route": "建立三维几何与时间演化仿真，逐时刻判断遮蔽是否成立。",
+      "fallback_route": "若参数不确定，则输出情景区间和关键参数敏感性。",
+      "minimum_validation": [
+        "边界时刻遮蔽判定检查",
+        "关键速度、时间或位置参数敏感性分析"
+      ]
     },
     {
       "id": "Q2",
@@ -64,7 +71,14 @@
       ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": []
+      "parse_warnings": [],
+      "baseline_route": "先构造题面给定或规则搜索的可行投放方案作为基线。",
+      "primary_route": "以遮蔽时长最大为目标，联合优化飞行方向、速度、投放点和起爆点。",
+      "fallback_route": "若全局搜索代价过高，则采用分层网格搜索或启发式方案，并报告可行性和改进幅度。",
+      "minimum_validation": [
+        "检查速度、投放、起爆和时间约束是否满足",
+        "与基线方案比较遮蔽时长"
+      ]
     },
     {
       "id": "Q3",
@@ -95,7 +109,14 @@
       ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": []
+      "parse_warnings": [],
+      "baseline_route": "先构造题面给定或规则搜索的可行投放方案作为基线。",
+      "primary_route": "以遮蔽时长最大为目标，联合优化飞行方向、速度、投放点和起爆点。",
+      "fallback_route": "若全局搜索代价过高，则采用分层网格搜索或启发式方案，并报告可行性和改进幅度。",
+      "minimum_validation": [
+        "检查速度、投放、起爆和时间约束是否满足",
+        "与基线方案比较遮蔽时长"
+      ]
     },
     {
       "id": "Q4",
@@ -126,7 +147,14 @@
       ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": []
+      "parse_warnings": [],
+      "baseline_route": "先构造题面给定或规则搜索的可行投放方案作为基线。",
+      "primary_route": "以遮蔽时长最大为目标，联合优化飞行方向、速度、投放点和起爆点。",
+      "fallback_route": "若全局搜索代价过高，则采用分层网格搜索或启发式方案，并报告可行性和改进幅度。",
+      "minimum_validation": [
+        "检查速度、投放、起爆和时间约束是否满足",
+        "与基线方案比较遮蔽时长"
+      ]
     },
     {
       "id": "Q5",
@@ -157,7 +185,14 @@
       ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": []
+      "parse_warnings": [],
+      "baseline_route": "先构造题面给定或规则搜索的可行投放方案作为基线。",
+      "primary_route": "以遮蔽时长最大为目标，联合优化飞行方向、速度、投放点和起爆点。",
+      "fallback_route": "若全局搜索代价过高，则采用分层网格搜索或启发式方案，并报告可行性和改进幅度。",
+      "minimum_validation": [
+        "检查速度、投放、起爆和时间约束是否满足",
+        "与基线方案比较遮蔽时长"
+      ]
     }
   ],
   "global_assumptions": [],
