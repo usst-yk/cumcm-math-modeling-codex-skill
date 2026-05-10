@@ -13,9 +13,11 @@
 | `assumptions_symbols.md` | `problem/assumptions.md` | 假设和符号说明模板。 |
 | `result_registry.csv` | `results/result_registry.csv` | 关键数值来源追踪。 |
 | `validation_report.md` | `results/validation_report.md` | 验证结果记录。 |
-| `paper_main.tex` | `paper/main.tex` | TeX 论文骨架。 |
-| `refs.bib` | `paper/refs.bib` | 参考文献占位。 |
+| `paper_main.tex` | `paper/main.tex` | 轻量国赛 TeX 论文骨架，按“摘要、重述、分析、假设、符号、数据、逐问建模求解、验证、评价、结论、附录”组织。 |
+| `refs.bib` | `paper/refs.bib` | 参考文献占位，含常见数学建模参考书示例。 |
 | `appendix_code.md` | `appendix/code-template.md` | 附录代码说明格式。 |
 | `run_log.md` | `logs/run_log.md` | 运行记录。 |
+
+TeX 模板吸收了常见 CUMCM 模板的章节顺序，但不依赖额外 class、字体文件或编译产物，避免新手因为缺字体而编译失败。
 
 命名约定：模板名与目标产物保持一致。
