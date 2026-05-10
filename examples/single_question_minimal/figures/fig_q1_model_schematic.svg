@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="260" viewBox="0 0 900 260">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <style>
+    text{font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#0f172a}
+    .box{fill:#f8fafc;stroke:#2563eb;stroke-width:2;rx:8}
+    .arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+  </style>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker></defs>
+  <text x="450" y="38" text-anchor="middle" font-size="24" font-weight="700">问题一：单问预测流程示意</text>
+  <rect class="box" x="70" y="90" width="180" height="82"/>
+  <text x="160" y="122" text-anchor="middle" font-size="19">历史需求</text>
+  <text x="160" y="150" text-anchor="middle" font-size="17">第1-5天</text>
+  <rect class="box" x="360" y="90" width="180" height="82"/>
+  <text x="450" y="122" text-anchor="middle" font-size="19">线性趋势基线</text>
+  <text x="450" y="150" text-anchor="middle" font-size="17">估计日增长量</text>
+  <rect class="box" x="650" y="90" width="180" height="82"/>
+  <text x="740" y="122" text-anchor="middle" font-size="19">第6天预测</text>
+  <text x="740" y="150" text-anchor="middle" font-size="17">103.75 件</text>
+  <path class="arrow" d="M250,131 L360,131"/>
+  <path class="arrow" d="M540,131 L650,131"/>
+</svg>
+

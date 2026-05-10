@@ -1,0 +1,47 @@
+{
+  "question_count": 2,
+  "attachments": [
+    "附件1：nodes.csv"
+  ],
+  "units": [
+    "0.6 m"
+  ],
+  "time_ranges": [],
+  "risk_words": [
+    "连续",
+    "不超过",
+    "最大",
+    "附件",
+    "给出"
+  ],
+  "subquestions": [
+    {
+      "id": "Q1",
+      "task_type": "simulation",
+      "required_output": [
+        "问题一：建立坐标系和理想抛物面模型，计算入射光线经反射面反射后的接收比"
+      ],
+      "input_data": [
+        "attachment:附件1：nodes.csv"
+      ],
+      "decision_object": "待仿真系统状态",
+      "constraints": [
+        "问题一：建立坐标系和理想抛物面模型，计算入射光线经反射面反射后的接收比"
+      ]
+    },
+    {
+      "id": "Q2",
+      "task_type": "optimization",
+      "required_output": [
+        "问题二：在促动器伸缩量不超过 0.6 m、相邻面板保持连续的条件下，确定主索节点调整量，使接收效率最大"
+      ],
+      "input_data": [
+        "attachment:附件1：nodes.csv"
+      ],
+      "decision_object": "主索节点调整量",
+      "constraints": [
+        "问题二：在促动器伸缩量不超过 0.6 m、相邻面板保持连续的条件下，确定主索节点调整量，使接收效率最大"
+      ]
+    }
+  ]
+}

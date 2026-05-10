@@ -1,0 +1,62 @@
+{
+  "question_count": 2,
+  "attachments": [
+    "附件1：load_history.xlsx",
+    "附件2：generator_limits.csv"
+  ],
+  "units": [
+    "2024年",
+    "1月",
+    "2025年",
+    "12月",
+    "2026-2030 年",
+    "1200 吨"
+  ],
+  "time_ranges": [
+    "2024年1月至2025年12月",
+    "每小时",
+    "2026-2030 年"
+  ],
+  "risk_words": [
+    "分别",
+    "不超过",
+    "最小",
+    "预测",
+    "评价",
+    "调度",
+    "满足",
+    "附件",
+    "给出",
+    "分析"
+  ],
+  "subquestions": [
+    {
+      "id": "Q1",
+      "task_type": "prediction",
+      "required_output": [
+        "问题一：预测 2026-2030 年高峰负荷，给出误差评价方法，并分别分析工作日和节假日差异"
+      ],
+      "input_data": [
+        "attachment:附件1：load_history.xlsx",
+        "attachment:附件2：generator_limits.csv"
+      ],
+      "decision_object": "2026-2030 年高峰负荷",
+      "constraints": []
+    },
+    {
+      "id": "Q2",
+      "task_type": "optimization",
+      "required_output": [
+        "问题二：在每台机组出力不超过额定容量、总供电量必须满足每小时需求的条件下，设计总成本最小且碳排放不超过 1200 吨的调度方案"
+      ],
+      "input_data": [
+        "attachment:附件1：load_history.xlsx",
+        "attachment:附件2：generator_limits.csv"
+      ],
+      "decision_object": "总成本最小且碳排放不超过 1200 吨的调度方案",
+      "constraints": [
+        "问题二：在每台机组出力不超过额定容量、总供电量必须满足每小时需求的条件下，设计总成本最小且碳排放不超过 1200 吨的调度方案"
+      ]
+    }
+  ]
+}

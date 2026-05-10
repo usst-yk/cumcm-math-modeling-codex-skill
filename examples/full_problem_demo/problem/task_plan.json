@@ -22,7 +22,9 @@
         "近3日均值基线比较"
       ],
       "figures_needed": [
-        "fig_q1_demand_forecast.png"
+        "fig_q1_model_schematic.svg",
+        "fig_q1_demand_forecast.png",
+        "fig_q1_validation.svg"
       ],
       "tables_needed": [
         "tab_q1_daily_forecast.csv"
@@ -47,7 +49,10 @@
         "容量约束检查",
         "未满足需求统计"
       ],
-      "figures_needed": [],
+      "figures_needed": [
+        "fig_q2_model_schematic.svg",
+        "fig_q2_result.svg"
+      ],
       "tables_needed": [
         "tab_q2_allocation.csv"
       ],
@@ -70,6 +75,7 @@
         "排序表和图一致"
       ],
       "figures_needed": [
+        "fig_q3_model_schematic.svg",
         "fig_q3_priority_ranking.png"
       ],
       "tables_needed": [

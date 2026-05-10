@@ -28,6 +28,7 @@
           "required_inputs",
           "required_outputs",
           "validation",
+          "minimum_validation",
           "common_failures",
           "paper_outputs"
         ],
@@ -79,6 +80,13 @@
           },
           "validation": {
             "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "minimum_validation": {
+            "type": "array",
+            "minItems": 2,
             "items": {
               "type": "string"
             }

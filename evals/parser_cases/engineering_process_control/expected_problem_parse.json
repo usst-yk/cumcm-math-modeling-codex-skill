@@ -1,0 +1,48 @@
+{
+  "question_count": 2,
+  "attachments": [
+    "附件1：temperature_curve.xlsx"
+  ],
+  "units": [
+    "70~90 cm/min",
+    "250 ℃",
+    "217 ℃"
+  ],
+  "time_ranges": [],
+  "risk_words": [
+    "不超过",
+    "最优",
+    "满足",
+    "附件"
+  ],
+  "subquestions": [
+    {
+      "id": "Q1",
+      "task_type": "simulation",
+      "required_output": [
+        "问题一：建立热传导机理模型，模拟焊接区域中心温度随时间变化的温度曲线，并计算峰值温度和高温持续时间"
+      ],
+      "input_data": [
+        "attachment:附件1：temperature_curve.xlsx"
+      ],
+      "decision_object": "待仿真系统状态",
+      "constraints": [
+        "问题一：建立热传导机理模型，模拟焊接区域中心温度随时间变化的温度曲线，并计算峰值温度和高温持续时间"
+      ]
+    },
+    {
+      "id": "Q2",
+      "task_type": "optimization",
+      "required_output": [
+        "问题二：在传送带速度 70~90 cm/min、峰值温度不超过 250 ℃、217 ℃以上时间满足工艺要求的条件下，确定最优速度，使焊接质量最好"
+      ],
+      "input_data": [
+        "attachment:附件1：temperature_curve.xlsx"
+      ],
+      "decision_object": "最优速度",
+      "constraints": [
+        "问题二：在传送带速度 70~90 cm/min、峰值温度不超过 250 ℃、217 ℃以上时间满足工艺要求的条件下，确定最优速度，使焊接质量最好"
+      ]
+    }
+  ]
+}

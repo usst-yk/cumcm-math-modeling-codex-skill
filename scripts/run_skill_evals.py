@@ -100,6 +100,13 @@ def check_demo(issues: list[str]) -> None:
         require(ROOT / "examples" / rel, issues)
 
     demo_required = [
+        "../single_question_minimal/README.md",
+        "../single_question_minimal/problem.md",
+        "../single_question_minimal/src/solve_q1.py",
+        "../single_question_minimal/tables/tab_q1_result.csv",
+        "../single_question_minimal/figures/fig_q1_model_schematic.svg",
+        "../single_question_minimal/figures/fig_q1_result.svg",
+        "../single_question_minimal/paper/sections/q1.md",
         "problem/problem_statement.md",
         "problem/task_plan.json",
         "data/raw/station_demand.csv",
@@ -107,7 +114,12 @@ def check_demo(issues: list[str]) -> None:
         "tables/tab_q1_daily_forecast.csv",
         "tables/tab_q2_allocation.csv",
         "tables/tab_q3_priority_ranking.csv",
+        "figures/fig_q1_model_schematic.svg",
         "figures/fig_q1_demand_forecast.png",
+        "figures/fig_q1_validation.svg",
+        "figures/fig_q2_model_schematic.svg",
+        "figures/fig_q2_result.svg",
+        "figures/fig_q3_model_schematic.svg",
         "figures/fig_q3_priority_ranking.png",
         "figures/roadmap.svg",
         "results/result_registry.csv",
@@ -116,7 +128,7 @@ def check_demo(issues: list[str]) -> None:
         "paper/sections/q1.tex",
     ]
     for rel in demo_required:
-        require(DEMO / rel, issues)
+        require((DEMO / rel).resolve(), issues)
 
     task_plan = DEMO / "problem" / "task_plan.json"
     if task_plan.exists():
@@ -237,13 +249,21 @@ def check_eval_prompts(issues: list[str]) -> None:
     expected = [
         "evals/expected_outputs.md",
         "evals/parser_cases/prediction/problem.md",
+        "evals/parser_cases/prediction/expected_problem_parse.json",
         "evals/parser_cases/optimization/problem.md",
+        "evals/parser_cases/optimization/expected_problem_parse.json",
         "evals/parser_cases/evaluation/problem.md",
+        "evals/parser_cases/evaluation/expected_problem_parse.json",
         "evals/parser_cases/hybrid_prediction_optimization/problem.md",
+        "evals/parser_cases/hybrid_prediction_optimization/expected_problem_parse.json",
         "evals/parser_cases/bracket_inline/problem.md",
+        "evals/parser_cases/bracket_inline/expected_problem_parse.json",
         "evals/parser_cases/trajectory_coverage/problem.md",
+        "evals/parser_cases/trajectory_coverage/expected_problem_parse.json",
         "evals/parser_cases/engineering_process_control/problem.md",
+        "evals/parser_cases/engineering_process_control/expected_problem_parse.json",
         "evals/parser_cases/geometry_optics_design/problem.md",
+        "evals/parser_cases/geometry_optics_design/expected_problem_parse.json",
         "evals/toy_prediction_problem/prompt.md",
         "evals/toy_optimization_problem/prompt.md",
         "evals/toy_evaluation_problem/prompt.md",
@@ -300,6 +320,8 @@ def validate_schema_value(value: Any, schema: dict, label: str, issues: list[str
             if key in value:
                 validate_schema_value(value[key], sub_schema, f"{label}.{key}", issues)
     if expected_type == "array":
+        if "minItems" in schema and len(value) < schema["minItems"]:
+            issues.append(f"{label} should contain at least {schema['minItems']} item(s)")
         item_schema = schema.get("items")
         if item_schema:
             for idx, item in enumerate(value, start=1):
@@ -322,6 +344,27 @@ def validate_required_fields(data: dict, schema: dict, label: str, issues: list[
 def require_contains(items: list[str], expected: str, label: str, issues: list[str]) -> None:
     if not any(expected in str(item) for item in items):
         issues.append(f"{label} should contain: {expected}")
+
+
+def parser_golden_summary(parsed: dict) -> dict:
+    return {
+        "question_count": parsed.get("question_count"),
+        "attachments": parsed.get("attachments", []),
+        "units": parsed.get("units", []),
+        "time_ranges": parsed.get("time_ranges", []),
+        "risk_words": parsed.get("risk_words", []),
+        "subquestions": [
+            {
+                "id": item.get("id"),
+                "task_type": item.get("task_type"),
+                "required_output": item.get("required_output", []),
+                "input_data": item.get("input_data", []),
+                "decision_object": item.get("decision_object", ""),
+                "constraints": item.get("constraints", []),
+            }
+            for item in parsed.get("subquestions", [])
+        ],
+    }
 
 
 def check_method_cards(issues: list[str]) -> None:
@@ -358,9 +401,21 @@ def check_method_cards(issues: list[str]) -> None:
 
     for card in cards:
         label = card.get("id", "unknown")
-        for field in ["use_when", "avoid_when", "primary_methods", "validation", "common_failures", "paper_outputs"]:
+        for field in [
+            "use_when",
+            "avoid_when",
+            "primary_methods",
+            "validation",
+            "minimum_validation",
+            "common_failures",
+            "paper_outputs",
+        ]:
             if not card.get(field):
                 issues.append(f"method card {label} should have non-empty {field}")
+        if len(card.get("avoid_when", [])) < 2:
+            issues.append(f"method card {label} should have at least two avoid_when items")
+        if len(card.get("minimum_validation", [])) < 2:
+            issues.append(f"method card {label} should have at least two minimum_validation items")
 
 
 def check_parser_cases(issues: list[str]) -> None:
@@ -439,6 +494,21 @@ def check_parser_cases(issues: list[str]) -> None:
                     issues.append(f"parser case {case} expected task type {expected_type}, got {sorted(task_types)}")
             if plan.get("question_count") != parsed.get("question_count"):
                 issues.append(f"parser case {case} plan question_count does not match parse")
+            for q in plan.get("subquestions", []):
+                figures = q.get("figures_needed", [])
+                qid = str(q.get("id", "")).lower()
+                if f"fig_{qid}_model_schematic.png" not in figures:
+                    issues.append(f"parser case {case} {qid.upper()} plan missing model schematic figure")
+                if f"fig_{qid}_result.png" not in figures:
+                    issues.append(f"parser case {case} {qid.upper()} plan missing result figure")
+            golden_path = problem.parent / "expected_problem_parse.json"
+            if not golden_path.exists():
+                issues.append(f"parser case {case} missing golden output: {golden_path.relative_to(ROOT)}")
+                continue
+            expected_golden = json.loads(golden_path.read_text(encoding="utf-8"))
+            actual_golden = parser_golden_summary(parsed)
+            if actual_golden != expected_golden:
+                issues.append(f"parser case {case} problem_parse golden output changed")
 
 
 def main() -> int:

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <style>
+    text{font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#0f172a}
+    .axis{stroke:#334155;stroke-width:2}
+    .grid{stroke:#d1d5db;stroke-width:1}
+    .line{stroke:#2563eb;stroke-width:4;fill:none}
+    .point{fill:#2563eb}
+    .forecast{fill:#dc2626}
+  </style>
+  <text x="450" y="42" text-anchor="middle" font-size="25" font-weight="700">问题一：历史需求与第6天预测</text>
+  <line class="axis" x1="90" y1="430" x2="820" y2="430"/>
+  <line class="axis" x1="90" y1="80" x2="90" y2="430"/>
+  <text x="455" y="485" text-anchor="middle" font-size="20">天数</text>
+  <text x="28" y="250" text-anchor="middle" font-size="20" transform="rotate(-90 28 250)">需求量 / 件</text>
+  <polyline class="line" points="170,370 290,330 410,303 530,270 650,243 770,211"/>
+  <circle class="point" cx="170" cy="370" r="7"/>
+  <circle class="point" cx="290" cy="330" r="7"/>
+  <circle class="point" cx="410" cy="303" r="7"/>
+  <circle class="point" cx="530" cy="270" r="7"/>
+  <circle class="point" cx="650" cy="243" r="7"/>
+  <circle class="forecast" cx="770" cy="211" r="8"/>
+  <text x="770" y="185" text-anchor="middle" font-size="18">预测 103.75 件</text>
+  <text x="170" y="458" text-anchor="middle" font-size="17">1</text>
+  <text x="290" y="458" text-anchor="middle" font-size="17">2</text>
+  <text x="410" y="458" text-anchor="middle" font-size="17">3</text>
+  <text x="530" y="458" text-anchor="middle" font-size="17">4</text>
+  <text x="650" y="458" text-anchor="middle" font-size="17">5</text>
+  <text x="770" y="458" text-anchor="middle" font-size="17">6</text>
+</svg>
+

@@ -1,0 +1,52 @@
+{
+  "question_count": 2,
+  "attachments": [
+    "附件A：orders.csv",
+    "附件B：vehicles.xlsx"
+  ],
+  "units": [
+    "260 件"
+  ],
+  "time_ranges": [
+    "18:00"
+  ],
+  "risk_words": [
+    "每个",
+    "不超过",
+    "最小",
+    "最优",
+    "调度",
+    "附件",
+    "比较"
+  ],
+  "subquestions": [
+    {
+      "id": "Q1",
+      "task_type": "optimization",
+      "required_output": [
+        "第1问：在每辆车载重不超过 260 件、每个站点必须被服务一次的条件下，设计总行驶距离最小的配送方案"
+      ],
+      "input_data": [
+        "attachment:附件A：orders.csv",
+        "attachment:附件B：vehicles.xlsx"
+      ],
+      "decision_object": "总行驶距离最小的配送方案",
+      "constraints": [
+        "第1问：在每辆车载重不超过 260 件、每个站点必须被服务一次的条件下，设计总行驶距离最小的配送方案"
+      ]
+    },
+    {
+      "id": "Q2",
+      "task_type": "optimization",
+      "required_output": [
+        "第2问：若部分道路在 18:00 后拥堵，请重新调度车辆路径，使总成本最优，并比较调整前后的方案"
+      ],
+      "input_data": [
+        "attachment:附件A：orders.csv",
+        "attachment:附件B：vehicles.xlsx"
+      ],
+      "decision_object": "车辆路径",
+      "constraints": []
+    }
+  ]
+}

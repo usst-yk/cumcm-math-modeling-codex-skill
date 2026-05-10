@@ -31,9 +31,11 @@ def rel_exists(root: Path, value: str) -> bool:
     return path.exists() or (root / path).exists()
 
 
-def audit_registry(root: Path, registry: pd.DataFrame) -> list[str]:
+def audit_registry(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
     issues: list[str] = []
     if registry.empty:
+        if mode == "lean":
+            return []
         return ["P1: result registry missing or empty."]
     source_col = (
         "source_file"
@@ -99,10 +101,12 @@ def audit_tables(root: Path) -> list[str]:
     return issues
 
 
-def audit_paper(root: Path, registry: pd.DataFrame) -> list[str]:
+def audit_paper(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
     issues: list[str] = []
     paper = root / "paper" / "main.tex"
     if not paper.exists():
+        if mode == "lean":
+            return []
         return ["P2: paper/main.tex not found."]
     text = paper.read_text(encoding="utf-8", errors="ignore")
     for match in FIG_RE.findall(text):
@@ -149,6 +153,18 @@ def solved_subquestions(registry: pd.DataFrame) -> list[str]:
     return sorted(questions)
 
 
+def solved_subquestions_from_figures(root: Path) -> list[str]:
+    figures = root / "figures"
+    if not figures.exists():
+        return []
+    questions: set[str] = set()
+    for path in figures.glob("fig_q*_*.*"):
+        match = re.match(r"fig_q(\d+)_", path.name, flags=re.IGNORECASE)
+        if match:
+            questions.add(f"q{match.group(1)}")
+    return sorted(questions)
+
+
 def figure_files_for_question(root: Path, question: str) -> list[Path]:
     figures = root / "figures"
     if not figures.exists():
@@ -160,9 +176,12 @@ def figure_files_for_question(root: Path, question: str) -> list[Path]:
     )
 
 
-def audit_figure_coverage(root: Path, registry: pd.DataFrame) -> list[str]:
+def audit_figure_coverage(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
     issues: list[str] = []
-    for question in solved_subquestions(registry):
+    questions = solved_subquestions(registry)
+    if mode == "lean" and not questions:
+        questions = solved_subquestions_from_figures(root)
+    for question in questions:
         figures = figure_files_for_question(root, question)
         names = [path.name for path in figures]
         if len(figures) < 2:
@@ -216,6 +235,12 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Validate CUMCM project traceability.")
     parser.add_argument("--project", default=".", help="Project root.")
     parser.add_argument(
+        "--mode",
+        choices=["lean", "full"],
+        default="full",
+        help="lean allows single-question outputs without registry or paper/main.tex; full enforces final-project traceability.",
+    )
+    parser.add_argument(
         "--registry",
         default="results/result_registry.csv",
         help="Registry path relative to project.",
@@ -230,11 +255,12 @@ def main() -> int:
     root = Path(args.project).expanduser().resolve()
     registry = read_registry(root / args.registry)
     issues = []
-    issues.extend(audit_registry(root, registry))
+    issues.extend(audit_registry(root, registry, args.mode))
     issues.extend(audit_tables(root))
-    issues.extend(audit_paper(root, registry))
-    issues.extend(audit_figure_coverage(root, registry))
-    issues.extend(audit_unreferenced(root, registry))
+    issues.extend(audit_paper(root, registry, args.mode))
+    issues.extend(audit_figure_coverage(root, registry, args.mode))
+    if args.mode == "full":
+        issues.extend(audit_unreferenced(root, registry))
 
     out = root / args.output
     out.parent.mkdir(parents=True, exist_ok=True)

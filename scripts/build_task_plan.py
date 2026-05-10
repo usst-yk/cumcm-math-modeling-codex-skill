@@ -10,6 +10,7 @@ from pathlib import Path
 
 
 SPARSE_FIELDS = ["required_output", "input_data", "decision_object", "constraints"]
+CHECK_FIGURE_TYPES = {"prediction", "optimization", "evaluation", "simulation"}
 
 
 def infer_question_count(text: str, default: int) -> int:
@@ -44,6 +45,18 @@ def infer_validation(task_type: str, scoring_points: list[str]) -> list[str]:
     return list(dict.fromkeys(validation))
 
 
+def infer_figures(qid: str, task_type: str) -> list[str]:
+    qid_lower = qid.lower()
+    figures = [
+        f"fig_{qid_lower}_model_schematic.png",
+        f"fig_{qid_lower}_result.png",
+    ]
+    if task_type in CHECK_FIGURE_TYPES:
+        check_name = "sensitivity" if task_type == "optimization" else "validation"
+        figures.append(f"fig_{qid_lower}_{check_name}.png")
+    return figures
+
+
 def build_empty_plan(problem_text: str, question_count: int, problem_id: str) -> dict:
     subquestions = []
     for idx in range(1, question_count + 1):
@@ -56,7 +69,7 @@ def build_empty_plan(problem_text: str, question_count: int, problem_id: str) ->
                 "decision_object": "",
                 "constraints": [],
                 "validation": ["baseline comparison"],
-                "figures_needed": [f"fig_q{idx}_result.png"],
+                "figures_needed": infer_figures(f"Q{idx}", "unknown"),
                 "tables_needed": [f"tab_q{idx}_result.csv"],
                 "status": "draft",
             }
@@ -87,7 +100,7 @@ def build_plan_from_parse(parsed: dict, problem_id: str) -> dict:
             "decision_object": item.get("decision_object", ""),
             "constraints": item.get("constraints", []),
             "validation": infer_validation(task_type, item.get("implicit_scoring_points", [])),
-            "figures_needed": [f"fig_{qid.lower()}_result.png"],
+            "figures_needed": infer_figures(qid, task_type),
             "tables_needed": [f"tab_{qid.lower()}_result.csv"],
             "status": "draft",
             "parse_source": "problem_parse.json",

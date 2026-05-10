@@ -1,0 +1,53 @@
+{
+  "question_count": 2,
+  "attachments": [
+    "附件1：uav_state.xlsx"
+  ],
+  "units": [
+    "3 m/s",
+    "10 m",
+    "20 s",
+    "70~140 m/s",
+    "1 s"
+  ],
+  "time_ranges": [
+    "20 s",
+    "1 s"
+  ],
+  "risk_words": [
+    "至少",
+    "尽可能",
+    "附件"
+  ],
+  "subquestions": [
+    {
+      "id": "Q1",
+      "task_type": "simulation",
+      "required_output": [
+        "请计算给定投放方案对导弹 M1 的有效遮蔽时长"
+      ],
+      "input_data": [
+        "attachment:附件1：uav_state.xlsx"
+      ],
+      "decision_object": "待仿真系统状态",
+      "constraints": [
+        "问题一：烟幕弹脱离无人机后在重力作用下运动，起爆后云团以 3 m/s 匀速下沉，有效半径 10 m，持续 20 s",
+        "请计算给定投放方案对导弹 M1 的有效遮蔽时长"
+      ]
+    },
+    {
+      "id": "Q2",
+      "task_type": "optimization",
+      "required_output": [
+        "问题二：确定无人机航向、飞行速度 70~140 m/s、投放时刻和起爆时刻，且两枚烟幕弹投放间隔至少 1 s，使总遮蔽时间尽可能长"
+      ],
+      "input_data": [
+        "attachment:附件1：uav_state.xlsx"
+      ],
+      "decision_object": "无人机航向、飞行速度 70~140 m/s、投放时刻和起爆时刻",
+      "constraints": [
+        "问题二：确定无人机航向、飞行速度 70~140 m/s、投放时刻和起爆时刻，且两枚烟幕弹投放间隔至少 1 s，使总遮蔽时间尽可能长"
+      ]
+    }
+  ]
+}

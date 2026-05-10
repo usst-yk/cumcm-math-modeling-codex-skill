@@ -20,17 +20,16 @@ TASK_TYPE_LABELS = {
 }
 
 
-def load_nodes(task_plan: Path) -> list[str]:
+def load_plan(task_plan: Path) -> dict:
     if not task_plan.exists():
-        return [
-            "题面解析",
-            "附件审计",
-            "建模路线",
-            "模型求解",
-            "结果验证",
-            "论文输出",
-        ]
-    plan = json.loads(task_plan.read_text(encoding="utf-8"))
+        return {}
+    return json.loads(task_plan.read_text(encoding="utf-8"))
+
+
+def load_nodes(task_plan: Path) -> list[str]:
+    plan = load_plan(task_plan)
+    if not plan:
+        return ["题面解析", "附件审计", "建模路线", "模型求解", "结果验证", "论文输出"]
     nodes = ["题面解析", "附件审计", "路线比较"]
     for q in plan.get("subquestions", []):
         qid = q.get("id", "Q")
@@ -38,6 +37,23 @@ def load_nodes(task_plan: Path) -> list[str]:
         nodes.append(f"{qid} {TASK_TYPE_LABELS.get(task_type, task_type)}")
     nodes.extend(["结果验证", "论文输出"])
     return nodes
+
+
+def question_nodes(question: dict) -> list[str]:
+    qid = question.get("id", "Q")
+    task_type = question.get("task_type", "unknown")
+    label = TASK_TYPE_LABELS.get(task_type, task_type)
+    outputs = question.get("required_output", [])
+    output_label = str(outputs[0])[:18] if outputs else "输出结果"
+    return [
+        f"{qid} 题意解析",
+        "输入和约束",
+        f"{label}模型",
+        "代码求解",
+        "结果图表",
+        "验证检查",
+        output_label,
+    ]
 
 
 def wrap_label(label: str, max_chars: int = 9, max_lines: int = 3) -> list[str]:
@@ -119,13 +135,27 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Generate roadmap SVG from task_plan.json.")
     parser.add_argument("--task-plan", default="problem/task_plan.json", help="Task plan JSON.")
     parser.add_argument("--output", default="figures/roadmap.svg", help="Output SVG.")
+    parser.add_argument(
+        "--per-question-dir",
+        help="Optional directory for per-question roadmap SVG files, e.g. figures/roadmaps.",
+    )
     args = parser.parse_args()
 
-    nodes = load_nodes(Path(args.task_plan).expanduser().resolve())
+    task_plan = Path(args.task_plan).expanduser().resolve()
+    nodes = load_nodes(task_plan)
     out = Path(args.output).expanduser().resolve()
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(svg(nodes), encoding="utf-8")
     print(f"Wrote {out}")
+    if args.per_question_dir:
+        plan = load_plan(task_plan)
+        per_question_dir = Path(args.per_question_dir).expanduser().resolve()
+        per_question_dir.mkdir(parents=True, exist_ok=True)
+        for question in plan.get("subquestions", []):
+            qid = str(question.get("id", "q")).lower()
+            q_out = per_question_dir / f"roadmap_{qid}.svg"
+            q_out.write_text(svg(question_nodes(question), width=1000), encoding="utf-8")
+            print(f"Wrote {q_out}")
     return 0
 
 

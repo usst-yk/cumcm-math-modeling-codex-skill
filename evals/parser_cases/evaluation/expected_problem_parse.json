@@ -1,0 +1,54 @@
+{
+  "question_count": 2,
+  "attachments": [
+    "附件一：city_indicators.xlsx"
+  ],
+  "units": [
+    "30 个",
+    "2020-2024 年"
+  ],
+  "time_ranges": [
+    "2020-2024 年"
+  ],
+  "risk_words": [
+    "每个",
+    "分别",
+    "至少",
+    "评价",
+    "排序",
+    "附件",
+    "给出",
+    "比较",
+    "分析"
+  ],
+  "subquestions": [
+    {
+      "id": "Q1",
+      "task_type": "evaluation",
+      "required_output": [
+        "（1）请建立城市韧性综合评价指标体系，对每个城市进行评价并排序"
+      ],
+      "input_data": [
+        "attachment:附件一：city_indicators.xlsx"
+      ],
+      "decision_object": "指标体系",
+      "constraints": [
+        "（1）请建立城市韧性综合评价指标体系，对每个城市进行评价并排序"
+      ]
+    },
+    {
+      "id": "Q2",
+      "task_type": "evaluation",
+      "required_output": [
+        "（2）至少选择两种权重方法分别计算综合得分，比较排序差异，并分析评价结果的稳定性"
+      ],
+      "input_data": [
+        "attachment:附件一：city_indicators.xlsx"
+      ],
+      "decision_object": "差异",
+      "constraints": [
+        "（2）至少选择两种权重方法分别计算综合得分，比较排序差异，并分析评价结果的稳定性"
+      ]
+    }
+  ]
+}
