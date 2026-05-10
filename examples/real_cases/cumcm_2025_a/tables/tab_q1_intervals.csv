@@ -1,0 +1,2 @@
+method,target_point,start_s,end_s,duration_s,min_distance_m,threshold_m
+target-axis midpoint line-of-sight,"(0, 200, 5)",8.013006,9.418516,1.405510,4.716927,10.000000

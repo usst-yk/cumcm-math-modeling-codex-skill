@@ -1,0 +1,14 @@
+\section{问题一：给定投放方案下的遮蔽时长}
+
+问题一中，FY1 以 \(120\,\mathrm{m/s}\) 朝假目标方向等高度匀速飞行，在受领任务 \(1.5\,\mathrm{s}\) 后投放烟幕干扰弹，并在 \(3.6\,\mathrm{s}\) 后起爆。本文示例采用真目标圆柱轴中点 \((0,200,5)\) 作为代表视线点，计算烟幕云团中心到 M1 与该点连线线段的最短距离。当该距离不超过 \(10\,\mathrm{m}\)，且垂足位于导弹和目标之间时，判定为有效遮蔽。
+
+根据运动学模型，烟幕弹投放点为 \((17620,0,1800)\)，起爆点为 \((17188,0,1736.496)\)。这两个关键点保存于 \verb|tab_q1_key_points.csv|。起爆后云团以 \(3\,\mathrm{m/s}\) 匀速下沉。由 \verb|src/solve_q1.py| 复现计算得到，有效遮蔽区间为 \(8.013006\sim 9.418516\,\mathrm{s}\)，遮蔽时长为 \(1.405510\,\mathrm{s}\)。结果见 \verb|tab_q1_intervals.csv|，几何关系和距离阈值见图 \verb|fig_q1_distance_geometry.png|。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{../figures/fig_q1_distance_geometry.png}
+  \caption{问题一中烟幕云团到代表视线线段的距离与侧视几何示意。绿色区间表示距离不超过有效半径的时间段。}
+  \label{fig:q1-distance-geometry}
+\end{figure}
+
+需要说明的是，该示例的遮蔽判据是“目标轴中点视线判据”，用于展示 skill 的可复现交付链路。若在正式参赛论文中使用更严格的圆柱目标整体遮蔽判据，应在此基础上进一步检查目标圆柱边界点的可见性，并重新登记结果。

@@ -27,6 +27,13 @@
 | `tables/data_profile/` | 附件模板的数据审计输出。 |
 | `results/result_registry.csv` | 后续求解时登记关键数值的空模板。 |
 | `results/validation_report.md` | 后续验证分析的记录模板。 |
+| `src/solve_q1.py` | 问题 1 的可复现几何运动求解脚本。 |
+| `tables/tab_q1_key_points.csv` | 问题 1 投放点、起爆点。 |
+| `tables/tab_q1_intervals.csv` | 问题 1 有效遮蔽区间和时长。 |
+| `figures/fig_q1_distance_geometry.png` | 问题 1 距离阈值和侧视几何图。 |
+| `results/validation_audit.md` | 问题 1 产物一致性自动检查结果。 |
+| `paper/main.tex` | 可编译论文片段入口。 |
+| `paper/sections/q1.tex` | 问题 1 论文片段。 |
 
 ## 使用方式
 
@@ -46,6 +53,7 @@
 
 ## 当前限制
 
-- 本目录目前只放题面、附件模板、解析结果和审计结果。
-- 尚未包含正式求解代码、最终图表或完整论文。
+- 本目录目前只完成了问题 1 的示例闭环。
+- 问题 2-5 尚未包含正式求解代码、最终图表或完整论文。
+- 问题 1 使用真目标轴中点视线判据，用于展示可复现交付链路，不作为官方标准答案。
 - `problem_parse` 和 `task_plan` 是规则脚本生成的草稿，进入正式建模前仍需要人工确认几何约束、遮蔽判定和优化变量。

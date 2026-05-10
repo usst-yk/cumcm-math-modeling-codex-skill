@@ -13,6 +13,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEMO = ROOT / "examples" / "full_problem_demo"
+REAL_CASE_2025_A = ROOT / "examples" / "real_cases" / "cumcm_2025_a"
 
 PARSER_EXPECTATIONS = {
     "prediction": {
@@ -136,6 +137,38 @@ def check_demo(issues: list[str]) -> None:
             source = row.get("source_file", "")
             if source and not (DEMO / source).exists():
                 issues.append(f"registry source not found: {source}")
+
+
+def check_real_case_q1(issues: list[str]) -> None:
+    required = [
+        "README.md",
+        "problem/problem_statement.pdf",
+        "problem/problem_statement.md",
+        "problem/problem_parse.json",
+        "problem/task_plan.json",
+        "src/solve_q1.py",
+        "tables/tab_q1_key_points.csv",
+        "tables/tab_q1_intervals.csv",
+        "figures/fig_q1_distance_geometry.png",
+        "results/result_registry.csv",
+        "results/validation_report.md",
+        "results/validation_audit.md",
+        "paper/main.tex",
+        "paper/sections/q1.tex",
+    ]
+    for rel in required:
+        require(REAL_CASE_2025_A / rel, issues)
+
+    registry = REAL_CASE_2025_A / "results" / "result_registry.csv"
+    if registry.exists():
+        with registry.open(newline="", encoding="utf-8-sig") as handle:
+            rows = list(csv.DictReader(handle))
+        ids = {row.get("id") for row in rows}
+        if "R001" not in ids:
+            issues.append("2025 A real case result_registry.csv should contain R001")
+        values = {row.get("value") for row in rows}
+        if "1.405510" not in values:
+            issues.append("2025 A real case Q1 duration should stay traceable as 1.405510")
 
 
 def check_folder_indexes(issues: list[str]) -> None:
@@ -388,6 +421,7 @@ def main() -> int:
     check_templates(issues)
     check_method_cards(issues)
     check_demo(issues)
+    check_real_case_q1(issues)
     check_eval_prompts(issues)
     check_parser_cases(issues)
     if issues:
