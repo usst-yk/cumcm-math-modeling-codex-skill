@@ -213,6 +213,7 @@ python3 scripts/run_skill_evals.py
 ```
 
 普通学生不需要运行这些检查；它们主要用于维护 skill 的稳定性。
+仓库发布后，GitHub 也会自动运行同一套检查，防止题面解析、demo 或方法卡在后续修改中失效。
 
 ## 文件架构
 
@@ -225,7 +226,8 @@ cumcm-math-modeling/
 ├── evals/                    # 简单测试题
 ├── references/               # 更详细的建模规则
 ├── scripts/                  # 后台辅助工具，一般由 Codex 调用
-└── templates/                # 项目模板
+├── templates/                # 项目模板
+└── .github/workflows/        # 发布后的自动检查
 ```
 
 现在的设计是：`SKILL.md` 只做总入口和总规则，细节放在 `references/` 里，需要时再读取。这样 Codex 不会每次都加载一大堆规则，新手也不需要理解内部文件。
@@ -237,6 +239,7 @@ cumcm-math-modeling/
 - `references/workflow.md`：完整比赛流程和 72 小时节奏。
 - `references/problem-routing.md`：不同题型的建模路线。
 - `references/method-library.md`：常见建模方法库。
+- `references/method-cards.json`：结构化方法卡，用于快速判断题型、基线、主模型和验证要求。
 - `references/result-tracking.md`：论文数字如何追踪来源。
 - `references/scoring-checklist.md`：提交前评分检查。
 

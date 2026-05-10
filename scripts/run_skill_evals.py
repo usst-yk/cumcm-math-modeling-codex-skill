@@ -17,12 +17,14 @@ DEMO = ROOT / "examples" / "full_problem_demo"
 PARSER_EXPECTATIONS = {
     "prediction": {
         "question_count": 2,
+        "task_types": ["prediction"],
         "attachments": ["附件1：traffic_flow.xlsx"],
         "time_ranges": ["2023 年 1 月至 2024 年 12 月", "连续 7 天", "每小时"],
         "risk_words": ["预测", "分别", "连续"],
     },
     "optimization": {
         "question_count": 2,
+        "task_types": ["optimization"],
         "attachments": ["附件A：orders.csv", "附件B：vehicles.xlsx"],
         "time_ranges": ["18:00"],
         "units": ["260 件"],
@@ -30,9 +32,26 @@ PARSER_EXPECTATIONS = {
     },
     "evaluation": {
         "question_count": 2,
+        "task_types": ["evaluation"],
         "attachments": ["附件一：city_indicators.xlsx"],
         "time_ranges": ["2020-2024"],
         "risk_words": ["每个", "至少", "分别", "评价", "排序"],
+    },
+    "hybrid_prediction_optimization": {
+        "question_count": 2,
+        "task_types": ["prediction", "optimization"],
+        "attachments": ["附件1：load_history.xlsx", "附件2：generator_limits.csv"],
+        "time_ranges": ["2024年1月至2025年12月", "2026-2030 年", "每小时"],
+        "units": ["1200 吨"],
+        "risk_words": ["预测", "分别", "不超过", "最小", "调度"],
+    },
+    "bracket_inline": {
+        "question_count": 2,
+        "task_types": ["evaluation"],
+        "attachments": ["附件1：indicator_table.xlsx"],
+        "time_ranges": ["2021-2025 年"],
+        "units": ["20 个"],
+        "risk_words": ["评价", "分别", "排序", "每个"],
     },
 }
 
@@ -113,6 +132,7 @@ def check_reference_names(issues: list[str]) -> None:
         "references/problem-parsing.md",
         "references/task-modes.md",
         "references/method-library.md",
+        "references/method-cards.json",
         "references/paper-section-flow.md",
         "references/external-agent-patterns.md",
     ]
@@ -133,6 +153,8 @@ def check_eval_prompts(issues: list[str]) -> None:
         "evals/parser_cases/prediction/problem.md",
         "evals/parser_cases/optimization/problem.md",
         "evals/parser_cases/evaluation/problem.md",
+        "evals/parser_cases/hybrid_prediction_optimization/problem.md",
+        "evals/parser_cases/bracket_inline/problem.md",
         "evals/toy_prediction_problem/prompt.md",
         "evals/toy_optimization_problem/prompt.md",
         "evals/toy_evaluation_problem/prompt.md",
@@ -145,6 +167,7 @@ def check_templates(issues: list[str]) -> None:
     required = [
         "templates/task_plan.schema.json",
         "templates/problem_parse.schema.json",
+        "templates/method_card.schema.json",
     ]
     for rel in required:
         require(ROOT / rel, issues)
@@ -212,17 +235,43 @@ def require_contains(items: list[str], expected: str, label: str, issues: list[s
         issues.append(f"{label} should contain: {expected}")
 
 
+def check_method_cards(issues: list[str]) -> None:
+    schema_path = ROOT / "templates" / "method_card.schema.json"
+    cards_path = ROOT / "references" / "method-cards.json"
+    if not schema_path.exists() or not cards_path.exists():
+        return
+
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    data = json.loads(cards_path.read_text(encoding="utf-8"))
+    validate_required_fields(data, schema, "method-cards.json", issues)
+
+    cards = data.get("cards", [])
+    if len(cards) < 5:
+        issues.append("method-cards.json should contain at least five method cards")
+
+    ids = [card.get("id", "") for card in cards]
+    if len(ids) != len(set(ids)):
+        issues.append("method-cards.json contains duplicate card ids")
+
+    covered_types = {task_type for card in cards for task_type in card.get("task_types", [])}
+    required_types = {"prediction", "optimization", "evaluation", "simulation", "classification", "clustering"}
+    missing_types = sorted(required_types - covered_types)
+    if missing_types:
+        issues.append(f"method-cards.json missing task types: {', '.join(missing_types)}")
+
+    for card in cards:
+        label = card.get("id", "unknown")
+        for field in ["use_when", "avoid_when", "primary_methods", "validation", "common_failures", "paper_outputs"]:
+            if not card.get(field):
+                issues.append(f"method card {label} should have non-empty {field}")
+
+
 def check_parser_cases(issues: list[str]) -> None:
-    cases = {
-        "prediction": "prediction",
-        "optimization": "optimization",
-        "evaluation": "evaluation",
-    }
     parser = ROOT / "scripts" / "problem_parser.py"
     planner = ROOT / "scripts" / "build_task_plan.py"
     parse_schema = json.loads((ROOT / "templates" / "problem_parse.schema.json").read_text(encoding="utf-8"))
     task_schema = json.loads((ROOT / "templates" / "task_plan.schema.json").read_text(encoding="utf-8"))
-    for case, expected_type in cases.items():
+    for case, expected in PARSER_EXPECTATIONS.items():
         problem = ROOT / "evals" / "parser_cases" / case / "problem.md"
         if not problem.exists():
             issues.append(f"missing parser case: {problem.relative_to(ROOT)}")
@@ -265,7 +314,6 @@ def check_parser_cases(issues: list[str]) -> None:
             validate_required_fields(plan, task_schema, f"parser case {case} task_plan.json", issues)
             if parsed.get("question_count", 0) < 1:
                 issues.append(f"parser case {case} found no subquestions")
-            expected = PARSER_EXPECTATIONS[case]
             if parsed.get("question_count") != expected["question_count"]:
                 issues.append(
                     f"parser case {case} expected {expected['question_count']} subquestions, "
@@ -286,8 +334,9 @@ def check_parser_cases(issues: list[str]) -> None:
             if "每小" in parsed.get("time_ranges", []):
                 issues.append(f"parser case {case} truncated time range 每小时 to 每小")
             task_types = {q.get("task_type") for q in parsed.get("subquestions", [])}
-            if expected_type not in task_types:
-                issues.append(f"parser case {case} expected task type {expected_type}, got {sorted(task_types)}")
+            for expected_type in expected.get("task_types", []):
+                if expected_type not in task_types:
+                    issues.append(f"parser case {case} expected task type {expected_type}, got {sorted(task_types)}")
             if plan.get("question_count") != parsed.get("question_count"):
                 issues.append(f"parser case {case} plan question_count does not match parse")
 
@@ -297,6 +346,7 @@ def main() -> int:
     check_folder_indexes(issues)
     check_reference_names(issues)
     check_templates(issues)
+    check_method_cards(issues)
     check_demo(issues)
     check_eval_prompts(issues)
     check_parser_cases(issues)

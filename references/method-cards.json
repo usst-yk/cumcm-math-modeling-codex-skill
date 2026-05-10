@@ -1,0 +1,297 @@
+{
+  "$schema": "../templates/method_card.schema.json",
+  "version": "1.0",
+  "cards": [
+    {
+      "id": "prediction_baseline_forecast",
+      "name": "预测：基线到主模型",
+      "task_types": [
+        "prediction"
+      ],
+      "use_when": [
+        "题目要求预测未来需求、流量、销量、人口、污染物、风险概率或时间趋势",
+        "附件包含时间字段、历史观测或可按时间排序的样本"
+      ],
+      "avoid_when": [
+        "样本极少且没有时间顺序，此时优先做情景分析或解析估计",
+        "题目只要求解释现状，不要求外推未来"
+      ],
+      "baseline": "均值、移动平均、朴素上一期或线性回归基线",
+      "primary_methods": [
+        "线性/岭回归",
+        "ARIMA/SARIMA 或指数平滑",
+        "随机森林、XGBoost 或 LightGBM",
+        "灰色 GM(1,1) 用于小样本趋势题"
+      ],
+      "required_inputs": [
+        "时间字段",
+        "目标变量",
+        "训练区间和预测区间",
+        "可能影响目标的解释变量"
+      ],
+      "required_outputs": [
+        "预测表",
+        "误差指标表",
+        "预测曲线或对比图"
+      ],
+      "validation": [
+        "留出验证或滚动验证",
+        "MAE、RMSE、MAPE 或 R2",
+        "残差图和外推合理性检查",
+        "与朴素基线比较"
+      ],
+      "common_failures": [
+        "没有验证集却声称精度高",
+        "未来预测超出数据支撑范围",
+        "样本太少却直接使用复杂神经网络"
+      ],
+      "paper_outputs": [
+        "预测模型公式或算法流程",
+        "误差指标解释",
+        "预测结果表和趋势图",
+        "不确定性或敏感性说明"
+      ],
+      "starter_files": [
+        "src/qx_predict.py",
+        "tables/tab_qx_forecast.csv",
+        "figures/fig_qx_forecast.png"
+      ]
+    },
+    {
+      "id": "optimization_decision",
+      "name": "优化：变量、目标和约束",
+      "task_types": [
+        "optimization"
+      ],
+      "use_when": [
+        "题目要求最优、最小成本、最大收益、调度、分配、路径、选址或资源配置",
+        "题目中存在明确决策对象和约束条件"
+      ],
+      "avoid_when": [
+        "没有可定义的决策变量，只是评价或解释问题",
+        "约束和目标互相矛盾且数据不足，应先做可行性分析"
+      ],
+      "baseline": "人工规则、贪心策略、均分策略或最近邻方案",
+      "primary_methods": [
+        "线性规划",
+        "整数规划或 0-1 规划",
+        "动态规划",
+        "网络流或最短路",
+        "遗传算法、模拟退火或粒子群作为复杂约束下的备选"
+      ],
+      "required_inputs": [
+        "决策变量定义",
+        "目标函数参数",
+        "容量、时间、预算、需求或逻辑约束",
+        "可行域边界"
+      ],
+      "required_outputs": [
+        "最优或推荐方案表",
+        "目标函数值",
+        "约束满足情况",
+        "与基线方案的比较"
+      ],
+      "validation": [
+        "solver status 或算法收敛状态",
+        "约束违反检查",
+        "小规模精确解或基线方案比较",
+        "关键参数扰动"
+      ],
+      "common_failures": [
+        "没有定义决策变量就写算法",
+        "报告最优值但没有可行性检查",
+        "启发式算法没有和基线比较"
+      ],
+      "paper_outputs": [
+        "变量、目标函数和约束",
+        "算法流程",
+        "方案表",
+        "可行性和敏感性分析"
+      ],
+      "starter_files": [
+        "src/qx_optimize.py",
+        "tables/tab_qx_solution.csv",
+        "tables/tab_qx_feasibility.csv"
+      ]
+    },
+    {
+      "id": "evaluation_ranking",
+      "name": "评价：指标、权重和排序",
+      "task_types": [
+        "evaluation"
+      ],
+      "use_when": [
+        "题目要求综合评价、排序、排名、优先级、风险等级或方案选择",
+        "附件包含多指标数据，需要比较对象优劣"
+      ],
+      "avoid_when": [
+        "指标方向不明确且无法解释",
+        "样本对象太少且指标高度重复，应先做指标筛选"
+      ],
+      "baseline": "等权评分或单一核心指标排序",
+      "primary_methods": [
+        "熵权法",
+        "TOPSIS",
+        "AHP",
+        "PCA",
+        "灰色关联分析",
+        "组合赋权"
+      ],
+      "required_inputs": [
+        "评价对象",
+        "指标体系",
+        "指标正负向",
+        "标准化方法",
+        "权重来源"
+      ],
+      "required_outputs": [
+        "权重表",
+        "综合得分表",
+        "排序结果",
+        "指标贡献或稳定性图"
+      ],
+      "validation": [
+        "权重扰动",
+        "删除单个指标后的排序稳定性",
+        "与等权基线比较",
+        "异常指标影响检查"
+      ],
+      "common_failures": [
+        "没有说明指标方向就做 TOPSIS",
+        "机械使用 AHP 但没有专家判断依据",
+        "排序结果没有稳定性检验"
+      ],
+      "paper_outputs": [
+        "指标体系表",
+        "标准化和赋权公式",
+        "排序结果表",
+        "稳定性检验说明"
+      ],
+      "starter_files": [
+        "src/qx_evaluate.py",
+        "tables/tab_qx_weights.csv",
+        "tables/tab_qx_ranking.csv"
+      ]
+    },
+    {
+      "id": "simulation_mechanism",
+      "name": "仿真：机理和情景比较",
+      "task_types": [
+        "simulation"
+      ],
+      "use_when": [
+        "题目涉及传播、扩散、演化、排队、交通流、生态或动态过程",
+        "需要比较不同政策、干预或情景"
+      ],
+      "avoid_when": [
+        "参数没有来源且无法估计",
+        "仿真规则不能对应现实机制"
+      ],
+      "baseline": "解析简化模型、无干预情景或固定参数情景",
+      "primary_methods": [
+        "SIR/SEIR",
+        "差分方程或微分方程",
+        "蒙特卡洛仿真",
+        "元胞自动机",
+        "排队模型",
+        "Agent-based simulation"
+      ],
+      "required_inputs": [
+        "状态变量",
+        "转移规则或方程",
+        "初始条件",
+        "参数来源",
+        "情景设置"
+      ],
+      "required_outputs": [
+        "时间演化曲线",
+        "峰值、终态或稳定状态",
+        "情景对比表",
+        "参数敏感性结果"
+      ],
+      "validation": [
+        "边界条件检查",
+        "参数含义和单位检查",
+        "历史数据拟合或趋势一致性",
+        "关键参数敏感性"
+      ],
+      "common_failures": [
+        "方程复杂但参数不可估",
+        "仿真次数不足却给稳定结论",
+        "没有解释不同情景的现实含义"
+      ],
+      "paper_outputs": [
+        "状态变量和转移机制",
+        "参数表",
+        "情景对比图",
+        "敏感性分析"
+      ],
+      "starter_files": [
+        "src/qx_simulate.py",
+        "tables/tab_qx_scenarios.csv",
+        "figures/fig_qx_simulation.png"
+      ]
+    },
+    {
+      "id": "classification_clustering",
+      "name": "分类聚类：分组、识别和解释",
+      "task_types": [
+        "classification",
+        "clustering"
+      ],
+      "use_when": [
+        "题目要求分类、识别、等级划分、聚类、分群或区域分层",
+        "附件包含样本特征，且需要解释类别差异"
+      ],
+      "avoid_when": [
+        "没有标签却强行做监督分类",
+        "聚类后无法解释类别含义"
+      ],
+      "baseline": "规则阈值、单指标分层或 K-means 基线",
+      "primary_methods": [
+        "逻辑回归",
+        "决策树",
+        "随机森林",
+        "SVM",
+        "K-means",
+        "层次聚类",
+        "DBSCAN",
+        "PCA 辅助解释"
+      ],
+      "required_inputs": [
+        "样本特征",
+        "标签或分组目标",
+        "特征标准化方式",
+        "类别解释口径"
+      ],
+      "required_outputs": [
+        "分类或聚类结果表",
+        "类别特征解释",
+        "性能指标或稳定性指标",
+        "可视化图"
+      ],
+      "validation": [
+        "分类任务使用混淆矩阵、F1 或 ROC-AUC",
+        "聚类任务使用轮廓系数、类内差异和类别解释",
+        "类别不平衡检查",
+        "特征扰动或抽样稳定性"
+      ],
+      "common_failures": [
+        "把 t-SNE/UMAP 展示当作结论",
+        "类别不平衡但只报告准确率",
+        "聚类数量没有依据"
+      ],
+      "paper_outputs": [
+        "特征选择说明",
+        "模型或聚类方法",
+        "类别解释表",
+        "稳定性或性能检验"
+      ],
+      "starter_files": [
+        "src/qx_classify_cluster.py",
+        "tables/tab_qx_groups.csv",
+        "figures/fig_qx_groups.png"
+      ]
+    }
+  ]
+}

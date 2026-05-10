@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CUMCM Method Card Collection",
+  "type": "object",
+  "required": [
+    "version",
+    "cards"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "cards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "task_types",
+          "use_when",
+          "avoid_when",
+          "baseline",
+          "primary_methods",
+          "required_inputs",
+          "required_outputs",
+          "validation",
+          "common_failures",
+          "paper_outputs"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "task_types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "use_when": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "avoid_when": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "baseline": {
+            "type": "string"
+          },
+          "primary_methods": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "required_inputs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "required_outputs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "validation": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "common_failures": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "paper_outputs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "starter_files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
