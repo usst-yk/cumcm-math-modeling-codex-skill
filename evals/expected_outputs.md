@@ -5,6 +5,10 @@ Use these expectations for manual checks after skill updates.
 ## Quality Rubric
 
 - Use `evals/modeling_quality_rubric.json` for 0-2 scoring.
+- Use `references/first-prize-rubric.md` when the user asks whether a route or
+  paper is close to first-prize level.
+- Use `references/official-benchmark.md` and `evals/official_cases/` as
+  official-source anchors, not as copied answer content.
 - A usable answer should pass problem coverage, route comparison, baseline,
   data/units, model formulation, validation, figures, traceability, and
   paper-readiness.

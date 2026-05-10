@@ -56,10 +56,13 @@ def check_required_entrypoints(issues: list[str]) -> None:
         "references/task-routing.md",
         "references/output-policy.md",
         "references/figure-plan.md",
+        "references/official-benchmark.md",
+        "references/first-prize-rubric.md",
         "scripts/problem_parser.py",
         "scripts/build_task_plan.py",
         "scripts/data_profile.py",
         "scripts/validate_results.py",
+        "scripts/build_official_case_index.py",
         "scripts/run_skill_evals.py",
     ]
     for rel in required:

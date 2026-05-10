@@ -62,6 +62,8 @@ Read `references/task-routing.md` for the complete table.
 - Full problem: `references/workflow.md`, `references/problem-routing.md`.
 - CUMCM A problem: read `references/cumcm-a-problem-patterns.md` before route
   comparison.
+- High-level route review: use `references/official-benchmark.md` and
+  `references/first-prize-rubric.md` as judge-style benchmark references.
 - Model selection: use `references/method-cards.json` for compact method checks,
   then `references/method-library.md` only when details are needed.
 - New project: run `scripts/init_cumcm_project.py` in the background.
@@ -82,7 +84,8 @@ Read `references/task-routing.md` for the complete table.
 - Roadmap/flowchart: `references/technical-roadmap.md`; prefer editable
   Mermaid, Graphviz, or SVG.
 - Final audit or judge review: read `references/final-review.md` and
-  `references/final-checklist.md`, then lead with severity-ordered findings.
+  `references/final-checklist.md`; for first-prize-level claims also read
+  `references/first-prize-rubric.md`, then lead with severity-ordered findings.
 
 ## Artifact Rules
 

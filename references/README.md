@@ -25,6 +25,8 @@
 | `correctness-ladder.md` | 基线、主模型、交叉检查、压力测试。 |
 | `analytical-vs-numerical.md` | 解析模型和数值模型如何搭配。 |
 | `validation.md` | 不同题型的验证和失败恢复。 |
+| `official-benchmark.md` | 官方赛题讲评、论文展示和专家课程的 benchmark 来源。 |
+| `first-prize-rubric.md` | 面向一等奖水平判断的 0-2 评分表。 |
 
 ## Data, Paper, And Artifacts
 

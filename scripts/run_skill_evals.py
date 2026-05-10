@@ -234,6 +234,8 @@ def check_reference_names(issues: list[str]) -> None:
         "references/problem-parsing.md",
         "references/task-modes.md",
         "references/cumcm-a-problem-patterns.md",
+        "references/official-benchmark.md",
+        "references/first-prize-rubric.md",
         "references/output-policy.md",
         "references/method-library.md",
         "references/method-cards.json",
@@ -256,6 +258,8 @@ def check_eval_prompts(issues: list[str]) -> None:
     expected = [
         "evals/expected_outputs.md",
         "evals/modeling_quality_rubric.json",
+        "evals/official_cases/README.md",
+        "evals/official_cases/official_case_index.json",
         "evals/parser_cases/prediction/problem.md",
         "evals/parser_cases/prediction/expected_problem_parse.json",
         "evals/parser_cases/optimization/problem.md",
@@ -464,6 +468,23 @@ def check_quality_rubric(issues: list[str]) -> None:
             issues.append(f"rubric criterion {item.get('id', 'unknown')} missing beginner_visible_check")
 
 
+def check_official_cases(issues: list[str]) -> None:
+    script = ROOT / "scripts" / "build_official_case_index.py"
+    require(script, issues)
+    index = ROOT / "evals" / "official_cases" / "official_case_index.json"
+    if not script.exists() or not index.exists():
+        return
+    result = subprocess.run(
+        ["python3", str(script), "--index", str(index)],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        issues.append(f"official case index validation failed:\n{result.stdout}{result.stderr}")
+
+
 def score_task_plan_quality(plan: dict, label: str, issues: list[str], min_score: int = 10) -> None:
     subquestions = plan.get("subquestions", [])
     if not subquestions:
@@ -616,6 +637,7 @@ def main() -> int:
     check_templates(issues)
     check_method_cards(issues)
     check_quality_rubric(issues)
+    check_official_cases(issues)
     check_demo(issues)
     check_real_case_2025_a(issues)
     check_eval_prompts(issues)

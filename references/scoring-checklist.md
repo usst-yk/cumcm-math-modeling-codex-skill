@@ -1,5 +1,8 @@
 # 评分导向检查表
 
+For first-prize-oriented review, also use `references/first-prize-rubric.md`.
+For official benchmark sources, use `references/official-benchmark.md`.
+
 ## 摘要
 
 - 是否说明每个子问题用了什么模型。

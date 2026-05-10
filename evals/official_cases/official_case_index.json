@@ -1,0 +1,80 @@
+{
+  "source_policy": "Index official links and metadata only. Do not store official paper images or copied long text.",
+  "sources": [
+    {
+      "id": "official_channel",
+      "type": "portal",
+      "title": "中国大学生在线数学建模频道",
+      "url": "https://dxs.moe.gov.cn/zx/hd/sxjm/",
+      "use": "Find official problem reviews, paper showcases, problem collections, notices, and modeling courses."
+    },
+    {
+      "id": "problem_reviews",
+      "type": "review_index",
+      "title": "高教社杯全国大学生数学建模竞赛赛题讲评",
+      "url": "https://dxs.moe.gov.cn/zx/hd/sxjm/sxjmstjp/",
+      "use": "Extract expected mechanisms, common mistakes, validation focus, and review perspective."
+    },
+    {
+      "id": "paper_showcase_2025_a",
+      "type": "paper_showcase",
+      "title": "2025 高教社杯全国大学生数学建模竞赛 A 题论文展示（A196）",
+      "url": "https://dxs.moe.gov.cn/zx/a/hd_sxjm_sxjmlw_2025qgdxssxjmjslwzs_2025atlw/251101/2022729.shtml",
+      "problem_year": 2025,
+      "problem": "A",
+      "use": "Study paper structure, figure density, result traceability, and validation placement."
+    },
+    {
+      "id": "good_paper_features",
+      "type": "expert_talk",
+      "title": "建模好论文的若干特征",
+      "url": "https://dxs.moe.gov.cn/zx/a/hd_sxjm_smmkwk/230916/1766512.shtml",
+      "use": "Support the first-prize-oriented rubric for model clarity, validation, and paper readability."
+    },
+    {
+      "id": "review_2025_a",
+      "type": "problem_review",
+      "title": "2025 全国大学生数学建模竞赛 A 题讲评：烟幕干扰弹的投放策略",
+      "url": "https://dxs.moe.gov.cn/zx/hd/sxjm/sxjmstjp/",
+      "problem_year": 2025,
+      "problem": "A",
+      "use": "Benchmark engineering geometry, trajectory simulation, optimization, and validation expectations."
+    },
+    {
+      "id": "review_2024_a",
+      "type": "problem_review",
+      "title": "2024 全国大学生数学建模竞赛 A 题讲评：板凳龙闹元宵",
+      "url": "https://dxs.moe.gov.cn/zx/hd/sxjm/sxjmstjp/",
+      "problem_year": 2024,
+      "problem": "A",
+      "use": "Benchmark geometric motion, path constraints, visualization, and feasibility validation."
+    },
+    {
+      "id": "review_2023_a",
+      "type": "problem_review",
+      "title": "2023 全国大学生数学建模竞赛 A 题讲评：定日镜场的优化设计",
+      "url": "https://dxs.moe.gov.cn/zx/hd/sxjm/sxjmstjp/",
+      "problem_year": 2023,
+      "problem": "A",
+      "use": "Benchmark optical geometry, engineering optimization, sensitivity, and layout figures."
+    },
+    {
+      "id": "review_2022_a",
+      "type": "problem_review",
+      "title": "2022 全国大学生数学建模竞赛 A 题讲评：波浪能最大输出功率设计",
+      "url": "https://dxs.moe.gov.cn/zx/hd/sxjm/sxjmstjp/",
+      "problem_year": 2022,
+      "problem": "A",
+      "use": "Benchmark physical mechanism modeling, dynamic simulation, parameter optimization, and robustness."
+    },
+    {
+      "id": "review_2020_a",
+      "type": "problem_review",
+      "title": "2020 全国大学生数学建模竞赛 A 题讲评：炉温曲线",
+      "url": "https://dxs.moe.gov.cn/zx/hd/sxjm/sxjmstjp/",
+      "problem_year": 2020,
+      "problem": "A",
+      "use": "Benchmark process control, heat transfer approximation, constraints, and curve validation."
+    }
+  ]
+}
