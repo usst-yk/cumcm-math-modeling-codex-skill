@@ -1,46 +1,214 @@
 %! TEX program = xelatex
-\documentclass[UTF8,12pt]{ctexart}
-\usepackage[a4paper,margin=2.5cm]{geometry}
-\usepackage{amsmath,amssymb}
-\usepackage{graphicx}
-\usepackage{booktabs}
-\usepackage{float}
+\documentclass[UTF8,12pt,a4paper]{ctexart}
+
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{array,booktabs,longtable,tabularx,threeparttable}
+\usepackage{graphicx,float,subcaption}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\usepackage{caption}
 \usepackage[hidelinks]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
 
 \graphicspath{{../figures/}{figures/}}
+\sisetup{detect-all=true}
 
-\title{2025 年国赛 A 题 benchmark 解：烟幕干扰弹的投放策略}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+\captionsetup[figure]{font={small,bf},labelsep=quad}
+\captionsetup[table]{font={small,bf},labelsep=quad}
+\captionsetup[sub]{font=small}
+\setlist{topsep=0.3em,itemsep=0.1em,parsep=0pt,leftmargin=2em}
+\linespread{1.35}
+
+\crefname{figure}{图}{图}
+\crefname{table}{表}{表}
+\crefname{equation}{式}{式}
+\newcommand{\keywords}[1]{\par\noindent\textbf{关键词：}#1}
+
+\title{烟幕干扰弹的投放策略：2025 年国赛 A 题 benchmark 解}
 \author{}
 \date{}
 
 \begin{document}
+
 \maketitle
 
 \begin{abstract}
-本文针对 2025 年国赛 A 题“烟幕干扰弹的投放策略”建立可复现 benchmark 模型。为保证五个子问题口径一致，本文采用真目标轴中点代表视线判据：当烟幕云团中心到“导弹--真目标轴中点”线段的距离不超过 \(10\,\mathrm{m}\)，且垂足位于线段内部时，判定为有效遮蔽。该判据能清晰连接几何运动、投放时序和遮蔽时间计算，但不是官方完整圆柱目标遮蔽判据。
+本文针对 2025 年国赛 A 题“烟幕干扰弹的投放策略”建立可复现 benchmark 模型。为统一五个子问题的几何口径，本文采用真目标轴中点代表视线判据：当烟幕云团中心到“导弹--真目标轴中点”线段的距离不超过 \(10\,\mathrm{m}\)，且垂足位于线段内部时，判定为有效遮蔽。该判据能够清晰连接运动学、投放时序和遮蔽区间计算，但不等同于完整圆柱目标遮蔽判据。
 
-对于问题一，本文由给定 FY1 速度、投放时刻和引信延迟建立三维运动学模型，得到投放点 \((17620,0,1800)\)，起爆点 \((17188,0,1736.496)\)，有效遮蔽区间为 \(8.013006\sim 9.418516\,\mathrm{s}\)，遮蔽时长为 \(1.405510\,\mathrm{s}\)。对于问题二，本文以 FY1 的速度、航向角、投放时刻和引信延迟为变量，使用固定随机种子的粗到细搜索，得到一组 best-found 单弹策略，有效遮蔽时长为 \(4.723893\,\mathrm{s}\)。
+\textbf{对于问题一，}本文根据给定速度、投放时刻和引信延迟建立三维运动学模型，得到投放点 \((17620,0,1800)\)、起爆点 \((17188,0,1736.496)\)，有效遮蔽区间为 \(8.013006\sim 9.418516\,\mathrm{s}\)，遮蔽时长为 \(1.405510\,\mathrm{s}\)。
 
-对于问题三，本文把同一架 FY1 的三弹连续投放建模为共享航向和速度的边际覆盖问题，得到 benchmark 遮蔽总时长 \(4.740000\,\mathrm{s}\)。该结果暴露出当前贪心搜索对同航向多弹联合优化能力不足。对于问题四，本文将 FY1、FY2、FY3 各一枚烟幕弹按边际覆盖分配到 M1 的不同时间段，得到总有效遮蔽时长 \(14.520000\,\mathrm{s}\)。对于问题五，本文把 5 架无人机、最多 15 枚烟幕弹和 3 枚导弹统一为多资源边际覆盖模型，得到 M1、M2、M3 的有效遮蔽时长分别为 \(22.980000\,\mathrm{s}\)、\(18.360000\,\mathrm{s}\)、\(6.400000\,\mathrm{s}\)。所有核心数值均登记在结果注册表中，并由代码、表格和中文图表复现。
+\textbf{对于问题二，}本文以 FY1 的飞行速度、航向角、投放时刻和引信延迟为决策变量，采用固定随机种子的粗到细搜索，得到一组 best-found 单弹策略，有效遮蔽时长为 \(4.723893\,\mathrm{s}\)。
 
-\noindent\textbf{关键词：} 烟幕干扰弹；几何运动模型；边际覆盖；无人机投放策略；数学建模 benchmark
+\textbf{对于问题三，}本文将 FY1 三弹连续投放建模为共享航向和速度的边际覆盖问题，得到并集遮蔽总时长 \(4.740000\,\mathrm{s}\)。该结果同时暴露出当前贪心搜索对同航向多弹联合优化能力不足。
+
+\textbf{对于问题四，}本文将 FY1、FY2、FY3 各一枚烟幕弹分配到 M1 的不同未覆盖时间段，得到有效遮蔽总时长 \(14.520000\,\mathrm{s}\)。
+
+\textbf{对于问题五，}本文把 5 架无人机、最多 15 枚烟幕弹和 3 枚导弹统一为多资源边际覆盖模型，得到 M1、M2、M3 的有效遮蔽时长分别为 \(22.980000\,\mathrm{s}\)、\(18.360000\,\mathrm{s}\)、\(6.400000\,\mathrm{s}\)。所有核心数值均登记在结果注册表中，并可由代码、表格和中文图表复现。
+
+\keywords{烟幕干扰弹\quad 几何运动模型\quad 边际覆盖\quad 无人机投放策略\quad benchmark}
 \end{abstract}
 
-\input{sections/problem_overview}
+\section{问题重述}
+
+\subsection{问题背景}
+
+烟幕干扰弹通过燃烧或爆炸形成烟幕云团，在来袭导弹和保护目标之间构造遮蔽区域。题目要求利用无人机投放烟幕干扰弹，使导弹在来袭过程中尽量难以发现真目标。烟幕云团起爆后瞬时形成球状云团，在起爆后的有效时间内，云团中心一定半径范围可为目标提供遮蔽。
+
+题目给定三枚导弹 M1、M2、M3 的初始位置和五架无人机 FY1--FY5 的初始位置。导弹均朝假目标方向飞行，无人机受领任务后可瞬时调整航向，并以等高度匀速直线飞行。每架无人机的航向和速度一经确定便不再调整；同一架无人机投放两枚烟幕弹至少间隔 \(1\,\mathrm{s}\)。
+
+\subsection{问题要求}
+
+\begin{enumerate}
+  \item 问题一：在给定 FY1 速度、航向、投放时刻和引信延迟的条件下，计算 1 枚烟幕弹对 M1 的有效遮蔽时长。
+  \item 问题二：优化 FY1 单机单弹的航向、速度、投放点和起爆点，使对 M1 的遮蔽时间尽可能长。
+  \item 问题三：FY1 投放 3 枚烟幕弹干扰 M1，给出三弹投放策略并输出附件格式结果。
+  \item 问题四：FY1、FY2、FY3 各投放 1 枚烟幕弹干扰 M1，给出三机协同策略并输出附件格式结果。
+  \item 问题五：5 架无人机至多各投放 3 枚烟幕弹，协同干扰 M1、M2、M3，给出多机多弹多导弹策略并输出附件格式结果。
+\end{enumerate}
+
+\section{问题分析}
+
+\subsection{几何背景与任务拆解}
+
+本题以假目标为坐标原点，导弹均朝假目标飞行，真目标位于 \(y=200\,\mathrm{m}\) 附近。为了避免模型只堆公式而缺少空间解释，先给出导弹、无人机和目标的平面位置示意，如图 \ref{fig:problem-overview-xy} 所示。图中箭头表示导弹朝假目标方向飞行，真目标投影仅作示意放大。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{../figures/fig_problem_overview_xy.png}
+  \caption{2025 A 题导弹、无人机与目标的平面位置示意。该图用于说明坐标系、初始位置和来袭方向，不作为数值求解结果。}
+  \label{fig:problem-overview-xy}
+\end{figure}
+
+五个子问题从单机单弹逐步扩展到多机多弹多导弹，资源范围和输出要求如图 \ref{fig:problem-question-scope} 所示。后续求解按子问题分别保存代码、表格、图和结果注册记录，避免不同问题的策略变量混用。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.94\linewidth]{../figures/fig_problem_question_scope.png}
+  \caption{2025 A 题五个子问题的资源范围和输出要求示意。该图用于说明任务拆解关系。}
+  \label{fig:problem-question-scope}
+\end{figure}
+
+\subsection{总体建模思路}
+
+本题的核心是“运动学轨迹 + 几何遮蔽判定 + 多阶段优化”。问题一先建立给定方案的复算模型，作为后续优化的基线；问题二在单弹条件下优化无人机速度、航向和起爆时序；问题三引入同一无人机三弹共享航向和速度的联合约束；问题四转向多机单弹协同，利用不同无人机覆盖 M1 的不同时间段；问题五进一步变成多机、多弹、多导弹的资源分配问题。
+
+因此，本文没有把每一问孤立求解，而是统一采用同一遮蔽判据和区间合并方法，使各问结果可以横向比较。需要强调的是，本文目标是构造可复现 benchmark，而不是声明官方最优答案。
+
+\section{模型假设}
+
+\begin{enumerate}
+  \item 烟幕弹脱离无人机后仅受重力作用，保留脱离瞬间的水平速度，不考虑空气阻力和风场扰动。
+  \item 无人机受领任务后可瞬时调整航向，并按题设保持等高度匀速直线飞行；同一无人机后续烟幕弹共享该航向和速度。
+  \item 烟幕云团起爆后中心以题设速度匀速下沉，有效半径和有效持续时间按题面给定值处理。
+  \item 本 benchmark 采用真目标轴中点代表视线判据。该假设使模型刚好可解，并便于完整跑通 Q1--Q5；正式高质量解应进一步检查圆柱目标边界点或完整目标体遮蔽。
+  \item 固定随机种子的搜索方案用于保证复现性。Q2--Q5 的结果表述为 best-found 可行优选方案，不表述为已证明全局最优。
+\end{enumerate}
+
+\section{符号说明}
+
+\begin{table}[H]
+\centering
+\caption{主要符号说明}
+\begin{tabularx}{\textwidth}{CLC}
+\toprule
+符号 & 含义 & 单位 \\
+\midrule
+\(\bm{m}_j(t)\) & 第 \(j\) 枚导弹在时刻 \(t\) 的位置向量 & m \\
+\(\bm{u}_i(t)\) & 第 \(i\) 架无人机在时刻 \(t\) 的位置向量 & m \\
+\(v_i\) & 第 \(i\) 架无人机的飞行速度 & m/s \\
+\(\theta_i\) & 第 \(i\) 架无人机的水平航向角 & rad 或 degree \\
+\(t_r\) & 烟幕弹投放时刻 & s \\
+\(\tau\) & 烟幕弹投放后到起爆的引信延迟 & s \\
+\(t_d\) & 烟幕弹起爆时刻，\(t_d=t_r+\tau\) & s \\
+\(\bm{c}(t)\) & 起爆后烟幕云团中心在时刻 \(t\) 的位置 & m \\
+\(R\) & 烟幕有效半径 & m \\
+\(I(t)\) & 时刻 \(t\) 是否有效遮蔽的指示函数 & 0/1 \\
+\(T\) & 有效遮蔽并集总时长 & s \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{数据审计与预处理}
+
+本题的主要输入来自题面给定的几何坐标、速度范围、烟幕云团参数和附件结果模板。附件 \verb|result1.xlsx|、\verb|result2.xlsx|、\verb|result3.xlsx| 是问题三至问题五的结果填写模板，不含额外观测数据。数据审计脚本已读取全部 sheet，并生成 \verb|tables/data_profile/| 下的数据概览、缺失值、字段类型和模板覆盖检查。
+
+由于附件模板中的空白单元格用于等待求解结果，本文在 benchmark 输出中另存为 \verb|result1_benchmark.xlsx|、\verb|result2_benchmark.xlsx| 和 \verb|result3_benchmark.xlsx|，避免覆盖原始模板。所有核心数值另登记到 \verb|results/result_registry.csv|，确保摘要、正文、图表和结果表一致。
+
+\section{模型建立、求解与结果}
+
+本文统一使用以下几何遮蔽判据。设导弹位置为 \(\bm{m}(t)\)，真目标轴中点为 \(\bm{p}\)，烟幕云团中心为 \(\bm{c}(t)\)。计算 \(\bm{c}(t)\) 到线段 \(\overline{\bm{m}(t)\bm{p}}\) 的最短距离 \(d(t)\)，并计算垂足投影参数 \(\lambda(t)\)。若
+\begin{equation}
+  d(t)\le R,\qquad 0\le \lambda(t)\le 1,
+\end{equation}
+则认为该时刻形成有效遮蔽。对每枚烟幕弹得到的有效时刻集合取并集，即可得到该导弹的总遮蔽时长。
+
 \input{sections/q1}
 \input{sections/q2}
 \input{sections/q3}
 \input{sections/q4}
 \input{sections/q5}
 
-\section{模型评价与 benchmark 结论}
+\section{模型检验与敏感性分析}
 
-本文的主要价值不在于给出官方最优答案，而在于形成一套完整可复现的 benchmark：题面解析、任务计划、数据审计、逐问求解、图表、结果注册表、验证报告和论文均能对应起来。Q1 和 Q2 证明单问求解链路可以闭环；Q3 暴露了同航向多弹联合优化不足；Q4 和 Q5 则验证了多机、多弹、多导弹场景下边际覆盖策略能够生成可检查的完整结果。
+\subsection{可行性检查}
 
-当前模型仍有三点限制。第一，代表视线判据没有覆盖圆柱目标完整外轮廓，后续应加入圆柱目标多点采样或解析遮蔽判定。第二，Q2-Q5 均为固定随机种子的 best-found 策略，不能声明为全局最优。第三，Q3 和 Q5 说明单纯贪心搜索容易错过需要整体协调的多弹组合，后续应增加动态规划、局部交换或混合整数模型作为对照。
+本文对每个已求解子问题均检查速度范围、投放时序、起爆高度、投放间隔和遮蔽判据。问题一和问题二分别给出距离阈值图和投影参数图；问题三至问题五分别给出速度约束裕度和起爆高度检查图。自动一致性检查见 \verb|results/validation_audit.md|，当前完整 benchmark 未发现阻塞性产物问题。
 
-\section{附录：复现说明}
+\subsection{稳定性与局限}
 
-核心脚本包括 \verb|src/solve_q1.py|、\verb|src/solve_q2.py| 和 \verb|src/solve_q3_q5.py|。核心结果表包括 \verb|tables/tab_q1_intervals.csv|、\verb|tables/tab_q2_intervals.csv|、\verb|tables/tab_q3_intervals.csv|、\verb|tables/tab_q4_intervals.csv|、\verb|tables/tab_q5_intervals.csv| 和 \verb|results/result_registry.csv|。问题三、四、五的附件格式 benchmark 输出分别为 \verb|tables/result1_benchmark.xlsx|、\verb|tables/result2_benchmark.xlsx| 和 \verb|tables/result3_benchmark.xlsx|。
+问题二对速度、航向角、投放时刻和引信延迟进行了局部扰动，结果见图 \ref{fig:q2-sensitivity}。问题三暴露出一个重要局限：在同一无人机共享航向和速度的约束下，简单贪心补弹没有充分利用第 2、3 枚烟幕弹。这说明多弹问题需要真正的联合优化，而不是单弹策略叠加。问题五虽然能生成完整多导弹策略，但仍属于贪心 best-found 方案，后续应增加局部交换、动态规划或混合整数规划作为对照。
+
+\section{模型评价与推广}
+
+\subsection{模型优点}
+
+\begin{itemize}
+  \item 模型用统一的运动学和几何遮蔽判据贯穿 Q1--Q5，避免各问口径不一致。
+  \item 每问都有中文示意图、结果图和必要的验证图，便于评委理解求解链路。
+  \item 所有核心数值均来自脚本、结果表或结果注册表，摘要和正文可以追溯。
+  \item benchmark 明确区分“可复现优选方案”和“全局最优证明”，避免夸大结论。
+\end{itemize}
+
+\subsection{模型不足}
+
+\begin{itemize}
+  \item 代表视线判据没有覆盖圆柱目标完整外轮廓，严格模型应检查目标体边界遮蔽。
+  \item Q2--Q5 的搜索结果没有全局最优证明，只能作为 fixed-seed best-found benchmark。
+  \item Q3 说明当前求解器对同航向多弹联合优化仍不足，需要进一步改进。
+\end{itemize}
+
+\section{结论}
+
+本文完成了 2025 年国赛 A 题从 Q1 到 Q5 的可复现 benchmark。问题一给定方案的有效遮蔽时长为 \(1.405510\,\mathrm{s}\)；问题二单机单弹 best-found 方案的有效遮蔽时长为 \(4.723893\,\mathrm{s}\)；问题三 FY1 三弹方案的并集遮蔽时长为 \(4.740000\,\mathrm{s}\)，同时暴露同航向多弹联合优化不足；问题四三机单弹协同方案对 M1 的遮蔽总时长为 \(14.520000\,\mathrm{s}\)；问题五多机多弹多导弹方案对 M1、M2、M3 的遮蔽时长分别为 \(22.980000\,\mathrm{s}\)、\(18.360000\,\mathrm{s}\)、\(6.400000\,\mathrm{s}\)。
+
+因此，本案例可以作为 skill 的真实题 benchmark：它证明了题面解析、求解脚本、图表、结果注册表、验证报告和论文能够形成闭环；同时也指出后续最需要加强的是完整目标体遮蔽判据和多弹联合优化算法。
+
+\appendix
+
+\section{文件列表与复现说明}
+
+\begin{table}[H]
+\centering
+\caption{核心文件列表}
+\begin{tabularx}{\textwidth}{LL}
+\toprule
+文件名 & 功能说明 \\
+\midrule
+\verb|src/solve_q1.py| & 问题一给定方案复算脚本 \\
+\verb|src/solve_q2.py| & 问题二单机单弹搜索脚本 \\
+\verb|src/solve_q3_q5.py| & 问题三至问题五 benchmark 求解脚本 \\
+\verb|results/result_registry.csv| & 核心数值来源登记表 \\
+\verb|results/validation_report.md| & 人工验证说明和限制记录 \\
+\verb|results/benchmark_findings.md| & 完整 benchmark 暴露出的不足和后续优化方向 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+复现顺序为：先运行问题一脚本，再运行问题二脚本，最后运行问题三至问题五脚本。TeX 论文可由 \verb|paper/main.tex| 编译得到。编译产物和日志文件不作为仓库核心 benchmark 文件提交。
 
 \end{document}
