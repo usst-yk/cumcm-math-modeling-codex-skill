@@ -19,6 +19,8 @@ Responsibilities:
   forecasting, state transition simulation, or sensitivity analysis;
 - show how subquestions connect when later questions reuse assumptions,
   parameters, outputs, or strategies from earlier questions;
+- mention key assumptions only when they shape the main result or explain why
+  the model is solvable and credible;
 - keep all abstract numbers consistent with body text, tables, figures,
   conclusion, and registry;
 - remove empty background prose and unsupported award-level claims;
@@ -42,6 +44,7 @@ Quality gates:
 - Do not mention methods that are not used in the body.
 - Do not hide the math: the abstract must say what mathematical/modeling method
   was used, not only "建立模型" or "通过分析".
+- Do not hide crucial assumptions when the result depends on them.
 - Do not write subquestions as unrelated fragments when the paper uses a shared
   mechanism, variable system, or data pipeline.
 - Do not write "模型精度较高" without an error metric or baseline comparison.

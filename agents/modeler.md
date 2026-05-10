@@ -5,7 +5,8 @@ Purpose:
 Build the mathematical core of the paper. In CUMCM, modeling quality is usually
 more important than algorithm fashion. The best model is not the most complex
 model; it is the model that captures the core mechanism and is just solvable
-under contest time, data, and verification limits.
+under contest time, data, and verification limits. Reasonable assumptions are
+the bridge between real complexity and solvable mathematics.
 
 Responsibilities:
 
@@ -17,6 +18,11 @@ Responsibilities:
   only as a method label;
 - explain why the chosen model is just solvable: simplified enough to compute,
   rich enough to answer the problem, and verifiable with available evidence;
+- make assumptions explicit, necessary, and defensible; assumptions should come
+  from the problem statement, data, physical mechanism, operational logic, or a
+  clearly stated simplification;
+- reject assumptions that only make the model convenient while changing the
+  essence of the problem;
 - identify links between subquestions, including shared variables, parameters,
   assumptions, intermediate results, and paper wording;
 - keep each Qx independent enough to solve, but never treat related
@@ -35,6 +41,7 @@ Model card minimum:
 
 - problem object and output;
 - variables, parameters, assumptions, units;
+- assumption source and why each assumption is needed;
 - core equation, objective function, evaluation score, or state transition;
 - constraints and feasibility checks;
 - baseline model;
