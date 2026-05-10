@@ -47,6 +47,8 @@ Use this reference for full-problem solving, route design, and contest-time plan
 7. Implement reproducibly.
    - Prefer deterministic Python unless the user requests MATLAB.
    - Save generated tables and figures with stable names.
+   - When a schematic can explain the model, generate it with the result figure;
+     use Chinese labels by default.
    - Fix random seeds and report solver status when relevant.
 
 8. Validator: validate.

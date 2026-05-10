@@ -9,6 +9,12 @@ For SCI/Nature/PRL-style publication graphics, read `references/figure-standards
 - Every figure must support one subquestion conclusion.
 - Every figure must be reproducible from code or a saved source table.
 - Figure numbers, captions, and filenames must match the paper text.
+- If a schematic can make the model easier to understand, draw it. This applies
+  to geometry, trajectories, timing, optimization variables, evaluation
+  indicators, process flows, spatial layouts, and constraint relationships.
+- For Chinese contest papers, figure titles, axis labels, legends, annotations,
+  and captions should be in Chinese by default. Use English only for variables,
+  file names, algorithm names, or standard units.
 - Axis labels must include units when variables have units.
 - The figure must be readable at normal paper size.
 - Do not use a figure when a compact table answers the question more clearly.
@@ -25,12 +31,16 @@ For SCI/Nature/PRL-style publication graphics, read `references/figure-standards
 | Sensitivity analysis | parameter-result line chart, heatmap, tornado chart |
 | Spatial analysis | map/scatter/grid with coordinate or distance explanation |
 | Clustering/classification | cluster scatter, confusion matrix, representative samples |
+| Mechanism or geometry | problem background schematic, coordinate diagram, trajectory diagram |
+| Timing or staged process | timeline, Gantt-style stage chart, event sequence diagram |
 | Technical route | editable Mermaid/Graphviz/SVG flowchart |
 
 ## Avoid
 
 - 3D pie charts, decorative shadows, heavy gradients, and crowded color palettes.
 - Figures that show process but do not support a result.
+- English-only plot labels in a Chinese modeling paper when Chinese labels are
+  possible.
 - Tiny labels inserted into a paper page.
 - Unchecked AI-generated flowchart text.
 - Manual image edits that change values without updating source data.

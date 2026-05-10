@@ -2,6 +2,8 @@
 
 | Subquestion | Check | Source | Result | Status | Paper consequence |
 | --- | --- | --- | --- | --- | --- |
+| 全局 | 题面几何示意 | `figures/fig_problem_overview_xy.png` | 导弹、无人机、假目标和真目标位置已用中文图示说明 | pass | 可放在问题分析部分 |
+| 全局 | 子问题范围示意 | `figures/fig_problem_question_scope.png` | Q1-Q5 的无人机、烟幕弹、导弹和输出要求已用中文图示说明 | pass | 可放在问题分析部分 |
 | Q1 | 投放点和起爆点复算 | `tables/tab_q1_key_points.csv` | 投放点 `(17620, 0, 1800)`，起爆点 `(17188, 0, 1736.496)` | pass | 可写入模型求解过程 |
 | Q1 | 遮蔽判定 | `tables/tab_q1_intervals.csv` | 有效区间 `8.013006-9.418516 s`，时长 `1.405510 s` | pass | 可写入结果分析 |
 | Q1 | 图表一致性 | `figures/fig_q1_distance_geometry.png` | 距离曲线与遮蔽半径阈值对应 | pass | 可作为问题一图 |

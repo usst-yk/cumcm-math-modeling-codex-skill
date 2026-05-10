@@ -42,6 +42,8 @@ Do not enter Solver until:
 Do not validate final conclusions until:
 
 - code has produced saved output tables/figures;
+- any useful schematic figure has been generated, or the reason for skipping it
+  is recorded in `results/validation_report.md`;
 - every headline value is entered in `results/result_registry.csv`;
 - run commands are recorded in `logs/run_log.md`;
 - solver status, random seed, or failure status is recorded when relevant.

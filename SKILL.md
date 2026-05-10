@@ -80,6 +80,12 @@ Read `references/task-routing.md` for the complete table.
 - Inspect all sheets in every Excel workbook. State why any table is excluded.
 - If sheets share a structure, concatenate them with a source-sheet column.
 - Use stable lowercase names: `fig_q1_topic.png`, `tab_q1_topic.csv`.
+- For every solved subquestion, draw a schematic or result figure when it helps
+  explain geometry, flow, timing, ranking, optimization, constraints, or spatial
+  layout. Skip the figure only when a compact table is clearer.
+- Contest-paper figures default to Chinese titles, axis labels, legends,
+  annotations, and captions. Keep English only for variable names, file names,
+  units, or unavoidable technical tokens.
 - Paper numbers, captions, abstract, conclusion, and recommendations must trace
   to `results/result_registry.csv`.
 - Default substantial papers to TeX and compile PDF when available.

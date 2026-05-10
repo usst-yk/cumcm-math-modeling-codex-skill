@@ -14,6 +14,8 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
+from plot_utils import setup_chinese_plot
+
 
 ROOT = Path(__file__).resolve().parents[1]
 TABLE_DIR = ROOT / "tables"
@@ -285,6 +287,7 @@ def write_tables(decision: np.ndarray, intervals: list[tuple[float, float]]) -> 
 
 
 def write_figure(decision: np.ndarray, intervals: list[tuple[float, float]]) -> None:
+    setup_chinese_plot()
     FIGURE_DIR.mkdir(parents=True, exist_ok=True)
     detonation_time, _, _, detonation_point = decision_geometry(decision)
     end = min(detonation_time + SMOKE_EFFECTIVE_SECONDS, MISSILE_IMPACT_TIME)
@@ -296,23 +299,23 @@ def write_figure(decision: np.ndarray, intervals: list[tuple[float, float]]) -> 
     missile_points = missile_position(times)
 
     fig, axes = plt.subplots(1, 2, figsize=(10, 4), dpi=180)
-    axes[0].plot(times, distance, color="#2f5597", linewidth=1.8, label="distance to line of sight")
-    axes[0].axhline(SMOKE_RADIUS, color="#c00000", linestyle="--", linewidth=1.2, label="effective radius")
+    axes[0].plot(times, distance, color="#2f5597", linewidth=1.8, label="到代表视线的距离")
+    axes[0].axhline(SMOKE_RADIUS, color="#c00000", linestyle="--", linewidth=1.2, label="有效半径 10 m")
     for start, stop in intervals:
         axes[0].axvspan(start, stop, color="#92d050", alpha=0.25)
-    axes[0].set_xlabel("time / s")
-    axes[0].set_ylabel("distance / m")
-    axes[0].set_title("Q2 best-found shielding interval")
+    axes[0].set_xlabel("时间 / s")
+    axes[0].set_ylabel("距离 / m")
+    axes[0].set_title("问题二：搜索得到的遮蔽区间")
     axes[0].legend(frameon=False, fontsize=8)
     axes[0].grid(alpha=0.25)
 
-    axes[1].plot(missile_points[:, 0], missile_points[:, 2], color="#7030a0", linewidth=1.5, label="M1 path")
-    axes[1].plot(smoke_points[:, 0], smoke_points[:, 2], color="#548235", linewidth=1.5, label="smoke center")
-    axes[1].scatter([TRUE_TARGET_AXIS_MIDPOINT[0]], [TRUE_TARGET_AXIS_MIDPOINT[2]], color="#c00000", s=28, label="target midpoint")
-    axes[1].scatter([detonation_point[0]], [detonation_point[2]], color="#548235", s=28, marker="x", label="detonation")
-    axes[1].set_xlabel("x / m")
-    axes[1].set_ylabel("z / m")
-    axes[1].set_title("Side-view geometry")
+    axes[1].plot(missile_points[:, 0], missile_points[:, 2], color="#7030a0", linewidth=1.5, label="M1 轨迹")
+    axes[1].plot(smoke_points[:, 0], smoke_points[:, 2], color="#548235", linewidth=1.5, label="烟幕云团中心")
+    axes[1].scatter([TRUE_TARGET_AXIS_MIDPOINT[0]], [TRUE_TARGET_AXIS_MIDPOINT[2]], color="#c00000", s=28, label="真目标轴中点")
+    axes[1].scatter([detonation_point[0]], [detonation_point[2]], color="#548235", s=28, marker="x", label="起爆点")
+    axes[1].set_xlabel("x 坐标 / m")
+    axes[1].set_ylabel("z 坐标 / m")
+    axes[1].set_title("侧视几何关系")
     axes[1].legend(frameon=False, fontsize=8)
     axes[1].grid(alpha=0.25)
 

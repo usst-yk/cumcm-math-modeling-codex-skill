@@ -27,16 +27,21 @@
 | `tables/data_profile/` | 附件模板的数据审计输出。 |
 | `results/result_registry.csv` | 后续求解时登记关键数值的空模板。 |
 | `results/validation_report.md` | 后续验证分析的记录模板。 |
+| `src/make_problem_figures.py` | 题面背景和子问题范围的中文示意图脚本。 |
+| `src/plot_utils.py` | 中文图表字体配置。 |
 | `src/solve_q1.py` | 问题 1 的可复现几何运动求解脚本。 |
 | `src/solve_q2.py` | 问题 2 的单机单弹确定性搜索脚本。 |
 | `tables/tab_q1_key_points.csv` | 问题 1 投放点、起爆点。 |
 | `tables/tab_q1_intervals.csv` | 问题 1 有效遮蔽区间和时长。 |
 | `tables/tab_q2_strategy.csv` | 问题 2 推荐策略。 |
 | `tables/tab_q2_intervals.csv` | 问题 2 有效遮蔽区间和时长。 |
+| `figures/fig_problem_overview_xy.png` | 题面坐标系、导弹、无人机和目标平面示意图。 |
+| `figures/fig_problem_question_scope.png` | 五个子问题的资源范围和输出要求示意图。 |
 | `figures/fig_q1_distance_geometry.png` | 问题 1 距离阈值和侧视几何图。 |
 | `figures/fig_q2_optimized_distance_geometry.png` | 问题 2 距离阈值和侧视几何图。 |
 | `results/validation_audit.md` | 问题 1 产物一致性自动检查结果。 |
 | `paper/main.tex` | 可编译论文片段入口。 |
+| `paper/sections/problem_overview.tex` | 题面结构与几何背景论文片段。 |
 | `paper/sections/q1.tex` | 问题 1 论文片段。 |
 | `paper/sections/q2.tex` | 问题 2 论文片段。 |
 
@@ -55,6 +60,8 @@
 ```
 
 如果要继续完整求解，建议按子问题推进：当前已完成 Q1 的几何遮蔽计算和 Q2 的单机单弹搜索示例，随后可扩展到 Q3、Q4、Q5 的多弹、多机、多导弹联合优化。
+
+本案例的图默认使用中文标题、坐标轴和图例。正式做题时，只要几何关系、时间过程、优化变量、空间布局或任务拆解能用图讲清楚，就应优先生成中文示意图，再写入论文图注。
 
 ## 当前限制
 

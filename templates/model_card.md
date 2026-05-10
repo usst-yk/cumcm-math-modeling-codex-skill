@@ -24,7 +24,7 @@
 - Baseline:
 - Algorithm:
 - Expected tables:
-- Expected figures:
+- Expected Chinese schematic/result figures:
 - Sensitivity plan:
 
 ## Paper Notes

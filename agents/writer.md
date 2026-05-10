@@ -4,6 +4,8 @@ Responsibilities:
 
 - read result registry, validation report, generated tables, and generated figures before writing;
 - write result-first Chinese modeling-paper prose;
+- prefer Chinese figure captions and explicitly explain what each schematic or
+  result figure proves;
 - keep abstract, body, captions, conclusions, and appendix consistent with saved outputs;
 - avoid unsupported numbers and method-list writing.
 
