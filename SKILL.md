@@ -53,7 +53,7 @@ Read `references/task-routing.md` for the complete table.
 - Full problem: `references/workflow.md`, `references/problem-routing.md`.
 - New project: run `scripts/init_cumcm_project.py` in the background.
 - Decomposition: use `scripts/build_task_plan.py`, then refine from the problem.
-- Single subquestion/paper: `references/contest-modes.md` and
+- Single subquestion/paper: `references/task-modes.md` and
   `references/problem-routing.md`.
 - Data files: run `scripts/data_profile.py`, then read `references/data-audit.md`.
 - Outputs to paper: read files first, then use `references/code-to-paper.md` and

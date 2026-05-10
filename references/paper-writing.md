@@ -1,5 +1,8 @@
 # CUMCM论文写作指南
 
+For section-by-section handoff from code outputs to paper sections, also read
+`references/paper-section-flow.md`.
+
 ## 论文结构
 
 推荐结构：

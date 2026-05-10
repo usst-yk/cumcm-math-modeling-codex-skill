@@ -221,6 +221,7 @@ cumcm-math-modeling/
 - `references/correctness-ladder.md`：检查结果是否可靠。
 - `references/workflow.md`：完整比赛流程和 72 小时节奏。
 - `references/problem-routing.md`：不同题型的建模路线。
+- `references/method-library.md`：常见建模方法库。
 - `references/result-tracking.md`：论文数字如何追踪来源。
 - `references/scoring-checklist.md`：提交前评分检查。
 

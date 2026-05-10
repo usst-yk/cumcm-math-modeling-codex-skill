@@ -69,6 +69,38 @@ def check_demo(issues: list[str]) -> None:
                 issues.append(f"registry source not found: {source}")
 
 
+def check_folder_indexes(issues: list[str]) -> None:
+    expected = [
+        "agents/README.md",
+        "assets/README.md",
+        "evals/README.md",
+        "examples/README.md",
+        "references/README.md",
+        "scripts/README.md",
+        "templates/README.md",
+    ]
+    for rel in expected:
+        require(ROOT / rel, issues)
+
+
+def check_reference_names(issues: list[str]) -> None:
+    expected = [
+        "references/task-modes.md",
+        "references/method-library.md",
+        "references/paper-section-flow.md",
+        "references/external-agent-patterns.md",
+    ]
+    for rel in expected:
+        require(ROOT / rel, issues)
+    deprecated = [
+        "references/" + "contest" + "-" + "modes.md",
+        "references/" + "modeling" + "-" + "toolbox.md",
+    ]
+    for rel in deprecated:
+        if (ROOT / rel).exists():
+            issues.append(f"deprecated reference name still exists: {rel}")
+
+
 def check_eval_prompts(issues: list[str]) -> None:
     expected = [
         "evals/expected_outputs.md",
@@ -82,6 +114,8 @@ def check_eval_prompts(issues: list[str]) -> None:
 
 def main() -> int:
     issues: list[str] = []
+    check_folder_indexes(issues)
+    check_reference_names(issues)
     check_demo(issues)
     check_eval_prompts(issues)
     if issues:
