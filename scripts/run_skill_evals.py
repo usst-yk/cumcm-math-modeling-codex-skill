@@ -8,10 +8,33 @@ import json
 import subprocess
 import tempfile
 from pathlib import Path
+from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DEMO = ROOT / "examples" / "full_problem_demo"
+
+PARSER_EXPECTATIONS = {
+    "prediction": {
+        "question_count": 2,
+        "attachments": ["附件1：traffic_flow.xlsx"],
+        "time_ranges": ["2023 年 1 月至 2024 年 12 月", "连续 7 天", "每小时"],
+        "risk_words": ["预测", "分别", "连续"],
+    },
+    "optimization": {
+        "question_count": 2,
+        "attachments": ["附件A：orders.csv", "附件B：vehicles.xlsx"],
+        "time_ranges": ["18:00"],
+        "units": ["260 件"],
+        "risk_words": ["不超过", "每个", "最小", "最优"],
+    },
+    "evaluation": {
+        "question_count": 2,
+        "attachments": ["附件一：city_indicators.xlsx"],
+        "time_ranges": ["2020-2024"],
+        "risk_words": ["每个", "至少", "分别", "评价", "排序"],
+    },
+}
 
 
 def require(path: Path, issues: list[str]) -> None:
@@ -134,7 +157,45 @@ def check_templates(issues: list[str]) -> None:
                 issues.append(f"invalid JSON schema {rel}: {exc}")
 
 
+def type_ok(value: Any, expected: str) -> bool:
+    if expected == "object":
+        return isinstance(value, dict)
+    if expected == "array":
+        return isinstance(value, list)
+    if expected == "string":
+        return isinstance(value, str)
+    if expected == "integer":
+        return isinstance(value, int) and not isinstance(value, bool)
+    if expected == "number":
+        return isinstance(value, (int, float)) and not isinstance(value, bool)
+    if expected == "boolean":
+        return isinstance(value, bool)
+    return True
+
+
+def validate_schema_value(value: Any, schema: dict, label: str, issues: list[str]) -> None:
+    expected_type = schema.get("type")
+    if expected_type and not type_ok(value, expected_type):
+        issues.append(f"{label} should be {expected_type}, got {type(value).__name__}")
+        return
+    if "minimum" in schema and isinstance(value, (int, float)) and value < schema["minimum"]:
+        issues.append(f"{label} should be >= {schema['minimum']}")
+    if expected_type == "object":
+        for field in schema.get("required", []):
+            if field not in value:
+                issues.append(f"{label} missing required field: {field}")
+        for key, sub_schema in schema.get("properties", {}).items():
+            if key in value:
+                validate_schema_value(value[key], sub_schema, f"{label}.{key}", issues)
+    if expected_type == "array":
+        item_schema = schema.get("items")
+        if item_schema:
+            for idx, item in enumerate(value, start=1):
+                validate_schema_value(item, item_schema, f"{label}[{idx}]", issues)
+
+
 def validate_required_fields(data: dict, schema: dict, label: str, issues: list[str]) -> None:
+    validate_schema_value(data, schema, label, issues)
     for field in schema.get("required", []):
         if field not in data:
             issues.append(f"{label} missing required field: {field}")
@@ -144,6 +205,11 @@ def validate_required_fields(data: dict, schema: dict, label: str, issues: list[
         for field in required_sub:
             if field not in item:
                 issues.append(f"{label} subquestion {idx} missing required field: {field}")
+
+
+def require_contains(items: list[str], expected: str, label: str, issues: list[str]) -> None:
+    if not any(expected in str(item) for item in items):
+        issues.append(f"{label} should contain: {expected}")
 
 
 def check_parser_cases(issues: list[str]) -> None:
@@ -199,8 +265,22 @@ def check_parser_cases(issues: list[str]) -> None:
             validate_required_fields(plan, task_schema, f"parser case {case} task_plan.json", issues)
             if parsed.get("question_count", 0) < 1:
                 issues.append(f"parser case {case} found no subquestions")
+            expected = PARSER_EXPECTATIONS[case]
+            if parsed.get("question_count") != expected["question_count"]:
+                issues.append(
+                    f"parser case {case} expected {expected['question_count']} subquestions, "
+                    f"got {parsed.get('question_count')}"
+                )
             if not parsed.get("attachments"):
                 issues.append(f"parser case {case} found no attachments")
+            for value in expected.get("attachments", []):
+                require_contains(parsed.get("attachments", []), value, f"parser case {case} attachments", issues)
+            for value in expected.get("time_ranges", []):
+                require_contains(parsed.get("time_ranges", []), value, f"parser case {case} time_ranges", issues)
+            for value in expected.get("units", []):
+                require_contains(parsed.get("units", []), value, f"parser case {case} units", issues)
+            for value in expected.get("risk_words", []):
+                require_contains(parsed.get("risk_words", []), value, f"parser case {case} risk_words", issues)
             if any("给出了" in item or "记录" in item for item in parsed.get("attachments", [])):
                 issues.append(f"parser case {case} attachment label includes descriptive text")
             if "每小" in parsed.get("time_ranges", []):
