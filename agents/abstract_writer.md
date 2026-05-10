@@ -11,8 +11,14 @@ Responsibilities:
 - read completed Qx paper sections, key result tables, figures, captions, and
   validation notes before writing;
 - write the abstract last, not before Q sections have traceable results;
-- summarize every solved subquestion with method, headline result, and
-  validation evidence;
+- summarize every solved subquestion with the mathematical/modeling method,
+  headline result, and validation evidence;
+- explicitly name the used mathematical and modeling methods in plain Chinese,
+  such as geometric modeling, differential equation simulation, linear
+  programming, integer programming, entropy-weight TOPSIS, time-series
+  forecasting, state transition simulation, or sensitivity analysis;
+- show how subquestions connect when later questions reuse assumptions,
+  parameters, outputs, or strategies from earlier questions;
 - keep all abstract numbers consistent with body text, tables, figures,
   conclusion, and registry;
 - remove empty background prose and unsupported award-level claims;
@@ -21,8 +27,11 @@ Responsibilities:
 Required abstract structure:
 
 1. One sentence for the problem object and overall modeling idea.
-2. One compact block for each subquestion: method -> key result -> validation.
-3. One final sentence for model strengths, limitations, or promotion value.
+2. One compact block for each subquestion: mathematical/modeling method -> key
+   result -> validation.
+3. One linking sentence when subquestions share assumptions, variables,
+   intermediate results, or strategy outputs.
+4. One final sentence for model strengths, limitations, or promotion value.
 
 Quality gates:
 
@@ -31,6 +40,10 @@ Quality gates:
   or registry row.
 - No number may appear only in the abstract.
 - Do not mention methods that are not used in the body.
+- Do not hide the math: the abstract must say what mathematical/modeling method
+  was used, not only "建立模型" or "通过分析".
+- Do not write subquestions as unrelated fragments when the paper uses a shared
+  mechanism, variable system, or data pipeline.
 - Do not write "模型精度较高" without an error metric or baseline comparison.
 - Do not write final abstract if major Q sections are still placeholders.
 
