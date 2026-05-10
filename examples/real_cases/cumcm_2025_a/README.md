@@ -28,12 +28,17 @@
 | `results/result_registry.csv` | 后续求解时登记关键数值的空模板。 |
 | `results/validation_report.md` | 后续验证分析的记录模板。 |
 | `src/solve_q1.py` | 问题 1 的可复现几何运动求解脚本。 |
+| `src/solve_q2.py` | 问题 2 的单机单弹确定性搜索脚本。 |
 | `tables/tab_q1_key_points.csv` | 问题 1 投放点、起爆点。 |
 | `tables/tab_q1_intervals.csv` | 问题 1 有效遮蔽区间和时长。 |
+| `tables/tab_q2_strategy.csv` | 问题 2 推荐策略。 |
+| `tables/tab_q2_intervals.csv` | 问题 2 有效遮蔽区间和时长。 |
 | `figures/fig_q1_distance_geometry.png` | 问题 1 距离阈值和侧视几何图。 |
+| `figures/fig_q2_optimized_distance_geometry.png` | 问题 2 距离阈值和侧视几何图。 |
 | `results/validation_audit.md` | 问题 1 产物一致性自动检查结果。 |
 | `paper/main.tex` | 可编译论文片段入口。 |
 | `paper/sections/q1.tex` | 问题 1 论文片段。 |
+| `paper/sections/q2.tex` | 问题 2 论文片段。 |
 
 ## 使用方式
 
@@ -49,11 +54,12 @@
 [$cumcm-math-modeling] 请只做 examples/real_cases/cumcm_2025_a 的问题 1，先建立几何运动模型，计算有效遮蔽时长，并说明结果如何写进论文。
 ```
 
-如果要继续完整求解，建议按子问题推进：先做 Q1 的几何遮蔽计算，再做 Q2 的单机单弹优化，随后扩展到 Q3、Q4、Q5 的多弹、多机、多导弹联合优化。
+如果要继续完整求解，建议按子问题推进：当前已完成 Q1 的几何遮蔽计算和 Q2 的单机单弹搜索示例，随后可扩展到 Q3、Q4、Q5 的多弹、多机、多导弹联合优化。
 
 ## 当前限制
 
-- 本目录目前只完成了问题 1 的示例闭环。
-- 问题 2-5 尚未包含正式求解代码、最终图表或完整论文。
-- 问题 1 使用真目标轴中点视线判据，用于展示可复现交付链路，不作为官方标准答案。
+- 本目录目前完成了问题 1 和问题 2 的示例闭环。
+- 问题 3-5 尚未包含正式求解代码、最终图表或完整论文。
+- 问题 1 和问题 2 使用真目标轴中点视线判据，用于展示可复现交付链路，不作为官方标准答案。
+- 问题 2 使用确定性粗到细搜索得到 best-found 方案，尚未证明全局最优。
 - `problem_parse` 和 `task_plan` 是规则脚本生成的草稿，进入正式建模前仍需要人工确认几何约束、遮蔽判定和优化变量。

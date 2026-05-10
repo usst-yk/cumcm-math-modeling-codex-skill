@@ -139,7 +139,7 @@ def check_demo(issues: list[str]) -> None:
                 issues.append(f"registry source not found: {source}")
 
 
-def check_real_case_q1(issues: list[str]) -> None:
+def check_real_case_2025_a(issues: list[str]) -> None:
     required = [
         "README.md",
         "problem/problem_statement.pdf",
@@ -147,14 +147,19 @@ def check_real_case_q1(issues: list[str]) -> None:
         "problem/problem_parse.json",
         "problem/task_plan.json",
         "src/solve_q1.py",
+        "src/solve_q2.py",
         "tables/tab_q1_key_points.csv",
         "tables/tab_q1_intervals.csv",
+        "tables/tab_q2_strategy.csv",
+        "tables/tab_q2_intervals.csv",
         "figures/fig_q1_distance_geometry.png",
+        "figures/fig_q2_optimized_distance_geometry.png",
         "results/result_registry.csv",
         "results/validation_report.md",
         "results/validation_audit.md",
         "paper/main.tex",
         "paper/sections/q1.tex",
+        "paper/sections/q2.tex",
     ]
     for rel in required:
         require(REAL_CASE_2025_A / rel, issues)
@@ -166,9 +171,13 @@ def check_real_case_q1(issues: list[str]) -> None:
         ids = {row.get("id") for row in rows}
         if "R001" not in ids:
             issues.append("2025 A real case result_registry.csv should contain R001")
+        if "R002" not in ids:
+            issues.append("2025 A real case result_registry.csv should contain R002")
         values = {row.get("value") for row in rows}
         if "1.405510" not in values:
             issues.append("2025 A real case Q1 duration should stay traceable as 1.405510")
+        if "4.723893" not in values:
+            issues.append("2025 A real case Q2 duration should stay traceable as 4.723893")
 
 
 def check_folder_indexes(issues: list[str]) -> None:
@@ -421,7 +430,7 @@ def main() -> int:
     check_templates(issues)
     check_method_cards(issues)
     check_demo(issues)
-    check_real_case_q1(issues)
+    check_real_case_2025_a(issues)
     check_eval_prompts(issues)
     check_parser_cases(issues)
     if issues:

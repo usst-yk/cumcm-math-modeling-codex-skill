@@ -1,2 +1,3 @@
 id,subquestion,claim,value,unit,source_type,source_file,source_line_or_cell,script,command,figure_or_table,validation,status,created_at,verified_by,notes
 R001,Q1,目标轴中点视线判据下的有效遮蔽时长,1.405510,s,code,tables/tab_q1_intervals.csv,row 2,src/solve_q1.py,python3 src/solve_q1.py,figures/fig_q1_distance_geometry.png,距离视线线段不超过10m且投影在线段内; automated artifact check,verified,2026-05-10,Codex,使用真目标轴中点(0;200;5)作为代表视线点; 该结果是可复现实例不是官方标准答案
+R002,Q2,目标轴中点视线判据下搜索得到的推荐遮蔽时长,4.723893,s,code,tables/tab_q2_intervals.csv,row 2,src/solve_q2.py,python3 src/solve_q2.py,figures/fig_q2_optimized_distance_geometry.png,速度范围可行; 投放和起爆时序可行; 距离视线线段不超过10m且投影在线段内; automated artifact check,verified,2026-05-10,Codex,确定性粗到细搜索得到的best-found方案; 未声明为全局最优或官方标准答案
