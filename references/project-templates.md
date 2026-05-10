@@ -12,6 +12,7 @@ python3 scripts/init_cumcm_project.py /path/to/project
 
 生成目录：
 
+- `problem/`: 题面原文、题面解析、任务计划、假设和模型卡。
 - `data/`: 原始数据和清洗数据。
 - `src/`: 数据处理、建模、求解、绘图代码。
 - `figures/`: 代码生成的论文图片。
@@ -21,6 +22,9 @@ python3 scripts/init_cumcm_project.py /path/to/project
 
 复制模板：
 
+- `problem/problem_parse.schema.json`: 题面解析字段约束。
+- `problem/task_plan.schema.json`: 任务计划字段约束。
+- `problem/task_plan.json`: 任务计划草稿。
 - `paper/main.md`: 论文 Markdown 骨架。
 - `paper/assumptions-symbols.md`: 假设和符号说明模板。
 - `appendix/code-template.md`: 附录代码格式模板。

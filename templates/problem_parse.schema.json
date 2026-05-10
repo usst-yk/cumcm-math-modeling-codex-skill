@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CUMCM Problem Parse",
+  "type": "object",
+  "required": [
+    "contest",
+    "problem_id",
+    "question_count",
+    "attachments",
+    "units",
+    "time_ranges",
+    "risk_words",
+    "subquestions",
+    "warnings"
+  ],
+  "properties": {
+    "contest": {
+      "type": "string"
+    },
+    "problem_id": {
+      "type": "string"
+    },
+    "question_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "units": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "time_ranges": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "risk_words": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "subquestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "text",
+          "task_type",
+          "input_data",
+          "required_output",
+          "decision_object",
+          "constraints",
+          "units",
+          "time_ranges",
+          "attachments",
+          "implicit_scoring_points",
+          "risk_words",
+          "warnings"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "task_type": {
+            "type": "string"
+          },
+          "input_data": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "required_output": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "decision_object": {
+            "type": "string"
+          },
+          "constraints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "units": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "time_ranges": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "implicit_scoring_points": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "risk_words": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

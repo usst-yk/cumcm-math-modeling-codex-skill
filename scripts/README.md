@@ -5,6 +5,7 @@
 | Script | Purpose |
 | --- | --- |
 | `init_cumcm_project.py` | 创建标准数学建模项目目录。 |
+| `problem_parser.py` | 离线规则解析题面，生成 `problem_parse.json/md`。 |
 | `build_task_plan.py` | 生成题目拆解模板。 |
 | `data_profile.py` | 审计 CSV/XLSX/JSON/TXT 数据和 Excel 多 sheet。 |
 | `result_registry.py` | 维护关键结果注册表。 |
@@ -15,4 +16,3 @@
 | `run_skill_evals.py` | 维护者自检 demo 和 eval 文件完整性。 |
 
 命名约定：脚本使用 snake_case，优先使用动词开头或明确动作名。
-

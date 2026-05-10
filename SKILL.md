@@ -34,13 +34,14 @@ and `references/stage-gates.md` before stage changes.
 
 | Stage | Read | Output |
 | --- | --- | --- |
-| 0 Coordinator / 题意拆解 | `agents/coordinator.md` | task plan |
-| 1 Data Auditor / 附件审计 | `references/data-audit.md` | data inventory |
-| 2 Modeler / 建模路线 | `agents/modeler.md` | Qx model card |
-| 3 Solver / 代码求解 | `agents/coder.md` | scripts, tables, figures, registry rows |
-| 4 Validator / 验证分析 | `references/validation.md` | validation report |
-| 5 Writer / 论文写作 | `agents/writer.md` | Qx paper section |
-| 6 Reviewer / 终审 | `agents/reviewer.md` | final findings and blockers |
+| 0 Problem Parser / 题面解析 | `agents/problem_parser.md` | problem parse |
+| 1 Coordinator / 任务拆解 | `agents/coordinator.md` | task plan |
+| 2 Data Auditor / 附件审计 | `references/data-audit.md` | data inventory |
+| 3 Modeler / 建模路线 | `agents/modeler.md` | Qx model card |
+| 4 Solver / 代码求解 | `agents/coder.md` | scripts, tables, figures, registry rows |
+| 5 Validator / 验证分析 | `references/validation.md` | validation report |
+| 6 Writer / 论文写作 | `agents/writer.md` | Qx paper section |
+| 7 Reviewer / 终审 | `agents/reviewer.md` | final findings and blockers |
 
 Process each subquestion as: model card -> code -> tables/figures -> registry ->
 validation -> paper section. Do not draft the final abstract before solved
@@ -52,6 +53,8 @@ Read `references/task-routing.md` for the complete table.
 
 - Full problem: `references/workflow.md`, `references/problem-routing.md`.
 - New project: run `scripts/init_cumcm_project.py` in the background.
+- Problem parsing: read `references/problem-parsing.md`, then use
+  `scripts/problem_parser.py`.
 - Decomposition: use `scripts/build_task_plan.py`, then refine from the problem.
 - Single subquestion/paper: `references/task-modes.md` and
   `references/problem-routing.md`.

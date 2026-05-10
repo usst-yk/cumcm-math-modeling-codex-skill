@@ -61,6 +61,7 @@ def main() -> int:
     copy_file(assets / "paper-template.md", project_dir / "paper" / "main.md", args.overwrite)
     copy_file(assets / "assumptions-symbols-template.md", project_dir / "problem" / "assumptions.md", args.overwrite)
     copy_file(assets / "appendix-code-template.md", project_dir / "appendix" / "code-template.md", args.overwrite)
+    copy_file(templates / "problem_parse.schema.json", project_dir / "problem" / "problem_parse.schema.json", args.overwrite)
     copy_file(templates / "task_plan.schema.json", project_dir / "problem" / "task_plan.schema.json", args.overwrite)
     copy_file(templates / "task_plan.json", project_dir / "problem" / "task_plan.json", args.overwrite)
     copy_file(templates / "model_card.md", project_dir / "problem" / "model_card_template.md", args.overwrite)
@@ -88,7 +89,7 @@ def main() -> int:
             [
                 "# CUMCM Project Structure",
                 "",
-                "- `problem/`: problem statement, assumptions, task plan, and model cards.",
+                "- `problem/`: problem statement, problem parse, assumptions, task plan, and model cards.",
                 "- `data/raw/`: untouched attachments.",
                 "- `data/processed/`: cleaned or reconstructed data.",
                 "- `src/`: deterministic scripts, named by subquestion when possible.",

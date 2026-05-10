@@ -4,6 +4,7 @@
 
 | Template | Copied to | Purpose |
 | --- | --- | --- |
+| `problem_parse.schema.json` | `problem/problem_parse.schema.json` | 题面解析字段约束。 |
 | `task_plan.json` | `problem/task_plan.json` | 结构化题目拆解。 |
 | `task_plan.schema.json` | `problem/task_plan.schema.json` | 任务计划字段约束。 |
 | `model_card.md` | `problem/model_card_template.md` | 每问模型卡。 |
@@ -14,4 +15,3 @@
 | `run_log.md` | `logs/run_log.md` | 运行记录。 |
 
 命名约定：模板名与目标产物保持一致。
-

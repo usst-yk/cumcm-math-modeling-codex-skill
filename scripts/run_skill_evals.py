@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import csv
 import json
+import subprocess
+import tempfile
 from pathlib import Path
 
 
@@ -85,6 +87,7 @@ def check_folder_indexes(issues: list[str]) -> None:
 
 def check_reference_names(issues: list[str]) -> None:
     expected = [
+        "references/problem-parsing.md",
         "references/task-modes.md",
         "references/method-library.md",
         "references/paper-section-flow.md",
@@ -104,6 +107,9 @@ def check_reference_names(issues: list[str]) -> None:
 def check_eval_prompts(issues: list[str]) -> None:
     expected = [
         "evals/expected_outputs.md",
+        "evals/parser_cases/prediction/problem.md",
+        "evals/parser_cases/optimization/problem.md",
+        "evals/parser_cases/evaluation/problem.md",
         "evals/toy_prediction_problem/prompt.md",
         "evals/toy_optimization_problem/prompt.md",
         "evals/toy_evaluation_problem/prompt.md",
@@ -112,12 +118,104 @@ def check_eval_prompts(issues: list[str]) -> None:
         require(ROOT / rel, issues)
 
 
+def check_templates(issues: list[str]) -> None:
+    required = [
+        "templates/task_plan.schema.json",
+        "templates/problem_parse.schema.json",
+    ]
+    for rel in required:
+        require(ROOT / rel, issues)
+    for rel in required:
+        path = ROOT / rel
+        if path.exists():
+            try:
+                json.loads(path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError as exc:
+                issues.append(f"invalid JSON schema {rel}: {exc}")
+
+
+def validate_required_fields(data: dict, schema: dict, label: str, issues: list[str]) -> None:
+    for field in schema.get("required", []):
+        if field not in data:
+            issues.append(f"{label} missing required field: {field}")
+    sub_schema = schema.get("properties", {}).get("subquestions", {}).get("items", {})
+    required_sub = sub_schema.get("required", [])
+    for idx, item in enumerate(data.get("subquestions", []), start=1):
+        for field in required_sub:
+            if field not in item:
+                issues.append(f"{label} subquestion {idx} missing required field: {field}")
+
+
+def check_parser_cases(issues: list[str]) -> None:
+    cases = {
+        "prediction": "prediction",
+        "optimization": "optimization",
+        "evaluation": "evaluation",
+    }
+    parser = ROOT / "scripts" / "problem_parser.py"
+    planner = ROOT / "scripts" / "build_task_plan.py"
+    parse_schema = json.loads((ROOT / "templates" / "problem_parse.schema.json").read_text(encoding="utf-8"))
+    task_schema = json.loads((ROOT / "templates" / "task_plan.schema.json").read_text(encoding="utf-8"))
+    for case, expected_type in cases.items():
+        problem = ROOT / "evals" / "parser_cases" / case / "problem.md"
+        if not problem.exists():
+            issues.append(f"missing parser case: {problem.relative_to(ROOT)}")
+            continue
+        with tempfile.TemporaryDirectory() as tmp:
+            outdir = Path(tmp)
+            parse_cmd = [
+                "python3",
+                str(parser),
+                "--problem",
+                str(problem),
+                "--output-dir",
+                str(outdir),
+                "--problem-id",
+                case,
+            ]
+            plan_cmd = [
+                "python3",
+                str(planner),
+                "--parse",
+                str(outdir / "problem_parse.json"),
+                "--output-dir",
+                str(outdir),
+                "--problem-id",
+                case,
+            ]
+            for cmd in (parse_cmd, plan_cmd):
+                result = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True, check=False)
+                if result.returncode != 0:
+                    issues.append(f"command failed for parser case {case}: {' '.join(cmd)}\n{result.stderr}")
+                    break
+            parse_path = outdir / "problem_parse.json"
+            plan_path = outdir / "task_plan.json"
+            if not parse_path.exists() or not plan_path.exists():
+                issues.append(f"parser case {case} did not produce parse and plan outputs")
+                continue
+            parsed = json.loads(parse_path.read_text(encoding="utf-8"))
+            plan = json.loads(plan_path.read_text(encoding="utf-8"))
+            validate_required_fields(parsed, parse_schema, f"parser case {case} problem_parse.json", issues)
+            validate_required_fields(plan, task_schema, f"parser case {case} task_plan.json", issues)
+            if parsed.get("question_count", 0) < 1:
+                issues.append(f"parser case {case} found no subquestions")
+            if not parsed.get("attachments"):
+                issues.append(f"parser case {case} found no attachments")
+            task_types = {q.get("task_type") for q in parsed.get("subquestions", [])}
+            if expected_type not in task_types:
+                issues.append(f"parser case {case} expected task type {expected_type}, got {sorted(task_types)}")
+            if plan.get("question_count") != parsed.get("question_count"):
+                issues.append(f"parser case {case} plan question_count does not match parse")
+
+
 def main() -> int:
     issues: list[str] = []
     check_folder_indexes(issues)
     check_reference_names(issues)
+    check_templates(issues)
     check_demo(issues)
     check_eval_prompts(issues)
+    check_parser_cases(issues)
     if issues:
         print("Skill eval checks failed:")
         for issue in issues:

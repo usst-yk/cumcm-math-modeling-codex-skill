@@ -7,6 +7,7 @@
 | File | Purpose |
 | --- | --- |
 | `task-routing.md` | 判断用户需求对应的工作模式和参考文件。 |
+| `problem-parsing.md` | 题面解析标准：子问、输入、输出、约束、单位、附件和风险词。 |
 | `agent-workflow.md` | Coordinator -> Modeler -> Coder -> Writer -> Reviewer 的阶段流程。 |
 | `stage-gates.md` | 每个阶段进入下一阶段前必须满足的条件。 |
 | `workflow.md` | 完整赛题流程和 72 小时节奏。 |
@@ -50,4 +51,3 @@
 | `maintenance.md` | 修改和发布 skill 时使用。 |
 
 命名约定：文件名使用 kebab-case，表达主题而不是动作。
-

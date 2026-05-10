@@ -16,40 +16,44 @@ Use this reference for full-problem solving, route design, and contest-time plan
 
 ## Full Workflow
 
-1. Coordinator: parse the problem.
+1. Problem Parser: parse the official statement.
+   - Split subquestions and extract required outputs, constraints, units, time ranges, attachments, and risk words.
+   - Write `problem/problem_parse.json` and `problem/problem_parse.md` before modeling.
+
+2. Coordinator: build the task plan.
    - Split every subquestion into input -> decision/model object -> output -> validation.
    - Extract hard constraints, units, required attachments, and judging clues.
    - Build `problem/task_plan.json`, `problem/task_plan.md`, and a must-satisfy checklist before solving.
 
-2. Data Auditor: audit data when present.
+3. Data Auditor: audit data when present.
    - Run the data profile script.
    - Inspect all Excel sheets and excluded tables.
    - Confirm covered time ranges, row counts, task reconstruction, and unit conversions.
 
-3. Modeler: compare three routes.
+4. Modeler: compare three routes.
    - Route A: baseline or analytical route.
    - Route B: main contest route.
    - Route C: robustness/fallback/extension route.
    - Select the route that maximizes correctness, validation, and paper clarity under time limits.
 
-4. Solver: solve subquestions one by one.
+5. Solver: solve subquestions one by one.
    - For each Qx, write a model card, implement code, save outputs, update the result registry, and record run commands.
    - Do not draft the final abstract before all solved Q sections have registered results.
 
-5. Build baseline before main computation.
+6. Build baseline before main computation.
    - Use simple formulas, bounds, greedy rules, naive forecasts, or small cases.
    - Use it to catch scale, direction, and feasibility errors.
 
-6. Implement reproducibly.
+7. Implement reproducibly.
    - Prefer deterministic Python unless the user requests MATLAB.
    - Save generated tables and figures with stable names.
    - Fix random seeds and report solver status when relevant.
 
-7. Validator: validate.
+8. Validator: validate.
    - Match validation to task type: prediction error, optimization feasibility, ranking stability, simulation sensitivity, classification metrics, or boundary cases.
    - Mark missing validation as a limitation, not as success.
 
-8. Writer and Reviewer: write for judges, then review.
+9. Writer and Reviewer: write for judges, then review.
    - Put the answer before method inventory.
    - Link every headline number to a table, figure, equation, output file, or assumption.
    - Keep only figures that support a conclusion.

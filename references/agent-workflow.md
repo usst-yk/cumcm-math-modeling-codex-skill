@@ -4,13 +4,14 @@ This skill uses role cards as staged prompts inside Codex. It does not create a 
 
 ## Role Order
 
-1. Coordinator: extract task plan and ambiguity points.
-2. Data Auditor: inspect files, sheets, fields, missingness, units, time/spatial coverage, duplicates, and merge candidates.
-3. Modeler: compare exactly three routes and create Qx model cards.
-4. Solver: implement deterministic scripts and save outputs.
-5. Validator: test feasibility, error, robustness, sensitivity, and artifact consistency.
-6. Writer: write paper sections from registered results.
-7. Reviewer: run final review and list blockers.
+1. Problem Parser: extract subquestions, inputs, outputs, constraints, units, attachments, and risk words.
+2. Coordinator: convert parse results into task plan and ambiguity points.
+3. Data Auditor: inspect files, sheets, fields, missingness, units, time/spatial coverage, duplicates, and merge candidates.
+4. Modeler: compare exactly three routes and create Qx model cards.
+5. Solver: implement deterministic scripts and save outputs.
+6. Validator: test feasibility, error, robustness, sensitivity, and artifact consistency.
+7. Writer: write paper sections from registered results.
+8. Reviewer: run final review and list blockers.
 
 ## Subquestion Loop
 

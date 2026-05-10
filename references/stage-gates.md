@@ -2,7 +2,15 @@
 
 Use these gates for full-problem solving and substantial single-question work. If a gate fails, either fix the blocker or record it in `logs/error_log.md` / `results/validation_report.md` before proceeding.
 
-## Stage 0 -> Stage 1: Coordinator To Data Auditor
+## Stage 0 -> Stage 1: Problem Parser To Coordinator
+
+Do not build the task plan until:
+
+- `problem/problem_parse.json` exists or parsing is explicitly impossible;
+- subquestions, required outputs, constraints, units, time ranges, and attachment dependencies are extracted;
+- risk words such as 全部, 至少, 不超过, 最优, 预测, 评价, 分别, 连续, 每个 are recorded.
+
+## Stage 1 -> Stage 2: Coordinator To Data Auditor
 
 Do not start modeling until:
 
@@ -11,7 +19,7 @@ Do not start modeling until:
 - `problem/task_plan.json` exists or an equivalent task table has been written;
 - assumptions and ambiguity points are separated from facts.
 
-## Stage 1 -> Stage 2: Data Auditor To Modeler
+## Stage 2 -> Stage 3: Data Auditor To Modeler
 
 Do not finalize routes until:
 
@@ -20,7 +28,7 @@ Do not finalize routes until:
 - row counts, time ranges, and reconstructed entities are compared with the problem statement;
 - missing values, duplicate keys, obvious outliers, and unit risks are recorded.
 
-## Stage 2 -> Stage 3: Modeler To Solver
+## Stage 3 -> Stage 4: Modeler To Solver
 
 Do not enter Solver until:
 
@@ -29,7 +37,7 @@ Do not enter Solver until:
 - every selected model has variables, objective/evaluation criterion, constraints, input data, output tables/figures, and validation plan;
 - Qx model cards exist for the subquestions being solved.
 
-## Stage 3 -> Stage 4: Solver To Validator
+## Stage 4 -> Stage 5: Solver To Validator
 
 Do not validate final conclusions until:
 
@@ -38,7 +46,7 @@ Do not validate final conclusions until:
 - run commands are recorded in `logs/run_log.md`;
 - solver status, random seed, or failure status is recorded when relevant.
 
-## Stage 4 -> Stage 5: Validator To Writer
+## Stage 5 -> Stage 6: Validator To Writer
 
 Do not write final paper text until:
 
@@ -47,7 +55,7 @@ Do not write final paper text until:
 - every figure/table has a source script or source data;
 - sensitivity analysis is based on actual perturbation or a reproducible perturbation plan.
 
-## Stage 5 -> Stage 6: Writer To Reviewer
+## Stage 6 -> Stage 7: Writer To Reviewer
 
 Do not enter final review until:
 
