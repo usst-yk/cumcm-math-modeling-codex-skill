@@ -90,11 +90,6 @@ def require(path: Path, issues: list[str]) -> None:
 def check_demo(issues: list[str]) -> None:
     required = [
         "README.md",
-        "prompt_full_problem.md",
-        "prompt_single_question.md",
-        "prompt_code_to_paper.md",
-        "prompt_roadmap.md",
-        "prompt_final_review.md",
     ]
     for rel in required:
         require(ROOT / "examples" / rel, issues)

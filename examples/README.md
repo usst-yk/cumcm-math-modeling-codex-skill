@@ -169,10 +169,6 @@ examples/single_question_minimal/
 | `single_question_minimal/` | 只做一问时的最小输出示例。 |
 | `full_problem_demo/` | 小型完整交付 demo，展示结果表、图、注册表、验证报告和论文片段。 |
 | `real_cases/cumcm_2025_a/` | 2025 年国赛 A 题真实案例，不是标准答案。 |
-| `prompt_full_problem.md` | 完整赛题推进提示。 |
-| `prompt_single_question.md` | 单问求解提示。 |
-| `prompt_code_to_paper.md` | 根据代码和结果写论文提示。 |
-| `prompt_roadmap.md` | 生成技术路线图提示。 |
-| `prompt_final_review.md` | 提交前终审提示。 |
+| `README.md` | 所有自然语言提示集中在本文件，避免分散到多个小文件。 |
 
 真实案例用于检查 skill 在真实题面上的组织能力，不等同于标准答案。
