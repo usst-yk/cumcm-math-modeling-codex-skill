@@ -5,6 +5,8 @@ description: |
   route comparison, reproducible solving, validation, figures, and paper writing.
   Use for 全国大学生数学建模竞赛, CUMCM, 建模论文, 赛题分析, 技术路线图,
   模型流程图, 灵敏度分析, 摘要, 一等奖标准, or contest-style modeling reports.
+  Do not use for ordinary homework, non-contest paper polishing, image-only
+  editing, or pure coding fixes unless contest modeling is requested.
 ---
 
 # CUMCM Math Modeling
@@ -22,7 +24,8 @@ scripts/templates in the background.
 
 - Correctness before speed: parse questions, constraints, units, outputs,
   attachments, and scoring clues first.
-- Full solutions need exactly three routes: baseline, primary route, fallback.
+- Full route design defaults to three routes: baseline, primary route, fallback.
+  For urgent or single-question work, keep the same logic but stay concise.
 - For major results, use `references/correctness-ladder.md`.
 - Do not write final numbers without a saved, traceable source.
 - Prefer transparent rigor over fashionable methods.
