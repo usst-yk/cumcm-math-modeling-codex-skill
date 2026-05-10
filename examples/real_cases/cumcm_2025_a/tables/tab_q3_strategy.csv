@@ -1,0 +1,4 @@
+question,uav,bomb_id,missile,speed_m_s,heading_deg_from_positive_x,heading_rad,release_time_s,fuse_delay_s,detonation_time_s,release_x_m,release_y_m,release_z_m,detonation_x_m,detonation_y_m,detonation_z_m,method
+Q3,FY1,1,M1,75.415887,177.046501,3.090044378,0.000000,2.535622,2.535622,17800.000000,0.000000,1800.000000,17609.027828,9.853015,1768.496044,fixed-seed greedy marginal coverage search
+Q3,FY1,2,M1,75.415887,177.046501,3.090044378,11.162757,7.039869,18.202625,16959.269052,43.376658,1800.000000,16429.056330,70.732443,1557.157212,fixed-seed greedy marginal coverage search
+Q3,FY1,3,M1,75.415887,177.046501,3.090044378,14.800259,1.571297,16.371556,16685.307968,57.511401,1800.000000,16566.964588,63.617207,1787.902020,fixed-seed greedy marginal coverage search

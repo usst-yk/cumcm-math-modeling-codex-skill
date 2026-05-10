@@ -1,10 +1,15 @@
-\documentclass[UTF8]{ctexart}
+%! TEX program = xelatex
+\documentclass[UTF8,12pt]{ctexart}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{geometry}
-\geometry{a4paper, margin=2.5cm}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
 
-\title{2025 年国赛 A 题示例片段}
+\graphicspath{{../figures/}{figures/}}
+
+\title{2025 年国赛 A 题 benchmark 解：烟幕干扰弹的投放策略}
 \author{}
 \date{}
 
@@ -12,11 +17,30 @@
 \maketitle
 
 \begin{abstract}
-本文片段展示问题一和问题二的可复现求解链路。在目标轴中点视线判据下，问题一给定方案的有效遮蔽时长为 1.40551 s；问题二经确定性粗到细搜索得到一组推荐策略，有效遮蔽时长为 4.723893 s。上述数值来自结果表和注册表，不作为官方标准答案。
+本文针对 2025 年国赛 A 题“烟幕干扰弹的投放策略”建立可复现 benchmark 模型。为保证五个子问题口径一致，本文采用真目标轴中点代表视线判据：当烟幕云团中心到“导弹--真目标轴中点”线段的距离不超过 \(10\,\mathrm{m}\)，且垂足位于线段内部时，判定为有效遮蔽。该判据能清晰连接几何运动、投放时序和遮蔽时间计算，但不是官方完整圆柱目标遮蔽判据。
+
+对于问题一，本文由给定 FY1 速度、投放时刻和引信延迟建立三维运动学模型，得到投放点 \((17620,0,1800)\)，起爆点 \((17188,0,1736.496)\)，有效遮蔽区间为 \(8.013006\sim 9.418516\,\mathrm{s}\)，遮蔽时长为 \(1.405510\,\mathrm{s}\)。对于问题二，本文以 FY1 的速度、航向角、投放时刻和引信延迟为变量，使用固定随机种子的粗到细搜索，得到一组 best-found 单弹策略，有效遮蔽时长为 \(4.723893\,\mathrm{s}\)。
+
+对于问题三，本文把同一架 FY1 的三弹连续投放建模为共享航向和速度的边际覆盖问题，得到 benchmark 遮蔽总时长 \(4.740000\,\mathrm{s}\)。该结果暴露出当前贪心搜索对同航向多弹联合优化能力不足。对于问题四，本文将 FY1、FY2、FY3 各一枚烟幕弹按边际覆盖分配到 M1 的不同时间段，得到总有效遮蔽时长 \(14.520000\,\mathrm{s}\)。对于问题五，本文把 5 架无人机、最多 15 枚烟幕弹和 3 枚导弹统一为多资源边际覆盖模型，得到 M1、M2、M3 的有效遮蔽时长分别为 \(22.980000\,\mathrm{s}\)、\(18.360000\,\mathrm{s}\)、\(6.400000\,\mathrm{s}\)。所有核心数值均登记在结果注册表中，并由代码、表格和中文图表复现。
+
+\noindent\textbf{关键词：} 烟幕干扰弹；几何运动模型；边际覆盖；无人机投放策略；数学建模 benchmark
 \end{abstract}
 
 \input{sections/problem_overview}
 \input{sections/q1}
 \input{sections/q2}
+\input{sections/q3}
+\input{sections/q4}
+\input{sections/q5}
+
+\section{模型评价与 benchmark 结论}
+
+本文的主要价值不在于给出官方最优答案，而在于形成一套完整可复现的 benchmark：题面解析、任务计划、数据审计、逐问求解、图表、结果注册表、验证报告和论文均能对应起来。Q1 和 Q2 证明单问求解链路可以闭环；Q3 暴露了同航向多弹联合优化不足；Q4 和 Q5 则验证了多机、多弹、多导弹场景下边际覆盖策略能够生成可检查的完整结果。
+
+当前模型仍有三点限制。第一，代表视线判据没有覆盖圆柱目标完整外轮廓，后续应加入圆柱目标多点采样或解析遮蔽判定。第二，Q2-Q5 均为固定随机种子的 best-found 策略，不能声明为全局最优。第三，Q3 和 Q5 说明单纯贪心搜索容易错过需要整体协调的多弹组合，后续应增加动态规划、局部交换或混合整数模型作为对照。
+
+\section{附录：复现说明}
+
+核心脚本包括 \verb|src/solve_q1.py|、\verb|src/solve_q2.py| 和 \verb|src/solve_q3_q5.py|。核心结果表包括 \verb|tables/tab_q1_intervals.csv|、\verb|tables/tab_q2_intervals.csv|、\verb|tables/tab_q3_intervals.csv|、\verb|tables/tab_q4_intervals.csv|、\verb|tables/tab_q5_intervals.csv| 和 \verb|results/result_registry.csv|。问题三、四、五的附件格式 benchmark 输出分别为 \verb|tables/result1_benchmark.xlsx|、\verb|tables/result2_benchmark.xlsx| 和 \verb|tables/result3_benchmark.xlsx|。
 
 \end{document}

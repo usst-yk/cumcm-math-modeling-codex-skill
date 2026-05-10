@@ -161,10 +161,20 @@ def check_real_case_2025_a(issues: list[str]) -> None:
         "src/plot_utils.py",
         "src/solve_q1.py",
         "src/solve_q2.py",
+        "src/solve_q3_q5.py",
         "tables/tab_q1_key_points.csv",
         "tables/tab_q1_intervals.csv",
         "tables/tab_q2_strategy.csv",
         "tables/tab_q2_intervals.csv",
+        "tables/tab_q3_strategy.csv",
+        "tables/tab_q3_intervals.csv",
+        "tables/tab_q4_strategy.csv",
+        "tables/tab_q4_intervals.csv",
+        "tables/tab_q5_strategy.csv",
+        "tables/tab_q5_intervals.csv",
+        "tables/result1_benchmark.xlsx",
+        "tables/result2_benchmark.xlsx",
+        "tables/result3_benchmark.xlsx",
         "figures/fig_problem_overview_xy.png",
         "figures/fig_problem_question_scope.png",
         "figures/fig_q1_model_schematic.png",
@@ -173,13 +183,26 @@ def check_real_case_2025_a(issues: list[str]) -> None:
         "figures/fig_q2_model_schematic.png",
         "figures/fig_q2_optimized_distance_geometry.png",
         "figures/fig_q2_sensitivity.png",
+        "figures/fig_q3_model_schematic.png",
+        "figures/fig_q3_result.png",
+        "figures/fig_q3_validation.png",
+        "figures/fig_q4_model_schematic.png",
+        "figures/fig_q4_result.png",
+        "figures/fig_q4_validation.png",
+        "figures/fig_q5_model_schematic.png",
+        "figures/fig_q5_result.png",
+        "figures/fig_q5_validation.png",
         "results/result_registry.csv",
         "results/validation_report.md",
         "results/validation_audit.md",
+        "results/benchmark_findings.md",
         "paper/main.tex",
         "paper/sections/problem_overview.tex",
         "paper/sections/q1.tex",
         "paper/sections/q2.tex",
+        "paper/sections/q3.tex",
+        "paper/sections/q4.tex",
+        "paper/sections/q5.tex",
     ]
     for rel in required:
         require(REAL_CASE_2025_A / rel, issues)
@@ -201,11 +224,20 @@ def check_real_case_2025_a(issues: list[str]) -> None:
             issues.append("2025 A real case result_registry.csv should contain R001")
         if "R002" not in ids:
             issues.append("2025 A real case result_registry.csv should contain R002")
+        for expected_id in ("R003", "R004", "R005"):
+            if expected_id not in ids:
+                issues.append(f"2025 A real case result_registry.csv should contain {expected_id}")
         values = {row.get("value") for row in rows}
         if "1.405510" not in values:
             issues.append("2025 A real case Q1 duration should stay traceable as 1.405510")
         if "4.723893" not in values:
             issues.append("2025 A real case Q2 duration should stay traceable as 4.723893")
+        if "4.740000" not in values:
+            issues.append("2025 A real case Q3 duration should stay traceable as 4.740000")
+        if "14.520000" not in values:
+            issues.append("2025 A real case Q4 duration should stay traceable as 14.520000")
+        if "M1=22.980000; M2=18.360000; M3=6.400000" not in values:
+            issues.append("2025 A real case Q5 durations should stay traceable")
         solved = {row.get("subquestion", "").lower() for row in rows}
         for question in sorted(q for q in solved if q.startswith("q")):
             figures = list((REAL_CASE_2025_A / "figures").glob(f"fig_{question}_*.*"))

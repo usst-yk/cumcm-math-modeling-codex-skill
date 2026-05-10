@@ -7,3 +7,8 @@ __pycache__/
 venv/
 dist/
 build/
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz

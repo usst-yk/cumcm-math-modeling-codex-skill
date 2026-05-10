@@ -1,0 +1,30 @@
+\section{问题四：三架无人机协同干扰 M1}
+
+问题四允许 FY1、FY2、FY3 三架无人机各投放一枚烟幕弹，对同一枚导弹 M1 实施干扰。与问题三相比，该问不再受同一无人机共享航向的限制，因此三架无人机可以分别选择速度、航向和时序。本文仍以 M1 的代表视线遮蔽并集时长为目标，采用固定随机种子的贪心边际覆盖策略：每加入一架无人机时，优先选择能补充当前未覆盖时间段的投放方案。
+
+三架无人机的策略结构见图 \ref{fig:q4-model-schematic}。FY1 主要覆盖早期遮蔽区间，FY2 和 FY3 分别补充中后段遮蔽，从而形成三个相对分离的有效遮蔽时间段。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.94\linewidth]{../figures/fig_q4_model_schematic.png}
+  \caption{问题四三机单弹协同示意。不同无人机通过不同航向和起爆时刻补充 M1 的未覆盖时间段。}
+  \label{fig:q4-model-schematic}
+\end{figure}
+
+由 \verb|tables/tab_q4_strategy.csv| 可知，FY1、FY2、FY3 的推荐速度分别为 \(86.332680\,\mathrm{m/s}\)、\(132.532210\,\mathrm{m/s}\)、\(125.616307\,\mathrm{m/s}\)，均满足题设速度范围。对应的并集遮蔽区间为 \(3.440000\sim 8.100000\,\mathrm{s}\)、\(21.820000\sim 26.240000\,\mathrm{s}\)、\(28.700000\sim 34.080000\,\mathrm{s}\)，总有效遮蔽时长为 \(14.520000\,\mathrm{s}\)。时间轴结果见图 \ref{fig:q4-result}。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{../figures/fig_q4_result.png}
+  \caption{问题四三架无人机对 M1 的有效遮蔽时间轴。三段绿色区间分别对应三架无人机形成的主要遮蔽贡献。}
+  \label{fig:q4-result}
+\end{figure}
+
+图 \ref{fig:q4-validation} 给出了速度约束裕度和起爆高度检查。三架无人机的速度均在允许范围内，起爆高度均大于 0，说明该 benchmark 策略满足基本可行性约束。由于这里仍使用贪心边际覆盖而非全局优化，论文中应表述为“搜索得到的可行优选方案”，不应表述为已证明的全局最优方案。
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{../figures/fig_q4_validation.png}
+  \caption{问题四速度约束和起爆高度检查。该图用于验证三架无人机策略的基本可行性。}
+  \label{fig:q4-validation}
+\end{figure}
