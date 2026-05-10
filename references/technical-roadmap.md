@@ -4,17 +4,21 @@ Use this reference for 技术路线图, 技术路线, 流程图, 流程框图, o
 
 ## Priority
 
-For contest-final or paper-final diagrams, use GPT-image by default.
+For contest-final or paper-final diagrams, use GPT-image by default when a
+polished bitmap figure is needed. When the diagram must be edited repeatedly,
+create an editable Mermaid (`.mmd`), Graphviz DOT (`.dot`), or SVG source first,
+then export it to SVG/PDF/PNG.
 
 Save:
 
 - `modeling/qx_model_flow_prompt.md` or `modeling/flowcharts/qx_model_flow_prompt.md`:
   the Chinese diagram brief, node list, arrow logic, caption, and paper
   explanation.
-- `figures/fig_qx_model_flow.png`: the GPT-image model flowchart used in the
-  paper.
-- `figures/fig_route_overview.png`: the GPT-image technical roadmap for the
-  full paper or multi-question route.
+- editable `.mmd`, `.dot`, or `.svg` source beside the exported image when an
+  editable workflow is used.
+- `figures/fig_qx_model_flow.png`: the final model flowchart used in the paper.
+- `figures/fig_route_overview.png`: the technical roadmap for the full paper or
+  multi-question route.
 
 ## Technical Roadmap Structure
 
@@ -46,6 +50,13 @@ Task-specific additions:
 - Evaluation: indicator direction, normalization, weighting, score/ranking, ranking stability.
 - Simulation: state variables, transition rules, parameter estimation, repeated runs, boundary cases.
 
+## Style
+
+- Use a light background, high-contrast text, restrained colors, rectangular nodes, clear arrows, and no decorative icons.
+- Size node text for the final paper canvas; labels should remain near body-text size after insertion.
+- If labels overlap, remove nodes or shorten labels before shrinking text.
+- Output a Chinese caption and one paper explanation paragraph with every diagram.
+
 ## GPT-Image Brief Requirements
 
 Write the prompt before generating the image. Include:
@@ -60,3 +71,15 @@ Write the prompt before generating the image. Include:
 
 After generation, inspect the image. If labels, arrows, or node order are wrong,
 regenerate rather than silently using the flawed image.
+
+## Mermaid Starter
+
+```mermaid
+flowchart LR
+  A["题目任务"] --> B["数据与指标"]
+  B --> C["建模思路"]
+  C --> D["核心模型"]
+  D --> E["模型求解"]
+  E --> F["验证分析"]
+  F --> G["结论输出"]
+```

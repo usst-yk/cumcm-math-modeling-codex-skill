@@ -36,6 +36,9 @@ FULL_DIRS = [
     "notebooks",
     "results/sensitivity",
     "figures",
+    "figures/ai_briefs",
+    "presentation",
+    "presentation/figures",
     "tables",
     "tables/data_profile",
     "paper",
@@ -105,6 +108,8 @@ def main() -> int:
     copy_file(templates / "refs.bib", project_dir / "paper" / "refs.bib", args.overwrite)
     copy_file(templates / "appendix_code.md", project_dir / "appendix" / "code-template.md", args.overwrite)
     copy_file(templates / "run_log.md", project_dir / "logs" / "run_log.md", args.overwrite)
+    copy_file(templates / "ai_usage_statement.md", project_dir / "appendix" / "ai-usage-statement.md", args.overwrite)
+    copy_file(templates / "ai_figure_brief.md", project_dir / "figures" / "ai_briefs" / "ai_figure_brief_template.md", args.overwrite)
 
     write_text(project_dir / "logs" / "error_log.md", "# Error Log\n\nNo errors recorded yet.", args.overwrite)
     write_text(
@@ -125,7 +130,10 @@ def main() -> int:
                 "- `src/`: deterministic scripts, named by subquestion when possible.",
                 "- `notebooks/`: optional exploration notebooks.",
                 "- `results/`: result registry, validation report, and sensitivity outputs.",
-                "- `figures/`: code-generated paper figures and GPT-image roadmap outputs.",
+                "- `figures/`: code-generated paper figures, GPT-image outputs, and editable roadmap exports.",
+                "- `figures/ai_briefs/`: AI figure briefs that require human review.",
+                "- `presentation/`: optional HTML/PPT-style presentation assets for final sharing.",
+                "- `presentation/figures/`: presentation-specific figure copies or exports.",
                 "- `tables/`: generated result tables and data audit tables.",
                 "- `paper/`: single TeX paper entry `main.tex`, references, and compiled PDF.",
                 "- `appendix/`: appendix code and supplemental material.",

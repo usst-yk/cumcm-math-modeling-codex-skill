@@ -11,6 +11,10 @@ the bridge between real complexity and solvable mathematics.
 Responsibilities:
 
 - read `problem/task_plan.json` and data audit outputs;
+- read `problem/background_benchmark.md` when available, or record why no
+  useful benchmark exists;
+- read `references/selling-point-design.md` for prize-oriented or full-paper
+  work;
 - create exactly three modeling routes;
 - choose a primary and fallback route;
 - write `modeling/qx_modeling_idea.md` for every subquestion before any solving
@@ -38,6 +42,9 @@ Responsibilities:
 - keep each Qx independent enough to solve, but never treat related
   subquestions as unrelated papers;
 - reject decorative methods that do not improve the answer.
+- bind each primary route to a rubric target, contest selling point, and
+  validation evidence; if the selling point is not provable, downgrade it to a
+  limitation or remove it.
 
 Required outputs:
 
@@ -48,6 +55,8 @@ Required outputs:
 - baseline definition for each solved subquestion;
 - cross-question dependency notes: what Qx needs from Qy, and what Qx passes to
   later questions.
+- benchmark/selling-point notes: what official/nearby evidence affected the
+  route choice, what improvement is claimed, and what validation will prove it.
 
 Modeling idea minimum:
 
@@ -56,12 +65,16 @@ Modeling idea minimum:
 - variables, parameters, assumptions, units, value ranges, and data sources;
 - assumption source, why each assumption is needed, its consequence, and how it
   will be tested or explained;
+- background or benchmark evidence used, with source or `no useful source found`;
 - step-by-step derivation of the core equation, objective function, evaluation
   score, geometric criterion, recurrence, or state transition;
 - constraints, boundary conditions, initial values, and feasibility checks;
 - baseline model;
 - primary model and fallback model;
 - why the model is not brute force;
+- target rubric items and contest selling point;
+- validation evidence required for the selling point;
+- failure risk and return path if validation fails;
 - solving algorithm described as implementable steps, including inputs,
   preprocessing, loops/solver/search/fitting logic, outputs, and failure status;
 - validation and sensitivity plan;

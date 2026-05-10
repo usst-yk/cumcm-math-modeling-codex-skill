@@ -1,0 +1,4 @@
+﻿parameter,value,unit,meaning
+known_refractive_index,2.550000,1,synthetic mini benchmark constant refractive index
+true_thickness,8.000000,um,known synthetic thickness for regression testing
+tolerance,0.050000,um,maximum allowed absolute error

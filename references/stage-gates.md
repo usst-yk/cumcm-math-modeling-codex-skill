@@ -6,6 +6,20 @@ For lightweight single-question work, apply the same checks mentally but do not
 create empty templates or logs just to satisfy a gate. Save only the necessary
 result files.
 
+## Supervised Gate Output
+
+For supervised, full-problem, or first-prize-level work, each gate should output
+one of:
+
+- `pass`: continue and record the evidence.
+- `revise`: return to the named owner stage with a concrete fix and recheck
+  evidence.
+- `block`: stop or downgrade scope because a required fact, data file, result,
+  or validation item is missing.
+
+Use `agents/supervisor.md` for the decision. A supervisor finding must name:
+owner, issue, expected fix, target rubric item, and evidence needed for recheck.
+
 ## Stage 0 -> Stage 1: Problem Parser To Coordinator
 
 Do not build the task plan until:
@@ -23,7 +37,24 @@ Do not start modeling until:
 - `problem/task_plan.json` exists or an equivalent task table has been written;
 - assumptions and ambiguity points are separated from facts.
 
-## Stage 2 -> Stage 3: Data Auditor To Modeler
+## Stage 1 -> Stage 2.5: Coordinator To Background Researcher
+
+For full-problem, supervised, or first-prize-level work, do not finalize the
+main route until:
+
+- at least one official/nearby case, official commentary source, high-quality
+  paper example, domain report, standard, or method reference has been checked
+  when available;
+- `problem/background_benchmark.md` exists or the benchmark search was recorded
+  as unavailable with search scope and reason;
+- transferable mechanisms, common failure modes, validation clues, and figure
+  ideas are listed;
+- unsafe borrowed ideas are marked as reference only, not copied as claims.
+
+For urgent single-question work, keep this as a short benchmark note instead of
+creating a file.
+
+## Stage 2 -> Stage 3: Data Auditor / Background Researcher To Modeler
 
 Do not finalize routes until:
 
@@ -31,6 +62,8 @@ Do not finalize routes until:
 - excluded sheets/tables have written reasons;
 - row counts, time ranges, and reconstructed entities are compared with the problem statement;
 - missing values, duplicate keys, obvious outliers, and unit risks are recorded.
+- the modeler has seen either the background benchmark or a written reason why
+  no useful external benchmark is available;
 
 ## Stage 3 -> Stage 4: Modeler To Solver
 
@@ -41,9 +74,15 @@ Do not enter Solver until:
 - every selected model has variables, objective/evaluation criterion, constraints, input data, output tables/figures, and validation plan;
 - every selected model explains the derivation and solution procedure step by
   step, not only the final formulas;
+- every selected route names benchmark evidence or an explicit gap, a target
+  rubric item, a selling point, and the validation that would prove the selling
+  point is not cosmetic;
+- each Qx model card records a failure risk and where to return if validation
+  fails: Modeler, Solver, Data Auditor, or Writer;
 - a GPT-image model flowchart prompt path in `modeling/` or `modeling/flowcharts/` is
   planned, unless a written reason says a flowchart would be misleading;
-- `modeling/qx_modeling_idea.md` exists for the subquestions being solved.
+- `modeling/qx_modeling_idea.md` / Qx model cards exist for the subquestions
+  being solved.
 
 ## Stage 4 -> Stage 5: Solver To Validator
 
@@ -61,6 +100,8 @@ Do not validate final conclusions until:
   or `results/result_registry.csv`;
 - run commands are stated in the final answer or recorded in `logs/run_log.md`;
 - solver status, random seed, or failure status is recorded when relevant.
+- baseline-vs-main comparison, small-case hand check, boundary check, or
+  constraint violation check exists for any headline improvement claim.
 
 ## Stage 5 -> Stage 6: Validator To Writer
 
@@ -72,6 +113,8 @@ Do not write final paper text until:
 - the final modeling idea matches the code path, output tables, and generated
   figures;
 - sensitivity analysis is based on actual perturbation or a reproducible perturbation plan.
+- validation failures that overturn the conclusion are sent back to Modeler or
+  Solver, not softened into prose.
 
 ## Stage 6 -> Stage 7: Writer To Paper Assembler
 
@@ -89,6 +132,10 @@ Do not write the final abstract or enter final review until:
   variables, parameters, results, or strategy outputs.
 - `paper/main.tex` explains the code-verified final modeling idea, not an
   obsolete pre-code plan.
+- each solved Qx section makes its contribution visible in one restrained
+  sentence and ties that contribution to a figure, table, or validation result;
+- paper prose passes the anti-template writing rules in
+  `references/paper-writing.md`.
 
 ## Stage 7 -> Stage 8: Paper Assembler To Abstract Writer
 
@@ -109,6 +156,10 @@ Do not enter final review until:
 - assumptions are used in the model or removed;
 - paper references to figures/tables point to existing artifacts;
 - appendix lists main script, inputs, outputs, dependencies, seed, and run command.
+- AI-assisted figures, text, code, or references are declared according to
+  `references/ai-compliance-reproducibility.md` when applicable;
+- AI-generated schematic figures are clearly marked as schematic/conceptual and
+  have passed human math/physics/data consistency review.
 
 ## Human-In-The-Loop
 

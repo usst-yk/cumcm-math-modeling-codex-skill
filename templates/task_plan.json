@@ -1,6 +1,25 @@
 {
   "contest": "CUMCM",
   "problem_id": "",
+  "benchmark_sources": [
+    {
+      "source": "official or nearby benchmark case",
+      "use": "compare task type, validation depth, and figure/paper expectations",
+      "status": "to_collect"
+    }
+  ],
+  "rubric_targets": [
+    {
+      "criterion": "problem_coverage",
+      "target": "cover every required output and constraint",
+      "evidence": "task plan, model card, and result registry"
+    },
+    {
+      "criterion": "validation",
+      "target": "include baseline, feasibility, sensitivity, or error checks as appropriate",
+      "evidence": "validation report and generated figures"
+    }
+  ],
   "question_count": 3,
   "subquestions": [
     {
@@ -22,9 +41,34 @@
         "compare with a baseline",
         "state limitations and uncertainty"
       ],
+      "benchmark_sources": [],
+      "rubric_targets": [
+        "problem_coverage",
+        "baseline",
+        "validation",
+        "traceability"
+      ],
+      "selling_points": [
+        {
+          "claim": "State one contest-facing improvement after the model route is chosen.",
+          "evidence": "Link to a table, figure, validation check, or registered result.",
+          "figure_or_table": "",
+          "validation": ""
+        }
+      ],
+      "revision_status": {
+        "state": "draft",
+        "owner": "",
+        "next_action": "complete required outputs, route comparison, and validation plan"
+      },
       "status": "draft"
     }
   ],
   "global_assumptions": [],
-  "risk_points": []
+  "risk_points": [],
+  "revision_status": {
+    "state": "draft",
+    "owner": "",
+    "next_action": "confirm benchmark sources and rubric targets before final route freeze"
+  }
 }

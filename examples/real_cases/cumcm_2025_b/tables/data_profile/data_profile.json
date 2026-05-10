@@ -1,0 +1,50 @@
+[
+  {
+    "source_path": "C:\\Users\\h2pja\\Desktop\\工作目录\\20260510\\cumcm-math-modeling-codex-skill\\examples\\real_cases\\cumcm_2025_b\\data\\raw\\sic_10deg_synthetic.csv",
+    "file": "sic_10deg_synthetic.csv",
+    "sheet": "sic_10deg_synthetic",
+    "rows": 3001,
+    "columns": 2,
+    "column_names": [
+      "wavenumber_cm^-1",
+      "reflectance_pct"
+    ],
+    "numeric_columns": [
+      "wavenumber_cm^-1",
+      "reflectance_pct"
+    ],
+    "categorical_columns": [],
+    "time_columns": [],
+    "spatial_columns": [],
+    "key_candidates": [
+      "wavenumber_cm^-1",
+      "reflectance_pct"
+    ],
+    "signature": "wavenumber_cm^-1|reflectance_pct",
+    "empty": false
+  },
+  {
+    "source_path": "C:\\Users\\h2pja\\Desktop\\工作目录\\20260510\\cumcm-math-modeling-codex-skill\\examples\\real_cases\\cumcm_2025_b\\data\\raw\\sic_15deg_synthetic.csv",
+    "file": "sic_15deg_synthetic.csv",
+    "sheet": "sic_15deg_synthetic",
+    "rows": 3001,
+    "columns": 2,
+    "column_names": [
+      "wavenumber_cm^-1",
+      "reflectance_pct"
+    ],
+    "numeric_columns": [
+      "wavenumber_cm^-1",
+      "reflectance_pct"
+    ],
+    "categorical_columns": [],
+    "time_columns": [],
+    "spatial_columns": [],
+    "key_candidates": [
+      "wavenumber_cm^-1",
+      "reflectance_pct"
+    ],
+    "signature": "wavenumber_cm^-1|reflectance_pct",
+    "empty": false
+  }
+]

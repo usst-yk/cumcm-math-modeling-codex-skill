@@ -16,6 +16,48 @@
     "problem_id": {
       "type": "string"
     },
+    "benchmark_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source",
+          "use"
+        ],
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "use": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "rubric_targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "criterion",
+          "target"
+        ],
+        "properties": {
+          "criterion": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "evidence": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "question_count": {
       "type": "integer",
       "minimum": 1
@@ -96,6 +138,56 @@
               "type": "string"
             }
           },
+          "benchmark_sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rubric_targets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "selling_points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "claim",
+                "evidence"
+              ],
+              "properties": {
+                "claim": {
+                  "type": "string"
+                },
+                "evidence": {
+                  "type": "string"
+                },
+                "figure_or_table": {
+                  "type": "string"
+                },
+                "validation": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "revision_status": {
+            "type": "object",
+            "properties": {
+              "state": {
+                "type": "string"
+              },
+              "owner": {
+                "type": "string"
+              },
+              "next_action": {
+                "type": "string"
+              }
+            }
+          },
           "status": {
             "type": "string"
           }
@@ -112,6 +204,20 @@
       "type": "array",
       "items": {
         "type": "string"
+      }
+    },
+    "revision_status": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "next_action": {
+          "type": "string"
+        }
       }
     }
   }

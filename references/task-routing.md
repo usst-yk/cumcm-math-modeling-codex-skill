@@ -12,6 +12,7 @@ communication natural; do not expose commands unless the user asks.
 | CUMCM A problem or engineering/physics problem | `references/cumcm-a-problem-patterns.md`, `references/method-cards.json`, `references/problem-routing.md` |
 | Parse problem statement | `agents/problem_parser.md`, `references/problem-parsing.md`, `scripts/problem_parser.py` |
 | Read and decompose a problem | parse first, then `scripts/build_task_plan.py`, `agents/coordinator.md`, `references/problem-routing.md` |
+| Prize-oriented route design or benchmark comparison | `agents/background_researcher.md`, `references/literature-research.md`, `references/official-benchmark.md`, `references/first-prize-rubric.md`, record `benchmark_sources`, `rubric_targets`, and `selling_points` in the task plan |
 | Only one subquestion | `references/task-modes.md`, `references/problem-routing.md`, `references/correctness-ladder.md` |
 | Single-question paper | `references/task-modes.md`, `references/paper-writing.md`, `references/result-tracking.md` |
 | Data attachments present | `scripts/data_profile.py`, `references/data-audit.md` |
@@ -22,10 +23,13 @@ communication natural; do not expose commands unless the user asks.
 | Code/tables/figures to paper | `references/code-to-paper.md`, `references/result-tracking.md`, `agents/writer.md` |
 | Final abstract | `agents/abstract_writer.md`, `references/paper-writing.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
 | Conclusion or polishing | `references/paper-writing.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
-| Technical roadmap or model flowchart | `references/technical-roadmap.md`; generate with GPT-image |
+| Technical roadmap or model flowchart | `references/technical-roadmap.md`; use GPT-image for paper-final outputs and `scripts/make_roadmap_svg.py` when editable source is needed |
+| AI schematic figure brief | `references/ai-figure-brief.md`, `scripts/export_ai_figure_briefs.py` |
+| Progress dashboard | `references/progress-dashboard.md`, `scripts/update_progress.py` |
+| HTML presentation | `references/html-presentation.md`, `scripts/build_presentation.py` |
 | Figure standards | `references/figure-standards.md`, optionally `scripts/make_paper_figures.py` |
-| Final judge review | `references/final-review.md`, `references/final-checklist.md`, `agents/reviewer.md` |
-| Safety or anti-fabrication concern | `references/safety-rules.md` |
+| Final judge review | `references/final-review.md`, `references/final-checklist.md`, `agents/reviewer.md`; supervised mode also uses `agents/supervisor.md` |
+| Safety, AI compliance, or anti-fabrication concern | `references/safety-rules.md`, `references/ai-compliance-reproducibility.md` |
 
 ## Routing Principles
 
@@ -52,6 +56,8 @@ communication natural; do not expose commands unless the user asks.
 - For paper text with numbers, use the result registry before writing final
   claims.
 - For route design, give three routes and choose a primary route plus fallback.
+- For full-problem or prize-oriented work, name benchmark sources, rubric targets,
+  and contest selling points before freezing the main route.
 - When a task type is clear, use `references/method-cards.json` as the compact
   method checklist before reading the longer method library.
 - For roadmap or flowchart requests, use GPT-image by default and record the
