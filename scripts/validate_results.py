@@ -64,6 +64,15 @@ def audit_registry(root: Path, registry: pd.DataFrame) -> list[str]:
         blocked = registry[registry[status_col].astype(str).str.lower().isin(["blocked", "failed"])]
         if not blocked.empty:
             issues.append(f"P1: registry contains {len(blocked)} blocked/failed result row(s).")
+    if "claim" in registry.columns:
+        evidence_cols = [col for col in ["solver_status", "validation", "notes"] if col in registry.columns]
+        for idx, row in registry.iterrows():
+            claim = str(row.get("claim", ""))
+            if not re.search(r"最优|最小|最大|optimal|optimum", claim, flags=re.IGNORECASE):
+                continue
+            evidence = " ".join(str(row.get(col, "")) for col in evidence_cols)
+            if not re.search(r"solver|status|可行|feasible|约束|violation", evidence, flags=re.IGNORECASE):
+                issues.append(f"P2: registry row {idx + 1} claims optimality without solver/feasibility evidence.")
     return issues
 
 
@@ -79,6 +88,8 @@ def audit_tables(root: Path) -> list[str]:
             continue
         if df.empty:
             issues.append(f"P2: empty table: {path.relative_to(root)}")
+        if df.isna().any().any():
+            issues.append(f"P2: table contains NaN/blank cells: {path.relative_to(root)}")
         numeric = df.select_dtypes(include="number")
         if not numeric.empty:
             bad = numeric.isin([float("inf"), float("-inf")]).any().any()
