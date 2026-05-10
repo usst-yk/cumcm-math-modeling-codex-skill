@@ -83,12 +83,3 @@ examples/real_cases/cumcm_2025_a/
 `single_question_minimal/` 展示“只做一问”时最小输出。
 `full_problem_demo/` 展示完整交付形态。
 `cumcm_2025_a/` 是 2025 年国赛 A 题真实案例，不是标准答案。
-
-## 维护者自检
-
-普通学生不需要运行这些命令。维护 skill 时可以运行：
-
-```text
-python3 scripts/run_skill_evals.py
-python3 scripts/check_skill_structure.py
-```
