@@ -193,6 +193,12 @@
 examples/single_question_minimal/
 ```
 
+真实赛题 benchmark 参考：
+
+```text
+examples/real_cases/huadong_cup_a/
+```
+
 ## 6. 写代码求解
 
 适合模型方向已经确定，需要开始计算。

@@ -1,0 +1,113 @@
+{
+  "contest": "华东杯",
+  "problem_id": "huadong_cup_a",
+  "question_count": 2,
+  "subquestions": [
+    {
+      "id": "Q1",
+      "task_type": "optimization",
+      "required_output": [
+        "3 类游客 x 3 类日期的游览路线建议",
+        "路线体验得分、项目数、排队时间、候场时间、步行时间和结束时间",
+        "与贪心基线的对比"
+      ],
+      "input_data": [
+        "problem/problem_statement.md",
+        "data/raw/benchmark_activities.csv"
+      ],
+      "decision_object": "游客在有限时间内访问的项目顺序",
+      "constraints": [
+        "游览时段 09:00-21:00",
+        "固定演出必须按时间窗参加",
+        "项目不可重复访问",
+        "排队、步行、候场、体验和休整时间计入总时间"
+      ],
+      "validation": [
+        "feasibility check",
+        "time-window check",
+        "baseline scheme comparison"
+      ],
+      "figures_needed": [
+        "fig_q1_model_schematic.png",
+        "fig_q1_result.png",
+        "fig_q1_validation.png"
+      ],
+      "tables_needed": [
+        "tab_q1_summary.csv",
+        "tab_q1_routes.csv",
+        "tab_q1_baseline_comparison.csv"
+      ],
+      "baseline_route": "按单位时间效用最高的项目贪心选线，作为可手查的路线基线。",
+      "primary_route": "建立带排队、步行、时间窗和偏好效用的定向游憩路线模型，用分钟级动态规划搜索 best-found 路线。",
+      "fallback_route": "若候选项目过多导致搜索不稳定，则按游客偏好阈值筛选核心项目，再用贪心基线补足路线。",
+      "minimum_validation": [
+        "所有路线结束时间不超过 21:00",
+        "固定演出时间窗可行",
+        "与贪心基线比较得分和项目数"
+      ],
+      "status": "solved",
+      "parse_source": "problem_parse.json"
+    },
+    {
+      "id": "Q2",
+      "task_type": "optimization",
+      "required_output": [
+        "实时排队更新后的剩余路线调整结果",
+        "保持原剩余路线与重规划路线的等待时间和得分差异",
+        "新增和删除项目清单"
+      ],
+      "input_data": [
+        "tables/tab_q1_routes.csv",
+        "data/raw/realtime_wait_updates.csv",
+        "data/raw/benchmark_activities.csv"
+      ],
+      "decision_object": "13:30 后未完成项目的重规划访问顺序",
+      "constraints": [
+        "已完成项目锁定",
+        "正在体验的项目完成后再重规划",
+        "固定演出仍需满足时间窗",
+        "剩余路线不超过 21:00"
+      ],
+      "validation": [
+        "baseline comparison with unchanged remaining route",
+        "feasibility check",
+        "queue-time sensitivity"
+      ],
+      "figures_needed": [
+        "fig_q2_model_schematic.png",
+        "fig_q2_result.png",
+        "fig_q2_validation.png"
+      ],
+      "tables_needed": [
+        "tab_q2_realtime_waits.csv",
+        "tab_q2_adjustment_summary.csv",
+        "tab_q2_adjusted_routes.csv"
+      ],
+      "baseline_route": "保持问题 1 原剩余路线，只用实时排队时间重新计算得分和等待时间。",
+      "primary_route": "锁定已完成项目后，用同一效用函数和实时排队扰动重新搜索剩余路线。",
+      "fallback_route": "若实时数据缺失，仅对排队突增项目做局部跳过或替换，并保留固定演出时间窗。",
+      "minimum_validation": [
+        "比较保持原路线与重规划路线",
+        "检查新增路线的时间窗和闭园时间",
+        "记录项目集合变化"
+      ],
+      "status": "solved",
+      "parse_source": "problem_parse.json"
+    }
+  ],
+  "global_assumptions": [
+    "本案例没有官方附件，所有基准排队、效用、坐标和实时扰动均为透明 benchmark 数据。",
+    "benchmark 开园时段统一设为 09:00-21:00。",
+    "体验得分用于模型比较，不代表实际满意度评分。"
+  ],
+  "risk_points": [
+    "不能把 benchmark 数据说成官方数据。",
+    "不能声称路线是实际园区实时最优路线。",
+    "实时重规划必须锁定已完成项目。"
+  ],
+  "source_excerpt": "",
+  "warnings": [
+    "题面没有官方附件，数值结果仅用于 skill benchmark。",
+    "规则解析曾误切 Q2 中的“问题 1 给出的规划路线”，已人工修正为 2 问。"
+  ]
+}

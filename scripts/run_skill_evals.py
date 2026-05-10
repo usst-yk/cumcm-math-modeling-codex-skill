@@ -15,6 +15,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 DEMO = ROOT / "examples" / "full_problem_demo"
 REAL_CASE_2025_A = ROOT / "examples" / "real_cases" / "cumcm_2025_a"
+REAL_CASE_HUADONG_A = ROOT / "examples" / "real_cases" / "huadong_cup_a"
 CHECK_FIGURE_TYPES = {"prediction", "optimization", "evaluation", "simulation", "scheduling"}
 
 PARSER_EXPECTATIONS = {
@@ -291,6 +292,77 @@ def check_full_paper_structure(root: Path, label: str, issues: list[str], min_ch
     top_sections = re.findall(r"\\section\{([^}]+)\}", main_text)
     if len(top_sections) < 8:
         issues.append(f"{label} should have a complete paper section structure, not only Qx inputs")
+
+
+def check_real_case_huadong_a(issues: list[str]) -> None:
+    required = [
+        "README.md",
+        "problem/problem_statement.pdf",
+        "problem/problem_statement.md",
+        "problem/problem_parse.json",
+        "problem/problem_parse.md",
+        "problem/task_plan.json",
+        "problem/task_plan.md",
+        "data/raw/benchmark_activities.csv",
+        "data/raw/realtime_wait_updates.csv",
+        "src/plot_utils.py",
+        "src/solve_routes.py",
+        "tables/tab_q1_summary.csv",
+        "tables/tab_q1_routes.csv",
+        "tables/tab_q1_baseline_comparison.csv",
+        "tables/tab_q2_realtime_waits.csv",
+        "tables/tab_q2_adjustment_summary.csv",
+        "tables/tab_q2_adjusted_routes.csv",
+        "figures/fig_problem_overview.png",
+        "figures/fig_q1_model_schematic.png",
+        "figures/fig_q1_result.png",
+        "figures/fig_q1_validation.png",
+        "figures/fig_q2_model_schematic.png",
+        "figures/fig_q2_result.png",
+        "figures/fig_q2_validation.png",
+        "results/result_registry.csv",
+        "results/validation_report.md",
+        "paper/main.md",
+        "paper/sections/q1.md",
+        "paper/sections/q2.md",
+    ]
+    for rel in required:
+        require(REAL_CASE_HUADONG_A / rel, issues)
+
+    task_plan = REAL_CASE_HUADONG_A / "problem" / "task_plan.json"
+    if task_plan.exists():
+        plan = json.loads(task_plan.read_text(encoding="utf-8"))
+        if plan.get("question_count") != 2:
+            issues.append("Huadong Cup A benchmark should contain exactly 2 subquestions")
+        score_task_plan_quality(plan, "Huadong Cup A benchmark task_plan.json", issues, min_score=11)
+
+    q1_summary = REAL_CASE_HUADONG_A / "tables" / "tab_q1_summary.csv"
+    q2_summary = REAL_CASE_HUADONG_A / "tables" / "tab_q2_adjustment_summary.csv"
+    if q1_summary.exists():
+        with q1_summary.open(newline="", encoding="utf-8-sig") as handle:
+            rows = list(csv.DictReader(handle))
+        if len(rows) != 9:
+            issues.append("Huadong Cup A Q1 summary should contain 9 visitor-date scenarios")
+        if not any(row.get("persona") == "家庭亲子游" and row.get("day_type") == "节假日" and row.get("activity_count_without_rest") == "9" for row in rows):
+            issues.append("Huadong Cup A holiday family benchmark should keep 9 non-rest experiences")
+    if q2_summary.exists():
+        with q2_summary.open(newline="", encoding="utf-8-sig") as handle:
+            rows = list(csv.DictReader(handle))
+        if len(rows) != 9:
+            issues.append("Huadong Cup A Q2 summary should contain 9 visitor-date scenarios")
+        changed = sum(1 for row in rows if int(float(row.get("changed_activity_count", 0))) > 0)
+        if changed != 6:
+            issues.append("Huadong Cup A Q2 should keep 6 changed scenarios")
+
+    registry = REAL_CASE_HUADONG_A / "results" / "result_registry.csv"
+    if registry.exists():
+        with registry.open(newline="", encoding="utf-8-sig") as handle:
+            rows = list(csv.DictReader(handle))
+        values = {row.get("id"): row.get("value") for row in rows}
+        expected = {"R001": "16.74", "R002": "9", "R003": "19.67", "R004": "6"}
+        for key, value in expected.items():
+            if values.get(key) != value:
+                issues.append(f"Huadong Cup A registry {key} should stay traceable as {value}")
 
 
 def check_folder_indexes(issues: list[str]) -> None:
@@ -720,6 +792,7 @@ def main() -> int:
     check_official_cases(issues)
     check_demo(issues)
     check_real_case_2025_a(issues)
+    check_real_case_huadong_a(issues)
     check_eval_prompts(issues)
     check_parser_cases(issues)
     if issues:

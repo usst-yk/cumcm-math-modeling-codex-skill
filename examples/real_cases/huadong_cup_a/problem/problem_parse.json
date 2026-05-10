@@ -1,0 +1,133 @@
+{
+  "contest": "华东杯",
+  "problem_id": "huadong_cup_a",
+  "question_count": 2,
+  "attachments": [],
+  "units": [
+    "分钟",
+    "米"
+  ],
+  "time_ranges": [
+    "工作日",
+    "双休日",
+    "节假日",
+    "09:00-21:00"
+  ],
+  "risk_words": [
+    "不同类别",
+    "分别",
+    "工作日",
+    "双休日",
+    "节假日",
+    "实时",
+    "排队",
+    "规划",
+    "调整",
+    "给出"
+  ],
+  "subquestions": [
+    {
+      "id": "Q1",
+      "title": "问题 1",
+      "text": "请为不同类别的游客（普通游客、家庭亲子游、情侣游）分别给出工作日、双休日、节假日的游览路线规划建议。",
+      "task_type": "optimization",
+      "input_data": [
+        "题面给出的七大主题园区、项目类型、固定演出与游客类型",
+        "data/raw/benchmark_activities.csv：项目位置、体验时长、时间窗、偏好效用和基准排队时长"
+      ],
+      "required_output": [
+        "普通游客、家庭亲子游、情侣游三类游客的路线建议",
+        "工作日、双休日、节假日三类日期场景的路线建议",
+        "路线总等待、步行、体验时长和体验得分"
+      ],
+      "decision_object": "带排队时间、步行时间、偏好效用和固定演出时间窗的游览项目访问顺序",
+      "constraints": [
+        "benchmark 游览时段设为 09:00-21:00",
+        "固定演出只能在基准时间窗开始",
+        "项目在同一路线中不重复访问",
+        "排队、步行、候场、体验和休整时间均计入总时间"
+      ],
+      "units": [
+        "分钟",
+        "米"
+      ],
+      "time_ranges": [
+        "工作日",
+        "双休日",
+        "节假日",
+        "09:00-21:00"
+      ],
+      "attachments": [],
+      "implicit_scoring_points": [
+        "baseline scheme comparison",
+        "feasibility check",
+        "time-window check",
+        "paper-readable Chinese figures",
+        "traceable result tables"
+      ],
+      "risk_words": [
+        "不同类别",
+        "分别",
+        "工作日",
+        "双休日",
+        "节假日",
+        "规划",
+        "给出"
+      ],
+      "warnings": [
+        "题面未给官方附件数据；本案例使用透明 benchmark 数据，不作为官方或实时运营数据"
+      ]
+    },
+    {
+      "id": "Q2",
+      "title": "问题 2",
+      "text": "游客在游览时，可以通过手机 APP 实时查询各游览项目的排队情况。请根据实时排队情况，对问题 1 给出的规划路线进行调整。",
+      "task_type": "optimization",
+      "input_data": [
+        "问题 1 的初始路线结果",
+        "data/raw/realtime_wait_updates.csv：13:30 APP 实时排队扰动 benchmark",
+        "data/raw/benchmark_activities.csv：剩余项目位置、时长、效用和时间窗"
+      ],
+      "required_output": [
+        "锁定已完成项目后的剩余路线调整方案",
+        "保持原剩余路线与实时重规划路线的等待时间和得分对比",
+        "新增、删除或保留的项目清单"
+      ],
+      "decision_object": "在实时排队信息更新后，对未完成游览项目的访问顺序重新规划",
+      "constraints": [
+        "已完成项目不能回退",
+        "正在体验的项目在结束后再触发重规划",
+        "固定演出仍需满足时间窗",
+        "剩余路线不得超过 21:00"
+      ],
+      "units": [
+        "分钟",
+        "米"
+      ],
+      "time_ranges": [
+        "13:30 实时复核",
+        "09:00-21:00"
+      ],
+      "attachments": [],
+      "implicit_scoring_points": [
+        "baseline comparison with unchanged remaining route",
+        "feasibility check",
+        "queue-time sensitivity",
+        "traceable adjusted route tables"
+      ],
+      "risk_words": [
+        "实时",
+        "排队",
+        "调整",
+        "问题 1"
+      ],
+      "warnings": [
+        "题面未指定实时排队样例；本案例用固定扰动表作为可复现 benchmark"
+      ]
+    }
+  ],
+  "warnings": [
+    "题面未提供官方附件或排队数据；benchmark 数据全部保存在 data/raw/ 下。",
+    "原规则解析会把“问题 1 给出的规划路线”误切为新问题，已人工核对为 2 个问题。"
+  ]
+}
