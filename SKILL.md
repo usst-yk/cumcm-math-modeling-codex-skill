@@ -35,7 +35,9 @@ Lean output means fewer templates, not fewer figures. Read
 - Paper quality before speed: for final papers, a slow but complete TeX paper
   is better than a quick thin report.
 - Full route design defaults to three routes: baseline, primary route, fallback.
-  For urgent or single-question work, keep the same logic but stay concise.
+  For urgent or single-question work, keep the same modeling logic and reduce
+  only unnecessary project files; do not thin the paper section when the user
+  asks for paper text.
 - Before writing a full paper, follow the staged usage logic in
   `examples/README.md`: parse -> compare routes -> deepen the model through
   multiple rounds -> solve -> validate -> write body -> write abstract last.
