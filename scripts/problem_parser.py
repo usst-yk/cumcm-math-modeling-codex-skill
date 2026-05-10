@@ -14,6 +14,7 @@ from pathlib import Path
 
 
 CHINESE_NUM = {
+    "零": 0,
     "一": 1,
     "二": 2,
     "三": 3,
@@ -23,7 +24,6 @@ CHINESE_NUM = {
     "七": 7,
     "八": 8,
     "九": 9,
-    "十": 10,
 }
 
 RISK_WORDS = [
@@ -98,18 +98,29 @@ TASK_TYPE_KEYWORDS = [
 ]
 
 UNIT_RE = re.compile(
-    r"(?:\d+(?:\.\d+)?\s*)?(?:元|万元|亿元|件|吨|千克|kg|公里|千米|km|米|m|小时|分钟|天|周|月|年|人|辆|台|个|次|%|百分比)"
+    r"(?:\d+(?:\.\d+)?\s*)?(?:万元|亿元|元|千克|公斤|kg|公里|千米|km|平方米|公顷|米|m|小时|分钟|秒|天|日|周|月|年|人|辆|台|个|件|吨|次|%|百分比)"
 )
 TIME_RE = re.compile(
-    r"\d{4}\s*[-—至到]\s*\d{4}|连续\s*\d+\s*(?:天|小时|周|月|年)|每\s*(?:天|小时|周|月|年)|第\s*\d+\s*(?:天|小时|周|月|年)"
+    r"\d{4}\s*年\s*\d{1,2}\s*月\s*[-—至到]\s*\d{4}\s*年\s*\d{1,2}\s*月"
+    r"|\d{4}\s*[/.-]\s*\d{1,2}\s*[/.-]\s*\d{1,2}\s*[-—至到]\s*\d{4}\s*[/.-]\s*\d{1,2}\s*[/.-]\s*\d{1,2}"
+    r"|\d{4}\s*年?\s*[-—至到]\s*\d{4}\s*年?"
+    r"|第\s*\d+\s*[-—至到]\s*\d+\s*(?:天|小时|周|月|年)"
+    r"|连续\s*\d+\s*(?:天|小时|周|月|年)"
+    r"|每\s*(?:天|小时|周|月|年)"
+    r"|第\s*\d+\s*(?:天|小时|周|月|年)"
+    r"|\d{1,2}:\d{2}"
 )
-ATTACHMENT_LABEL_RE = re.compile(
-    r"附件\s*[一二三四五六七八九十\d]+(?:[：:][^，。；;\n]+)?"
-)
-FILE_RE = re.compile(r"[\w\u4e00-\u9fa5\-]+?\.(?:csv|xlsx|xls|txt|json|mat|docx|pdf)", re.IGNORECASE)
-QUESTION_MARK_RE = re.compile(
-    r"(?P<label>问题\s*[一二三四五六七八九十\d]+|第\s*[一二三四五六七八九十\d]+\s*问|Q\s*\d+|[（(]\s*\d+\s*[）)])",
+FILE_EXT = r"(?:csv|xlsx|xls|txt|json|mat|docx|pdf)"
+ATTACHMENT_FILE_RE = re.compile(
+    rf"附件\s*[一二三四五六七八九十\dA-Za-z]+\s*[：:]\s*[\w\u4e00-\u9fa5\-]+?\.{FILE_EXT}",
     re.IGNORECASE,
+)
+ATTACHMENT_LABEL_RE = re.compile(r"附件\s*[一二三四五六七八九十\dA-Za-z]+")
+FILE_RE = re.compile(rf"[\w\u4e00-\u9fa5\-]+?\.{FILE_EXT}", re.IGNORECASE)
+QUESTION_MARK_RE = re.compile(
+    r"(?P<label>问题\s*[一二三四五六七八九十\d]+|第\s*[一二三四五六七八九十\d]+\s*问|Q\s*\d+)"
+    r"|^\s*(?P<bracket>[（(]\s*\d+\s*[）)])",
+    re.IGNORECASE | re.MULTILINE,
 )
 
 
@@ -136,7 +147,8 @@ def normalize_attachment(item: str) -> str:
 
 
 def extract_attachments(text: str) -> list[str]:
-    items = ATTACHMENT_LABEL_RE.findall(text)
+    items = ATTACHMENT_FILE_RE.findall(text)
+    items.extend(ATTACHMENT_LABEL_RE.findall(text))
     items.extend(FILE_RE.findall(text))
     cleaned = unique([normalize_attachment(item) for item in items])
     expanded_labels = [item for item in cleaned if "：" in item or ":" in item]
@@ -170,12 +182,30 @@ def expand_attachments(items: list[str], all_attachments: list[str]) -> list[str
     return unique(expanded)
 
 
+def parse_chinese_number(text: str) -> int | None:
+    text = re.sub(r"\s+", "", text)
+    if not text:
+        return None
+    if text == "十":
+        return 10
+    if "十" in text:
+        left, _, right = text.partition("十")
+        tens = CHINESE_NUM.get(left, 1) if left else 1
+        ones = CHINESE_NUM.get(right, 0) if right else 0
+        return tens * 10 + ones
+    if len(text) == 1:
+        return CHINESE_NUM.get(text)
+    return None
+
+
 def label_to_id(label: str, fallback: int) -> str:
     digits = re.findall(r"\d+", label)
     if digits:
         return f"Q{int(digits[0])}"
-    for char, value in CHINESE_NUM.items():
-        if char in label:
+    chinese = re.search(r"[一二三四五六七八九十]+", label)
+    if chinese:
+        value = parse_chinese_number(chinese.group(0))
+        if value:
             return f"Q{value}"
     return f"Q{fallback}"
 
@@ -195,8 +225,9 @@ def split_subquestions(text: str) -> list[dict]:
         start = match.start()
         end = matches[idx + 1].start() if idx + 1 < len(matches) else len(text)
         raw = text[start:end].strip()
-        qid = label_to_id(match.group("label"), idx + 1)
-        sections.append({"id": qid, "title": match.group("label").strip(), "text": raw})
+        label = (match.group("label") or match.group("bracket") or "").strip()
+        qid = label_to_id(label, idx + 1)
+        sections.append({"id": qid, "title": label, "text": raw})
 
     deduped = []
     seen_ids = set()
