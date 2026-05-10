@@ -33,11 +33,13 @@ RISK_WORDS = [
     "分别",
     "连续",
     "至少",
+    "至多",
     "不超过",
     "不低于",
     "最大",
     "最小",
     "最优",
+    "尽可能",
     "预测",
     "评价",
     "排序",
@@ -90,15 +92,33 @@ CONSTRAINT_WORDS = [
 
 TASK_TYPE_KEYWORDS = [
     ("prediction", ["预测", "预报", "趋势", "回归", "时间序列", "未来"]),
-    ("optimization", ["最优", "优化", "规划", "调度", "分配", "路径", "选址", "最小", "最大", "成本最小", "收益最大"]),
+    (
+        "optimization",
+        [
+            "最优",
+            "优化",
+            "规划",
+            "调度",
+            "分配",
+            "路径",
+            "选址",
+            "最小",
+            "最大",
+            "成本最小",
+            "收益最大",
+            "尽可能",
+            "确定",
+            "策略",
+        ],
+    ),
     ("evaluation", ["评价", "排序", "排名", "指标", "综合得分", "优先级"]),
-    ("simulation", ["仿真", "模拟", "传播", "演化", "扩散", "动态"]),
+    ("simulation", ["仿真", "模拟", "传播", "演化", "扩散", "动态", "运动", "轨迹", "时长"]),
     ("classification", ["分类", "识别", "判别", "等级"]),
     ("clustering", ["聚类", "分群", "划分"]),
 ]
 
 UNIT_RE = re.compile(
-    r"(?:\d+(?:\.\d+)?\s*)?(?:万元|亿元|元|千克|公斤|kg|公里|千米|km|平方米|公顷|米|m|小时|分钟|秒|天|日|周|月|年|人|辆|台|个|件|吨|次|%|百分比)"
+    r"(?:\d+(?:\.\d+)?\s*)?(?:万元|亿元|元|千克|公斤|kg|公里|千米|km|平方米|公顷|米|m|小时|分钟|秒|s|天|日|周|月|年|人|辆|台|架|枚|个|件|吨|次|%|百分比)"
 )
 TIME_RE = re.compile(
     r"\d{4}\s*年\s*\d{1,2}\s*月\s*[-—至到]\s*\d{4}\s*年\s*\d{1,2}\s*月"
@@ -108,6 +128,7 @@ TIME_RE = re.compile(
     r"|连续\s*\d+\s*(?:天|小时|周|月|年)"
     r"|每\s*(?:天|小时|周|月|年)"
     r"|第\s*\d+\s*(?:天|小时|周|月|年)"
+    r"|\d+(?:\.\d+)?\s*(?:s|秒)"
     r"|\d{1,2}:\d{2}"
 )
 FILE_EXT = r"(?:csv|xlsx|xls|txt|json|mat|docx|pdf)"
@@ -133,6 +154,14 @@ def unique(items: list[str]) -> list[str]:
             seen.add(clean)
             out.append(clean)
     return out
+
+
+def normalize_problem_text(text: str) -> str:
+    text = text.replace("\f", "\n").replace("−", "-")
+    text = re.sub(r"(?<=[\u4e00-\u9fa5])\s*\n\s*(?=[\u4e00-\u9fa5])", "", text)
+    text = re.sub(r"(?<=[A-Za-z0-9])\s*\n\s*(?=[\u4e00-\u9fa5A-Za-z0-9])", " ", text)
+    text = re.sub(r"[ \t]+", " ", text)
+    return text.strip()
 
 
 def normalize_attachment(item: str) -> str:
@@ -163,9 +192,17 @@ def extract_attachments(text: str) -> list[str]:
 def extract_units(text: str) -> list[str]:
     units = []
     for match in UNIT_RE.finditer(text):
-        if match.start() > 0 and text[match.start() - 1] == "附" and match.group(0) == "件":
+        value = match.group(0)
+        if match.start() > 0 and text[match.start() - 1] == "附" and value == "件":
             continue
-        units.append(match.group(0))
+        if not re.search(r"\d", value):
+            if value.lower() in {"s", "m", "kg", "km"}:
+                continue
+            prev_char = text[match.start() - 1] if match.start() > 0 else ""
+            next_char = text[match.end()] if match.end() < len(text) else ""
+            if re.match(r"[\u4e00-\u9fa5]", prev_char) or re.match(r"[\u4e00-\u9fa5]", next_char):
+                continue
+        units.append(value)
     return unique(units)
 
 
@@ -260,10 +297,10 @@ def infer_task_type(text: str) -> str:
 
 def infer_decision_object(text: str, task_type: str) -> str:
     patterns = [
-        r"(?:预测|预报)\s*([^，。；;]{2,30})",
-        r"(?:评价|排序|排名)\s*([^，。；;]{2,30})",
-        r"(?:优化|确定|给出|设计)\s*([^，。；;]{2,30})",
-        r"(?:分配|调度|规划)\s*([^，。；;]{2,30})",
+        r"(?:预测|预报)\s*([^，。；;]{2,80})",
+        r"(?:评价|排序|排名)\s*([^，。；;]{2,80})",
+        r"(?:优化|确定|给出|设计)\s*([^，。；;]{2,80})",
+        r"(?:分配|调度|规划)\s*([^，。；;]{2,80})",
     ]
     for pattern in patterns:
         match = re.search(pattern, text)
@@ -410,7 +447,7 @@ def main() -> int:
     args = parser.parse_args()
 
     problem_path = Path(args.problem).expanduser()
-    text = problem_path.read_text(encoding="utf-8")
+    text = normalize_problem_text(problem_path.read_text(encoding="utf-8"))
     parsed = extract_parse(text, args.problem_id)
 
     outdir = Path(args.output_dir).expanduser().resolve()

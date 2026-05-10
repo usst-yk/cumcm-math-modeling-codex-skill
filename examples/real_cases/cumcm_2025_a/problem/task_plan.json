@@ -1,0 +1,171 @@
+{
+  "contest": "CUMCM",
+  "problem_id": "cumcm_2025_a",
+  "question_count": 5,
+  "subquestions": [
+    {
+      "id": "Q1",
+      "task_type": "simulation",
+      "required_output": [
+        "请给出烟幕干扰弹对 M1 的有效遮蔽时长"
+      ],
+      "input_data": [
+        "attachment:result1.xlsx",
+        "attachment:result2.xlsx",
+        "attachment:result3.xlsx"
+      ],
+      "decision_object": "烟幕干扰弹对 M1 的有效遮蔽时长",
+      "constraints": [],
+      "validation": [
+        "parameter sensitivity",
+        "boundary case"
+      ],
+      "figures_needed": [
+        "fig_q1_result.png"
+      ],
+      "tables_needed": [
+        "tab_q1_result.csv"
+      ],
+      "status": "draft",
+      "parse_source": "problem_parse.json",
+      "parse_warnings": [
+        "constraints 未识别到明确约束"
+      ]
+    },
+    {
+      "id": "Q2",
+      "task_type": "optimization",
+      "required_output": [
+        "问题 2 利用无人机 FY1 投放 1 枚烟幕干扰弹实施对 M1 的干扰，确定 FY1 的飞行方向、飞行速度、烟幕干扰弹投放点、烟幕干扰弹起爆点，使得遮蔽时间尽可能长"
+      ],
+      "input_data": [
+        "attachment:result1.xlsx",
+        "attachment:result2.xlsx",
+        "attachment:result3.xlsx"
+      ],
+      "decision_object": "FY1 的飞行方向、飞行速度、烟幕干扰弹投放点、烟幕干扰弹起爆点",
+      "constraints": [],
+      "validation": [
+        "feasibility check",
+        "constraint violation check",
+        "baseline scheme comparison"
+      ],
+      "figures_needed": [
+        "fig_q2_result.png"
+      ],
+      "tables_needed": [
+        "tab_q2_result.csv"
+      ],
+      "status": "draft",
+      "parse_source": "problem_parse.json",
+      "parse_warnings": [
+        "constraints 未识别到明确约束"
+      ]
+    },
+    {
+      "id": "Q3",
+      "task_type": "optimization",
+      "required_output": [
+        "请给出烟幕干扰弹的投放策略，并将结果保存到文件 result1.xlsx 中（模板文件见附件）"
+      ],
+      "input_data": [
+        "attachment:result1.xlsx"
+      ],
+      "decision_object": "烟幕干扰弹的投放策略",
+      "constraints": [],
+      "validation": [
+        "feasibility check",
+        "constraint violation check",
+        "baseline scheme comparison"
+      ],
+      "figures_needed": [
+        "fig_q3_result.png"
+      ],
+      "tables_needed": [
+        "tab_q3_result.csv"
+      ],
+      "status": "draft",
+      "parse_source": "problem_parse.json",
+      "parse_warnings": [
+        "constraints 未识别到明确约束"
+      ]
+    },
+    {
+      "id": "Q4",
+      "task_type": "optimization",
+      "required_output": [
+        "请给出烟幕干扰弹的投放策略，并将结果保存到文件 result2.xlsx 中（模板文件见附件）"
+      ],
+      "input_data": [
+        "attachment:result2.xlsx"
+      ],
+      "decision_object": "烟幕干扰弹的投放策略",
+      "constraints": [],
+      "validation": [
+        "feasibility check",
+        "constraint violation check",
+        "baseline scheme comparison"
+      ],
+      "figures_needed": [
+        "fig_q4_result.png"
+      ],
+      "tables_needed": [
+        "tab_q4_result.csv"
+      ],
+      "status": "draft",
+      "parse_source": "problem_parse.json",
+      "parse_warnings": [
+        "constraints 未识别到明确约束"
+      ]
+    },
+    {
+      "id": "Q5",
+      "task_type": "optimization",
+      "required_output": [
+        "请给出烟幕干扰弹的投放策略，并将结果保存到文件 result3.xlsx 中 （模板文件见附件）"
+      ],
+      "input_data": [
+        "attachment:result3.xlsx"
+      ],
+      "decision_object": "烟幕干扰弹的投放策略",
+      "constraints": [
+        "问题 5 利用 5 架无人机，每架无人机至多投放 3 枚烟幕干扰弹，实施对 M1、M2、M3 等 3 枚来袭导弹的干扰"
+      ],
+      "validation": [
+        "feasibility check",
+        "constraint violation check",
+        "baseline scheme comparison"
+      ],
+      "figures_needed": [
+        "fig_q5_result.png"
+      ],
+      "tables_needed": [
+        "tab_q5_result.csv"
+      ],
+      "status": "draft",
+      "parse_source": "problem_parse.json",
+      "parse_warnings": []
+    }
+  ],
+  "global_assumptions": [],
+  "risk_points": [
+    "分别",
+    "连续",
+    "至少",
+    "至多",
+    "尽可能",
+    "附件",
+    "给出",
+    "Q1: constraints 未识别到明确约束",
+    "Q2: constraints 未识别到明确约束",
+    "Q3: constraints 未识别到明确约束",
+    "Q4: constraints 未识别到明确约束"
+  ],
+  "source_excerpt": "",
+  "warnings": [
+    "Q1: constraints 未识别到明确约束",
+    "Q2: constraints 未识别到明确约束",
+    "Q3: constraints 未识别到明确约束",
+    "Q4: constraints 未识别到明确约束"
+  ]
+}
