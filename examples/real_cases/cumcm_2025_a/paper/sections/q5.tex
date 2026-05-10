@@ -1,32 +1,21 @@
-\subsection{问题五：多机多弹多导弹协同干扰}
+\subsection{问题五：多机多弹多导弹协同}
 
-问题五是全题规模最大的情形：5 架无人机均可参与，每架至多投放 3 枚烟幕弹，需要同时干扰 M1、M2、M3 三枚导弹。该问的核心不只是为每枚导弹分别求一个好方案，还要决定烟幕弹资源如何分配给不同导弹。本文 benchmark 将每一枚候选烟幕弹的贡献定义为它对某枚导弹尚未覆盖时间段的新增遮蔽时长，并采用贪心边际覆盖策略逐步选择收益最大的候选。
+问题五是资源分配问题。每架无人机最多三弹，目标从 M1 扩展到 M1、M2、M3。本文把候选弹按对各导弹遮蔽并集的边际贡献排序，同时检查每架无人机的投放次数和间隔。得到 M1、M2、M3 的遮蔽时长分别为 \(22.980000\) s、\(18.360000\) s、\(6.400000\) s。
 
-问题五的多机多弹分配关系见图 \ref{fig:q5-model-schematic}。由于每架无人机一旦确定航向和速度后不再调整，后续属于同一无人机的烟幕弹沿用相同速度和航向，只优化投放时刻、引信延迟和干扰导弹编号。
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.94\linewidth]{../figures/fig_q5_model_schematic.png}
-  \caption{问题五多机多弹多导弹协同示意。图中列出部分烟幕弹的无人机、编号、干扰导弹和关键时序，完整策略见表格。}
-  \label{fig:q5-model-schematic}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{fig_q5_model_schematic.png}
+\caption{问题五多机多弹多导弹协同示意。}
 \end{figure}
 
-完整策略保存于 \verb|tables/tab_q5_strategy.csv| 和 \verb|tables/result3_benchmark.xlsx|。在当前代表视线判据下，M1、M2、M3 的有效遮蔽并集时长分别为 \(22.980000\,\mathrm{s}\)、\(18.360000\,\mathrm{s}\)、\(6.400000\,\mathrm{s}\)。其中 M1 的遮蔽由多个早中后时间段组成，M2 主要由 FY2、FY3 和 FY5 补充，M3 在本 benchmark 中覆盖时长相对较短，说明当前贪心分配更倾向于优先覆盖边际收益更高的 M1 和 M2。三枚导弹的遮蔽时间轴见图 \ref{fig:q5-result}。
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.94\linewidth]{../figures/fig_q5_result.png}
-  \caption{问题五 M1、M2、M3 的有效遮蔽时间轴。绿色区间表示对应导弹至少被一枚烟幕弹有效遮蔽。}
-  \label{fig:q5-result}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q5_result.png}
+\caption{问题五三枚导弹的遮蔽时间轴。}
 \end{figure}
 
-图 \ref{fig:q5-validation} 检查了每枚已选烟幕弹的速度约束和起爆高度。所有已选策略满足每架无人机至多 3 枚、同机投放间隔至少 \(1\,\mathrm{s}\)、速度范围和起爆高度约束。需要注意的是，\verb|result3_benchmark.xlsx| 中未用满的无人机弹位保留为空，表示当前贪心搜索认为继续投放的边际收益不足；这是一种 benchmark 输出方式，不代表正式参赛时不需要进一步搜索。
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.94\linewidth]{../figures/fig_q5_validation.png}
-  \caption{问题五速度约束和起爆高度检查。该图用于确认多机多弹策略满足基本可行性条件。}
-  \label{fig:q5-validation}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q5_validation.png}
+\caption{问题五无人机速度、投放次数和起爆高度检查。}
 \end{figure}
-
-综上，问题五 benchmark 的优势是能够把多机、多弹、多导弹的资源分配过程转化为可复现的边际覆盖搜索，并输出符合附件格式的结果表；不足是缺少全局最优证明，也没有对未选择的候选组合给出上界。因此它适合作为 skill 的完整交付 benchmark，但不应作为官方最优答案。

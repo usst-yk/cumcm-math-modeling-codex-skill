@@ -95,6 +95,9 @@ Read `references/task-routing.md` for the complete table.
   `references/result-tracking.md`.
 - Paper writing: `references/paper-writing.md`, `references/paper-assembly.md`,
   `references/paper-quality-standard.md`, `references/scoring-checklist.md`.
+- Benchmark rebuild or real-case redo: read `references/benchmark-rebuild.md`;
+  delete generated outputs first, then re-parse, re-plan, re-audit, re-solve,
+  re-write TeX, and validate.
 - Full paper assembly: `agents/paper_assembler.md`,
   `references/paper-assembly.md`, `references/paper-quality-standard.md`, and
   `templates/paper_main.tex`.

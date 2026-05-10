@@ -1,0 +1,94 @@
+[
+  {
+    "source_path": "/Users/yangke/.codex/skills/cumcm-math-modeling/examples/real_cases/huadong_cup_a/data/raw/benchmark_activities.csv",
+    "file": "benchmark_activities.csv",
+    "sheet": "benchmark_activities",
+    "rows": 19,
+    "columns": 16,
+    "column_names": [
+      "activity_id",
+      "name",
+      "zone",
+      "x_m",
+      "y_m",
+      "duration_min",
+      "kind",
+      "time_window_start",
+      "time_window_end",
+      "utility_ordinary",
+      "utility_family",
+      "utility_couple",
+      "wait_workday",
+      "wait_weekend",
+      "wait_holiday",
+      "notes"
+    ],
+    "numeric_columns": [
+      "x_m",
+      "y_m",
+      "duration_min",
+      "utility_ordinary",
+      "utility_family",
+      "utility_couple",
+      "wait_workday",
+      "wait_weekend",
+      "wait_holiday"
+    ],
+    "categorical_columns": [
+      "activity_id",
+      "name",
+      "zone",
+      "kind",
+      "time_window_start",
+      "time_window_end",
+      "notes"
+    ],
+    "time_columns": [
+      "time_window_start",
+      "time_window_end",
+      "wait_workday",
+      "wait_holiday"
+    ],
+    "spatial_columns": [],
+    "key_candidates": [
+      "activity_id",
+      "name",
+      "time_window_start",
+      "time_window_end",
+      "wait_holiday",
+      "notes"
+    ],
+    "signature": "activity_id|name|zone|x_m|y_m|duration_min|kind|time_window_start|time_window_end|utility_ordinary|utility_family|utility_couple|wait_workday|wait_weekend|wait_holiday|notes",
+    "empty": false
+  },
+  {
+    "source_path": "/Users/yangke/.codex/skills/cumcm-math-modeling/examples/real_cases/huadong_cup_a/data/raw/realtime_wait_updates.csv",
+    "file": "realtime_wait_updates.csv",
+    "sheet": "realtime_wait_updates",
+    "rows": 30,
+    "columns": 4,
+    "column_names": [
+      "day_type",
+      "activity_id",
+      "delta_min",
+      "reason"
+    ],
+    "numeric_columns": [
+      "delta_min"
+    ],
+    "categorical_columns": [
+      "day_type",
+      "activity_id",
+      "reason"
+    ],
+    "time_columns": [
+      "day_type"
+    ],
+    "spatial_columns": [],
+    "key_candidates": [
+      "activity_id"
+    ],
+    "signature": "day_type|activity_id|delta_min|reason",
+    "empty": false
+  }
+]

@@ -1,44 +1,23 @@
-\subsection{问题一：多游客类型的静态游览路线规划}
+\subsection{问题一：静态游览路线规划}
 
-\subsubsection{模型机制}
+问题一在全天开放时间内安排三类游客的路线。模型对象是项目访问序列，决策变量是项目集合、访问顺序和到达/开始/结束时刻。动态规划结果保存在 \verb|tab_q1_summary.csv| 和 \verb|tab_q1_routes.csv|。
 
-问题一的本质是带时间窗的游憩路线优化。游客从入口出发，在有限开放时段内依次选择项目；每个项目会消耗步行、排队和体验时间，同时带来与游客类型相关的体验效用。固定演出不能任意插入路线，而必须在指定时刻参加，因此普通最短路模型不能直接回答本问。
-
-本文将状态写成 \((i,t,V)\)，其中 \(i\) 表示当前位置，\(t\) 表示当前时刻，\(V\) 表示已访问项目集合。对于候选项目 \(j\notin V\)，先计算到达时刻和时间窗可行性，再计算转移收益。若 \(j\) 是固定演出项目，且到达时刻早于演出时刻，则等待时间计入候场惩罚；若到达时刻晚于演出时刻，则该转移被剪枝。这样可以同时处理普通项目、餐饮休整和固定演出。
-
-\subsubsection{求解算法}
-
-采用分钟级动态规划搜索。每次转移时记录当前累计得分、累计排队时间、累计步行时间、累计候场时间和结束时间，并保留同一状态下得分最高的路径。为避免只有一个复杂模型而缺少参照，本问设置单位时间效用贪心策略作为基线：每一步从当前可行候选项目中选择单位时间净效用最高者，直到无法继续加入项目。
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.92\linewidth]{../figures/fig_q1_model_schematic.png}
-  \caption{问题一模型流程示意。路线选择先经过时间窗和闭园边界筛选，再比较累计效用。}
-  \label{fig:q1-model-schematic}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{fig_q1_model_schematic.png}
+\caption{问题一动态规划建模流程。}
 \end{figure}
 
-\subsubsection{结果解释}
-
-九个游客--日期组合的路线汇总保存在 \verb|tables/tab_q1_summary.csv|，逐步路线保存在 \verb|tables/tab_q1_routes.csv|。结果显示，动态规划路线相对贪心基线平均得分提升 \(16.74\)，最低提升也达到 \(1.49\)。这说明在含固定演出和午晚餐休整的场景中，局部最高效用选择容易造成后续时间窗冲突或高峰排队，而全局路线搜索能更好地利用早晚低排队时段。
-
-从游客类型看，家庭亲子游在工作日可完成 \(11\) 项非休整体验，获得最高体验得分 \(96.734\)。其路线包含亲子偏好较高的小熊维尼历险记、小飞侠天空奇遇、巴斯光年星际营救，同时保留米奇童话专列和奇梦之光幻影秀。节假日家庭亲子游受排队上升影响，仍可完成 \(9\) 项非休整体验，说明模型在高排队压力下会主动压缩项目数量，优先保留高偏好和时间窗价值高的节点。普通游客节假日完成项目数下降更明显，情侣游则在三个日期场景下均保留烟花和拍照类节点，符合其偏好设定。
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.94\linewidth]{../figures/fig_q1_result.png}
-  \caption{问题一三类游客在不同日期下的体验得分、排队时间和完成项目数。节假日排队压力上升后，路线会从“多项目”转向“少而高效”。}
-  \label{fig:q1-result}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q1_result.png}
+\caption{问题一不同游客和日期下的得分、排队和项目数。}
 \end{figure}
 
-\subsubsection{验证}
-
-图 \ref{fig:q1-validation} 给出了动态规划方案与贪心基线的直接对比。多数场景下动态规划提升明显，尤其是普通游客节假日和家庭亲子游双休日。这类场景的共同特点是热门项目排队时间长、固定演出时间窗紧，贪心策略容易提前消耗关键时段，而动态规划能够把项目顺序和演出时间统一考虑。
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.92\linewidth]{../figures/fig_q1_validation.png}
-  \caption{问题一动态规划路线与贪心基线比较。基线对照用于说明全局搜索相对局部规则的增益。}
-  \label{fig:q1-validation}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q1_validation.png}
+\caption{问题一动态规划与贪心基线比较。}
 \end{figure}
 
-对每条路线逐项检查开始时间、结束时间、排队时间、步行时间和候场时间，所有路线均满足开放时段边界，固定演出均在基准演出时刻参加。由于本题没有官方客流附件，结果只作为可复现 benchmark，不应解释为实际入园攻略。
+动态规划相对贪心基线平均得分提升 \(16.74\)。家庭亲子游工作日得分最高，为 \(96.734\)，完成 \(11\) 项非休整体验；节假日家庭亲子游在排队压力上升后仍完成 \(9\) 项非休整体验。

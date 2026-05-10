@@ -737,9 +737,27 @@ def write_registry(q1_summary: pd.DataFrame, comparison: pd.DataFrame, q2_summar
             "verified_by": "Codex",
             "notes": f"{max_saved['persona']}-{max_saved['day_type']}",
         },
+        {
+            "id": "R008",
+            "subquestion": "Q1",
+            "claim": "家庭亲子游工作日完成非休整体验数",
+            "value": str(int(q1_best["activity_count_without_rest"])),
+            "unit": "项",
+            "source_type": "code",
+            "source_file": "tables/tab_q1_summary.csv",
+            "source_line_or_cell": f"{q1_best['persona']}-{q1_best['day_type']} row",
+            "script": "src/solve_routes.py",
+            "command": "python3 src/solve_routes.py",
+            "figure_or_table": "figures/fig_q1_result.png",
+            "validation": "路线总时长不超过 09:00-21:00，固定演出满足时间窗",
+            "status": "verified",
+            "created_at": "2026-05-10",
+            "verified_by": "Codex",
+            "notes": "用于摘要中最高得分场景的项目数追溯",
+        },
     ]
     with (RESULT_DIR / "result_registry.csv").open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()))
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()), lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -779,130 +797,13 @@ def write_validation_report(q1_summary: pd.DataFrame, comparison: pd.DataFrame, 
 
 
 def write_paper_sections(q1_summary: pd.DataFrame, comparison: pd.DataFrame, q2_summary: pd.DataFrame) -> None:
-    PAPER_DIR.mkdir(parents=True, exist_ok=True)
-    q1_best = q1_summary.sort_values("experience_score", ascending=False).iloc[0]
-    holiday_family = q1_summary[(q1_summary["persona"] == "家庭亲子游") & (q1_summary["day_type"] == "节假日")].iloc[0]
-    avg_improvement = comparison["score_improvement_pct"].mean()
-    min_improvement = comparison["score_improvement_pct"].min()
-    avg_wait_saved = q2_summary["queue_wait_saved_min"].mean()
-    avg_score_gain = q2_summary["score_gain"].mean()
-    changed_scenarios = int((q2_summary["changed_activity_count"] > 0).sum())
-    max_saved = q2_summary.sort_values("queue_wait_saved_min", ascending=False).iloc[0]
-    q1_text = f"""# 问题 1：多游客类型的静态游览路线规划
+    """Keep solver outputs separate from final TeX papers.
 
-## 问题分析
-
-问题一的本质是带时间窗的游憩路线优化。游客从入口出发，在有限开放时段内依次选择项目；每个项目会消耗步行、排队和体验时间，同时带来与游客类型相关的体验效用。固定演出不能任意插入路线，而必须在指定时刻参加，因此普通的最短路模型不能直接回答本问。本案例将路线规划写成“效用最大化 + 时间可行性检查”的组合优化问题，并分别求解普通游客、家庭亲子游和情侣游在工作日、双休日、节假日下的 9 个场景。
-
-## 模型假设与变量
-
-- 假设 benchmark 开放时段为 09:00-21:00，所有路线必须在闭园前结束。
-- 假设项目位置、体验时长、基准排队时间和游客偏好效用由 `data/raw/benchmark_activities.csv` 给出；这些数值用于复现，不代表官方数据。
-- 假设同一项目在同一日路线中至多访问一次，午餐和晚餐作为休整节点计入时间。
-- 对固定演出设置硬时间窗：若到达晚于演出开始，则该转移不可行；若提前到达，提前量作为候场时间。
-
-记项目集合为 A，游客类型为 p，日期类型为 d。项目 i 的偏好效用为 u(p,i)，体验时长为 s(i)，日期 d 下的排队时长为 q(d,i,t)，从项目 i 到项目 j 的步行时间为 w(i,j)。路线按顺序 S = (i1, i2, ..., ik) 表示，模型目标为
-
-`max score(S) = sum[u(p,i) - alpha_p * queue(i) - beta_p * walk(i) - 0.020 * standby(i)]`
-
-其中 alpha_p、beta_p 分别控制不同游客类型对排队和步行的敏感程度。家庭亲子游客的排队和步行惩罚较高，普通游客居中，情侣游客更偏好拍照和晚间演出体验。
-
-## 求解方法
-
-采用分钟级动态规划搜索。状态由“当前位置、当前时间、已访问项目集合”构成；每次转移到下一个候选项目时，先计算步行到达时间，再叠加排队、候场和体验时间，并立即检查闭园时间、项目重复和演出时间窗。为避免只有一个模型而缺少参照，本问设置“单位时间效用最高优先”的贪心策略作为基线，比较两者在同一数据和约束下的体验得分。
-
-## 结果分析
-
-9 个游客-日期组合的路线汇总保存在 `tables/tab_q1_summary.csv`，逐步路线保存在 `tables/tab_q1_routes.csv`。结果显示，动态规划路线相对贪心基线平均得分提升 {avg_improvement:.2f}%，最低提升也达到 {min_improvement:.2f}%。这说明在含固定演出和午晚餐休整的场景中，局部最高效用选择容易造成后续时间窗冲突或高峰排队，而全局路线搜索能更好地利用早晚低排队时段。
-
-从游客类型看，家庭亲子游在工作日可完成 {int(q1_best['activity_count_without_rest'])} 项非休整体验，获得最高体验得分 {q1_best['experience_score']:.3f}，对应路线为：{q1_best['route']}。节假日家庭亲子游受排队上升影响，仍可完成 {int(holiday_family['activity_count_without_rest'])} 项非休整体验，路线为：{holiday_family['route']}。普通游客在节假日完成 7 项非休整体验，体现出高排队情形下必须压缩项目数量；情侣游在三个日期场景下均保留烟花和拍照类节点，符合其偏好设定。
-
-图 `fig_q1_model_schematic.png` 展示了问题一的模型流程；图 `fig_q1_result.png` 比较了三类游客在不同日期下的体验得分和排队时间；图 `fig_q1_validation.png` 给出了动态规划方案与贪心基线的直接对比。由表和图可见，工作日排队较短时模型倾向于增加项目数量，节假日排队显著上升时模型转向“少而高效”的路线，优先保留固定演出和高偏好项目。
-
-## 可行性检验
-
-对每条路线逐项检查开始时间、结束时间、排队时间、步行时间和候场时间，所有路线均满足 09:00-21:00 的时间边界，固定演出均在基准演出时刻参加。基线比较不是为了证明真实园区最优，而是检验模型是否比可手工执行的简单规则更合理。由于本题没有官方客流附件，结果只作为可复现 benchmark，不应解释为实际入园攻略。
-"""
-    q2_text = f"""# 问题 2：基于 APP 实时排队的路线重规划
-
-## 问题分析
-
-问题二要求根据实时排队信息调整问题一的路线。与问题一相比，新的难点不是重新规划整天路线，而是在游客已经游玩了一部分项目后，对剩余路线做局部而可行的重规划。因此模型必须保留历史决策：已完成项目不能撤销；若游客在 13:30 正在体验某项目，则应在该项目结束后再重新规划；固定演出时间窗和闭园时间仍然是硬约束。
-
-## 实时排队更新模型
-
-以问题一给出的路线为初始计划，在 13:30 读取 `data/raw/realtime_wait_updates.csv` 中的 APP 排队扰动。设项目 i 在日期 d 和时刻 t 的基准排队为 q0(d,i,t)，APP 给出的排队变化量为 delta(d,i)，则重规划时使用
-
-`q_real(d,i,t) = max(0, q0(d,i,t) + decay(t) * delta(d,i))`
-
-其中 decay(t) 表示实时拥挤状态随时间逐步回归基准预测。该处理避免把 13:30 的一次性排队异常无限外推到夜间，同时保留了 APP 信息对午后路线选择的影响。
-
-## 调整策略
-
-本问设置两个可比较方案：
-
-- 保持原剩余路线：锁定已完成项目后，继续执行问题一的剩余路线，仅用实时排队时间重新计算等待和得分。
-- 实时重规划路线：锁定已完成项目后，对未完成候选项目重新执行与问题一相同的动态规划搜索。
-
-这两个方案使用完全相同的效用函数、步行时间和时间窗约束，差异只来自是否允许 APP 信息改变剩余项目顺序和项目集合。因此二者的等待时间和得分差异可以直接解释为实时重规划的收益。
-
-## 结果分析
-
-调整结果保存在 `tables/tab_q2_adjustment_summary.csv`，调整后的逐步路线保存在 `tables/tab_q2_adjusted_routes.csv`。在 9 个游客-日期组合中，实时重规划较保持原剩余路线平均减少等待 {avg_wait_saved:.2f} 分钟，平均得分增益 {avg_score_gain:.3f}，共有 {changed_scenarios} 个场景改变了剩余项目集合。最大等待节省出现在 {max_saved['persona']}-{max_saved['day_type']} 场景，节省等待 {int(max_saved['queue_wait_saved_min'])} 分钟。
-
-从结果机制看，工作日排队扰动较小时，普通游客和情侣游路线可以保持不变；双休日和节假日的热门项目排队扰动更大，模型倾向于插入或保留排队相对较低的演出、宝藏湾或休闲类节点，并跳过部分高排队项目。该结论与图 `fig_q2_result.png` 中的等待节省和得分增益一致。
-
-## 验证与局限
-
-图 `fig_q2_model_schematic.png` 给出实时调整流程，图 `fig_q2_validation.png` 将保持原剩余路线与重规划路线放在同一坐标系下比较。散点落在“不变线”下方表示重规划减少等待；颜色表示项目集合变化数。验证结果表明，实时重规划的收益主要来自高排队场景，而不是对所有场景强行改变路线。
-
-需要注意的是，本案例中的实时排队扰动是 benchmark 数据，不是 APP 真实抓取结果。因此模型的可靠性体现在“给定实时数据后如何调整路线”的方法链路，而不体现在具体排队数值本身。若用于真实场景，应将 `realtime_wait_updates.csv` 替换为实际 APP 数据，并重新校准排队回归系数。
-"""
-    main_text = f"""# 华东杯 A 题：游览路线规划问题 benchmark 论文稿
-
-## 摘要
-
-针对上海迪士尼乐园高密度项目、动态排队和固定演出的游览路线规划问题，本文将游览项目抽象为带空间位置、服务时长、排队时长、时间窗和游客偏好效用的节点，建立带时间窗约束的效用最大化路线规划模型。对问题一，分别求解普通游客、家庭亲子游、情侣游在工作日、双休日、节假日下的 9 个场景，并以单位时间效用贪心策略作为基线。结果表明，动态规划路线相对贪心基线平均得分提升 {avg_improvement:.2f}%，其中家庭亲子游工作日场景得分最高，为 {q1_best['experience_score']:.3f}，可完成 {int(q1_best['activity_count_without_rest'])} 项非休整体验；节假日家庭亲子游在高排队压力下仍可完成 {int(holiday_family['activity_count_without_rest'])} 项非休整体验。
-
-针对问题二，本文以 13:30 APP 实时排队信息为触发点，锁定已完成项目，对剩余路线重新规划，并与“保持原剩余路线”进行对照。结果显示，实时重规划平均减少等待 {avg_wait_saved:.2f} 分钟，平均得分增益 {avg_score_gain:.3f}，9 个场景中有 {changed_scenarios} 个发生项目集合变化；最大等待节省为 {int(max_saved['queue_wait_saved_min'])} 分钟。模型优点是能统一处理游客偏好、步行、排队、固定演出和实时调整，且所有结果可由表格和代码复现。局限是题面未给官方客流附件，本文数值来自透明 benchmark 数据，不能作为实际园区实时攻略。
-
-## 1 问题重述与分析
-
-题目要求给出三类游客在三类日期下的游览路线，并根据 APP 实时排队信息调整原路线。其核心不是简单排序，而是带时间窗、路径依赖和偏好差异的序列决策问题。固定演出将一天切分为多个关键时间节点，热门项目排队会改变路线收益，游客偏好决定了不同路线的价值函数。因此，模型需要同时回答“去哪些项目”“按什么顺序去”“什么时候因实时排队改变计划”三个问题。
-
-## 2 模型假设
-
-1. benchmark 开放时段为 09:00-21:00，所有项目、休整和演出必须在该时段内完成。
-2. `benchmark_activities.csv` 中的坐标、时长、偏好效用和排队时间为可复现实验数据，不代表官方数据。
-3. 游客步行速度按 80 m/min 估计，并加入最短换乘时间，避免相邻节点距离过近导致不现实转移。
-4. 固定演出按给定开始时间参加，提前到达会产生候场时间，迟到则该演出不可选。
-5. 实时排队扰动只影响尚未完成的项目，已完成项目不回退。
-
-## 3 模型建立
-
-路线 S 的得分由项目效用扣除排队、步行和候场惩罚得到：
-
-`score(S) = sum[u(p,i) - alpha_p * queue(i) - beta_p * walk(i) - 0.020 * standby(i)]`
-
-其中 p 为游客类型，i 为项目节点。约束包括闭园时间、项目不重复、固定演出时间窗和正在体验项目不可中断。问题一从入口和 09:00 开始求解全天路线；问题二从 13:30 或当前体验项目结束时刻开始，对剩余项目重规划。
-
-## 4 结果与验证
-
-问题一结果见 `paper/sections/q1.tex`，对应表格为 `tab_q1_summary.csv`、`tab_q1_routes.csv`、`tab_q1_baseline_comparison.csv`。问题二结果见 `paper/sections/q2.tex`，对应表格为 `tab_q2_realtime_waits.csv`、`tab_q2_adjustment_summary.csv`、`tab_q2_adjusted_routes.csv`。关键数值统一登记在 `results/result_registry.csv`。
-
-图 `fig_q1_result.png` 表明，节假日排队时间显著抬升，路线会牺牲项目数量以保留高效用体验；图 `fig_q1_validation.png` 说明动态规划相对贪心基线具有稳定增益。图 `fig_q2_result.png` 和 `fig_q2_validation.png` 表明，实时重规划并非每个场景都必须改变路线，其主要作用是在热门项目排队显著偏离预测时减少等待并提升效用。
-
-## 5 模型评价
-
-模型的优点是结构清晰、约束可查、结果可复现，适合教学或 benchmark 使用；同时它保留了基线对照，能说明复杂路线搜索相对简单规则的增益。主要不足是缺少真实客流校准，项目效用和排队扰动来自人工 benchmark。若用于正式比赛论文，应进一步接入真实 APP 排队记录、园区道路网络、身高限制、快速通道、天气和餐饮容量等因素，并对排队预测误差做敏感性分析。
-"""
-    note = (
-        "TeX paper files are maintained in paper/main.tex and "
-        "paper/sections/q1.tex, paper/sections/q2.tex. "
-        "Markdown paper output is intentionally disabled for benchmark papers."
-    )
-    (RESULT_DIR / "paper_generation_note.txt").write_text(note + "\n", encoding="utf-8")
-
+    The benchmark paper is maintained in paper/main.tex and paper/sections/*.tex.
+    The solver must not generate Markdown paper artifacts or overwrite the final
+    paper, because final writing is handled by the paper assembly stage.
+    """
+    return
 
 def main() -> int:
     TABLE_DIR.mkdir(parents=True, exist_ok=True)

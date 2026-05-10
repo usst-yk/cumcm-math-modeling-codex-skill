@@ -1,29 +1,46 @@
 # Problem Parse
 
-- Contest: 华东杯
+- Contest: CUMCM
 - Problem: huadong_cup_a
 - Question count: 2
-- Attachment status: 题面没有官方附件或排队数据，本案例使用 `data/raw/` 下的透明 benchmark 数据。
+- Attachments: 未识别
+- Units: 未识别
+- Time ranges: 未识别
+- Risk words: 分别, 最大, 规划, 表, 给出
 
-## Q1
+## Subquestions
 
-- 任务类型：优化 / 路线规划。
-- 决策对象：普通游客、家庭亲子游、情侣游在工作日、双休日、节假日的项目访问顺序。
-- 输入：题面中的园区、项目类型和固定演出信息；`benchmark_activities.csv` 中的项目位置、时长、偏好效用、排队时间和时间窗。
-- 输出：9 个场景的路线、体验得分、等待时间、步行时间、体验项目数。
-- 约束：09:00-21:00；固定演出时间窗；项目不重复；排队、步行、候场和体验时间都计入总时间。
-- 隐含评分点：基线比较、可行性检查、中文路线图/结果图、结果可追溯。
+### Q1 问题 1
 
-## Q2
+- Task type: optimization
+- Decision object: 工作日、双休日、节假日的游览路线规划建议
+- Input data: 待确认
+- Required output: 问题 1. 请为不同类别的游客（普通游客、家庭亲子游、情侣游）分别给出工作日、双休日、节假日的游览路线规划建议
+- Constraints: 待确认
+- Units: 未识别
+- Time ranges: 未识别
+- Attachments: 未识别
+- Implicit scoring: feasibility check, constraint violation check, baseline scheme comparison
+- Risk words: 分别, 规划, 给出
+- Warnings: input_data 未识别到附件依赖; constraints 未识别到明确约束
 
-- 任务类型：优化 / 实时重规划。
-- 决策对象：APP 实时排队变化后，未完成项目的剩余访问顺序。
-- 输入：Q1 初始路线；`realtime_wait_updates.csv` 中的 13:30 排队扰动；同一项目 benchmark 数据。
-- 输出：调整后剩余路线、与保持原剩余路线的等待时间和得分对比、新增/删除项目。
-- 约束：已完成项目锁定；正在体验项目完成后再重规划；固定演出仍满足时间窗；21:00 前结束。
-- 隐含评分点：实时变化响应、基线对照、排队敏感性、结果表可追溯。
+### Q2 问题 2
+
+- Task type: optimization
+- Decision object: 规划路线进行调整
+- Input data: 待确认
+- Required output: 请根据实时排队情况，对问题 1 给出的规划路线进行调整
+- Constraints: 待确认
+- Units: 未识别
+- Time ranges: 未识别
+- Attachments: 未识别
+- Implicit scoring: feasibility check, constraint violation check, baseline scheme comparison
+- Risk words: 规划, 给出
+- Warnings: input_data 未识别到附件依赖; constraints 未识别到明确约束
 
 ## Warnings
 
-- benchmark 数据不是官方或实时运营数据。
-- 规则解析会把 Q2 句子中的“问题 1 给出的规划路线”误切成新问题，本文件已人工核对为 2 问。
+- Q1: input_data 未识别到附件依赖
+- Q1: constraints 未识别到明确约束
+- Q2: input_data 未识别到附件依赖
+- Q2: constraints 未识别到明确约束

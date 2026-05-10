@@ -24,22 +24,22 @@
       ],
       "figures_needed": [
         "fig_q1_model_schematic.png",
-        "fig_q1_distance_geometry.png",
-        "fig_q1_validation_margin.png"
+        "fig_q1_result.png",
+        "fig_q1_validation.png"
       ],
       "tables_needed": [
         "tab_q1_result.csv"
       ],
+      "baseline_route": "Use a simplified analytical or boundary-case simulation first.",
+      "primary_route": "Run a parameterized simulation with explicit state variables and units.",
+      "fallback_route": "If parameters are uncertain, report scenario bands and sensitivity instead of one value.",
+      "minimum_validation": [
+        "test a boundary case",
+        "run parameter sensitivity on key assumptions"
+      ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": [],
-      "baseline_route": "先用边界条件或简化几何关系计算遮蔽时长量级。",
-      "primary_route": "建立三维几何与时间演化仿真，逐时刻判断遮蔽是否成立。",
-      "fallback_route": "若参数不确定，则输出情景区间和关键参数敏感性。",
-      "minimum_validation": [
-        "边界时刻遮蔽判定检查",
-        "关键速度、时间或位置参数敏感性分析"
-      ]
+      "parse_warnings": []
     },
     {
       "id": "Q2",
@@ -63,22 +63,22 @@
       ],
       "figures_needed": [
         "fig_q2_model_schematic.png",
-        "fig_q2_optimized_distance_geometry.png",
+        "fig_q2_result.png",
         "fig_q2_sensitivity.png"
       ],
       "tables_needed": [
         "tab_q2_result.csv"
       ],
+      "baseline_route": "Build a greedy or rule-based feasible scheme first.",
+      "primary_route": "Formulate decision variables, objective, and constraints, then solve reproducibly.",
+      "fallback_route": "If exact solving is unstable, use a simpler feasible heuristic and compare with baseline.",
+      "minimum_validation": [
+        "check feasibility and solver/status evidence",
+        "compare with a baseline scheme"
+      ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": [],
-      "baseline_route": "先构造题面给定或规则搜索的可行投放方案作为基线。",
-      "primary_route": "以遮蔽时长最大为目标，联合优化飞行方向、速度、投放点和起爆点。",
-      "fallback_route": "若全局搜索代价过高，则采用分层网格搜索或启发式方案，并报告可行性和改进幅度。",
-      "minimum_validation": [
-        "检查速度、投放、起爆和时间约束是否满足",
-        "与基线方案比较遮蔽时长"
-      ]
+      "parse_warnings": []
     },
     {
       "id": "Q3",
@@ -102,21 +102,21 @@
       "figures_needed": [
         "fig_q3_model_schematic.png",
         "fig_q3_result.png",
-        "fig_q3_validation.png"
+        "fig_q3_sensitivity.png"
       ],
       "tables_needed": [
         "tab_q3_result.csv"
       ],
+      "baseline_route": "Build a greedy or rule-based feasible scheme first.",
+      "primary_route": "Formulate decision variables, objective, and constraints, then solve reproducibly.",
+      "fallback_route": "If exact solving is unstable, use a simpler feasible heuristic and compare with baseline.",
+      "minimum_validation": [
+        "check feasibility and solver/status evidence",
+        "compare with a baseline scheme"
+      ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": [],
-      "baseline_route": "先构造题面给定或规则搜索的可行投放方案作为基线。",
-      "primary_route": "以遮蔽时长最大为目标，联合优化飞行方向、速度、投放点和起爆点。",
-      "fallback_route": "若全局搜索代价过高，则采用分层网格搜索或启发式方案，并报告可行性和改进幅度。",
-      "minimum_validation": [
-        "检查速度、投放、起爆和时间约束是否满足",
-        "与基线方案比较遮蔽时长"
-      ]
+      "parse_warnings": []
     },
     {
       "id": "Q4",
@@ -140,21 +140,21 @@
       "figures_needed": [
         "fig_q4_model_schematic.png",
         "fig_q4_result.png",
-        "fig_q4_validation.png"
+        "fig_q4_sensitivity.png"
       ],
       "tables_needed": [
         "tab_q4_result.csv"
       ],
+      "baseline_route": "Build a greedy or rule-based feasible scheme first.",
+      "primary_route": "Formulate decision variables, objective, and constraints, then solve reproducibly.",
+      "fallback_route": "If exact solving is unstable, use a simpler feasible heuristic and compare with baseline.",
+      "minimum_validation": [
+        "check feasibility and solver/status evidence",
+        "compare with a baseline scheme"
+      ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": [],
-      "baseline_route": "先构造题面给定或规则搜索的可行投放方案作为基线。",
-      "primary_route": "以遮蔽时长最大为目标，联合优化飞行方向、速度、投放点和起爆点。",
-      "fallback_route": "若全局搜索代价过高，则采用分层网格搜索或启发式方案，并报告可行性和改进幅度。",
-      "minimum_validation": [
-        "检查速度、投放、起爆和时间约束是否满足",
-        "与基线方案比较遮蔽时长"
-      ]
+      "parse_warnings": []
     },
     {
       "id": "Q5",
@@ -178,21 +178,21 @@
       "figures_needed": [
         "fig_q5_model_schematic.png",
         "fig_q5_result.png",
-        "fig_q5_validation.png"
+        "fig_q5_sensitivity.png"
       ],
       "tables_needed": [
         "tab_q5_result.csv"
       ],
+      "baseline_route": "Build a greedy or rule-based feasible scheme first.",
+      "primary_route": "Formulate decision variables, objective, and constraints, then solve reproducibly.",
+      "fallback_route": "If exact solving is unstable, use a simpler feasible heuristic and compare with baseline.",
+      "minimum_validation": [
+        "check feasibility and solver/status evidence",
+        "compare with a baseline scheme"
+      ],
       "status": "draft",
       "parse_source": "problem_parse.json",
-      "parse_warnings": [],
-      "baseline_route": "先构造题面给定或规则搜索的可行投放方案作为基线。",
-      "primary_route": "以遮蔽时长最大为目标，联合优化飞行方向、速度、投放点和起爆点。",
-      "fallback_route": "若全局搜索代价过高，则采用分层网格搜索或启发式方案，并报告可行性和改进幅度。",
-      "minimum_validation": [
-        "检查速度、投放、起爆和时间约束是否满足",
-        "与基线方案比较遮蔽时长"
-      ]
+      "parse_warnings": []
     }
   ],
   "global_assumptions": [],

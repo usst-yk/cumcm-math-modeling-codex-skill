@@ -1,32 +1,21 @@
-\subsection{问题一：给定投放方案下的遮蔽时长}
+\subsection{问题一：给定方案复算}
 
-问题一中，FY1 以 \(120\,\mathrm{m/s}\) 朝假目标方向等高度匀速飞行，在受领任务 \(1.5\,\mathrm{s}\) 后投放烟幕干扰弹，并在 \(3.6\,\mathrm{s}\) 后起爆。本文示例采用真目标圆柱轴中点 \((0,200,5)\) 作为代表视线点，计算烟幕云团中心到 M1 与该点连线线段的最短距离。当该距离不超过 \(10\,\mathrm{m}\)，且垂足位于导弹和目标之间时，判定为有效遮蔽。
+问题一的作用是校准统一遮蔽判据。按题面给定速度、投放时刻和引信延迟，FY1 的投放点为 \((17620,0,1800)\)，起爆点为 \((17188,0,1736.496)\)。计算得到有效遮蔽区间为 \(8.013006\sim 9.418516\) s，遮蔽时长为 \(1.405510\) s。
 
-该问的时序关系和遮蔽判定逻辑见图 \ref{fig:q1-model-schematic}。先由给定速度和投放时刻确定投放点，再由引信延迟和重力下落确定起爆点，最后在起爆后的 \(20\,\mathrm{s}\) 有效期内判断是否形成遮蔽。
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.94\linewidth]{../figures/fig_q1_model_schematic.png}
-  \caption{问题一给定投放方案的时序与遮蔽判定示意。该图说明投放、起爆、有效遮蔽开始和结束之间的关系。}
-  \label{fig:q1-model-schematic}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{fig_q1_model_schematic.png}
+\caption{问题一投放、起爆、云团下沉和遮蔽判定流程。}
 \end{figure}
 
-根据运动学模型，烟幕弹投放点为 \((17620,0,1800)\)，起爆点为 \((17188,0,1736.496)\)。这两个关键点保存于 \verb|tab_q1_key_points.csv|。起爆后云团以 \(3\,\mathrm{m/s}\) 匀速下沉。由 \verb|src/solve_q1.py| 复现计算得到，有效遮蔽区间为 \(8.013006\sim 9.418516\,\mathrm{s}\)，遮蔽时长为 \(1.405510\,\mathrm{s}\)。结果见 \verb|tab_q1_intervals.csv|，几何关系和距离阈值见图 \verb|fig_q1_distance_geometry.png|。
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.92\linewidth]{../figures/fig_q1_distance_geometry.png}
-  \caption{问题一中烟幕云团到代表视线线段的距离与侧视几何示意。绿色区间表示距离不超过有效半径的时间段。}
-  \label{fig:q1-distance-geometry}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q1_distance_geometry.png}
+\caption{问题一云团到代表视线线段的距离随时间变化。}
 \end{figure}
 
-为避免只给出单条距离曲线而缺少判据说明，进一步检查遮蔽判据中的两个条件：距离裕度应小于等于 0，垂足投影参数应位于 \([0,1]\) 内。图 \ref{fig:q1-validation-margin} 给出了这两个条件随时间的变化，绿色区间与有效遮蔽区间一致，说明该区间同时满足距离条件和线段内部条件。
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.92\linewidth]{../figures/fig_q1_validation_margin.png}
-  \caption{问题一遮蔽判据验证图。上图显示距离裕度，下图显示垂足投影参数；绿色区间表示最终判定的有效遮蔽时间段。}
-  \label{fig:q1-validation-margin}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q1_validation_margin.png}
+\caption{问题一距离裕度和垂足参数验证。}
 \end{figure}
-
-需要说明的是，该示例的遮蔽判据是“目标轴中点视线判据”，用于展示 skill 的可复现交付链路。若在正式参赛论文中使用更严格的圆柱目标整体遮蔽判据，应在此基础上进一步检查目标圆柱边界点的可见性，并重新登记结果。

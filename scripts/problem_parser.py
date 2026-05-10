@@ -307,7 +307,12 @@ def split_sentences(text: str) -> list[str]:
 
 
 def split_subquestions(text: str) -> list[dict]:
-    matches = list(QUESTION_MARK_RE.finditer(text))
+    matches = []
+    for match in QUESTION_MARK_RE.finditer(text):
+        prefix = text[: match.start()].rstrip()
+        if prefix and prefix[-1] not in "\n\r。！？；;：:":
+            continue
+        matches.append(match)
     if not matches:
         return [{"id": "Q1", "title": "Q1", "text": text.strip()}]
 

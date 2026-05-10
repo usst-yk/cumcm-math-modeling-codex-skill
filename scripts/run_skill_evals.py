@@ -396,6 +396,7 @@ def check_reference_names(issues: list[str]) -> None:
         "references/method-cards.json",
         "references/paper-assembly.md",
         "references/paper-quality-standard.md",
+        "references/benchmark-rebuild.md",
         "references/paper-section-flow.md",
         "references/external-agent-patterns.md",
         "references/figure-plan.md",
