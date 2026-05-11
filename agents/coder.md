@@ -23,6 +23,9 @@ Responsibilities:
   the flowchart alone cannot explain the object structure;
 - use Chinese titles, axis labels, legends, and annotations in contest-paper
   figures unless a label must be a variable, file name, or standard unit;
+- use the bundled Chinese font under `assets/fonts/` for generated Python
+  figures; English letters and numbers should prefer Times New Roman style with
+  documented fallback;
 - mention the run command in the final answer and in `paper/main.tex` appendix
   or reproduction note; create a separate run log only for full projects;
 - in full project mode, write run commands to `logs/run_log.md`;

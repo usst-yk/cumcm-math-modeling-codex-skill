@@ -35,8 +35,7 @@ For `benchmark_report`:
 
 Required outputs:
 
-- complete `paper/main.tex` and `paper/sections/*.tex` prose for assigned
-  sections;
+- complete assigned-section prose written directly into `paper/main.tex`;
 - captions that name object, variable, unit, and conclusion;
 - appendix notes containing reproducibility details when the contest paper
   needs them.

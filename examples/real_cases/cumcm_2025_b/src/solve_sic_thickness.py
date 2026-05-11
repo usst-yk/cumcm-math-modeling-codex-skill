@@ -472,7 +472,7 @@ def plot_q1_schematic() -> None:
     ax.text(0.50, 0.13, r"频率以 $\mathrm{cm}$ 表示时，厚度换算为 $\mu$m", ha="center", fontsize=15)
     ax.set_title("单光束干涉厚度反演链条")
     fig.tight_layout()
-    fig.savefig(FIGURE_DIR / "fig_q1_model_schematic.png", bbox_inches="tight")
+    fig.savefig(FIGURE_DIR / "fig_q1_model_flow.png", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -526,7 +526,7 @@ def plot_q2_result(results: list[dict[str, float | str | int]]) -> None:
     plt.close(fig)
 
 
-def plot_q2_model_schematic() -> None:
+def plot_q2_model_flow() -> None:
     setup_chinese_plot()
     fig, ax = plt.subplots(figsize=(10.6, 4.8), dpi=220)
     ax.axis("off")
@@ -551,7 +551,7 @@ def plot_q2_model_schematic() -> None:
         ax.annotate("", xy=(end_x, 0.42), xytext=(start_x, 0.62), arrowprops={"arrowstyle": "->", "lw": 1.2, "color": "#64748b"})
     ax.text(0.50, 0.08, "最终估计必须同时通过量级、残差、多角度一致性和敏感性检验", ha="center", fontsize=13)
     fig.tight_layout()
-    fig.savefig(FIGURE_DIR / "fig_q2_model_schematic.png", bbox_inches="tight")
+    fig.savefig(FIGURE_DIR / "fig_q2_model_flow.png", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -638,7 +638,7 @@ def write_registry(results: list[dict[str, float | str | int]], reliability: dic
             "source_line_or_cell": "rows 1-3",
             "script": "src/solve_sic_thickness.py",
             "command": "python src/solve_sic_thickness.py",
-            "figure_or_table": "figures/fig_q1_model_schematic.png",
+            "figure_or_table": "figures/fig_q1_model_flow.png",
             "validation": "unit conversion and angle correction checked",
             "status": "verified",
             "created_at": "2026-05-11",
@@ -1056,7 +1056,7 @@ d=\frac{f}{2n\cos\theta_t}.
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.86\textwidth]{../figures/fig_q1_model_schematic.png}
+\includegraphics[width=0.86\textwidth]{../figures/fig_q1_model_flow.png}
 \caption{由波数主频反演厚度的模型链条：波数域频率经折射角修正后转化为外延层厚度}
 \label{fig:q1schematic}
 \end{figure}
@@ -1080,7 +1080,7 @@ X_f=\left[1,\ \cos(2\pi f\nu),\ \sin(2\pi f\nu)\right],
 
 \begin{{figure}}[htbp]
 \centering
-\includegraphics[width=0.86\textwidth]{{../figures/fig_q2_model_schematic.png}}
+\includegraphics[width=0.86\textwidth]{{../figures/fig_q2_model_flow.png}}
 \caption{{三类频率估计方法的选优与验证链条：峰间距给出先验估计，FFT 提供主频范围，主频拟合给出最终厚度并接受一致性和敏感性检验}}
 \label{{fig:q2methodchain}}
 \end{{figure}}
@@ -1138,7 +1138,7 @@ def main() -> int:
     plot_problem_overview()
     plot_q1_schematic()
     plot_q1_result()
-    plot_q2_model_schematic()
+    plot_q2_model_flow()
     plot_q2_result(results)
     plot_q2_validation(results)
     plot_sensitivity(sensitivity_rows)

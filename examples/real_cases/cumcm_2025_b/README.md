@@ -24,8 +24,8 @@
 | `data/raw/sic_15deg_synthetic.csv` | 15 deg 合成波数-反射率数据，运行脚本后生成。 |
 | `tables/tab_q2_thickness.csv` | 两组光谱厚度估计和误差。 |
 | `tables/tab_q2_reliability.csv` | 真值回归与角度一致性验证。 |
-| `figures/fig_q1_model_schematic.png` | 单光束干涉厚度模型示意图。 |
-| `figures/fig_q2_model_schematic.png` | 反演算法流程图。 |
+| `figures/fig_q1_model_flow.png` | 单光束干涉厚度模型示意图。 |
+| `figures/fig_q2_model_flow.png` | 反演算法流程图。 |
 | `figures/fig_q2_result.png` | 两组光谱与峰值检测结果。 |
 | `figures/fig_q2_validation.png` | 估计厚度与合成验证误差图。 |
 | `figures/fig_sensitivity.png` | 折射率和入射角敏感性分析图。 |

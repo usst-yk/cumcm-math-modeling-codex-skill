@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from pathlib import Path
+import sys
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -20,6 +21,9 @@ TABLES = ROOT / "tables"
 FIGURES = ROOT / "figures"
 RESULTS = ROOT / "results"
 PAPER = ROOT / "paper" / "sections"
+SKILL_ROOT = ROOT.parents[1]
+sys.path.insert(0, str(SKILL_ROOT / "scripts"))
+from make_paper_figures import apply_cumcm_style  # noqa: E402
 
 
 def ensure_dirs() -> None:
@@ -70,14 +74,14 @@ def ranking(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def write_figures(daily: pd.DataFrame, rank: pd.DataFrame) -> None:
-    plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 12})
+    apply_cumcm_style(font_size=15)
 
     fig, ax = plt.subplots(figsize=(7, 4))
-    ax.plot(daily["date"], daily["demand"], marker="o", label="Actual")
-    ax.plot(daily["date"], daily["linear_fit"], linestyle="--", label="Linear fit")
-    ax.set_xlabel("Date")
-    ax.set_ylabel("Demand")
-    ax.set_title("Daily total demand")
+    ax.plot(daily["date"], daily["demand"], marker="o", label="实际需求")
+    ax.plot(daily["date"], daily["linear_fit"], linestyle="--", label="线性拟合")
+    ax.set_xlabel("日期")
+    ax.set_ylabel("需求量 / 件")
+    ax.set_title("问题一：日总需求预测")
     ax.legend()
     fig.autofmt_xdate()
     fig.tight_layout()
@@ -87,9 +91,9 @@ def write_figures(daily: pd.DataFrame, rank: pd.DataFrame) -> None:
     fig, ax = plt.subplots(figsize=(7, 4))
     ax.barh(rank["station_id"], rank["final_score"], color="#2563eb")
     ax.invert_yaxis()
-    ax.set_xlabel("Priority score")
-    ax.set_ylabel("Station")
-    ax.set_title("Station priority ranking")
+    ax.set_xlabel("优先级得分")
+    ax.set_ylabel("站点")
+    ax.set_title("问题三：站点优先级排序")
     fig.tight_layout()
     fig.savefig(FIGURES / "fig_q3_priority_ranking.png", dpi=200)
     plt.close(fig)

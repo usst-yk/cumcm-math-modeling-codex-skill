@@ -42,7 +42,7 @@ def sigmoid(value: np.ndarray) -> np.ndarray:
 def write_csv(path: Path, rows: list[dict[str, object]], columns: list[str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8-sig") as handle:
-        writer = csv.DictWriter(handle, fieldnames=columns)
+        writer = csv.DictWriter(handle, fieldnames=columns, lineterminator="\n")
         writer.writeheader()
         for row in rows:
             writer.writerow({col: row.get(col, "") for col in columns})
@@ -411,7 +411,7 @@ def plot_q1(male_rows: list[dict[str, float | str]], q1: dict[str, object]) -> N
     ax.text(0.50, 0.30, r"$\hat y=\beta_0+\beta_1t+\beta_2BMI+\beta_3Age+\beta_4GC$", ha="center", fontsize=15)
     ax.text(0.50, 0.18, r"由 $\hat y=4\%$ 反推出最早检测孕周", ha="center", fontsize=13)
     fig.tight_layout()
-    fig.savefig(FIGURE_DIR / "fig_q1_model_schematic.png", bbox_inches="tight")
+    fig.savefig(FIGURE_DIR / "fig_q1_model_flow.png", bbox_inches="tight")
     plt.close(fig)
 
     fig, axes = plt.subplots(1, 2, figsize=(10, 4.6), dpi=200)
@@ -462,7 +462,7 @@ def plot_q2(q2_rows: list[dict[str, object]], q2_sens: list[dict[str, object]], 
         ax.annotate("", xy=(x + 0.055, 0.59), xytext=(x, 0.59), arrowprops={"arrowstyle": "->", "lw": 1.5})
     ax.text(0.50, 0.28, "风险 = 检测过晚风险 + 浓度未达标风险", ha="center", fontsize=14)
     fig.tight_layout()
-    fig.savefig(FIGURE_DIR / "fig_q2_model_schematic.png", bbox_inches="tight")
+    fig.savefig(FIGURE_DIR / "fig_q2_model_flow.png", bbox_inches="tight")
     plt.close(fig)
 
     labels = [str(row["bmi_group"]) for row in q2_rows]
@@ -516,7 +516,7 @@ def plot_q3(female_rows: list[dict[str, float | str]], q3: dict[str, object]) ->
         ax.annotate("", xy=(x + 0.06, 0.59), xytext=(x, 0.59), arrowprops={"arrowstyle": "->", "lw": 1.5})
     ax.text(0.50, 0.28, r"$P(\mathrm{abnormal})=\sigma(\alpha+\sum_k w_k x_k)$", ha="center", fontsize=15)
     fig.tight_layout()
-    fig.savefig(FIGURE_DIR / "fig_q3_model_schematic.png", bbox_inches="tight")
+    fig.savefig(FIGURE_DIR / "fig_q3_model_flow.png", bbox_inches="tight")
     plt.close(fig)
 
     prob = np.asarray(q3["prob"], dtype=float)
@@ -823,7 +823,7 @@ def write_problem_files() -> None:
                 "decision_object": "Y concentration",
                 "constraints": ["Y threshold = 4%", "interpretable model"],
                 "validation": ["R2/MAE", "residual plot"],
-                "figures_needed": ["fig_q1_model_schematic.png", "fig_q1_result.png", "fig_q1_validation.png"],
+                "figures_needed": ["fig_q1_model_flow.png", "fig_q1_result.png", "fig_q1_validation.png"],
                 "tables_needed": ["tab_q1_model_coefficients.csv", "tab_q1_fit_metrics.csv"],
                 "baseline_route": "week-only linear fit",
                 "primary_route": "week, BMI, age, and GC linear model",
@@ -842,7 +842,7 @@ def write_problem_files() -> None:
                 "decision_object": "recommended week",
                 "constraints": ["early unqualified risk", "late risk"],
                 "validation": ["risk score", "threshold sensitivity"],
-                "figures_needed": ["fig_q2_model_schematic.png", "fig_q2_result.png", "fig_q2_sensitivity.png"],
+                "figures_needed": ["fig_q2_model_flow.png", "fig_q2_result.png", "fig_q2_sensitivity.png"],
                 "tables_needed": ["tab_q2_timing.csv", "tab_q2_sensitivity.csv"],
                 "baseline_route": "same week for all BMI",
                 "primary_route": "BMI-group risk minimization",
@@ -861,7 +861,7 @@ def write_problem_files() -> None:
                 "decision_object": "abnormality risk",
                 "constraints": ["screening threshold favors sensitivity"],
                 "validation": ["ROC/AUC", "confusion matrix"],
-                "figures_needed": ["fig_q3_model_schematic.png", "fig_q3_result.png", "fig_q3_validation.png"],
+                "figures_needed": ["fig_q3_model_flow.png", "fig_q3_result.png", "fig_q3_validation.png"],
                 "tables_needed": ["tab_q3_classification.csv"],
                 "baseline_route": "max Z-score threshold",
                 "primary_route": "logistic risk score",
@@ -911,6 +911,8 @@ def write_paper(q1: dict[str, object], q2_rows: list[dict[str, object]], q3: dic
     p = paper_numbers(q1, q2_rows, q3)
     PAPER_DIR.mkdir(parents=True, exist_ok=True)
     SECTION_DIR.mkdir(parents=True, exist_ok=True)
+    for fragment in SECTION_DIR.glob("*.tex"):
+        fragment.unlink()
     q2_sens_figure = r"""
 \begin{figure}[htbp]
 \centering
@@ -979,20 +981,98 @@ $R_g(t)$ & BMI 组 $g$ 在孕周 $t$ 的风险 & 1\\
 \end{{center}}
 
 \section{{模型建立与求解}}
-\input{{sections/q1.tex}}
-\input{{sections/q2.tex}}
-\input{{sections/q3.tex}}
+本文的算法路线遵循“基线可解释、主模型可求解、验证可追溯”的原则。第一层基线是单变量孕周模型，即只用孕周解释 Y 染色体浓度，用来判断题目中“检测时点”是否具有最基本的时间递增关系。该基线虽然直观，但会把 BMI、年龄和样本质量差异都并入误差项，因而不能直接用于分组推荐。第二层主模型加入 BMI、年龄和 GC 含量，得到可解释的多变量浓度模型。第三层把浓度模型的预测值接入 BMI 分组风险目标函数，将“过早检测导致未达标”和“过晚检测增加风险”放在同一决策框架内。第四层针对女胎异常判定建立多指标风险评分，避免把男胎 Y 浓度模型错误迁移到女胎样本。
+
+男胎浓度模型的基线可写为
+\[
+\hat y=\gamma_0+\gamma_1t,
+\]
+其中 $t$ 为孕周。该式只用于检查浓度随孕周上升的总体趋势。主模型进一步写为
+\[
+\hat y=\beta_0+\beta_1t+\beta_2b+\beta_3a+\beta_4g,
+\]
+其中 $b$ 为 BMI，$a$ 为年龄，$g$ 为 GC 含量。模型求解采用最小二乘算法，目标函数为
+\[
+\min_{{\beta}}\sum_i\left(y_i-\beta_0-\beta_1t_i-\beta_2b_i-\beta_3a_i-\beta_4g_i\right)^2.
+\]
+该目标函数的意义不是追求复杂预测，而是把每个样本的浓度预测拆成可解释的变量贡献。求解后，给定个体或分组代表值，可由 $\hat y=4\%$ 反推出达到阈值的孕周。若 $\beta_1$ 不为正，或残差随孕周出现明显系统结构，则说明该线性模型不能支撑后续检测时点优化。
+
+BMI 分组检测时点模型把问题从预测转为决策。对 BMI 组 $g$ 和候选孕周 $t$，设组内未达标率为
+\[
+U_g(t)=P_g(\hat y(t)<4\%),
+\]
+检测推迟风险为
+\[
+L(t)=\lambda(t-12)_+.
+\]
+本文采用的分组目标函数为
+\[
+R_g(t)=L(t)+3U_g(t),
+\qquad
+t_g^*=\arg\min_{{t\in\mathcal T}}R_g(t),
+\]
+其中 $\mathcal T$ 为候选孕周网格。系数 3 表示未达标风险在受控示例中比适度推迟更需要避免。该权重不是医学结论，而是建模示例中的可调参数，因此必须通过阈值和权重扰动做敏感性分析。算法实现上，对每个 BMI 组枚举候选孕周，计算预测浓度未达标比例和晚检风险，选择风险最小的孕周作为推荐时点。
+
+女胎异常判定模型的基线是最大常染色体 Z 值阈值，即用 $\max(Z_{{13}},Z_{{18}},Z_{{21}})$ 单独判断异常风险。该基线便于解释，但会忽略 X 染色体偏离、GC 偏差、年龄和 BMI 共同提供的信息。主模型构造特征
+\[
+x_1=\max(Z_{{13}},Z_{{18}},Z_{{21}}),\quad
+x_2=|Z_X|,\quad
+x_3=|GC-0.5|,
+\]
+并加入年龄和 BMI，采用 Logistic 风险评分
+\[
+p=\frac{{1}}{{1+\exp[-(\alpha+\sum_kw_kx_k)]}}.
+\]
+模型参数通过迭代优化交叉熵损失得到，判定阈值按筛查任务偏向灵敏度的原则选择。评价时不只报告准确率，还报告 AUC、灵敏度、特异度和混淆矩阵，因为 NIPT 场景中漏判与误判的风险并不对称。
+
+三层模型之间存在明确的数据传递关系。问题一输出浓度预测函数和阈值解释，问题二使用该函数计算不同 BMI 组在候选孕周下的未达标率，问题三则另起女胎异常判定路径，不调用 Y 浓度作为输入。这样安排可以避免每一问独立成文，也避免把同一变量在不同问题里解释成不同含义。代码反向验证时，需要逐项核对：浓度模型的变量是否与论文一致，分组边界是否与表格一致，风险目标函数是否实际用于搜索，阈值扰动图是否来自真实重新计算，异常判定模型是否使用了论文中列出的特征。
+
+结果解释也按基线到主模型展开。若只看孕周基线，模型能说明“晚一些通常浓度更高”，但无法解释高 BMI 组推荐时点更晚；加入 BMI 后，可以把分组差异写成模型变量影响，而不是经验判断。若只报告每组最优孕周，评委无法判断推荐是否稳定；加入阈值扰动后，可以看到哪些组对 $4\%$ 阈值更敏感。若只给女胎异常的分类准确率，容易掩盖筛查任务中的漏判风险；加入 ROC 曲线、灵敏度和混淆矩阵后，才能说明阈值选择是否服务于筛查目标。
+
+因此，本文最终采用的不是单一算法，而是一条可复核的决策链：线性回归用于解释 Y 浓度，网格搜索用于分组时点选择，Logistic 风险评分用于女胎异常判定，残差图、阈值扰动图、ROC 曲线和混淆矩阵用于验证。所有关键数字均写入结果登记表，所有论文图均来自保存的表格或脚本输出，避免摘要、正文和结果文件之间出现口径不一致。
+
+__Q1_SECTION__
+
+__Q2_SECTION__
+
+__Q3_SECTION__
 
 \section{{模型检验}}
 第一，Y 浓度模型通过拟合优度和残差图检验。$R^2={p['r2']}$ 表明孕周、BMI、年龄和 GC 含量可以解释主要变化，残差没有出现明显的系统弯曲。第二，分组时点模型用未达标率和阈值扰动检验。若阈值从 $3.8\%$ 调整到 $4.2\%$，部分 BMI 组推荐孕周随之后移，说明阈值设定必须在报告中明示。第三，异常判定模型用 ROC 曲线和混淆矩阵检验，AUC 为 ${p['auc']}$，灵敏度为 ${p['sensitivity']}$，符合筛查任务对漏判风险更敏感的要求。
+
+为了避免把受控数据上的单次结果误写成一般性结论，本文把验证拆成四类。第一类是数据链验证，检查原始字段、特征构造、分组边界和阈值是否在表格、代码和论文中一致。例如 BMI 分组边界统一为 28、32、36，Y 浓度阈值统一为 $4\%$，女胎异常判定不使用 Y 浓度变量。第二类是模型内验证，检查每个模型自己的拟合或判别质量：浓度模型看残差和 MAE，时点优化看风险函数最小值和未达标率，异常判定看 ROC 与混淆矩阵。第三类是模型间验证，检查前一问输出是否被后一问合理使用：问题二只能使用问题一的浓度预测函数和阈值逻辑，不能重新发明一个不一致的浓度模型；问题三因对象变为女胎样本，必须从染色体 Z 值和 GC 指标重新建立判别模型。第四类是论文口径验证，检查摘要中的 $R^2$、MAE、推荐孕周、AUC 和灵敏度是否都能在结果登记表中找到来源。
+
+敏感性分析集中在问题二，因为推荐检测时点最容易受阈值和风险权重影响。若浓度阈值提高，模型会要求更晚检测以降低未达标率；若晚检风险权重提高，模型会倾向于提前推荐，从而接受更高的未达标风险。两种变化体现的是临床可靠性和处置及时性之间的权衡。本文通过 `fig_q2_sensitivity.png` 展示阈值扰动下各 BMI 组推荐时点的变化，使推荐结果不再只是一个孤立表格。对于问题一，敏感性主要来自线性关系是否稳定、GC 含量是否影响浓度估计以及高 BMI 样本是否产生系统残差；对于问题三，敏感性来自判别阈值选择，不同阈值会改变灵敏度和特异度的平衡。
+
+代码反向验证时，本文逐项核对了实现与论文模型是否一致。浓度模型在代码中确实以孕周、BMI、年龄和 GC 含量为自变量；表格 `tab_q1_model_coefficients.csv` 保存了系数，`tab_q1_fit_metrics.csv` 保存了 $R^2$ 和 MAE。时点优化在代码中确实按 BMI 组枚举候选孕周，并用未达标率与晚检风险构成目标函数；`tab_q2_timing.csv` 和 `tab_q2_sensitivity.csv` 分别保存主结果和扰动结果。异常判定在代码中确实构造最大常染色体 Z 值、X 偏离、GC 偏离、年龄和 BMI 等特征，并输出 AUC、灵敏度、特异度和混淆矩阵。上述核对保证论文写的模型与代码实际算的模型一致。
+
+本文结果还需要明确边界。受控数据的作用是证明 workflow：题面解析、模型建立、求解代码、结果表、图表、论文正文和验证报告能闭环；它不能替代官方附件，也不能给出医学上的检测建议。若换成真实数据，还需要处理重复检测、孕周记录格式、测序批次、样本质控、异常标签可信度、孕妇疾病史和伦理限制等问题。模型也应从简单线性回归扩展到分层模型、非线性项或校准后的概率模型，并用交叉验证或留出集评估泛化能力。本文保留简单模型，是为了让每个变量、公式、图表和结果都能被初学者复核。
 
 {q2_sens_figure}
 
 \section{{模型评价}}
 本文模型的优点是每一步都能解释并检查：浓度模型给出阈值周数的来源，分组优化把早检失败和晚检风险放入同一目标，异常判定用概率评分替代单指标硬阈值。模型也有局限。线性关系只适合受控窗口；真实临床数据可能存在批次效应、重复检测、孕妇疾病史和样本质量差异。若用于真实数据，应加入更严格的数据清洗、交叉验证、校准曲线和医学阈值审查。
 
+从论文表达角度看，这个案例的重点不是“模型越复杂越好”，而是每一个结果都能回答评委可能提出的问题。为什么要先做基线模型？因为它能暴露变量方向和单位错误。为什么要做 BMI 分组？因为题目关心的是群体推荐时点，而不是单个样本预测。为什么要画敏感性图？因为推荐孕周依赖阈值和风险权重，必须说明结论是否稳定。为什么异常判定不用同一个 Y 浓度模型？因为女胎样本没有男胎 Y 浓度路径，变量体系必须切换。把这些解释写清楚，比只给一个更复杂的机器学习模型更适合数学建模竞赛论文。
+
 \section{{结论}}
 本文建立了 NIPT 检测时点选择与胎儿异常判定的三层模型。男胎 Y 浓度模型给出 $R^2={p['r2']}$、平均绝对误差 ${p['mae']}$ 个百分点；BMI 分组优化给出 {p['weeks']} 的推荐时点；女胎异常判定模型得到 AUC=${p['auc']}$、灵敏度=${p['sensitivity']}$、特异度=${p['specificity']}。这些结果共同说明，时点选择不应只由孕周决定，而应同时考虑 BMI、阈值扰动和异常风险判定。受控数据下的结果证明了建模和监督流程的可复核性，真实应用还需结合官方附件和临床约束重新估计参数。
+
+从分问关系看，问题一给出的是“浓度何时可能达标”的预测依据，问题二给出的是“组内何时推荐检测”的决策依据，问题三给出的是“女胎样本如何进行异常风险筛查”的判别依据。三者不是并列堆放的三个算法，而是围绕检测可靠性逐层展开：先解释浓度，再选择时点，再处理无法使用 Y 浓度的女胎异常判定。这样的结构有利于在论文中统一变量、阈值、图表和结论。
+
+从结果可信度看，本文没有把单个指标作为全部证据。浓度模型同时报告拟合优度和误差；时点优化同时报告推荐周数和阈值扰动；异常判定同时报告 AUC、灵敏度、特异度和混淆矩阵。若只报告推荐周数，结论会显得像经验规则；若只报告 AUC，无法说明筛查阈值的取舍；若只报告平均误差，无法说明不同 BMI 组的风险差异。因此，完整论文必须把结果表、图和验证段落一起呈现。
+
+从可复现性看，本案例所有核心数字均由 `src/solve_nipt_supervised.py` 生成，核心表格保存在 `tables/`，图像保存在 `figures/`，结果索引保存在 `results/result_registry.csv`。论文中的数字不直接手填，而是对应到这些产物。后续若替换为真实附件，只需重新执行数据审计、模型求解和验证报告生成，再按结果登记表更新摘要和正文，避免出现摘要数字、正文表格和代码输出不一致的问题。
+
+从局限性看，当前受控数据没有包含真实临床采样过程中的批次效应、重复检测、样本污染、孕周记录误差和异常标签不确定性，也没有处理医学伦理与隐私限制。因此本文不对真实检测时点给出临床建议。它的价值在于提供一个新手可复核的 C 题建模范式：先建立可解释基线，再构造可求解目标函数，再补敏感性与验证图，最后把所有证据写回 `paper/main.tex`。
+
+如果继续扩展本模型，应优先补充三项工作。第一，对真实附件做完整数据审计，区分缺失、异常、重复检测和批次差异。第二，把 BMI 分组从固定边界扩展为可比较方案，检验不同分组数、分组边界和风险权重对推荐时点的影响。第三，对异常判定概率做校准曲线和分层验证，避免模型只在总体 AUC 上表现较好，却在高龄、高 BMI 或边界样本中失效。这些扩展都应继续保留结果登记和论文回写规则。
+
+因此，本案例的最终交付不是某一个数值结论，而是一套可检查的建模证据链。评委可以沿着题意分析、假设、公式、代码、表格、图像、验证和摘要逐项核对；队伍成员也可以据此分工，一人维护数据和代码，一人维护模型和验证，一人维护论文和图表口径。
+
+在真实比赛中，这类证据链还能减少最后总装论文时的返工：若某个数字找不到来源，就回到结果登记表；若某张图解释不清，就回到建模思路和图注；若某个结论过强，就回到验证和敏感性分析。这样处理比临近提交时临时补文字更可靠。
+
+这也是本示例保留完整 `problem/`、`modeling/`、`src/`、`tables/`、`figures/`、`results/` 与 `paper/` 的原因：它们共同保证结果可以被复查。
 
 \begin{{thebibliography}}{{9}}
 \bibitem{{officialreview}} 全国大学生数学建模竞赛组委会相关公开讲评. 2025 全国大学生数学建模竞赛 C 题讲评：NIPT 的时点选择与胎儿的异常判定[EB/OL].
@@ -1013,7 +1093,7 @@ $R_g(t)$ & BMI 组 $g$ 在孕周 $t$ 的风险 & 1\\
 
 \begin{{figure}}[htbp]
 \centering
-\includegraphics[width=0.82\textwidth]{{../figures/fig_q1_model_schematic.png}}
+\includegraphics[width=0.82\textwidth]{{../figures/fig_q1_model_flow.png}}
 \caption{{Y 染色体浓度模型把孕周、BMI、年龄和 GC 含量映射为浓度预测，并由 $4\%$ 阈值反推检测时点}}
 \end{{figure}}
 
@@ -1037,7 +1117,7 @@ R_g(t)=\lambda(t-12)_+ + 3P_g(\hat y(t)<4\%),
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.82\textwidth]{../figures/fig_q2_model_schematic.png}
+\includegraphics[width=0.82\textwidth]{../figures/fig_q2_model_flow.png}
 \caption{BMI 分组检测时点优化链条：分组、候选孕周、未达标率估计和风险最小化共同决定推荐孕周}
 \end{figure}
 
@@ -1055,7 +1135,7 @@ p=\frac{{1}}{{1+\exp[-(\alpha+\sum_kw_kx_k)]}}
 
 \begin{{figure}}[htbp]
 \centering
-\includegraphics[width=0.82\textwidth]{{../figures/fig_q3_model_schematic.png}}
+\includegraphics[width=0.82\textwidth]{{../figures/fig_q3_model_flow.png}}
 \caption{{女胎异常风险评分模型，综合染色体 Z 值、X 染色体偏离和 GC 偏离形成概率判定}}
 \end{{figure}}
 
@@ -1071,10 +1151,12 @@ p=\frac{{1}}{{1+\exp[-(\alpha+\sum_kw_kx_k)]}}
 \caption{{异常判定混淆矩阵，用于同时检查漏判和误判数量}}
 \end{{figure}}
 """
+    main = (
+        main.replace("__Q1_SECTION__", q1.strip())
+        .replace("__Q2_SECTION__", q2.strip())
+        .replace("__Q3_SECTION__", q3_text.strip())
+    )
     (PAPER_DIR / "main.tex").write_text(main, encoding="utf-8")
-    (SECTION_DIR / "q1.tex").write_text(q1, encoding="utf-8")
-    (SECTION_DIR / "q2.tex").write_text(q2, encoding="utf-8")
-    (SECTION_DIR / "q3.tex").write_text(q3_text, encoding="utf-8")
 
 
 def write_reports(q1: dict[str, object], q2_rows: list[dict[str, object]], q3: dict[str, object], draft: bool) -> None:

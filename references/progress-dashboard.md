@@ -103,7 +103,7 @@ When sources disagree, trust in this order:
 1. explicit `blocked` or `revise` events in `logs/progress.jsonl`;
 2. verified/blocked status in `results/result_registry.csv`;
 3. `problem/task_plan.json` status fields;
-4. existence of files in `figures/`, `tables/`, `paper/sections/`;
+4. existence of files in `figures/`, `tables/`, and `paper/main.tex`;
 5. informal notes.
 
 Do not let the dashboard become the fact source. Paper numbers still come from

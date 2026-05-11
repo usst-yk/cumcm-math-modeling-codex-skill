@@ -17,6 +17,15 @@
 - `src/05_model_q3.py`
 - `src/plot_style.py`
 
+绘图字体默认规则：
+
+- 使用 skill 内置 `assets/fonts/NotoSansCJKsc-Regular.otf` 和
+  `assets/fonts/NotoSansCJKsc-Bold.otf` 作为中文字体。
+- 英文、数字和数学标签优先 Times New Roman 风格；没有 Times New Roman
+  时回退到 Times、Nimbus Roman、Liberation Serif 或 DejaVu Serif。
+- Python 图优先复用 `scripts/make_paper_figures.py` 中的
+  `apply_cumcm_style()`，不要直接依赖 macOS/Windows 自带中文字体。
+
 常用库：
 
 - 数据：pandas、numpy、openpyxl。
@@ -55,6 +64,8 @@
 
 - 使用 `rng(2024)` 固定随机种子。
 - 使用 `exportgraphics` 输出 300 dpi PNG；需要打印版时另存 PDF。
+- MATLAB 图也应优先使用项目或 skill 内置 Noto Sans CJK SC 字体；如果
+  MATLAB 不能直接加载字体文件，则在图脚本中明确记录实际使用的中文字体。
 - 变量命名和论文符号尽量一致。
 - 每个 `.m` 文件说明输入、输出和对应论文问题。
 

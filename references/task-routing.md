@@ -18,12 +18,12 @@ communication natural; do not expose commands unless the user asks.
 | Data attachments present | `scripts/data_profile.py`, `references/data-audit.md` |
 | Choose a model | `agents/modeler.md`, `references/problem-routing.md`, `references/method-cards.json`, `references/method-library.md` |
 | Write or fix solving code | `agents/coder.md`, `references/python-matlab-guide.md` |
-| Figure planning for a solved question | `references/figure-plan.md`, `references/figure-standards.md` |
+| Figure planning for a solved question | `references/figure-plan.md`, `references/figure-standards.md`; default to GPT-image model flowchart plus result figure |
 | Validate results | `references/validation.md`, `scripts/validate_results.py` when project artifacts exist |
 | Code/tables/figures to paper | `references/code-to-paper.md`, `references/result-tracking.md`, `agents/writer.md` |
 | Final abstract | `agents/abstract_writer.md`, `references/paper-writing.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
 | Conclusion or polishing | `references/paper-writing.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
-| Technical roadmap or model flowchart | `references/technical-roadmap.md`; use GPT-image for paper-final outputs and `scripts/make_roadmap_svg.py` when editable source is needed |
+| Technical roadmap or model flowchart | `references/technical-roadmap.md`; use GPT-image by default and record the prompt/spec in `modeling/` |
 | AI schematic figure brief | `references/ai-figure-brief.md`, `scripts/export_ai_figure_briefs.py` |
 | Progress dashboard | `references/progress-dashboard.md`, `scripts/update_progress.py` |
 | HTML presentation | `references/html-presentation.md`, `scripts/build_presentation.py` |

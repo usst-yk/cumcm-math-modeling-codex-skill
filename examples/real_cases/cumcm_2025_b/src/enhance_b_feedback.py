@@ -598,7 +598,7 @@ def plot_multibeam(results: list[dict[str, float | str | int]], multi: dict[str,
     plt.close(fig)
 
 
-def plot_q3_model_schematic() -> None:
+def plot_q3_model_flow() -> None:
     setup_chinese_plot()
     fig, ax = plt.subplots(figsize=(10.6, 4.8), dpi=220)
     ax.axis("off")
@@ -620,7 +620,7 @@ def plot_q3_model_schematic() -> None:
     ax.annotate("", xy=(0.485, 0.42), xytext=(0.345, 0.62), arrowprops={"arrowstyle": "->", "lw": 1.1, "color": "#64748b", "linestyle": "--"})
     ax.text(0.50, 0.09, "问题3先判定多光束条件，再决定是否用 Airy 结果修正厚度", ha="center", fontsize=13)
     fig.tight_layout()
-    fig.savefig(FIGURE_DIR / "fig_q3_model_schematic.png", bbox_inches="tight")
+    fig.savefig(FIGURE_DIR / "fig_q3_model_flow.png", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -730,11 +730,11 @@ def append_registry(joint: dict[str, object], multi: dict[str, object]) -> None:
             "value": "figure",
             "unit": "evidence",
             "source_type": "figure",
-            "source_file": "figures/fig_q2_model_schematic.png",
+            "source_file": "figures/fig_q2_model_flow.png",
             "source_line_or_cell": "all",
             "script": "src/solve_sic_thickness.py",
             "command": "python src/solve_sic_thickness.py",
-            "figure_or_table": "figures/fig_q2_model_schematic.png",
+            "figure_or_table": "figures/fig_q2_model_flow.png",
             "validation": "registered to keep route-comparison evidence traceable",
             "status": "verified",
             "created_at": "2026-05-11",
@@ -766,11 +766,11 @@ def append_registry(joint: dict[str, object], multi: dict[str, object]) -> None:
             "value": "figure",
             "unit": "evidence",
             "source_type": "figure",
-            "source_file": "figures/fig_q3_model_schematic.png",
+            "source_file": "figures/fig_q3_model_flow.png",
             "source_line_or_cell": "all",
             "script": "src/solve_sic_thickness.py",
             "command": "python src/solve_sic_thickness.py",
-            "figure_or_table": "figures/fig_q3_model_schematic.png",
+            "figure_or_table": "figures/fig_q3_model_flow.png",
             "validation": "Q3 has both a model schematic and comparison figure",
             "status": "verified",
             "created_at": "2026-05-11",
@@ -935,7 +935,7 @@ n(\lambda)=A+\frac{B}{\lambda^2}+\frac{C}{\lambda^4},
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.86\textwidth]{../figures/fig_q1_model_schematic.png}
+\includegraphics[width=0.86\textwidth]{../figures/fig_q1_model_flow.png}
 \caption{由波数主频反演厚度的基线链条；在正式实测中，该链条应继续接入 Fresnel 系数和 Cauchy 色散}
 \label{fig:q1schematic}
 \end{figure}
@@ -955,7 +955,7 @@ n(\lambda)=A+\frac{B}{\lambda^2}+\frac{C}{\lambda^4},
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.90\textwidth]{../figures/fig_q2_model_schematic.png}
+\includegraphics[width=0.90\textwidth]{../figures/fig_q2_model_flow.png}
 \caption{问题二的算法路线：峰间距提供人工基线，滑窗 FFT 选择稳定频段，主频拟合和双角度联合目标给出厚度估计}
 \label{fig:q2methodchain}
 \end{figure}
@@ -1026,7 +1026,7 @@ R_A(\nu)=A+\frac{B}{1+F\sin^2\{\delta(\nu)/2\}},
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.90\textwidth]{../figures/fig_q3_model_schematic.png}
+\includegraphics[width=0.90\textwidth]{../figures/fig_q3_model_flow.png}
 \caption{问题三的多光束判定门：先检查物理条件和残差证据，再用 Airy 模型与双光束模型比较是否需要修正厚度}
 \label{fig:q3schematic}
 \end{figure}
@@ -1184,7 +1184,7 @@ def enhance_after_base(
     plot_sliding_fft(fft_rows)
     plot_joint_fit(joint, results)
     plot_residual_diagnostics(results)
-    plot_q3_model_schematic()
+    plot_q3_model_flow()
     plot_multibeam(results, multi)
     append_registry(joint, multi)
     write_feedback_audit(joint, multi)

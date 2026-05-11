@@ -104,7 +104,7 @@
         "residual plot"
       ],
       "figures_needed": [
-        "fig_q1_model_schematic.png",
+        "fig_q1_model_flow.png",
         "fig_q1_result.png",
         "fig_q1_validation.png"
       ],
@@ -158,7 +158,7 @@
         "threshold sensitivity"
       ],
       "figures_needed": [
-        "fig_q2_model_schematic.png",
+        "fig_q2_model_flow.png",
         "fig_q2_result.png",
         "fig_q2_sensitivity.png"
       ],
@@ -210,7 +210,7 @@
         "confusion matrix"
       ],
       "figures_needed": [
-        "fig_q3_model_schematic.png",
+        "fig_q3_model_flow.png",
         "fig_q3_result.png",
         "fig_q3_validation.png"
       ],

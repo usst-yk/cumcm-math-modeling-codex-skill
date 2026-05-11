@@ -7,8 +7,16 @@ For SCI/Nature/PRL-style publication graphics, read `references/figure-standards
 ## Core Rules
 
 - Every figure must support one subquestion conclusion.
-- Every figure must be reproducible from code or a saved source table.
+- Result, validation, and sensitivity figures must be reproducible from code or
+  a saved source table. GPT-image flowcharts and technical roadmaps must keep
+  their prompt/spec and pass visual text/order checks.
 - Figure numbers, captions, and filenames must match the paper text.
+- Use the bundled Chinese font by default: `assets/fonts/NotoSansCJKsc-Regular.otf`
+  for normal Chinese text and `assets/fonts/NotoSansCJKsc-Bold.otf` for titles.
+  Do not rely on macOS/Windows platform Chinese fonts as the primary choice.
+- English letters, numbers, and math labels should prefer Times New Roman style;
+  if Times New Roman is unavailable, fall back to Times, Nimbus Roman,
+  Liberation Serif, or DejaVu Serif.
 - For each solved subquestion, make a figure plan before coding or writing.
 - Default to at least two figures for most solved subquestions: a final model
   flowchart and a result figure. Add validation/sensitivity figures when the
@@ -52,6 +60,7 @@ For SCI/Nature/PRL-style publication graphics, read `references/figure-standards
 - Figures that show process but do not support a result.
 - English-only plot labels in a Chinese modeling paper when Chinese labels are
   possible.
+- Platform-dependent Chinese fonts as the only font setting.
 - Tiny labels inserted into a paper page.
 - Unchecked AI-generated flowchart text.
 - Manual image edits that change values without updating source data.
@@ -73,7 +82,8 @@ Each caption should state:
 1. what the figure shows;
 2. which subquestion it supports;
 3. the key trend/result;
-4. the source table or script when useful;
+4. the source table/script for result figures, or the prompt/spec file for
+   GPT-image flowcharts;
 5. validation meaning when the figure is a check.
 
 Example:
@@ -84,6 +94,8 @@ Example:
 
 Before final handoff:
 
+- Chinese text uses the bundled Noto Sans CJK SC font or an explicitly recorded
+  fallback;
 - labels are not clipped;
 - legend does not cover data;
 - long category names are horizontal or wrapped;

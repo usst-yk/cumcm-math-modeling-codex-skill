@@ -55,6 +55,8 @@ of a CUMCM problem, update `paper/main.tex`. Do not interpret "solve Qx",
 - Final papers must explain why the model is reasonable, how assumptions make
   the problem solvable, how variables/equations/constraints are built, why the
   algorithm is chosen, what each result means, and how validation supports it.
+- Paper figures must use the bundled Chinese font assets by default so output
+  looks consistent across macOS, Windows, and Linux.
 
 ## Hard Never Rules
 

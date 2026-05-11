@@ -141,16 +141,20 @@ def check_demo(issues: list[str]) -> None:
         "tables/tab_q1_daily_forecast.csv",
         "tables/tab_q2_allocation.csv",
         "tables/tab_q3_priority_ranking.csv",
-        "figures/fig_q1_model_schematic.svg",
+        "modeling/q1_model_flow_prompt.md",
+        "figures/fig_q1_model_flow.png",
         "figures/fig_q1_demand_forecast.png",
-        "figures/fig_q1_validation.svg",
-        "figures/fig_q2_model_schematic.svg",
-        "figures/fig_q2_result.svg",
-        "figures/fig_q2_sensitivity.svg",
-        "figures/fig_q3_model_schematic.svg",
+        "figures/fig_q1_validation.png",
+        "modeling/q2_model_flow_prompt.md",
+        "figures/fig_q2_model_flow.png",
+        "figures/fig_q2_result.png",
+        "figures/fig_q2_sensitivity.png",
+        "modeling/q3_model_flow_prompt.md",
+        "figures/fig_q3_model_flow.png",
         "figures/fig_q3_priority_ranking.png",
-        "figures/fig_q3_validation.svg",
-        "figures/roadmap.svg",
+        "figures/fig_q3_validation.png",
+        "modeling/route_overview_prompt.md",
+        "figures/fig_route_overview.png",
         "results/result_registry.csv",
         "results/validation_report.md",
         "paper/main.tex",
@@ -317,9 +321,9 @@ def check_real_case_2025_b(issues: list[str]) -> None:
         "tables/data_profile/data_profile.json",
         "tables/data_profile/data_profile_summary.md",
         "figures/fig_problem_overview.png",
-        "figures/fig_q1_model_schematic.png",
+        "figures/fig_q1_model_flow.png",
         "figures/fig_q1_result.png",
-        "figures/fig_q2_model_schematic.png",
+        "figures/fig_q2_model_flow.png",
         "figures/fig_q2_result.png",
         "figures/fig_q2_validation.png",
         "results/result_registry.csv",
@@ -536,6 +540,21 @@ def check_folder_indexes(issues: list[str]) -> None:
     ]
     for rel in expected:
         require(ROOT / rel, issues)
+
+
+def check_font_assets(issues: list[str]) -> None:
+    for rel in [
+        "assets/fonts/NotoSansCJKsc-Regular.otf",
+        "assets/fonts/NotoSansCJKsc-Bold.otf",
+        "assets/fonts/OFL.txt",
+    ]:
+        require(ROOT / rel, issues)
+    style = ROOT / "scripts" / "make_paper_figures.py"
+    if style.exists():
+        text = style.read_text(encoding="utf-8", errors="ignore")
+        for term in ["NotoSansCJKsc-Regular.otf", "NotoSansCJKsc-Bold.otf", "Times New Roman"]:
+            if term not in text:
+                issues.append(f"make_paper_figures.py should configure bundled font item: {term}")
 
 
 def check_reference_names(issues: list[str]) -> None:
@@ -967,6 +986,7 @@ def check_parser_cases(issues: list[str]) -> None:
 def main() -> int:
     issues: list[str] = []
     check_folder_indexes(issues)
+    check_font_assets(issues)
     check_reference_names(issues)
     check_templates(issues)
     check_method_cards(issues)

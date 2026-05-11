@@ -24,7 +24,7 @@ Score each item 0-2:
 | 主模型 | Vague method names | Partial variables/objective | Complete variables, objective/criterion, constraints |
 | 求解可靠性 | No reproducible path | Code exists but diagnostics weak | Reproducible code, seed/status/feasibility checks |
 | 验证 | None | One weak check | Task-appropriate error/feasibility/sensitivity/robustness |
-| 图表 | Decorative or missing | Shows result but weak caption | Supports conclusion, named, readable, reproducible |
+| 图表 | Decorative or missing | Shows result but weak caption | Supports conclusion, named, readable, and traceable |
 | 论文一致性 | Numbers conflict | Mostly consistent | Abstract, body, tables, figures, appendix agree |
 
 If any item is 0, mark the deliverable incomplete and list the blocker.

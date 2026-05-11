@@ -101,8 +101,8 @@ Read only the relevant file(s):
   `templates/paper_main.tex`.
 - Final abstract: `agents/abstract_writer.md`, `references/paper-writing.md`,
   `references/result-tracking.md`, `references/scoring-checklist.md`.
-- Roadmap/flowchart: `references/technical-roadmap.md`; prefer editable
-  Mermaid, Graphviz, or SVG.
+- Roadmap/flowchart: `references/technical-roadmap.md`; use GPT-image by
+  default and record the Chinese prompt/spec in `modeling/`.
 - Final audit or judge review: read `references/final-review.md` and
   `references/final-checklist.md`; for first-prize-level claims also read
   `references/first-prize-rubric.md`, then lead with severity-ordered findings.
@@ -120,6 +120,7 @@ and reviewer.
   `tables/`, `figures/`, `results/`, and `paper/`.
 - Use `data/`, not `date/`, for raw, cleaned, and processed data.
 - Flowcharts and technical roadmaps default to GPT-image.
+- Paper figures default to the bundled Chinese font assets under `assets/fonts/`.
 - Do not write final numbers without a saved, traceable source.
 - Do not report optimality without solver status and feasibility checks.
 - Do not claim high accuracy without metrics or a baseline.

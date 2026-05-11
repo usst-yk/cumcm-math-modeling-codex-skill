@@ -133,7 +133,7 @@
         "frequency formula check"
       ],
       "figures_needed": [
-        "fig_q1_model_schematic.png",
+        "fig_q1_model_flow.png",
         "fig_q1_result.png"
       ],
       "tables_needed": [
@@ -156,8 +156,8 @@
       "selling_points": [
         {
           "claim": "把厚度反演转化为光谱频率估计，模型结构清楚且可手算校验。",
-          "evidence": "figures/fig_q1_model_schematic.png; tables/tab_q1_model_parameters.csv",
-          "figure_or_table": "figures/fig_q1_model_schematic.png",
+          "evidence": "figures/fig_q1_model_flow.png; tables/tab_q1_model_parameters.csv",
+          "figure_or_table": "figures/fig_q1_model_flow.png",
           "validation": "unit conversion and peak-spacing baseline"
         }
       ],
@@ -190,7 +190,7 @@
         "FFT baseline comparison"
       ],
       "figures_needed": [
-        "fig_q2_model_schematic.png",
+        "fig_q2_model_flow.png",
         "fig_q2_result.png",
         "fig_q2_validation.png",
         "fig_sensitivity.png"

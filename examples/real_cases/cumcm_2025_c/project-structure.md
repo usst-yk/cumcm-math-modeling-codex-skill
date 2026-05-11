@@ -6,7 +6,7 @@
 - `src/`: deterministic scripts, named by subquestion when possible.
 - `notebooks/`: optional exploration notebooks.
 - `results/`: result registry, validation report, and sensitivity outputs.
-- `figures/`: code-generated paper figures and editable roadmap outputs.
+- `figures/`: code-generated paper figures and GPT-image outputs.
 - `figures/ai_briefs/`: AI figure briefs that require human review.
 - `presentation/`: optional HTML/PPT-style presentation assets for final sharing.
 - `presentation/figures/`: presentation-specific figure copies or exports.
