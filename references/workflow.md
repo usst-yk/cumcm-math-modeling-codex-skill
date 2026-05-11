@@ -2,10 +2,10 @@
 
 Use this reference for full-problem solving, route design, and contest-time planning.
 
-For beginner-facing solving, keep only the file set lean. Read
-`references/output-policy.md` before creating template files. File-lean output
-means fewer templates and empty process files, not fewer figures, weaker
-analysis, thinner modeling, reduced validation, or shorter paper writing.
+For beginner-facing solving, keep supporting files purposeful, but always
+maintain `paper/main.tex`. Read `references/output-policy.md` before creating
+template files. Avoiding empty templates must not reduce figures, analysis,
+modeling, validation, or paper writing.
 
 ## 72-Hour Contest Workflow
 
@@ -47,14 +47,13 @@ analysis, thinner modeling, reduced validation, or shorter paper writing.
      code and save only the needed result table and figures.
    - After running code, compare the actual implementation with the modeling
      idea. Update `modeling/qx_modeling_idea.md` with the final code-verified
-     modeling idea before writing the paper.
-     If paper text is requested, write it directly into `paper/main.tex`.
+     modeling idea, then write it directly into `paper/main.tex`.
    - Before coding each Qx, make a figure plan using `references/figure-plan.md`.
      Default to a model schematic plus a result figure.
-   - Use detailed modeling ideas, result registry, and run logs for full projects or final
-     paper delivery, not for every small single-question solve. This affects
-     file creation only; the modeling and validation work still need to be
-     complete enough for the question.
+   - Use detailed modeling ideas and result registry for every solved question
+     whose numbers enter the paper. Use separate run logs mainly for full
+     projects; this affects logging only, not modeling, validation, or paper
+     writing.
    - Do not draft the final abstract before solved subquestions have traceable
      result tables or registered results.
 
@@ -94,7 +93,7 @@ analysis, thinner modeling, reduced validation, or shorter paper writing.
 
 ## Final Deliverables
 
-File-lean single-question handoff:
+Standard single-question handoff:
 
 - Main answer and limitation.
 - Current-question modeling idea.
@@ -102,10 +101,11 @@ File-lean single-question handoff:
 - One result table.
 - Usually two Chinese figures: model schematic and result figure.
 - Validation/sensitivity figure when needed.
-- `paper/main.tex` only when paper text is requested.
+- `results/result_registry.csv` for headline values used in the paper.
+- `paper/main.tex`.
 
-The handoff is file-lean, not content-lean: do not shorten analysis, formulas,
-solution reasoning, validation explanation, or requested paper writing.
+The handoff is paper-first and paper-complete: do not shorten analysis,
+formulas, solution reasoning, validation explanation, or paper writing.
 
 Full-project handoff:
 

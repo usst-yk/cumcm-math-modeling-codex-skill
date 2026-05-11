@@ -83,8 +83,6 @@ def rel_exists(root: Path, value: str) -> bool:
 def audit_registry(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
     issues: list[str] = []
     if registry.empty:
-        if mode == "lean":
-            return []
         return ["P1: result registry missing or empty."]
     source_col = (
         "source_file"
@@ -154,11 +152,9 @@ def audit_paper(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
     issues: list[str] = []
     paper = root / "paper" / "main.tex"
     if not paper.exists():
-        if mode == "lean":
-            return []
         if (root / "paper" / "main.md").exists():
             return ["P1: full paper exists only as paper/main.md; final benchmark papers must be TeX."]
-        return ["P1: paper/main.tex not found for full final paper."]
+        return ["P1: paper/main.tex not found."]
     text = paper.read_text(encoding="utf-8", errors="ignore")
     for match in FIG_RE.findall(text):
         if not rel_exists(root, match) and not rel_exists(root, f"figures/{Path(match).name}"):
@@ -268,7 +264,7 @@ def audit_paper_structure(root: Path, registry: pd.DataFrame, mode: str) -> list
 def audit_modeling_ideas(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
     issues: list[str] = []
     questions = solved_subquestions(registry)
-    if mode == "lean" and not questions:
+    if mode == "standard" and not questions:
         questions = solved_subquestions_from_figures(root)
     for question in questions:
         path = root / "modeling" / f"{question}_modeling_idea.md"
@@ -342,7 +338,7 @@ def figure_files_for_question(root: Path, question: str) -> list[Path]:
 def audit_figure_coverage(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
     issues: list[str] = []
     questions = solved_subquestions(registry)
-    if mode == "lean" and not questions:
+    if mode == "standard" and not questions:
         questions = solved_subquestions_from_figures(root)
     for question in questions:
         figures = figure_files_for_question(root, question)
@@ -374,7 +370,7 @@ def audit_figure_coverage(root: Path, registry: pd.DataFrame, mode: str) -> list
         if needs_check_figure and len(figures) < 3 and not has_check_figure:
             issues.append(
                 f"P2: solved {question.upper()} likely needs a validation/sensitivity figure; "
-                "file-lean output should remove templates, not checking figures or validation work."
+                "do not omit checking figures or validation work."
             )
     return issues
 
@@ -399,9 +395,9 @@ def main() -> int:
     parser.add_argument("--project", default=".", help="Project root.")
     parser.add_argument(
         "--mode",
-        choices=["lean", "full"],
-        default="full",
-        help="lean is file-lean: single-question outputs may omit registry or paper/main.tex, but analysis, figures, validation, and requested paper text are still checked.",
+        choices=["standard", "full"],
+        default="standard",
+        help="standard checks single-question or staged work; full additionally enforces complete-paper structure and unreferenced artifact checks.",
     )
     parser.add_argument(
         "--registry",

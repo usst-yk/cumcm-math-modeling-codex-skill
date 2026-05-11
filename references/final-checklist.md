@@ -31,9 +31,9 @@ If any item is 0, mark the deliverable incomplete and list the blocker.
 
 ## Artifact Checklist
 
-For file-lean single-question work, only check files that were actually needed
-for that question. Do not require empty templates, logs, or appendices. Still
-check whether the analysis, model, solution, validation, figures, and requested
+For single-question work, only check supporting files that were actually needed
+for that question. Do not require empty templates, logs, or appendices. Always
+check whether the analysis, model, solution, validation, figures, registry, and
 `paper/main.tex` are complete enough for the question.
 
 For full projects, check:

@@ -601,7 +601,7 @@ def main() -> int:
         args.full,
     )
     print(f"Profiled {len(profiles)} table(s) from {len(files)} file(s).")
-    mode = "full audit" if args.full else "file-lean audit"
+    mode = "full audit" if args.full else "paper-first audit"
     print(f"{mode} reports written to: {outdir}")
     return 0
 

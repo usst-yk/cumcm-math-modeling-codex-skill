@@ -7,7 +7,7 @@ communication natural; do not expose commands unless the user asks.
 
 | User asks for | Use |
 | --- | --- |
-| Start a new problem or project | use file-lean outputs by default; run `scripts/init_cumcm_project.py` only when the user asks to create a workspace |
+| Start a new problem or project | use paper-first outputs by default; initialize a workspace when local artifacts are needed |
 | Full CUMCM problem solving | `references/workflow.md`, `references/problem-routing.md`, `references/stage-gates.md`, `references/scoring-checklist.md` |
 | CUMCM A problem or engineering/physics problem | `references/cumcm-a-problem-patterns.md`, `references/method-cards.json`, `references/problem-routing.md` |
 | Parse problem statement | `agents/problem_parser.md`, `references/problem-parsing.md`, `scripts/problem_parser.py` |
@@ -31,14 +31,15 @@ communication natural; do not expose commands unless the user asks.
 
 - For beginners, prefer direct natural-language guidance over showing internal
   file names.
-- Before creating files, choose the smallest useful output set from
-  `references/output-policy.md`.
-- Do not confuse file-lean output with fewer figures or shallower work. For
+- Before creating files, choose the useful output set from
+  `references/output-policy.md`; `paper/main.tex` is always part of it.
+- Do not confuse paper-first output with fewer figures or shallower work. For
   solved questions, load `references/figure-plan.md` and generate the planned
-  Chinese figures; keep analysis, modeling, solving, validation, and requested
+  Chinese figures; keep analysis, modeling, solving, validation, registry, and
   paper text complete.
-- Do not initialize a full project, copy templates, or create empty files for a
-  single-question solve unless the user asks for a complete project.
+- Do not initialize a full project, copy every template, or create empty files
+  for a single-question solve unless the user asks for a complete project.
+  Still create/update `paper/main.tex`.
 - Do not solve a subquestion before writing its modeling idea file under
   `modeling/`.
 - Parse the problem statement before route design when an official statement is available.
@@ -46,8 +47,8 @@ communication natural; do not expose commands unless the user asks.
   coordinates, units, physical constraints, and a baseline before choosing an
   optimizer.
 - For full problems, always work subquestion by subquestion.
-- For single-question requests, do not expand into a full-paper workflow unless
-  the user asks.
+- For single-question requests, write a self-contained single-question paper in
+  `paper/main.tex`; do not expand into all subquestions unless the user asks.
 - For paper text with numbers, use the result registry before writing final
   claims.
 - For route design, give three routes and choose a primary route plus fallback.

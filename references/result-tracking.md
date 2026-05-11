@@ -4,17 +4,14 @@ Use this reference whenever `paper/main.tex`, abstract, conclusion, or policy re
 
 ## Registry Rule
 
-For full projects and final paper delivery, any numerical conclusion in the
-abstract, conclusion, result section, captions, or final recommendations must
-appear in `results/result_registry.csv`.
-
-For file-lean single-question work, a formal registry is optional. This only
-relaxes the registry file requirement; the number still must trace to a saved
-result table, code output, or problem fact.
+Any numerical conclusion in `paper/main.tex` must appear in
+`results/result_registry.csv`. This includes numbers in the abstract,
+conclusion, result section, captions, final recommendations, and single-question
+paper drafts.
 
 Do not write final headline numbers directly from memory, chat text, or an
-unsaved terminal output. Save the source table/log first; register the value
-when a full project registry exists or final paper delivery is requested.
+unsaved terminal output. Save the source table/log first, then register the
+value before writing it into `paper/main.tex`.
 
 ## Required Columns
 

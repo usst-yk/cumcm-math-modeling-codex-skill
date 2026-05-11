@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Create a CUMCM project workspace.
 
-Default mode is intentionally file-lean for beginners: create only useful
-folders and do not copy empty templates.
-Use --full when a complete template-based project is explicitly needed.
+Default mode is paper-first: create the core directories plus `paper/main.tex`
+and `results/result_registry.csv`, because all useful work should flow back to
+the TeX paper. Use --full when every auxiliary template and log is explicitly
+needed.
 """
 
 from __future__ import annotations
@@ -13,7 +14,7 @@ import shutil
 from pathlib import Path
 
 
-LEAN_DIRS = [
+STANDARD_DIRS = [
     "problem",
     "modeling",
     "data/raw",
@@ -69,19 +70,26 @@ def main() -> int:
     project_dir = Path(args.project_dir or args.name).expanduser().resolve()
     project_dir.mkdir(parents=True, exist_ok=True)
 
-    dirs = FULL_DIRS if args.full else LEAN_DIRS
+    dirs = FULL_DIRS if args.full else STANDARD_DIRS
     for name in dirs:
         (project_dir / name).mkdir(parents=True, exist_ok=True)
 
-    if not args.full:
-        print(f"Created file-lean CUMCM workspace at: {project_dir}")
-        for name in dirs:
-            print(f"- {name}/")
-        print("No template files were copied. Add files only as each task needs them.")
-        return 0
-
     skill_root = Path(__file__).resolve().parents[1]
     templates = skill_root / "templates"
+
+    if not args.full:
+        copy_file(templates / "paper_main.tex", project_dir / "paper" / "main.tex", args.overwrite)
+        copy_file(templates / "result_registry.csv", project_dir / "results" / "result_registry.csv", args.overwrite)
+        write_text(
+            project_dir / "problem" / "problem_statement.md",
+            "# Problem Statement\n\nPaste the official problem statement here.",
+            args.overwrite,
+        )
+        print(f"Created paper-first CUMCM workspace at: {project_dir}")
+        for name in dirs:
+            print(f"- {name}/")
+        print("Created paper/main.tex and results/result_registry.csv for paper-first work.")
+        return 0
 
     copy_file(templates / "problem_parse.schema.json", project_dir / "problem" / "problem_parse.schema.json", args.overwrite)
     copy_file(templates / "task_plan.schema.json", project_dir / "problem" / "task_plan.schema.json", args.overwrite)

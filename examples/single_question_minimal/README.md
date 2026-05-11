@@ -2,7 +2,7 @@
 
 这个目录展示“只做某一问”时最小、清楚的输出形态。
 
-它不是完整比赛项目，不包含空模板、日志、结果注册表或整篇论文骨架。对新手来说，只做一问通常保留这些文件就够了：
+它不是完整比赛项目，不包含空模板或日志。对新手来说，只做一问通常保留这些文件就够了：
 
 ```text
 problem.md
@@ -11,6 +11,7 @@ src/solve_q1.py
 tables/tab_q1_result.csv
 figures/fig_q1_model_schematic.svg
 figures/fig_q1_result.svg
+results/result_registry.csv
 paper/main.tex
 ```
 

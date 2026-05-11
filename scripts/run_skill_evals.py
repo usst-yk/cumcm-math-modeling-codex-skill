@@ -116,6 +116,7 @@ def check_demo(issues: list[str]) -> None:
         "../single_question_minimal/tables/tab_q1_result.csv",
         "../single_question_minimal/figures/fig_q1_model_schematic.svg",
         "../single_question_minimal/figures/fig_q1_result.svg",
+        "../single_question_minimal/results/result_registry.csv",
         "../single_question_minimal/paper/main.tex",
         "problem/problem_statement.md",
         "problem/task_plan.json",

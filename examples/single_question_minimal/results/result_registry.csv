@@ -1,0 +1,2 @@
+id,subquestion,claim,value,unit,source_type,source_file,source_line_or_cell,script,command,figure_or_table,validation,status,created_at,verified_by,notes
+R001,Q1,第6天需求量的线性趋势基线预测值为103.75件。,103.75,件,table,tables/tab_q1_result.csv,"row=linear_trend_baseline,column=forecast_demand",src/solve_q1.py,python3 src/solve_q1.py,tables/tab_q1_result.csv,最小示例仅作基线演示；正式竞赛应补充滚动验证或替代基线比较。,verified,2026-05-11,Codex,样本只有5天，不能包装成高精度预测模型。

@@ -16,12 +16,12 @@ This skill uses role cards as staged prompts inside Codex. It does not create a 
 
 ## Subquestion Loop
 
-For full problems, process each Qx independently. In beginner-facing file-lean
-mode, create only the files that are actually needed for the current question.
-This file policy must not reduce problem analysis, route comparison, modeling,
-solving, validation, or paper writing.
+For full problems, process each Qx independently. Create only supporting files
+that are actually needed for the current question, but always update
+`paper/main.tex`. This file policy must not reduce problem analysis, route
+comparison, modeling, solving, validation, or paper writing.
 
-File-lean Qx loop:
+Standard Qx loop:
 
 1. `modeling/qx_modeling_idea.md`.
 2. `src/solve_qx.py` when code is needed.
@@ -29,7 +29,8 @@ File-lean Qx loop:
 4. `figures/fig_qx_model_schematic.png|svg`.
 5. `figures/fig_qx_result.png|svg`.
 6. `figures/fig_qx_validation.png|svg` when a check is needed.
-7. `paper/main.tex` only when paper text is requested.
+7. `results/result_registry.csv` for headline numbers used in the paper.
+8. `paper/main.tex`.
 
 After code runs, update `modeling/qx_modeling_idea.md` with the code reverse
 check. The final paper must use the code-verified modeling idea, not the

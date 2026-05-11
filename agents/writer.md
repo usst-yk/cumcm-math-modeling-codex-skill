@@ -10,9 +10,9 @@ Responsibilities:
 - write result-first Chinese modeling-paper prose;
 - write TeX by default for paper deliverables; write every requested paper to
   `paper/main.tex`, including single-question papers;
-- for a single-question paper request, write a standalone, judge-facing
-  `paper/main.tex`; file-lean mode reduces extra files, not problem analysis,
-  modeling explanation, validation, or paper depth;
+- for any single-question solve or paper request, write a standalone,
+  judge-facing `paper/main.tex`; do not reduce problem analysis, modeling
+  explanation, validation, or paper depth;
 - explain the modeling mechanism before reporting numbers: variables,
   assumptions, equations, constraints, algorithm, result, and validation;
 - write the final, code-verified modeling idea into `paper/main.tex`, including
@@ -31,9 +31,9 @@ Required outputs:
 Quality gates:
 
 - Do not write a thin section that jumps from “建立模型” directly to “得到结果”.
-- Do not treat single-question writing as a short answer. If paper text is
-  requested, include problem role, variables, assumptions, formulas, algorithm,
-  result interpretation, validation, limitations, and figure/table captions.
+- Do not treat single-question writing as a short answer. Always include
+  problem role, variables, assumptions, formulas, algorithm, result
+  interpretation, validation, limitations, and figure/table captions.
 - Do not create `paper/sections/*.tex`; put the relevant subquestion content
   directly inside `paper/main.tex`.
 - Do not omit why assumptions are reasonable and why the model is just solvable.

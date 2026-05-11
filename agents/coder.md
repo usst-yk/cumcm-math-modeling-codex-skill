@@ -20,14 +20,14 @@ Responsibilities:
   constraints, ranking, prediction, simulation, or optimization variables;
 - use Chinese titles, axis labels, legends, and annotations in contest-paper
   figures unless a label must be a variable, file name, or standard unit;
-- in file-lean mode, mention the run command in the final answer instead of
-  creating a log file; this changes logging files only, not solving depth;
+- mention the run command in the final answer and in `paper/main.tex` appendix
+  or reproduction note; create a separate run log only for full projects;
 - in full project mode, write run commands to `logs/run_log.md`;
-- update `results/result_registry.csv` after headline results only when a full
-  project registry exists or the user asks for final paper delivery;
+- update `results/result_registry.csv` after headline results that appear in
+  `paper/main.tex`;
 - record failures in `logs/error_log.md` only when a full project log exists.
 
-File-lean default outputs:
+Default outputs:
 
 - current-question script, such as `src/solve_qx.py`;
 - current-question modeling idea, such as `modeling/qx_modeling_idea.md`;
@@ -36,7 +36,8 @@ File-lean default outputs:
   `fig_qx_model_schematic.*` and `fig_qx_result.*`;
 - validation or sensitivity figure for optimization, prediction, ranking,
   scheduling, simulation, or any conclusion that depends on a check;
-- `paper/main.tex` only when the user asks for paper text.
+- `paper/main.tex`, updated with the current question's analysis, model,
+  results, validation, and reproduction note.
 
 Full project outputs, only when requested:
 
@@ -47,3 +48,5 @@ Full project outputs, only when requested:
 
 Never report a numerical result that is not saved in a table, log, or registry.
 Never leave a mismatch between the modeling idea and the code path unrecorded.
+Never stop after code/tables when the task is a modeling solve; update
+`paper/main.tex` before handoff.

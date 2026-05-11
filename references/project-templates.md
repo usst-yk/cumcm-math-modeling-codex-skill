@@ -2,11 +2,12 @@
 
 ## 初始化项目
 
-用户不需要手动运行初始化命令。默认创建文件精简工作区，只放必要目录，
-不复制一堆空模板。只有用户明确要求“完整项目模板”“全流程交付包”时，
-才使用完整模式。文件精简不代表建模、求解、验证或论文写作精简。
+用户不需要手动运行初始化命令。默认创建论文优先工作区，包含必要目录、
+`paper/main.tex` 和 `results/result_registry.csv`。只有用户明确要求
+“完整项目模板”“全流程交付包”时，才复制所有辅助模板和日志。
+论文优先不允许削弱建模、求解、验证或论文写作。
 
-默认文件精简模式：
+默认论文优先模式：
 
 ```bash
 python3 scripts/init_cumcm_project.py /path/to/project
@@ -26,7 +27,8 @@ python3 scripts/init_cumcm_project.py /path/to/project --full
 - `src/`: 数据处理、建模、求解、绘图代码。
 - `figures/`: 代码生成的论文图片。
 - `tables/`: 代码生成的结果表和统计表。
-- `paper/`: 用户要求写论文时只放 `main.tex`；不再创建分问片段目录。
+- `paper/`: 默认包含 `main.tex`；不再创建分问片段目录。
+- `results/`: 默认包含结果注册表，用于追踪写入论文的关键数字。
 
 完整模式才复制模板：
 
@@ -56,8 +58,8 @@ python3 scripts/data_profile.py /path/to/data --outdir /path/to/project/tables/d
 
 输出：
 
-- 文件精简检查：先给数据问题清单和必要摘要；字段解释、缺失异常、
-  单位风险和排除原因不能因为文件精简而省略。
+- 标准数据检查：先给数据问题清单和必要摘要；字段解释、缺失异常、
+  单位风险和排除原因不能省略，并把会影响建模的结论写入 `paper/main.tex`。
 - 完整审计：再输出 `data_profile_summary.md`、`data_preprocessing_draft.md`、
   `data_profile.json` 和多张审计表。需要完整审计时加 `--full`。
 

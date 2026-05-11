@@ -23,19 +23,19 @@ Answer in Chinese by default. The primary audience is beginners: use natural
 language, hide script commands and file internals unless asked, and run useful
 scripts in the background. Do not expose or create templates unless needed.
 
-Default to file-lean outputs for beginner-facing solving. Read
-`references/output-policy.md` before creating project files or templates.
-File-lean output means fewer templates and empty process files, not fewer
-figures, weaker analysis, thinner modeling, less solving, or shorter paper
-writing. Read
+Default to paper-first outputs: every useful analysis, modeling, solving,
+validation, figure, and result must ultimately update `paper/main.tex`.
+Read `references/output-policy.md` before creating project files or templates.
+You may avoid empty templates and unnecessary logs, but never omit the TeX
+paper entry. Read
 `references/figure-plan.md` before solving or writing code for any subquestion.
 
 ## Core Behavior
 
 - Correctness before speed: parse questions, constraints, units, outputs,
   attachments, and scoring clues first.
-- Paper quality before speed: for final papers, a slow but complete TeX paper
-  is better than a quick thin report.
+- Paper quality before speed: a slow but complete TeX paper is better than a
+  quick thin report.
 - Full route design defaults to three routes: baseline, primary route, fallback.
   For urgent or single-question work, keep the same modeling logic and reduce
   only unnecessary project files; do not shorten problem analysis, route
@@ -70,7 +70,10 @@ reverse-check code against the idea -> final modeling idea -> registry ->
 validation -> update the relevant part of `paper/main.tex`. Write the final
 abstract only after solved subquestions have registered or otherwise traceable
 results.
-All requested paper outputs, including single-question papers, must be written
+When the user asks to analyze, model, solve, validate, review, or write any
+part of a CUMCM problem, update `paper/main.tex`. Do not interpret "solve Qx",
+"求解第 x 问", or "完成第 x 问" as "only produce code/tables". All paper text,
+including single-question work and intermediate draft sections, must be written
 to `paper/main.tex`. Do not create or deliver `paper/sections/*.tex`; a paper
 that depends on separate Qx files is incomplete for this skill.
 
@@ -120,9 +123,10 @@ Read `references/task-routing.md` for the complete table.
 - Inspect all sheets in every Excel workbook. State why any table is excluded.
 - If sheets share a structure, concatenate them with a source-sheet column.
 - Use stable lowercase names: `fig_q1_topic.png`, `tab_q1_topic.csv`.
-- Create only files needed for the current task. For a single subquestion, do
-  not create full project templates, empty paper fragments, schema files, or logs
-  unless the user explicitly asks for a complete project.
+- Create only supporting files needed for the current task, but always create
+  or update `paper/main.tex`. For a single subquestion, do not create full
+  project templates, empty paper fragments, schema files, or logs unless the
+  user explicitly asks for a complete project.
 - For every solved subquestion, write the modeling idea before solving:
   `modeling/qx_modeling_idea.md`. It must include the question role,
   assumptions, variables, core equations or decision criterion, constraints,
@@ -142,14 +146,14 @@ Read `references/task-routing.md` for the complete table.
 - Contest-paper figures default to Chinese titles, axis labels, legends,
   annotations, and captions. Keep English only for variable names, file names,
   units, or unavoidable technical tokens.
-- In file-lean mode, key numbers must trace to saved result tables, code output,
-  or problem facts. In full project/final paper mode, paper numbers, captions,
-  abstract, conclusion, and recommendations must trace to
-  `results/result_registry.csv`.
-- All final papers, benchmark papers, and complete solved reports must use TeX
-  (`paper/main.tex`) and compile PDF when available. Markdown may be used only
-  for draft notes, section planning, or README-style explanation, never as the
-  final contest-paper artifact.
+- Key numbers must trace to saved result tables, code output, problem facts, or
+  `results/result_registry.csv`. Any number written in the abstract,
+  conclusion, figure/table caption, or final recommendation must be registered
+  in `results/result_registry.csv`.
+- All papers, benchmark papers, solved reports, and intermediate paper drafts
+  must use TeX (`paper/main.tex`) and compile PDF when available. Markdown may
+  be used only for scratch notes, section planning, or README-style explanation,
+  never as the contest-paper artifact.
 - Never split a paper deliverable into `paper/sections/*.tex`. Even when the
   user asks for only one subquestion, write a self-contained `paper/main.tex`
   with the necessary problem analysis, assumptions, model, solution,
@@ -175,8 +179,8 @@ use `scripts/validate_results.py`.
 - Never write sensitivity analysis without actual perturbation or a reproducible
   perturbation plan.
 - Never cite figures/tables that were not generated or provided.
-- Never treat file-lean output, time pressure, or single-question scope as a
-  reason to reduce modeling depth, validation, figure coverage, or paper depth.
+- Never treat time pressure or single-question scope as a reason to reduce
+  modeling depth, validation, figure coverage, or paper depth.
 - Never leave "待补充" placeholders in final deliverables unless asked for a draft.
 - Never push unrelated dirty files when syncing the skill to GitHub.
 
