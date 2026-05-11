@@ -25,7 +25,8 @@
 - Algorithm:
 - Expected tables:
 - Figure plan:
-  - Model/problem schematic:
+  - Model flowchart source and paper figure:
+  - Extra model/problem schematic when needed:
   - Result figure:
   - Validation/sensitivity figure:
   - Skip reason if fewer than two figures:

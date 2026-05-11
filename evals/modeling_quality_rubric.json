@@ -42,7 +42,7 @@
     {
       "id": "figures",
       "max_score": 2,
-      "pass_condition": "Each solved subquestion has a Chinese schematic/problem figure and a result figure; validation or sensitivity figures are added when needed.",
+      "pass_condition": "Each solved subquestion has a Chinese final model flowchart and a result figure; validation or sensitivity figures are added when needed, and extra schematic/problem figures are added when object structure needs them.",
       "beginner_visible_check": "The paper has enough clear figures to explain the method and result."
     },
     {

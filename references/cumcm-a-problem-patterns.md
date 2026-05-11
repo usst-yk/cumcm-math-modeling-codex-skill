@@ -82,14 +82,16 @@
 
 ## A 题输出建议
 
-论文优先模式下，当前正在求解的问题需要代码、结果表、中文示意图、
+论文优先模式下，当前正在求解的问题需要代码、结果表、中文模型流程图、
 结果图、验证材料、结果注册表和 `paper/main.tex`。A 题机制性很强，
 不能省掉分析、建模、求解、验证、图或论文解释。通常每问至少需要
-“机制/坐标/对象示意图”和“轨迹/曲线/布局结果图”。下面这些文件按
+“模型流程图”“机制/坐标/对象示意图”和“轨迹/曲线/布局结果图”。下面这些文件按
 当前问题和论文需要逐步生成，不要创建无内容的空文件。
 
 - `problem/task_plan.json`：每问的对象、变量、约束和输出。
-- `modeling/qx_modeling_idea.md`：每问建模思路，至少写清变量、公式、约束、验证。
+- `modeling/qx_modeling_idea.md`：每问详细建模思路，至少写清变量、逐步推导、公式、约束、验证。
+- `modeling/qx_model_flow.mmd|dot|svg`：每问模型流程图源文件。
+- `figures/fig_qx_model_flow.png|svg`：论文引用的模型流程图。
 - `figures/fig_problem_*.png|svg`：坐标系、对象位置、流程或题目资源范围示意图。
 - `tables/tab_qx_feasibility.csv`：关键约束检查表。
 - `tables/tab_qx_result.csv`：主结果表。

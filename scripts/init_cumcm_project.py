@@ -17,7 +17,9 @@ from pathlib import Path
 STANDARD_DIRS = [
     "problem",
     "modeling",
+    "modeling/flowcharts",
     "data/raw",
+    "data/processed",
     "src",
     "figures",
     "tables",

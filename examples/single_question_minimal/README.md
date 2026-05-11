@@ -7,9 +7,10 @@
 ```text
 problem.md
 modeling/q1_modeling_idea.md
+modeling/q1_model_flow.mmd
 src/solve_q1.py
 tables/tab_q1_result.csv
-figures/fig_q1_model_schematic.svg
+figures/fig_q1_model_flow.svg
 figures/fig_q1_result.svg
 results/result_registry.csv
 paper/main.tex

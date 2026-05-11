@@ -39,6 +39,10 @@ Do not enter Solver until:
 - exactly three routes have been compared;
 - at least one baseline or simplified analytical route is defined;
 - every selected model has variables, objective/evaluation criterion, constraints, input data, output tables/figures, and validation plan;
+- every selected model explains the derivation and solution procedure step by
+  step, not only the final formulas;
+- a model flowchart source path in `modeling/` or `modeling/flowcharts/` is
+  planned, unless a written reason says a flowchart would be misleading;
 - `modeling/qx_modeling_idea.md` exists for the subquestions being solved.
 
 ## Stage 4 -> Stage 5: Solver To Validator
@@ -49,8 +53,8 @@ Do not validate final conclusions until:
 - code follows the model described in `modeling/qx_modeling_idea.md`, or the
   modeling idea has been updated to match the implemented model;
 - `modeling/qx_modeling_idea.md` records the post-solve code reverse check;
-- the figure plan has been executed: model schematic plus result figure for most
-  solved questions, and validation/sensitivity figure when needed;
+- the figure plan has been executed: final model flowchart plus result figure
+  for most solved questions, and validation/sensitivity figure when needed;
 - if fewer than two figures are generated for a solved question, the reason is
   stated in the final answer or recorded in `results/validation_report.md`;
 - every headline value is traceable to a saved table, code output, problem fact,

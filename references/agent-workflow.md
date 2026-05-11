@@ -26,11 +26,12 @@ Standard Qx loop:
 1. `modeling/qx_modeling_idea.md`.
 2. `src/solve_qx.py` when code is needed.
 3. `tables/tab_qx_result.csv|xlsx`.
-4. `figures/fig_qx_model_schematic.png|svg`.
-5. `figures/fig_qx_result.png|svg`.
-6. `figures/fig_qx_validation.png|svg` when a check is needed.
-7. `results/result_registry.csv` for headline numbers used in the paper.
-8. `paper/main.tex`.
+4. `modeling/qx_model_flow.mmd|dot|svg`.
+5. `figures/fig_qx_model_flow.png|svg`.
+6. `figures/fig_qx_result.png|svg`.
+7. `figures/fig_qx_validation.png|svg` when a check is needed.
+8. `results/result_registry.csv` for headline numbers used in the paper.
+9. `paper/main.tex`.
 
 After code runs, update `modeling/qx_modeling_idea.md` with the code reverse
 check. The final paper must use the code-verified modeling idea, not the

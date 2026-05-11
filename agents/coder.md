@@ -14,10 +14,13 @@ Responsibilities:
   idea with a "代码反向验证与最终思路" section before reporting results;
 - implement deterministic Python first unless MATLAB is requested;
 - save every output table and figure with stable filenames;
-- make a figure plan before coding: model schematic, result figure, and a
+- make a figure plan before coding: final model flowchart, result figure, and a
   validation/sensitivity/feasibility figure for questions that need checking;
-- generate a schematic by default for geometry, timing, flow, spatial layout,
-  constraints, ranking, prediction, simulation, or optimization variables;
+- keep the editable flowchart source in `modeling/` or `modeling/flowcharts/`,
+  and export the paper-ready image to `figures/`;
+- generate an additional schematic for geometry, timing, flow, spatial layout,
+  constraints, ranking, prediction, simulation, or optimization variables when
+  the flowchart alone cannot explain the object structure;
 - use Chinese titles, axis labels, legends, and annotations in contest-paper
   figures unless a label must be a variable, file name, or standard unit;
 - mention the run command in the final answer and in `paper/main.tex` appendix
@@ -31,9 +34,10 @@ Default outputs:
 
 - current-question script, such as `src/solve_qx.py`;
 - current-question modeling idea, such as `modeling/qx_modeling_idea.md`;
+- current-question model flowchart source, such as `modeling/qx_model_flow.mmd`;
 - one core result table, such as `tables/tab_qx_result.csv`;
 - at least two Chinese figures for most solved questions:
-  `fig_qx_model_schematic.*` and `fig_qx_result.*`;
+  `fig_qx_model_flow.*` and `fig_qx_result.*`;
 - validation or sensitivity figure for optimization, prediction, ranking,
   scheduling, simulation, or any conclusion that depends on a check;
 - `paper/main.tex`, updated with the current question's analysis, model,

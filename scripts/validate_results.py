@@ -346,10 +346,10 @@ def audit_figure_coverage(root: Path, registry: pd.DataFrame, mode: str) -> list
         if len(figures) < 2:
             issues.append(
                 f"P1: solved {question.upper()} has fewer than two figures; "
-                "expected a model/problem schematic plus a result figure."
+                "expected a model flowchart plus a result figure."
             )
-        if not any("schematic" in name or "示意" in name for name in names):
-            issues.append(f"P1: solved {question.upper()} is missing a model/problem schematic figure.")
+        if not any("model_flow" in name or "flowchart" in name or "流程" in name for name in names):
+            issues.append(f"P1: solved {question.upper()} is missing a final model flowchart figure.")
 
         if "subquestion" not in registry.columns:
             continue

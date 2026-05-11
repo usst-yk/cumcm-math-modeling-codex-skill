@@ -7,9 +7,15 @@ Use this reference for 技术路线图, 技术路线, 流程图, 流程框图, o
 For contest-final or paper-final diagrams:
 
 1. Generate an editable source first: Mermaid (`.mmd`), Graphviz DOT (`.dot`), or SVG.
-2. Export to SVG/PDF/PNG.
+   Save the source in `modeling/` or `modeling/flowcharts/`, for example
+   `modeling/q1_model_flow.mmd`.
+2. Export the paper-ready figure to `figures/`, for example
+   `figures/fig_q1_model_flow.svg|png`.
 3. Use GPT Image only when the user explicitly wants a designed bitmap image.
-4. Always keep the editable source file beside the exported image.
+   Do not use GPT Image as the default for precise mathematical flowcharts
+   because labels, arrows, and editability matter.
+4. Keep both the editable source and the exported image. The source explains
+   the model; the exported image is what `paper/main.tex` cites.
 
 ## Technical Roadmap Structure
 
@@ -24,6 +30,9 @@ Rules:
 - Keep labels short and high-level; put details in the caption or paper paragraph.
 - Prefer 8-12 nodes for one subquestion and grouped lanes for multi-question papers.
 - Avoid code-level steps unless they are central to the modeling logic.
+- Every solved subquestion should normally have a final model flowchart. If a
+  pure symbolic derivation or compact table is clearer than a flowchart, record
+  that reason in `modeling/qx_modeling_idea.md` and `paper/main.tex`.
 
 ## Model Flowchart Structure
 

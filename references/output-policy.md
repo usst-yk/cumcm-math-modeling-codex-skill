@@ -20,18 +20,29 @@
 
 单问求解通常需要：
 
+- `problem/`：题面原文、题面解析和任务拆解；若用户只给口头题面，也要把会影响建模的解析写入 `paper/main.tex`。
+- `data/`：原始附件、清洗数据和预处理产物。不要使用 `date/` 作为目录名；“数据处理和清洗”统一放在 `data/`。
+- `modeling/`：详细建模思路、路线比较、模型流程图源文件和代码反向验证记录。
+- `src/`：数据处理、建模、求解和绘图脚本。
+- `tables/`：论文结果表、数据审计表、可行性检查表和敏感性分析表。
+- `figures/`：论文图片，包括模型流程图导出图、结果图和验证图。
+- `results/`：结果注册表、验证报告和最终校验报告。
 - `paper/main.tex`：唯一论文入口，必须生成或更新。
-- `modeling/qx_modeling_idea.md`：当前问题的建模思路，先于代码生成。
-- `src/solve_qx.py`：当前问题的求解脚本，若问题不需要代码则在论文中写明解析推导。
-- `tables/tab_qx_result.csv`：当前问题的核心结果表；必要时再拆成少量更清楚的表。
-- `figures/fig_qx_model_schematic.png|svg`：当前问题的模型、题意或机制示意图。
-- `figures/fig_qx_result.png`：当前问题的核心结果图。
-- `figures/fig_qx_validation.png` 或 `figures/fig_qx_sensitivity.png`：当结论需要检验、约束检查或敏感性分析时生成。
-- `results/result_registry.csv`：只要论文的摘要、结论或正文出现关键数字，就登记其来源。
 
 可以少建空模板、空日志、空 schema 和无用目录，但不能因此省略论文正文、
 图表、验证或结果追踪。目录和模板少，是为了降低新手阅读负担；`main.tex`
 不能少。
+
+其中最小但完整的单问文件通常包括：
+
+- `modeling/qx_modeling_idea.md`：当前问题的详细建模思路，先于代码生成。
+- `modeling/qx_model_flow.mmd|dot|svg`：当前问题最终模型流程图的可编辑源文件。
+- `src/solve_qx.py`：当前问题的求解脚本，若问题不需要代码则在论文中写明解析推导。
+- `tables/tab_qx_result.csv`：当前问题的核心结果表；必要时再拆成少量更清楚的表。
+- `figures/fig_qx_model_flow.svg|png`：由 `modeling/` 中源文件导出的论文流程图。
+- `figures/fig_qx_result.png`：当前问题的核心结果图。
+- `figures/fig_qx_validation.png` 或 `figures/fig_qx_sensitivity.png`：当结论需要检验、约束检查或敏感性分析时生成。
+- `results/result_registry.csv`：只要论文的摘要、结论或正文出现关键数字，就登记其来源。
 
 ## 论文回写要求
 

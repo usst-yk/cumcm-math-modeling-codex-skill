@@ -11,7 +11,7 @@
 | `task_plan.schema.json` | `problem/task_plan.schema.json` | 任务计划字段约束。 |
 | `method_card.schema.json` | 默认不复制 | 结构化方法卡字段约束。 |
 | `model_card.md` | `problem/model_card_template.md` | 每问模型卡。 |
-| `modeling_idea.md` | `modeling/modeling_idea_template.md` | 每问建模思路模板，先于代码求解。 |
+| `modeling_idea.md` | `modeling/modeling_idea_template.md` | 每问详细建模思路模板，包含逐步推导、求解步骤、流程图计划和论文写法，先于代码求解。 |
 | `assumptions_symbols.md` | `problem/assumptions.md` | 假设和符号说明模板。 |
 | `result_registry.csv` | `results/result_registry.csv` | 关键数值来源追踪。 |
 | `validation_report.md` | `results/validation_report.md` | 验证结果记录。 |

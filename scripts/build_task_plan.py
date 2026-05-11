@@ -103,7 +103,7 @@ def infer_minimum_validation(task_type: str) -> list[str]:
 def infer_figures(qid: str, task_type: str) -> list[str]:
     qid_lower = qid.lower()
     figures = [
-        f"fig_{qid_lower}_model_schematic.png",
+        f"fig_{qid_lower}_model_flow.png",
         f"fig_{qid_lower}_result.png",
     ]
     if task_type in CHECK_FIGURE_TYPES:

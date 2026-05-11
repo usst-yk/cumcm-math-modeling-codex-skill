@@ -10,12 +10,14 @@ For SCI/Nature/PRL-style publication graphics, read `references/figure-standards
 - Every figure must be reproducible from code or a saved source table.
 - Figure numbers, captions, and filenames must match the paper text.
 - For each solved subquestion, make a figure plan before coding or writing.
-- Default to at least two figures for most solved subquestions: a model/problem
-  schematic and a result figure. Add validation/sensitivity figures when the
+- Default to at least two figures for most solved subquestions: a final model
+  flowchart and a result figure. Add validation/sensitivity figures when the
   result needs checking.
-- Schematic figures are expected for geometry, trajectories, timing,
-  optimization variables, evaluation indicators, process flows, spatial layouts,
-  and constraint relationships.
+- The editable flowchart source belongs in `modeling/` or `modeling/flowcharts/`;
+  the exported paper figure belongs in `figures/`.
+- Additional schematic figures are expected when geometry, trajectories, timing,
+  optimization variables, evaluation indicators, spatial layouts, or constraint
+  relationships cannot be explained clearly by the model flowchart alone.
 - For Chinese contest papers, figure titles, axis labels, legends, annotations,
   and captions should be in Chinese by default. Use English only for variables,
   file names, algorithm names, or standard units.

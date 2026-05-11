@@ -17,7 +17,16 @@ DEMO = ROOT / "examples" / "full_problem_demo"
 REAL_CASE_2025_A = ROOT / "examples" / "real_cases" / "cumcm_2025_a"
 REAL_CASE_HUADONG_A = ROOT / "examples" / "real_cases" / "huadong_cup_a"
 CHECK_FIGURE_TYPES = {"prediction", "optimization", "evaluation", "simulation", "scheduling"}
-MODELING_IDEA_TERMS = ["变量", "公式", "约束", "验证", "图表", "代码反向验证", "最终思路"]
+MODELING_IDEA_TERMS = [
+    "变量",
+    "公式",
+    "约束",
+    "验证",
+    "图表",
+    "代码反向验证",
+    "最终思路",
+]
+MODELING_TEMPLATE_TERMS = ["逐步推导", "流程图", "论文写法", "代码反向验证"]
 
 PARSER_EXPECTATIONS = {
     "prediction": {
@@ -114,7 +123,8 @@ def check_demo(issues: list[str]) -> None:
         "../single_question_minimal/modeling/q1_modeling_idea.md",
         "../single_question_minimal/src/solve_q1.py",
         "../single_question_minimal/tables/tab_q1_result.csv",
-        "../single_question_minimal/figures/fig_q1_model_schematic.svg",
+        "../single_question_minimal/modeling/q1_model_flow.mmd",
+        "../single_question_minimal/figures/fig_q1_model_flow.svg",
         "../single_question_minimal/figures/fig_q1_result.svg",
         "../single_question_minimal/results/result_registry.csv",
         "../single_question_minimal/paper/main.tex",
@@ -280,8 +290,8 @@ def check_real_case_2025_a(issues: list[str]) -> None:
             figures = list((REAL_CASE_2025_A / "figures").glob(f"fig_{question}_*.*"))
             if len(figures) < 3:
                 issues.append(f"2025 A real case solved {question.upper()} should keep at least 3 figures")
-            if not any("schematic" in fig.name for fig in figures):
-                issues.append(f"2025 A real case solved {question.upper()} should include a schematic figure")
+            if not any("schematic" in fig.name or "model_flow" in fig.name for fig in figures):
+                issues.append(f"2025 A real case solved {question.upper()} should include a model flowchart or schematic figure")
     check_full_paper_structure(REAL_CASE_2025_A, "2025 A benchmark paper", issues, min_chars=7000)
 
 
@@ -503,6 +513,13 @@ def check_templates(issues: list[str]) -> None:
                 json.loads(path.read_text(encoding="utf-8"))
             except json.JSONDecodeError as exc:
                 issues.append(f"invalid JSON schema {rel}: {exc}")
+    modeling_template = ROOT / "templates" / "modeling_idea.md"
+    require(modeling_template, issues)
+    if modeling_template.exists():
+        text = modeling_template.read_text(encoding="utf-8", errors="ignore")
+        for term in MODELING_TEMPLATE_TERMS:
+            if term not in text:
+                issues.append(f"modeling_idea.md template should mention: {term}")
 
 
 def type_ok(value: Any, expected: str) -> bool:
@@ -716,10 +733,10 @@ def score_task_plan_quality(plan: dict, label: str, issues: list[str], min_score
         score += sum(1 for passed in checks if passed)
 
         figures = [str(fig).lower() for fig in item.get("figures_needed", [])]
-        if any("schematic" in fig for fig in figures):
+        if any("model_flow" in fig or "flow" in fig or "schematic" in fig for fig in figures):
             score += 1
         else:
-            issues.append(f"{q_label} should include a model/problem schematic figure")
+            issues.append(f"{q_label} should include a model flowchart figure")
         if any("result" in fig or "forecast" in fig or "ranking" in fig or "geometry" in fig for fig in figures):
             score += 1
         else:
@@ -815,8 +832,8 @@ def check_parser_cases(issues: list[str]) -> None:
             for q in plan.get("subquestions", []):
                 figures = q.get("figures_needed", [])
                 qid = str(q.get("id", "")).lower()
-                if f"fig_{qid}_model_schematic.png" not in figures:
-                    issues.append(f"parser case {case} {qid.upper()} plan missing model schematic figure")
+                if f"fig_{qid}_model_flow.png" not in figures:
+                    issues.append(f"parser case {case} {qid.upper()} plan missing model flowchart figure")
                 if f"fig_{qid}_result.png" not in figures:
                     issues.append(f"parser case {case} {qid.upper()} plan missing result figure")
                 for field in ["baseline_route", "primary_route", "fallback_route"]:

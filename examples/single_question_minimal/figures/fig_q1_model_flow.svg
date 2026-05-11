@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="300" viewBox="0 0 1100 300">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <style>
+    text{font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#111827}
+    .box{fill:#f8fafc;stroke:#0f766e;stroke-width:2;rx:6}
+    .arrow{stroke:#334155;stroke-width:2;fill:none;marker-end:url(#arrow)}
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#334155"/>
+    </marker>
+  </defs>
+  <text x="550" y="38" text-anchor="middle" font-size="24" font-weight="700">问题一：线性趋势基线模型流程图</text>
+  <rect class="box" x="40" y="92" width="150" height="86"/>
+  <text x="115" y="126" text-anchor="middle" font-size="17">输入需求量</text>
+  <text x="115" y="152" text-anchor="middle" font-size="15">第1-5天</text>
+  <rect class="box" x="230" y="92" width="150" height="86"/>
+  <text x="305" y="126" text-anchor="middle" font-size="17">核对单位</text>
+  <text x="305" y="152" text-anchor="middle" font-size="15">时间顺序</text>
+  <rect class="box" x="420" y="92" width="180" height="86"/>
+  <text x="510" y="124" text-anchor="middle" font-size="17">计算增长量</text>
+  <text x="510" y="152" text-anchor="middle" font-size="15">k=(y5-y1)/4</text>
+  <rect class="box" x="640" y="92" width="160" height="86"/>
+  <text x="720" y="124" text-anchor="middle" font-size="17">外推预测</text>
+  <text x="720" y="152" text-anchor="middle" font-size="15">y6=y5+k</text>
+  <rect class="box" x="840" y="92" width="220" height="86"/>
+  <text x="950" y="124" text-anchor="middle" font-size="17">输出结果与论文</text>
+  <text x="950" y="152" text-anchor="middle" font-size="15">表格、图和 main.tex</text>
+  <path class="arrow" d="M190,135 L230,135"/>
+  <path class="arrow" d="M380,135 L420,135"/>
+  <path class="arrow" d="M600,135 L640,135"/>
+  <path class="arrow" d="M800,135 L840,135"/>
+</svg>

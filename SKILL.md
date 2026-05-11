@@ -98,8 +98,10 @@ Read `references/task-routing.md` for the complete table.
 - Single subquestion/paper: `references/task-modes.md` and
   `references/problem-routing.md`.
 - Data files: run `scripts/data_profile.py`, then read `references/data-audit.md`.
-- Figure planning: read `references/figure-plan.md`; default to model schematic
-  plus result figure for each solved subquestion.
+- Figure planning: read `references/figure-plan.md`; default to a final model
+  flowchart plus result figure for each solved subquestion. Keep the editable
+  flowchart source in `modeling/` or `modeling/flowcharts/`, and the paper-ready
+  exported image in `figures/`.
 - Outputs to paper: read files first, then use `references/code-to-paper.md` and
   `references/result-tracking.md`.
 - Paper writing: `references/paper-writing.md`, `references/paper-assembly.md`,
@@ -113,7 +115,8 @@ Read `references/task-routing.md` for the complete table.
 - Final abstract: `agents/abstract_writer.md`, `references/paper-writing.md`,
   `references/result-tracking.md`, `references/scoring-checklist.md`.
 - Roadmap/flowchart: `references/technical-roadmap.md`; prefer editable
-  Mermaid, Graphviz, or SVG.
+  Mermaid, Graphviz, or SVG. Use GPT Image only when the user explicitly asks
+  for a designed bitmap image, not as the default for precise model flowcharts.
 - Final audit or judge review: read `references/final-review.md` and
   `references/final-checklist.md`; for first-prize-level claims also read
   `references/first-prize-rubric.md`, then lead with severity-ordered findings.
@@ -127,22 +130,31 @@ Read `references/task-routing.md` for the complete table.
   or update `paper/main.tex`. For a single subquestion, do not create full
   project templates, empty paper fragments, schema files, or logs unless the
   user explicitly asks for a complete project.
+- Standard output folders are `problem/`, `data/`, `modeling/`, `src/`,
+  `tables/`, `figures/`, `results/`, and `paper/`. Use `data/` for raw,
+  cleaned, and processed data; never create `date/` as the data directory.
 - For every solved subquestion, write the modeling idea before solving:
   `modeling/qx_modeling_idea.md`. It must include the question role,
-  assumptions, variables, core equations or decision criterion, constraints,
-  baseline, primary route, fallback route, solving plan, validation plan, and
-  figure plan. Solver code must follow this file, not invent a different model.
+  task facts, assumptions, variables, step-by-step derivation, core equations or
+  decision criterion, constraints, baseline, primary route, fallback route,
+  solving algorithm, validation plan, figure plan, and paper-writing plan.
+  Solver code must follow this file, not invent a different model.
 - After solving, compare the actual code path, equations, constraints, solver
   status, generated tables, and figures against `modeling/qx_modeling_idea.md`.
   If they differ, write the difference and update the file to a final modeling
   idea before paper writing. Do not let `paper/main.tex` describe a model that
   is different from the executed code.
 - For every solved subquestion, create a figure plan and normally generate at
-  least two Chinese figures: one model/problem schematic and one result figure.
-  Add validation/sensitivity/feasibility figures for optimization, prediction,
+  least two Chinese figures: one final model flowchart and one result figure.
+  The flowchart source belongs in `modeling/` or `modeling/flowcharts/`; the
+  figure cited by the paper belongs in `figures/`. Add a separate model/problem
+  schematic when object structure, geometry, or mechanism cannot be explained
+  by the flowchart alone.
+- Add validation/sensitivity/feasibility figures for optimization, prediction,
   ranking, scheduling, simulation, or any result that needs checking.
-- Skip schematic figures only when a compact table is clearly better, and state
-  the reason.
+- Skip model flowcharts only when a compact table or pure symbolic derivation
+  is clearly better, and state the reason in both `modeling/qx_modeling_idea.md`
+  and `paper/main.tex`.
 - Contest-paper figures default to Chinese titles, axis labels, legends,
   annotations, and captions. Keep English only for variable names, file names,
   units, or unavoidable technical tokens.
