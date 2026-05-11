@@ -23,7 +23,7 @@
         "boundary case"
       ],
       "figures_needed": [
-        "fig_q1_model_schematic.png",
+        "fig_q1_model_flow.png",
         "fig_q1_result.png",
         "fig_q1_validation.png"
       ],
@@ -62,7 +62,7 @@
         "baseline scheme comparison"
       ],
       "figures_needed": [
-        "fig_q2_model_schematic.png",
+        "fig_q2_model_flow.png",
         "fig_q2_result.png",
         "fig_q2_sensitivity.png"
       ],
@@ -100,7 +100,7 @@
         "baseline scheme comparison"
       ],
       "figures_needed": [
-        "fig_q3_model_schematic.png",
+        "fig_q3_model_flow.png",
         "fig_q3_result.png",
         "fig_q3_sensitivity.png"
       ],
@@ -138,7 +138,7 @@
         "baseline scheme comparison"
       ],
       "figures_needed": [
-        "fig_q4_model_schematic.png",
+        "fig_q4_model_flow.png",
         "fig_q4_result.png",
         "fig_q4_sensitivity.png"
       ],
@@ -176,7 +176,7 @@
         "baseline scheme comparison"
       ],
       "figures_needed": [
-        "fig_q5_model_schematic.png",
+        "fig_q5_model_flow.png",
         "fig_q5_result.png",
         "fig_q5_sensitivity.png"
       ],

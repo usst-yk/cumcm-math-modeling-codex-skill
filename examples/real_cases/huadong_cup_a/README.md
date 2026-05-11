@@ -24,10 +24,10 @@
 | `tables/tab_q2_adjustment_summary.csv` | Q2 重规划收益汇总。 |
 | `tables/tab_q2_adjusted_routes.csv` | Q2 调整后逐步路线明细。 |
 | `figures/fig_problem_overview.png` | 项目位置和固定演出示意图。 |
-| `figures/fig_q1_model_schematic.png` | Q1 模型流程示意图。 |
+| `figures/fig_q1_model_flow.png` | Q1 模型流程示意图。 |
 | `figures/fig_q1_result.png` | Q1 核心结果图。 |
 | `figures/fig_q1_validation.png` | Q1 与贪心基线对比验证图。 |
-| `figures/fig_q2_model_schematic.png` | Q2 实时重规划流程示意图。 |
+| `figures/fig_q2_model_flow.png` | Q2 实时重规划流程示意图。 |
 | `figures/fig_q2_result.png` | Q2 等待节省和得分增益图。 |
 | `figures/fig_q2_validation.png` | Q2 保持原路线与重规划路线对照图。 |
 | `results/result_registry.csv` | 关键 benchmark 数值登记表。 |

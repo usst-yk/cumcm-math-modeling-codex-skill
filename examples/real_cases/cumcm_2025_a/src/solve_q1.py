@@ -181,7 +181,7 @@ def write_tables(intervals: list[tuple[float, float]]) -> None:
             )
 
 
-def write_model_schematic(intervals: list[tuple[float, float]]) -> None:
+def write_model_flow(intervals: list[tuple[float, float]]) -> None:
     setup_chinese_plot()
     FIGURE_DIR.mkdir(parents=True, exist_ok=True)
     start, end = intervals[0]
@@ -228,7 +228,7 @@ def write_model_schematic(intervals: list[tuple[float, float]]) -> None:
     ax.set_ylim(-0.12, 1.14)
     ax.set_title("问题一：给定投放方案的时序与遮蔽判定示意")
     fig.tight_layout()
-    fig.savefig(FIGURE_DIR / "fig_q1_model_schematic.png", bbox_inches="tight")
+    fig.savefig(FIGURE_DIR / "fig_q1_model_flow.png", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -308,7 +308,7 @@ def write_validation_figure(intervals: list[tuple[float, float]]) -> None:
 def main() -> int:
     intervals = find_intervals()
     write_tables(intervals)
-    write_model_schematic(intervals)
+    write_model_flow(intervals)
     write_figure(intervals)
     write_validation_figure(intervals)
 

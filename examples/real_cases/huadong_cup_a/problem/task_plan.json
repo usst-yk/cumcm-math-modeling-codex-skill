@@ -28,7 +28,7 @@
         "baseline scheme comparison"
       ],
       "figures_needed": [
-        "fig_q1_model_schematic.png",
+        "fig_q1_model_flow.png",
         "fig_q1_result.png",
         "fig_q1_validation.png"
       ],
@@ -74,7 +74,7 @@
         "queue-time sensitivity"
       ],
       "figures_needed": [
-        "fig_q2_model_schematic.png",
+        "fig_q2_model_flow.png",
         "fig_q2_result.png",
         "fig_q2_validation.png"
       ],

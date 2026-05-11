@@ -22,15 +22,16 @@ Rules:
 
 ### Illustrative Figures
 
-Examples: mechanism schematic, workflow diagram, conceptual scene, AI-assisted
-visual brief, problem overview not based on measured data.
+Examples: GPT-image model flowchart, technical roadmap, mechanism schematic,
+workflow diagram, conceptual scene, problem overview not based on measured data.
 
 Rules:
 
 - caption should say `示意图` or otherwise make the illustrative status clear;
 - no invented data values, measured geometry, real map claims, or fake samples;
 - may explain mechanism, variables, or workflow, but not prove a result;
-- AI-generated drafts must have a brief and should not be treated as evidence.
+- GPT-image figures must have a saved prompt/spec and should not be treated as
+  numerical evidence.
 
 ### Code Results
 
@@ -49,7 +50,7 @@ Rules:
 
 Use a short reproducibility note when AI or scripts contributed:
 
-`本文中的数据图和数值结果由项目代码基于题目数据生成；示意图仅用于说明模型结构或流程，不作为数值证据。AI 工具仅用于文字润色、示意图 brief 或非数据性视觉草稿，未用于伪造数据、实验结果或代码输出。`
+`本文中的数据图和数值结果由项目代码基于题目数据生成；模型流程图、技术路线图和示意图仅用于说明模型结构或流程，不作为数值证据。AI 工具仅用于文字润色和非数据性图示生成，未用于伪造数据、实验结果或代码输出。`
 
 ## Final Checks
 

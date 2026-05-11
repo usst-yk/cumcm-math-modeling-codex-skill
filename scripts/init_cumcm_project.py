@@ -20,9 +20,7 @@ from update_progress import now_iso, open_file, render_html
 STANDARD_DIRS = [
     "problem",
     "modeling",
-    "modeling/flowcharts",
-    "data/raw",
-    "data/processed",
+    "data",
     "src",
     "figures",
     "tables",

@@ -1,9 +1,8 @@
 # AI Figure Brief
 
-AI image tools may be used to create illustrative briefs or visual drafts, but
-they must not fabricate data, results, maps, experimental scenes, or measured
-relationships. The safest default is to generate a brief first, then decide
-whether a human or script should make the final figure.
+GPT-image is the default tool for final model flowcharts, technical roadmaps,
+and conceptual schematics in CUMCM papers. AI images must not fabricate data,
+results, maps, experimental scenes, or measured relationships.
 
 ## Allowed Uses
 
@@ -11,8 +10,8 @@ whether a human or script should make the final figure.
 - problem-scene overview when no real image is required;
 - cover-style or presentation-style background image outside the paper's
   evidence chain;
-- visual style exploration for a schematic that will later be redrawn with
-  controlled labels.
+- visual style exploration for a schematic, provided the accepted paper image
+  passes label, arrow, node-order, and evidence-boundary checks.
 
 ## Not Allowed
 
@@ -31,8 +30,8 @@ Before generating or requesting an AI image, write:
 - `type`: illustrative schematic, scene illustration, style draft, or cover;
 - `must show`: objects, mechanism, process, or relationship;
 - `must avoid`: data values, real labels, official logos, false measurements;
-- `text`: final labels should be added by code or editor, not baked into the
-  image unless the user accepts possible text errors;
+- `text`: include the intended Chinese labels, then inspect generated text and
+  regenerate if labels, arrows, or node order are wrong;
 - `evidence status`: illustrative only, not data-derived.
 
 ## Paper Use Rules
@@ -41,5 +40,6 @@ Before generating or requesting an AI image, write:
 - Do not cite AI images as evidence for a numerical result.
 - For model, result, validation, and sensitivity figures, prefer scripted
   charts from actual data or computed outputs.
-- If an AI image inspires a schematic, redraw the final version with explicit
-  variables, units, captions, and source status.
+- Accepted GPT-image flowcharts and schematics may be used directly in the
+  paper after visual QA; regenerate flawed images rather than silently using
+  incorrect text, arrows, variables, units, captions, or source status.

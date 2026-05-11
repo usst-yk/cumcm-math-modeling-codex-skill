@@ -53,19 +53,19 @@
 | `tables/result3_benchmark.xlsx` | 问题 5 附件格式 benchmark 输出。 |
 | `figures/fig_problem_overview_xy.png` | 题面坐标系、导弹、无人机和目标平面示意图。 |
 | `figures/fig_problem_question_scope.png` | 五个子问题的资源范围和输出要求示意图。 |
-| `figures/fig_q1_model_schematic.png` | 问题 1 时序和遮蔽判定示意图。 |
+| `figures/fig_q1_model_flow.png` | 问题 1 时序和遮蔽判定示意图。 |
 | `figures/fig_q1_distance_geometry.png` | 问题 1 距离阈值和侧视几何图。 |
 | `figures/fig_q1_validation_margin.png` | 问题 1 距离裕度和投影参数验证图。 |
-| `figures/fig_q2_model_schematic.png` | 问题 2 优化变量和投放时序示意图。 |
+| `figures/fig_q2_model_flow.png` | 问题 2 优化变量和投放时序示意图。 |
 | `figures/fig_q2_optimized_distance_geometry.png` | 问题 2 距离阈值和侧视几何图。 |
 | `figures/fig_q2_sensitivity.png` | 问题 2 推荐策略的局部敏感性图。 |
-| `figures/fig_q3_model_schematic.png` | 问题 3 三弹协同示意图。 |
+| `figures/fig_q3_model_flow.png` | 问题 3 三弹协同示意图。 |
 | `figures/fig_q3_result.png` | 问题 3 遮蔽时间轴。 |
 | `figures/fig_q3_validation.png` | 问题 3 速度和起爆高度检查图。 |
-| `figures/fig_q4_model_schematic.png` | 问题 4 三机协同示意图。 |
+| `figures/fig_q4_model_flow.png` | 问题 4 三机协同示意图。 |
 | `figures/fig_q4_result.png` | 问题 4 遮蔽时间轴。 |
 | `figures/fig_q4_validation.png` | 问题 4 速度和起爆高度检查图。 |
-| `figures/fig_q5_model_schematic.png` | 问题 5 多机多弹协同示意图。 |
+| `figures/fig_q5_model_flow.png` | 问题 5 多机多弹协同示意图。 |
 | `figures/fig_q5_result.png` | 问题 5 多导弹遮蔽时间轴。 |
 | `figures/fig_q5_validation.png` | 问题 5 速度和起爆高度检查图。 |
 | `results/validation_audit.md` | 产物一致性自动检查结果。 |
