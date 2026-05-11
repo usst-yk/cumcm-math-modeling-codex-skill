@@ -90,9 +90,9 @@
 
 - `problem/task_plan.json`：每问的对象、变量、约束和输出。
 - `modeling/qx_modeling_idea.md`：每问详细建模思路，至少写清变量、逐步推导、公式、约束、验证。
-- `modeling/qx_model_flow.mmd|dot|svg`：每问模型流程图源文件。
-- `figures/fig_qx_model_flow.png|svg`：论文引用的模型流程图。
-- `figures/fig_problem_*.png|svg`：坐标系、对象位置、流程或题目资源范围示意图。
+- `modeling/qx_model_flow_prompt.md`：每问模型流程图 GPT-image 提示。
+- `figures/fig_qx_model_flow.png`：论文引用的模型流程图。
+- `figures/fig_problem_*.png`：坐标系、对象位置、流程或题目资源范围示意图。
 - `tables/tab_qx_feasibility.csv`：关键约束检查表。
 - `tables/tab_qx_result.csv`：主结果表。
 - `figures/fig_qx_trajectory_or_curve.png`：曲线、轨迹或布局图。

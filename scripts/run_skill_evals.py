@@ -26,7 +26,7 @@ MODELING_IDEA_TERMS = [
     "代码反向验证",
     "最终思路",
 ]
-MODELING_TEMPLATE_TERMS = ["逐步推导", "流程图", "论文写法", "代码反向验证"]
+MODELING_TEMPLATE_TERMS = ["逐步推导", "GPT-image", "论文写法", "代码反向验证"]
 
 PARSER_EXPECTATIONS = {
     "prediction": {
@@ -123,9 +123,9 @@ def check_demo(issues: list[str]) -> None:
         "../single_question_minimal/modeling/q1_modeling_idea.md",
         "../single_question_minimal/src/solve_q1.py",
         "../single_question_minimal/tables/tab_q1_result.csv",
-        "../single_question_minimal/modeling/q1_model_flow.mmd",
-        "../single_question_minimal/figures/fig_q1_model_flow.svg",
-        "../single_question_minimal/figures/fig_q1_result.svg",
+        "../single_question_minimal/modeling/q1_model_flow_prompt.md",
+        "../single_question_minimal/figures/fig_q1_model_flow.png",
+        "../single_question_minimal/figures/fig_q1_result.png",
         "../single_question_minimal/results/result_registry.csv",
         "../single_question_minimal/paper/main.tex",
         "problem/problem_statement.md",

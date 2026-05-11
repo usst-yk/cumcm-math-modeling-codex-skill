@@ -25,7 +25,7 @@
 - Algorithm:
 - Expected tables:
 - Figure plan:
-  - Model flowchart source and paper figure:
+  - GPT-image model flowchart prompt and paper figure:
   - Extra model/problem schematic when needed:
   - Result figure:
   - Validation/sensitivity figure:

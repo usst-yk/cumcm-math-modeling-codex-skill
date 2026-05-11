@@ -42,7 +42,7 @@ Use these expectations for manual checks after skill updates.
 
 ## Roadmap
 
-- Produces editable Mermaid/DOT/SVG source before bitmap output.
+- Produces a GPT-image technical roadmap or model flowchart.
 - Uses short labels and avoids invented methods.
 - Includes caption and paper explanation.
 

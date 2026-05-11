@@ -125,7 +125,7 @@ def main() -> int:
                 "- `src/`: deterministic scripts, named by subquestion when possible.",
                 "- `notebooks/`: optional exploration notebooks.",
                 "- `results/`: result registry, validation report, and sensitivity outputs.",
-                "- `figures/`: code-generated paper figures and editable roadmap outputs.",
+                "- `figures/`: code-generated paper figures and GPT-image roadmap outputs.",
                 "- `tables/`: generated result tables and data audit tables.",
                 "- `paper/`: single TeX paper entry `main.tex`, references, and compiled PDF.",
                 "- `appendix/`: appendix code and supplemental material.",

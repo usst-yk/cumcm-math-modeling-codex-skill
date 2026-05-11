@@ -269,7 +269,7 @@ examples/real_cases/huadong_cup_a/
 只补技术路线图：
 
 ```text
-[$cumcm-math-modeling] 请根据当前建模方案生成技术路线图。要求适合放进数学建模论文，结构清楚、节点文字清楚、可编辑，并附图注。
+[$cumcm-math-modeling] 请根据当前建模方案用 GPT-image 生成技术路线图。要求适合放进数学建模论文，结构清楚、节点文字清楚，并附图注。
 ```
 
 ## 8. 根据结果写论文

@@ -10,16 +10,17 @@
 
 默认至少生成：
 
-1. `fig_qx_model_flow.svg|png`：最终模型流程图。可编辑源文件放在
-   `modeling/qx_model_flow.mmd|dot|svg` 或 `modeling/flowcharts/`。
-2. `fig_qx_result.png|svg`：核心结果图。
+1. `fig_qx_model_flow.png`：最终模型流程图，默认用 GPT-image 生成。生成前把
+   中文提示、节点、箭头、图注和论文解释保存到
+   `modeling/qx_model_flow_prompt.md` 或 `modeling/flowcharts/`。
+2. `fig_qx_result.png`：核心结果图。
 
 如果有验证、误差、约束或敏感性分析，再生成：
 
 3. `fig_qx_validation.png` 或 `fig_qx_sensitivity.png`。
 
 如果题面对象、几何关系、机理结构或约束系统仅靠流程图说不清楚，再补
-`fig_qx_model_schematic.png|svg`。流程图解释建模步骤，示意图解释对象
+`fig_qx_model_schematic.png`。流程图解释建模步骤，示意图解释对象
 结构；二者可以同时存在。
 
 对优化、预测、评价排序、调度、仿真这类需要证明可靠性的题目，第三张检查图通常不是可省项。只有当检查结果用 1 个很小的表格更清楚时，才可以不画，并说明原因。
@@ -30,8 +31,8 @@
 
 完整赛题通常需要：
 
-- `fig_problem_overview.png|svg`：题面对象、坐标系、数据流或任务范围示意。
-- `fig_route_overview.svg`：技术路线图或逐问流程图。
+- `fig_problem_overview.png`：题面对象、坐标系、数据流或任务范围示意。
+- `fig_route_overview.png`：GPT-image 技术路线图或逐问流程图。
 - 每个已求解子问题至少 2 张图：模型流程图 + 结果图。
 - 关键验证或敏感性分析再加 1 张图。
 
@@ -55,6 +56,7 @@
 - 字号按 `references/figure-standards.md`，源图字号要偏大，插入论文后接近正文。
 - 长标签换行，不要缩成小字硬塞。
 - 每张图必须能对应一句论文结论。
+- GPT-image 图生成后必须检查中文文字、箭头方向、节点顺序和是否混入未使用方法。
 
 ## Skip Rules
 

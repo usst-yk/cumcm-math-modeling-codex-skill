@@ -22,7 +22,7 @@ communication natural; do not expose commands unless the user asks.
 | Code/tables/figures to paper | `references/code-to-paper.md`, `references/result-tracking.md`, `agents/writer.md` |
 | Final abstract | `agents/abstract_writer.md`, `references/paper-writing.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
 | Conclusion or polishing | `references/paper-writing.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
-| Technical roadmap or model flowchart | `references/technical-roadmap.md`, `scripts/make_roadmap_svg.py` |
+| Technical roadmap or model flowchart | `references/technical-roadmap.md`; generate with GPT-image |
 | Figure standards | `references/figure-standards.md`, optionally `scripts/make_paper_figures.py` |
 | Final judge review | `references/final-review.md`, `references/final-checklist.md`, `agents/reviewer.md` |
 | Safety or anti-fabrication concern | `references/safety-rules.md` |
@@ -54,5 +54,5 @@ communication natural; do not expose commands unless the user asks.
 - For route design, give three routes and choose a primary route plus fallback.
 - When a task type is clear, use `references/method-cards.json` as the compact
   method checklist before reading the longer method library.
-- For image-like roadmap requests, create editable source first; use image
-  generation only when the user explicitly wants a designed visual.
+- For roadmap or flowchart requests, use GPT-image by default and record the
+  prompt/spec in `modeling/`.

@@ -54,7 +54,7 @@
 要求：
 
 - 使用 `rng(2024)` 固定随机种子。
-- 使用 `exportgraphics` 输出 300 dpi PNG 和矢量 PDF。
+- 使用 `exportgraphics` 输出 300 dpi PNG；需要打印版时另存 PDF。
 - 变量命名和论文符号尽量一致。
 - 每个 `.m` 文件说明输入、输出和对应论文问题。
 

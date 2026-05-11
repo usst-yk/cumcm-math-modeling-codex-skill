@@ -41,7 +41,7 @@ Do not enter Solver until:
 - every selected model has variables, objective/evaluation criterion, constraints, input data, output tables/figures, and validation plan;
 - every selected model explains the derivation and solution procedure step by
   step, not only the final formulas;
-- a model flowchart source path in `modeling/` or `modeling/flowcharts/` is
+- a GPT-image model flowchart prompt path in `modeling/` or `modeling/flowcharts/` is
   planned, unless a written reason says a flowchart would be misleading;
 - `modeling/qx_modeling_idea.md` exists for the subquestions being solved.
 

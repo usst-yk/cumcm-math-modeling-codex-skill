@@ -121,15 +121,15 @@
 
 ## 11. 图表与流程图计划
 
-- 模型流程图源文件：`modeling/qx_model_flow.mmd|dot|svg` 或 `modeling/flowcharts/qx_model_flow.*`
-- 论文流程图：`figures/fig_qx_model_flow.svg|png`
-- 结果图：`figures/fig_qx_result.png|svg`
+- 模型流程图 GPT-image 提示：`modeling/qx_model_flow_prompt.md` 或 `modeling/flowcharts/qx_model_flow_prompt.md`
+- 论文流程图：`figures/fig_qx_model_flow.png`
+- 结果图：`figures/fig_qx_result.png`
 - 验证、敏感性或可行性图：
 - 结果表：
 - 每张图表在论文中支撑的一句话结论：
 
-默认用 Mermaid、Graphviz 或可编辑 SVG 生成精确流程图；只有用户明确要求
-设计感位图时，才用 GPT-image。GPT-image 生成的图不能替代精确可编辑源文件。
+默认用 GPT-image 生成模型流程图和技术路线图。生成前要把中文提示、
+节点文字、箭头关系、图注和论文解释写清楚；生成后检查文字和箭头是否正确。
 
 ## 12. 论文写法
 

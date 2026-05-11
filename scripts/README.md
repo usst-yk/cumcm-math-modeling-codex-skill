@@ -10,7 +10,6 @@
 | `data_profile.py` | 默认输出论文优先数据审计；加 `--full` 才输出全部审计表。 |
 | `result_registry.py` | 维护关键结果注册表。 |
 | `validate_results.py` | 检查论文、图表、表格和结果注册表是否一致；支持 `--mode standard/full`。 |
-| `make_roadmap_svg.py` | 从任务计划生成可编辑路线图 SVG，也可导出逐问路线图。 |
 | `build_official_case_index.py` | 校验官方 benchmark 来源索引，不下载官方论文内容。 |
 | `check_skill_structure.py` | 检查 SKILL front matter、引用路径和关键入口文件。 |
 | `make_paper_figures.py` | 提供统一论文图表样式。 |

@@ -120,17 +120,17 @@ examples/README.md
 ```text
 problem/          题面原文、题意解析和任务拆解
 data/             原始数据、清洗数据和预处理产物；不要用 date/
-modeling/         每一问的详细建模思路、流程图源文件和代码反向验证
+modeling/         每一问的详细建模思路、GPT-image 流程图提示和代码反向验证
 src/              当前问题的数据处理、求解和绘图代码
 tables/           当前问题的核心结果表、检查表和敏感性表
-figures/          论文用中文图片，包括流程图导出图、结果图和验证图
+figures/          论文用中文图片，包括 GPT-image 流程图、结果图和验证图
 results/          结果注册表和验证报告，追踪写入论文的关键数字
 paper/main.tex    永远是论文入口；单问和全题都用这个文件
 ```
 
-其中模型流程图默认用 Mermaid、Graphviz 或可编辑 SVG 生成：源文件放在
-`modeling/` 或 `modeling/flowcharts/`，导出的论文图片放在 `figures/`。
-GPT-image 适合用户明确要求“设计感位图”时使用，不作为精确模型流程图的默认方案。
+其中模型流程图和技术路线图默认用 GPT-image 生成：中文提示、节点、
+箭头关系和图注放在 `modeling/` 或 `modeling/flowcharts/`，论文图片放在
+`figures/`。
 
 只有你明确说“完整项目”“全题交付”“初始化项目目录”或“所有中间文件都保存下来”，才会生成完整日志、全部 schema、完整审计表和附录模板。
 

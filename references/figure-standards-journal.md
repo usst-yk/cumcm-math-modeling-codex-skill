@@ -5,7 +5,7 @@ Use this only when the user explicitly asks for SCI, Nature, PRL, journal-grade,
 ## Additional Requirements
 
 - Decide target format before plotting: single-column, double-column, poster, PPT, or journal submission.
-- Prefer vector PDF/SVG for line art and high-DPI PNG/TIFF for raster images when required.
+- Prefer PDF for line art and high-DPI PNG/TIFF for raster images when required.
 - Maintain consistent font family, panel labels, line widths, marker sizes, and color palette across the figure set.
 - Use colorblind-safe palettes and avoid color-only encoding.
 - Report statistical tests, error definitions, sample sizes, and preprocessing choices in captions or methods.

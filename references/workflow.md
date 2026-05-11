@@ -49,8 +49,8 @@ modeling, validation, or paper writing.
      idea. Update `modeling/qx_modeling_idea.md` with the final code-verified
      modeling idea, then write it directly into `paper/main.tex`.
    - Before coding each Qx, make a figure plan using `references/figure-plan.md`.
-     Default to a final model flowchart plus a result figure. Keep the editable
-     flowchart source in `modeling/` or `modeling/flowcharts/`.
+     Default to a GPT-image final model flowchart plus a result figure. Keep the
+     flowchart prompt/spec in `modeling/` or `modeling/flowcharts/`.
    - Use detailed modeling ideas and result registry for every solved question
      whose numbers enter the paper. Use separate run logs mainly for full
      projects; this affects logging only, not modeling, validation, or paper
@@ -65,7 +65,7 @@ modeling, validation, or paper writing.
 7. Implement reproducibly.
    - Prefer deterministic Python unless the user requests MATLAB.
    - Save generated tables and figures with stable names.
-   - Generate Chinese model flowcharts, result figures, and validation figures
+   - Generate Chinese GPT-image model flowcharts, result figures, and validation figures
      according to the figure plan. Add schematic figures when a structure,
      geometry, or mechanism needs more explanation than a flowchart can provide.
    - Fix random seeds and report solver status when relevant.

@@ -4,18 +4,17 @@ Use this reference for 技术路线图, 技术路线, 流程图, 流程框图, o
 
 ## Priority
 
-For contest-final or paper-final diagrams:
+For contest-final or paper-final diagrams, use GPT-image by default.
 
-1. Generate an editable source first: Mermaid (`.mmd`), Graphviz DOT (`.dot`), or SVG.
-   Save the source in `modeling/` or `modeling/flowcharts/`, for example
-   `modeling/q1_model_flow.mmd`.
-2. Export the paper-ready figure to `figures/`, for example
-   `figures/fig_q1_model_flow.svg|png`.
-3. Use GPT Image only when the user explicitly wants a designed bitmap image.
-   Do not use GPT Image as the default for precise mathematical flowcharts
-   because labels, arrows, and editability matter.
-4. Keep both the editable source and the exported image. The source explains
-   the model; the exported image is what `paper/main.tex` cites.
+Save:
+
+- `modeling/qx_model_flow_prompt.md` or `modeling/flowcharts/qx_model_flow_prompt.md`:
+  the Chinese diagram brief, node list, arrow logic, caption, and paper
+  explanation.
+- `figures/fig_qx_model_flow.png`: the GPT-image model flowchart used in the
+  paper.
+- `figures/fig_route_overview.png`: the GPT-image technical roadmap for the
+  full paper or multi-question route.
 
 ## Technical Roadmap Structure
 
@@ -47,21 +46,17 @@ Task-specific additions:
 - Evaluation: indicator direction, normalization, weighting, score/ranking, ranking stability.
 - Simulation: state variables, transition rules, parameter estimation, repeated runs, boundary cases.
 
-## Style
+## GPT-Image Brief Requirements
 
-- Use a light background, high-contrast text, restrained colors, rectangular nodes, clear arrows, and no decorative icons.
-- Size node text for the final paper canvas; labels should remain near body-text size after insertion.
-- If labels overlap, remove nodes or shorten labels before shrinking text.
-- Output a Chinese caption and one paper explanation paragraph with every diagram.
+Write the prompt before generating the image. Include:
 
-## Mermaid Starter
+- paper context and subquestion id;
+- diagram title in Chinese;
+- exact node labels;
+- arrow order and any grouped lanes;
+- required visual style: clean white background, rectangular nodes, high-contrast
+  Chinese text, no decorative icons, no extra methods;
+- caption and the one paragraph that will be written into `paper/main.tex`.
 
-```mermaid
-flowchart LR
-  A["题目任务"] --> B["数据与指标"]
-  B --> C["建模思路"]
-  C --> D["核心模型"]
-  D --> E["模型求解"]
-  E --> F["验证分析"]
-  F --> G["结论输出"]
-```
+After generation, inspect the image. If labels, arrows, or node order are wrong,
+regenerate rather than silently using the flawed image.

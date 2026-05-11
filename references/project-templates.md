@@ -22,7 +22,7 @@ python3 scripts/init_cumcm_project.py /path/to/project --full
 生成目录：
 
 - `problem/`: 题面原文和必要的题面解析结果。
-- `modeling/`: 每问详细建模思路、路线比较、模型流程图源文件和代码反向验证。
+- `modeling/`: 每问详细建模思路、路线比较、GPT-image 流程图提示和代码反向验证。
 - `data/`: 原始数据、清洗数据和预处理产物；不要使用 `date/` 目录。
 - `src/`: 数据处理、建模、求解、绘图代码。
 - `figures/`: 代码生成的论文图片。

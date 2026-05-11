@@ -13,8 +13,8 @@ For SCI/Nature/PRL-style publication graphics, read `references/figure-standards
 - Default to at least two figures for most solved subquestions: a final model
   flowchart and a result figure. Add validation/sensitivity figures when the
   result needs checking.
-- The editable flowchart source belongs in `modeling/` or `modeling/flowcharts/`;
-  the exported paper figure belongs in `figures/`.
+- The GPT-image prompt/spec belongs in `modeling/` or `modeling/flowcharts/`;
+  the generated paper figure belongs in `figures/`.
 - Additional schematic figures are expected when geometry, trajectories, timing,
   optimization variables, evaluation indicators, spatial layouts, or constraint
   relationships cannot be explained clearly by the model flowchart alone.
@@ -44,7 +44,7 @@ For SCI/Nature/PRL-style publication graphics, read `references/figure-standards
 | Clustering/classification | cluster scatter, confusion matrix, representative samples |
 | Mechanism or geometry | problem background schematic, coordinate diagram, trajectory diagram |
 | Timing or staged process | timeline, Gantt-style stage chart, event sequence diagram |
-| Technical route | editable Mermaid/Graphviz/SVG flowchart |
+| Technical route | GPT-image technical roadmap |
 
 ## Avoid
 

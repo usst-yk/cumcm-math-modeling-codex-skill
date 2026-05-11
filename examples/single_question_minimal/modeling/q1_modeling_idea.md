@@ -38,8 +38,8 @@ k=\frac{y_5-y_1}{5-1}.
 ## 验证与图表
 
 由于样本很少，只把该模型作为基线预测，不声称高精度。生成最终模型
-流程图、结果图，用于说明计算步骤和预测点。流程图源文件为
-`modeling/q1_model_flow.mmd`，论文成图为 `figures/fig_q1_model_flow.svg`。
+流程图、结果图，用于说明计算步骤和预测点。流程图 GPT-image 提示为
+`modeling/q1_model_flow_prompt.md`，论文成图为 `figures/fig_q1_model_flow.png`。
 
 ## 代码反向验证与最终思路
 

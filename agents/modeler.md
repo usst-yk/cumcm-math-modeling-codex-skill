@@ -42,8 +42,8 @@ Responsibilities:
 Required outputs:
 
 - `modeling/q1_modeling_idea.md`, `modeling/q2_modeling_idea.md`, etc.;
-- editable model flowchart source for each solved subquestion, such as
-  `modeling/q1_model_flow.mmd` or `modeling/flowcharts/q1_model_flow.dot`;
+- GPT-image model flowchart brief for each solved subquestion, such as
+  `modeling/q1_model_flow_prompt.md`;
 - `modeling/route_comparison.md` for full problems or route-selection tasks;
 - baseline definition for each solved subquestion;
 - cross-question dependency notes: what Qx needs from Qy, and what Qx passes to
@@ -65,8 +65,8 @@ Modeling idea minimum:
 - solving algorithm described as implementable steps, including inputs,
   preprocessing, loops/solver/search/fitting logic, outputs, and failure status;
 - validation and sensitivity plan;
-- model flowchart source file in `modeling/` or `modeling/flowcharts/`, plus the
-  exported paper figure in `figures/`;
+- GPT-image model flowchart prompt in `modeling/` or `modeling/flowcharts/`,
+  plus the generated paper figure in `figures/`;
 - figures and tables needed to explain the model, result, and validation;
 - paragraph-level plan for what must be written back to `paper/main.tex`;
 - cross-question dependencies.

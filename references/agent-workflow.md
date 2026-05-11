@@ -26,10 +26,10 @@ Standard Qx loop:
 1. `modeling/qx_modeling_idea.md`.
 2. `src/solve_qx.py` when code is needed.
 3. `tables/tab_qx_result.csv|xlsx`.
-4. `modeling/qx_model_flow.mmd|dot|svg`.
-5. `figures/fig_qx_model_flow.png|svg`.
-6. `figures/fig_qx_result.png|svg`.
-7. `figures/fig_qx_validation.png|svg` when a check is needed.
+4. `modeling/qx_model_flow_prompt.md`.
+5. `figures/fig_qx_model_flow.png`.
+6. `figures/fig_qx_result.png`.
+7. `figures/fig_qx_validation.png` when a check is needed.
 8. `results/result_registry.csv` for headline numbers used in the paper.
 9. `paper/main.tex`.
 
@@ -42,7 +42,7 @@ Full project Qx loop:
 1. `modeling/qx_modeling_idea.md`
 2. `src/qx_*.py`
 3. `tables/tab_qx_*.csv|xlsx`
-4. `figures/fig_qx_*.png|svg|pdf`
+4. `figures/fig_qx_*.png|pdf`
 5. `results/result_registry.csv`
 6. `results/validation_report.md`
 7. `paper/main.tex`

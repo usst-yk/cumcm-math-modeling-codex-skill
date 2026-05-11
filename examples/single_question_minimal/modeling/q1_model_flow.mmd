@@ -1,6 +1,0 @@
-flowchart LR
-  A["输入第1-5天需求量"] --> B["核对单位和时间顺序"]
-  B --> C["计算平均日增长量 k=(y5-y1)/4"]
-  C --> D["由 y6_hat=y5+k 得到预测值"]
-  D --> E["保存 tab_q1_result.csv"]
-  E --> F["生成结果图并写入 paper/main.tex"]
