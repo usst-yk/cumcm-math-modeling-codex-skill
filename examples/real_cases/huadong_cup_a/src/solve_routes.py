@@ -3,7 +3,7 @@
 
 This is a benchmark example, not an official Shanghai Disney recommendation.
 Attraction utilities, queue times, coordinates, and real-time queue shocks are
-the transparent baseline data saved in data/raw.
+the transparent baseline data saved in data.
 """
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ from plot_utils import setup_chinese_plot
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data" / "raw"
+DATA_DIR = ROOT / "data"
 TABLE_DIR = ROOT / "tables"
 FIGURE_DIR = ROOT / "figures"
 RESULT_DIR = ROOT / "results"
@@ -771,7 +771,7 @@ def write_validation_report(q1_summary: pd.DataFrame, comparison: pd.DataFrame, 
 
 ## 数据边界
 
-- 本案例没有官方附件数据，因此 `data/raw/benchmark_activities.csv` 和 `data/raw/realtime_wait_updates.csv` 是透明 benchmark 数据。
+- 本案例没有官方附件数据，因此 `data/benchmark_activities.csv` 和 `data/realtime_wait_updates.csv` 是透明 benchmark 数据。
 - 坐标、排队时间、游客偏好、固定演出时间均用于复现建模流程，不代表上海迪士尼官方或实时运营数据。
 
 ## 问题 1 验证

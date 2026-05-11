@@ -41,8 +41,7 @@ communication natural; do not expose commands unless the user asks.
   solved questions, load `references/figure-plan.md` and generate the planned
   Chinese figures; keep analysis, modeling, solving, validation, registry, and
   paper text complete.
-- Do not initialize a full project, copy every template, or create empty files
-  for a single-question solve unless the user asks for a complete project.
+- Do not copy every template or create empty files for a single-question solve.
   Still create/update `paper/main.tex`.
 - Do not solve a subquestion before writing its modeling idea file under
   `modeling/`.

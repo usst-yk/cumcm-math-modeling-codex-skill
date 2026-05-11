@@ -10,7 +10,7 @@
 
 ## 附件
 
-- `data/raw/nipt_male_synthetic.csv`：男胎合成样本。
-- `data/raw/nipt_female_synthetic.csv`：女胎合成样本。
+- `data/nipt_male_synthetic.csv`：男胎合成样本。
+- `data/nipt_female_synthetic.csv`：女胎合成样本。
 
 本目录用于验证 skill 的监督-返工闭环，不是官方标准答案，也不包含官方附件原始数据。

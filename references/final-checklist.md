@@ -36,7 +36,7 @@ for that question. Do not require empty templates, logs, or appendices. Always
 check whether the analysis, model, solution, validation, figures, registry, and
 `paper/main.tex` are complete enough for the question.
 
-For full projects, check:
+For complete papers, check:
 
 - TeX paper source exists as `paper/main.tex`; `paper/sections/*.tex` should not
   be needed for a final artifact.

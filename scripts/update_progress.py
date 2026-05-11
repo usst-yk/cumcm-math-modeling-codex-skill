@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Append project progress events and optionally render/open progress.html."""
+"""Append project progress events and optionally render/open results/progress.html."""
 
 from __future__ import annotations
 
@@ -40,7 +40,7 @@ def read_jsonl(path: Path) -> list[dict]:
                     "stage": "parse_error",
                     "message": line,
                     "status": "invalid",
-                    "retry_reason": f"logs/progress.jsonl line {line_number} is not valid JSON",
+                    "retry_reason": f"{path} line {line_number} is not valid JSON",
                 }
             )
     return rows
@@ -301,7 +301,7 @@ def render_html(
 <body>
 <main>
   <h1>Project Progress</h1>
-  <p class="meta">Generated from logs/progress.jsonl.</p>
+  <p class="meta">Generated from results/progress.jsonl.</p>
   <section class="summary">
     <div><span class="label">Current stage</span>{html.escape(current_stage(events))}</div>
     <div><span class="label">Events</span>{len(events)}</div>
@@ -353,8 +353,8 @@ def open_file(path: Path) -> None:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Append logs/progress.jsonl and render a static progress page.")
-    parser.add_argument("--log", default="logs/progress.jsonl", help="Progress JSONL path.")
+    parser = argparse.ArgumentParser(description="Append results/progress.jsonl and render a static progress page.")
+    parser.add_argument("--log", default="results/progress.jsonl", help="Progress JSONL path.")
     parser.add_argument("--stage", default="", help="Current stage, e.g. parsing, modeling, writing.")
     parser.add_argument("--current-stage", default="", help="Explicit current stage label; defaults to --stage.")
     parser.add_argument("--status", default="working", help="working, done, blocked, risk, etc.")
@@ -381,13 +381,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--score", default="", help="Score or score gate summary, e.g. 16/20.")
     parser.add_argument("--rubric-status", default="", help="Rubric gate status, e.g. no-zero-items.")
     parser.add_argument("--meta", default="", help="Optional JSON object with extra fields.")
-    parser.add_argument("--render", action="store_true", help="Render progress.html after reading/appending events.")
-    parser.add_argument("--html", default="progress.html", help="Rendered HTML output path.")
+    parser.add_argument("--render", action="store_true", help="Render results/progress.html after reading/appending events.")
+    parser.add_argument("--html", default="results/progress.html", help="Rendered HTML output path.")
     parser.add_argument("--task-plan", default="problem/task_plan.json", help="Task plan JSON used for dashboard summary.")
     parser.add_argument("--registry", default="results/result_registry.csv", help="Result registry CSV used for dashboard summary.")
-    parser.add_argument("--no-render", action="store_true", help="Do not render progress.html after appending.")
-    parser.add_argument("--open", action="store_true", help="Open the rendered progress.html in the default browser.")
-    parser.add_argument("--watch", action="store_true", help="Keep rendering progress.html when the log changes.")
+    parser.add_argument("--no-render", action="store_true", help="Do not render results/progress.html after appending.")
+    parser.add_argument("--open", action="store_true", help="Open the rendered results/progress.html in the default browser.")
+    parser.add_argument("--watch", action="store_true", help="Keep rendering results/progress.html when the log changes.")
     parser.add_argument("--poll-seconds", type=float, default=2.0, help="Polling interval used by --watch.")
     return parser.parse_args()
 

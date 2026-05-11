@@ -13,7 +13,7 @@
       ],
       "input_data": [
         "problem/problem_statement.md",
-        "data/raw/benchmark_activities.csv"
+        "data/benchmark_activities.csv"
       ],
       "decision_object": "有限开放时段内的项目访问顺序和休整/演出安排",
       "constraints": [
@@ -58,8 +58,8 @@
       ],
       "input_data": [
         "tables/tab_q1_routes.csv",
-        "data/raw/realtime_wait_updates.csv",
-        "data/raw/benchmark_activities.csv"
+        "data/realtime_wait_updates.csv",
+        "data/benchmark_activities.csv"
       ],
       "decision_object": "实时排队信息到达后未完成项目的访问顺序",
       "constraints": [

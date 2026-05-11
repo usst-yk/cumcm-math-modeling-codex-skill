@@ -2,21 +2,15 @@
 
 ## 初始化项目
 
-用户不需要手动运行初始化命令。默认创建论文优先工作区，包含必要目录、
-`paper/main.tex` 和 `results/result_registry.csv`。只有用户明确要求
-“完整项目模板”“全流程交付包”时，才复制所有辅助模板和日志。
+用户不需要手动运行初始化命令。初始化只创建固定的论文优先工作区，
+包含必要目录、`paper/main.tex` 和 `results/result_registry.csv`。
+不要创建额外日志、附录、展示、notebook 或 dashboard 目录。
 论文优先不允许削弱建模、求解、验证或论文写作。
 
 默认论文优先模式：
 
 ```bash
 python3 scripts/init_cumcm_project.py /path/to/project
-```
-
-完整模板模式：
-
-```bash
-python3 scripts/init_cumcm_project.py /path/to/project --full
 ```
 
 生成目录：
@@ -30,7 +24,7 @@ python3 scripts/init_cumcm_project.py /path/to/project --full
 - `paper/`: 默认包含 `main.tex`；不再创建分问片段目录。
 - `results/`: 默认包含结果注册表，用于追踪写入论文的关键数字。
 
-完整模式才复制模板：
+可按需使用的模板文件：
 
 - `problem/problem_parse.schema.json`: 题面解析字段约束。
 - `problem/task_plan.schema.json`: 任务计划字段约束。
@@ -40,14 +34,14 @@ python3 scripts/init_cumcm_project.py /path/to/project --full
 - `problem/assumptions.md`: 假设和符号说明模板。
 - `paper/main.tex`: TeX 论文骨架。最终论文、benchmark 和完整报告都使用
   TeX，Markdown 只用于说明文档或草稿笔记。
-- `appendix/code-template.md`: 附录代码格式模板。
+- 附录或复现说明直接写入 `paper/main.tex`，不要创建 `appendix/` 目录。
 
 ## 数据检查
 
 运行：
 
 ```bash
-python3 scripts/data_profile.py /path/to/data --outdir /path/to/project/tables/data_profile
+python3 scripts/data_profile.py /path/to/data --outdir /path/to/project/tables
 ```
 
 支持：

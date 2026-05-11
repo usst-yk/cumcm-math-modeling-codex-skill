@@ -546,7 +546,7 @@ def parse_args() -> argparse.Namespace:
         "-o",
         "--outdir",
         dest="output",
-        default="tables/data_profile",
+        default="tables",
         help="Output directory.",
     )
     parser.add_argument(

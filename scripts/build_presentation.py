@@ -138,11 +138,11 @@ def render(plan: dict, registry: list[dict], figures: list[Path], output: Path) 
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build presentation/index.html.")
+    parser = argparse.ArgumentParser(description="Build results/presentation.html.")
     parser.add_argument("--plan", default="problem/task_plan.json", help="Input task_plan.json path.")
     parser.add_argument("--registry", default="results/result_registry.csv", help="Input result registry CSV path.")
     parser.add_argument("--figures", default="figures", help="Figure directory.")
-    parser.add_argument("--output", default="presentation/index.html", help="Output HTML path.")
+    parser.add_argument("--output", default="results/presentation.html", help="Output HTML path.")
     return parser.parse_args()
 
 

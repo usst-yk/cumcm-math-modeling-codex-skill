@@ -66,7 +66,7 @@ def render(template: str, context: dict[str, str]) -> str:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate figure brief markdown files from task_plan.json.")
     parser.add_argument("--plan", default="problem/task_plan.json", help="Input task_plan.json path.")
-    parser.add_argument("--output-dir", default="figures/ai_briefs", help="Output directory for markdown briefs.")
+    parser.add_argument("--output-dir", default="modeling", help="Output directory for markdown briefs.")
     parser.add_argument("--template", default="templates/ai_figure_brief.md", help="Optional brief template.")
     parser.add_argument("--overwrite", action="store_true", help="Overwrite existing brief files.")
     return parser.parse_args()

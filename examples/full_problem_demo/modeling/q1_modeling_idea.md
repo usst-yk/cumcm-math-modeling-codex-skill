@@ -6,7 +6,7 @@
 
 ## 输入与输出
 
-- 输入：`data/raw/station_demand.csv` 中 6 个站点过去 6 天需求。
+- 输入：`data/station_demand.csv` 中 6 个站点过去 6 天需求。
 - 输出：第 7 天总需求预测和预测基线对照。
 
 ## 模型思路

@@ -11,7 +11,7 @@
         "预测基线比较"
       ],
       "input_data": [
-        "data/raw/station_demand.csv"
+        "data/station_demand.csv"
       ],
       "decision_object": "每日总需求",
       "constraints": [
@@ -46,7 +46,7 @@
         "车辆容量260件时的配送分配表"
       ],
       "input_data": [
-        "data/raw/station_demand.csv"
+        "data/station_demand.csv"
       ],
       "decision_object": "各站点配送量",
       "constraints": [
@@ -82,7 +82,7 @@
         "站点配送优先级排序"
       ],
       "input_data": [
-        "data/raw/station_demand.csv"
+        "data/station_demand.csv"
       ],
       "decision_object": "站点优先级得分",
       "constraints": [

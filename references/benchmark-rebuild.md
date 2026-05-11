@@ -8,7 +8,7 @@ the skill from scratch.
 Rebuild means do not polish old results. Preserve only:
 
 - official problem statement and extracted text in `problem/`;
-- raw attachments or reconstructed benchmark data in `data/raw/`;
+- raw attachments or reconstructed benchmark data in `data/`;
 - solver scripts that are part of the benchmark method, unless the task asks to
   rewrite code too.
 

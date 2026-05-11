@@ -54,7 +54,7 @@
 
 \section{数据审计与预处理}
 
-示例数据位于 \texttt{data/raw/station\_demand.csv}。数据审计的第一步是确认字段含义、行数、时间范围和站点编号是否满足三问输入需求。第二步是按日期汇总站点需求，得到问题一所需的每日总需求序列。第三步是提取最新一天各站点需求和原始优先级，作为问题二分配和问题三评价的共同输入。
+示例数据位于 \texttt{data/station\_demand.csv}。数据审计的第一步是确认字段含义、行数、时间范围和站点编号是否满足三问输入需求。第二步是按日期汇总站点需求，得到问题一所需的每日总需求序列。第三步是提取最新一天各站点需求和原始优先级，作为问题二分配和问题三评价的共同输入。
 
 数据预处理过程中不新增外部历史数据，不插补虚构需求，也不改变需求单位。若正式赛题中存在缺失值、重复站点、跨表单位不一致或时间范围不齐，应先输出数据审计表，再决定是否剔除、合并或换算。本示例保留数据审计文件，是为了说明论文中的每个数值都应当来自题面、附件、代码或保存的结果表。
 
@@ -214,6 +214,6 @@ g_i=0.6s_i+0.4p_i.
 
 \section{复现说明}
 
-核心求解脚本为 \texttt{src/solve\_demo.py}。输入文件为 \texttt{data/raw/station\_demand.csv}。主要输出包括 \texttt{tables/tab\_q1\_daily\_forecast.csv}、\texttt{tables/tab\_q2\_allocation.csv}、\texttt{tables/tab\_q3\_priority\_ranking.csv}、\texttt{results/result\_registry.csv} 以及 \texttt{figures/} 目录中的模型流程图、结果图和验证图。流程图的 GPT-image 提示保存在 \texttt{modeling/} 目录中，结果图和验证图由代码或保存的数据表生成。
+核心求解脚本为 \texttt{src/solve\_demo.py}。输入文件为 \texttt{data/station\_demand.csv}。主要输出包括 \texttt{tables/tab\_q1\_daily\_forecast.csv}、\texttt{tables/tab\_q2\_allocation.csv}、\texttt{tables/tab\_q3\_priority\_ranking.csv}、\texttt{results/result\_registry.csv} 以及 \texttt{figures/} 目录中的模型流程图、结果图和验证图。流程图的 GPT-image 提示保存在 \texttt{modeling/} 目录中，结果图和验证图由代码或保存的数据表生成。
 
 \end{document}

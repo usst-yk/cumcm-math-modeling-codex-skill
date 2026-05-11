@@ -1,26 +1,25 @@
 # Progress Dashboard
 
-Use this reference for full-project, supervised, or long-running CUMCM work
-when the user needs to see status without reading logs.
+Use this reference only for reading old benchmark notes. New projects should
+record progress and gate failures in `results/validation_report.md`, not in a
+separate dashboard.
 
 ## Principle
 
-The dashboard is a static local handoff, not a Web platform. Keep lean mode
-clean: do not create `logs/progress.jsonl` or `progress.html` unless the user
-asks for a complete project, supervised workflow, dashboard, or long-running
-status tracking.
+Do not create `logs/` or root-level `progress.html`.
 
 ## Event Log
 
-Use `scripts/update_progress.py` to append JSONL events:
+If a local progress record is unavoidable for a legacy benchmark, keep it under
+`results/`:
 
 ```bash
-python scripts/update_progress.py --stage modeling --status working --worker codex --message "Q1 model card drafted"
+python scripts/update_progress.py --log results/progress.jsonl --html results/progress.html --stage modeling --status working --worker codex --message "Q1 model card drafted"
 python scripts/update_progress.py --stage validation --status revise --event-type supervisor_gate --owner solver --blocker "result registry missing headline value" --retry-reason "rerun Q2 sensitivity table" --evidence "results/validation_audit.md"
 python scripts/update_progress.py --stage review --status done --score "16/20" --rubric-status "no zero item; validation=2; traceability=2" --open
 ```
 
-Appending an event renders `progress.html` by default. Use `--no-render` only
+Appending an event renders `results/progress.html` by default. Use `--no-render` only
 for batch imports. The HTML page includes a 5-second refresh tag, so an already
 opened dashboard will update after each event.
 
@@ -49,27 +48,16 @@ Recommended fields:
 Old JSONL rows that only contain `stage`, `status`, `worker`, `message`, and
 `files` remain valid. New fields are optional and are only displayed when set.
 
-Full project initialization creates `logs/progress.jsonl` and `progress.html`
-at startup:
-
-```bash
-python scripts/init_cumcm_project.py cumcm_2026_A --full
-python scripts/init_cumcm_project.py cumcm_2026_A --full --open
-```
-
 ## Static HTML
 
 Render the dashboard with:
 
 ```bash
-python scripts/update_progress.py --render
-python scripts/update_progress.py --render --open
-python scripts/update_progress.py --watch --open
+python scripts/update_progress.py --log results/progress.jsonl --html results/progress.html --render
+python scripts/update_progress.py --log results/progress.jsonl --html results/progress.html --render --open
 ```
 
-Use `--watch --open` during supervised multi-agent work when several agents may
-append or regenerate logs. The watcher re-renders the dashboard whenever the log
-changes; the browser refresh then makes the new step visible.
+Do not use `--watch` for ordinary modeling work.
 
 Supervisor gate example:
 
@@ -100,7 +88,7 @@ The dashboard should show:
 
 When sources disagree, trust in this order:
 
-1. explicit `blocked` or `revise` events in `logs/progress.jsonl`;
+1. explicit `blocked` or `revise` notes in `results/validation_report.md`;
 2. verified/blocked status in `results/result_registry.csv`;
 3. `problem/task_plan.json` status fields;
 4. existence of files in `figures/`, `tables/`, and `paper/main.tex`;
