@@ -501,7 +501,7 @@ def draw_flowchart(path: Path, title: str, labels: list[str]) -> None:
 
 def write_q1_figures(q1_summary: pd.DataFrame, comparison: pd.DataFrame) -> None:
     draw_flowchart(
-        FIGURE_DIR / "fig_q1_model_schematic.png",
+        FIGURE_DIR / "fig_q1_model_flow.png",
         "问题 1：多情景游览路线优化流程",
         ["游客偏好", "日期场景", "排队预测", "时间窗约束", "动态规划选线", "路线建议"],
     )
@@ -548,7 +548,7 @@ def write_q1_figures(q1_summary: pd.DataFrame, comparison: pd.DataFrame) -> None
 
 def write_q2_figures(q2_summary: pd.DataFrame) -> None:
     draw_flowchart(
-        FIGURE_DIR / "fig_q2_model_schematic.png",
+        FIGURE_DIR / "fig_q2_model_flow.png",
         "问题 2：APP 实时排队触发的剩余路线重规划",
         ["读取原路线", "锁定已完成", "更新排队", "重算剩余路线", "比较收益", "输出调整"],
     )
@@ -779,14 +779,14 @@ def write_validation_report(q1_summary: pd.DataFrame, comparison: pd.DataFrame, 
 - 每条路线均检查 09:00-21:00 总时间边界。
 - 固定演出 `parade`、`castle_show`、`fireworks` 只允许在基准时间窗开始。
 - 动态规划路线与贪心基线在 9 个游客-日期组合中逐项比较，平均得分提升 {avg_improvement:.2f}%，最低提升 {min_improvement:.2f}%。
-- 中文图 `fig_q1_model_schematic.png`、`fig_q1_result.png`、`fig_q1_validation.png` 对应模型流程、核心结果和基线验证。
+- 中文图 `fig_q1_model_flow.png`、`fig_q1_result.png`、`fig_q1_validation.png` 对应模型流程、核心结果和基线验证。
 
 ## 问题 2 验证
 
 - 13:30 作为 APP 复核时刻；若游客正在体验某项目，则在该项目结束后重规划。
 - 已完成项目被锁定，剩余候选项目使用同一实时排队扰动表。
 - 相比保持原剩余路线，重规划平均减少等待 {avg_wait_saved:.2f} 分钟，{changed_scenarios} 个场景发生路线项目集合变化。
-- 中文图 `fig_q2_model_schematic.png`、`fig_q2_result.png`、`fig_q2_validation.png` 对应重规划流程、收益结果和保持原路线对照。
+- 中文图 `fig_q2_model_flow.png`、`fig_q2_result.png`、`fig_q2_validation.png` 对应重规划流程、收益结果和保持原路线对照。
 
 ## 限制
 

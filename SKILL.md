@@ -87,8 +87,8 @@ Read only the relevant file(s):
 - Single subquestion/paper: `references/task-modes.md` and
   `references/problem-routing.md`.
 - Data files: run `scripts/data_profile.py`, then read `references/data-audit.md`.
-- Figure planning: read `references/figure-plan.md`; default to model schematic
-  plus result figure for each solved subquestion.
+- Figure planning: read `references/figure-plan.md`; default to a GPT-image
+  final model flowchart plus a result figure for each solved subquestion.
 - Outputs to paper: read files first, then use `references/code-to-paper.md` and
   `references/result-tracking.md`.
 - Paper writing: `references/paper-writing.md`, `references/paper-assembly.md`,

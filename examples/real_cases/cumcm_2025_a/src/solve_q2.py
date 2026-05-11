@@ -286,7 +286,7 @@ def write_tables(decision: np.ndarray, intervals: list[tuple[float, float]]) -> 
             )
 
 
-def write_model_schematic(decision: np.ndarray, intervals: list[tuple[float, float]]) -> None:
+def write_model_flow(decision: np.ndarray, intervals: list[tuple[float, float]]) -> None:
     setup_chinese_plot()
     FIGURE_DIR.mkdir(parents=True, exist_ok=True)
     speed, heading, release_time, fuse_delay = decision
@@ -354,7 +354,7 @@ def write_model_schematic(decision: np.ndarray, intervals: list[tuple[float, flo
     ax.grid(axis="x", alpha=0.22)
 
     fig.tight_layout()
-    fig.savefig(FIGURE_DIR / "fig_q2_model_schematic.png", bbox_inches="tight")
+    fig.savefig(FIGURE_DIR / "fig_q2_model_flow.png", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -436,7 +436,7 @@ def main() -> int:
     decision, coarse_score = search_best()
     intervals = find_intervals(decision)
     write_tables(decision, intervals)
-    write_model_schematic(decision, intervals)
+    write_model_flow(decision, intervals)
     write_figure(decision, intervals)
     write_sensitivity_figure(decision)
     total_duration = sum(end - start for start, end in intervals)

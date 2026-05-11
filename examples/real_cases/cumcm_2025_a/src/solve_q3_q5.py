@@ -597,7 +597,7 @@ def write_schematic(question: str, decisions: list[BombDecision], totals: dict[s
     ax.set_title("各导弹遮蔽时长汇总")
     ax.grid(axis="y", alpha=0.25)
     fig.tight_layout()
-    fig.savefig(FIGURE_DIR / f"fig_{question.lower()}_model_schematic.png", bbox_inches="tight")
+    fig.savefig(FIGURE_DIR / f"fig_{question.lower()}_model_flow.png", bbox_inches="tight")
     plt.close(fig)
 
 

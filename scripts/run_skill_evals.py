@@ -229,19 +229,19 @@ def check_real_case_2025_a(issues: list[str]) -> None:
         "tables/result3_benchmark.xlsx",
         "figures/fig_problem_overview_xy.png",
         "figures/fig_problem_question_scope.png",
-        "figures/fig_q1_model_schematic.png",
+        "figures/fig_q1_model_flow.png",
         "figures/fig_q1_distance_geometry.png",
         "figures/fig_q1_validation_margin.png",
-        "figures/fig_q2_model_schematic.png",
+        "figures/fig_q2_model_flow.png",
         "figures/fig_q2_optimized_distance_geometry.png",
         "figures/fig_q2_sensitivity.png",
-        "figures/fig_q3_model_schematic.png",
+        "figures/fig_q3_model_flow.png",
         "figures/fig_q3_result.png",
         "figures/fig_q3_validation.png",
-        "figures/fig_q4_model_schematic.png",
+        "figures/fig_q4_model_flow.png",
         "figures/fig_q4_result.png",
         "figures/fig_q4_validation.png",
-        "figures/fig_q5_model_schematic.png",
+        "figures/fig_q5_model_flow.png",
         "figures/fig_q5_result.png",
         "figures/fig_q5_validation.png",
         "results/result_registry.csv",
@@ -296,8 +296,8 @@ def check_real_case_2025_a(issues: list[str]) -> None:
             figures = list((REAL_CASE_2025_A / "figures").glob(f"fig_{question}_*.*"))
             if len(figures) < 3:
                 issues.append(f"2025 A real case solved {question.upper()} should keep at least 3 figures")
-            if not any("schematic" in fig.name or "model_flow" in fig.name for fig in figures):
-                issues.append(f"2025 A real case solved {question.upper()} should include a model flowchart or schematic figure")
+            if not any("model_flow" in fig.name or "flowchart" in fig.name for fig in figures):
+                issues.append(f"2025 A real case solved {question.upper()} should include a model flowchart figure")
     check_full_paper_structure(REAL_CASE_2025_A, "2025 A benchmark paper", issues, min_chars=7000)
 
 
@@ -464,10 +464,10 @@ def check_real_case_huadong_a(issues: list[str]) -> None:
         "tables/tab_q2_adjustment_summary.csv",
         "tables/tab_q2_adjusted_routes.csv",
         "figures/fig_problem_overview.png",
-        "figures/fig_q1_model_schematic.png",
+        "figures/fig_q1_model_flow.png",
         "figures/fig_q1_result.png",
         "figures/fig_q1_validation.png",
-        "figures/fig_q2_model_schematic.png",
+        "figures/fig_q2_model_flow.png",
         "figures/fig_q2_result.png",
         "figures/fig_q2_validation.png",
         "results/result_registry.csv",
@@ -585,6 +585,26 @@ def check_reference_names(issues: list[str]) -> None:
     for rel in deprecated:
         if (ROOT / rel).exists():
             issues.append(f"deprecated reference name still exists: {rel}")
+
+
+def check_policy_conflicts(issues: list[str]) -> None:
+    skill_text = (ROOT / "SKILL.md").read_text(encoding="utf-8", errors="ignore")
+    if "default to model schematic" in skill_text:
+        issues.append("SKILL.md should default figure planning to GPT-image model flowchart, not model schematic")
+
+    init_text = (ROOT / "scripts" / "init_cumcm_project.py").read_text(encoding="utf-8", errors="ignore")
+    standard_block = init_text.split("FULL_DIRS", 1)[0]
+    for forbidden in ['"logs"', '"appendix"', '"presentation"', '"notebooks"', '"figures/ai_briefs"']:
+        if forbidden in standard_block:
+            issues.append(f"default project initialization should not create {forbidden.strip(chr(34))}/")
+
+    validation_text = (ROOT / "references" / "validation.md").read_text(encoding="utf-8", errors="ignore")
+    if "Record failures in `logs/error_log.md`:" in validation_text:
+        issues.append("validation.md should record failures in results/ by default, with logs only for full/supervised mode")
+
+    ai_brief = (ROOT / "references" / "ai-figure-brief.md").read_text(encoding="utf-8", errors="ignore")
+    if "redraw the final version" in ai_brief or "later be redrawn" in ai_brief:
+        issues.append("ai-figure-brief.md should not require redrawing GPT-image outputs by default")
 
 
 def check_eval_prompts(issues: list[str]) -> None:
@@ -865,7 +885,7 @@ def score_task_plan_quality(plan: dict, label: str, issues: list[str], min_score
         score += sum(1 for passed in checks if passed)
 
         figures = [str(fig).lower() for fig in item.get("figures_needed", [])]
-        if any("model_flow" in fig or "flow" in fig or "schematic" in fig for fig in figures):
+        if any("model_flow" in fig or "flow" in fig for fig in figures):
             score += 1
         else:
             issues.append(f"{q_label} should include a model flowchart figure")
@@ -988,6 +1008,7 @@ def main() -> int:
     check_folder_indexes(issues)
     check_font_assets(issues)
     check_reference_names(issues)
+    check_policy_conflicts(issues)
     check_templates(issues)
     check_method_cards(issues)
     check_quality_rubric(issues)

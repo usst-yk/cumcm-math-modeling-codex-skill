@@ -47,10 +47,13 @@ loop:
 4. `recheck`: rerun the gate and record `done`, another `revise`, or explicit
    scope downgrade.
 
-Write each step to `logs/progress.jsonl` through `scripts/update_progress.py`.
-Required event fields for failed gates are `event_type`, `owner`, `next_action`,
-`retry_reason`, and `evidence`. If the progress dashboard does not show the
-failure and recheck, the gate is incomplete even if files were edited.
+For these supervised modes, write each step to `logs/progress.jsonl` through
+`scripts/update_progress.py`. Lean/default projects should record the same
+failure and recheck facts in `results/validation_report.md` instead of creating
+`logs/`. Required event fields for failed gates are `event_type`, `owner`,
+`next_action`, `retry_reason`, and `evidence`. If a supervised progress
+dashboard is being used and does not show the failure and recheck, the gate is
+incomplete even if files were edited.
 
 ## Stage 0 -> Stage 1: Problem Parser To Coordinator
 
