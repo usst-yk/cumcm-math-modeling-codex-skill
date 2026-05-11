@@ -35,6 +35,7 @@ Then recreate only the files needed by the rebuild.
 8. Write the abstract last from saved tables, figures, code outputs, and validation notes and validated body.
 9. Compile `paper/main.tex`.
 10. Run `scripts/validate_results.py --mode full` and `scripts/run_skill_evals.py`.
+    The validation script includes first-prize gate checks by default.
 
 ## Hard Rules
 

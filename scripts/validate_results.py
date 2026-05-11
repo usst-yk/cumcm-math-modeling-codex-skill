@@ -14,6 +14,9 @@ NUM_RE = re.compile(r"(?<![A-Za-z])\d+(?:\.\d+)?%?")
 FIG_RE = re.compile(r"(fig_[A-Za-z0-9_./-]+\.(?:png|jpg|jpeg|pdf|svg))")
 TAB_RE = re.compile(r"(tab_[A-Za-z0-9_./-]+\.(?:csv|xlsx|xls))")
 FIGURE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".pdf", ".svg"}
+MIN_FULL_PAPER_CHARS = 9000
+MIN_FULL_QUESTION_CHARS = 1200
+MIN_SINGLE_QUESTION_CHARS = 1800
 DATA_AUDIT_TABLE_NAMES = {
     "data_inventory.xlsx",
     "tab_categorical_profile.xlsx",
@@ -93,6 +96,18 @@ FIRST_PRIZE_MODELING_TERM_GROUPS = {
     "benchmark comparison": ["benchmark", "官方", "赛题讲评", "论文展示", "基准"],
     "route comparison": ["路线", "比较"],
 }
+QUESTION_DENSITY_TERM_GROUPS = {
+    "model": ["模型"],
+    "variables": ["变量", "参数", "符号"],
+    "constraint_or_assumption": ["约束", "假设"],
+    "algorithm_or_solution": ["算法", "求解", "步骤", "流程"],
+    "result": ["结果", "方案", "排序", "预测", "得分", "结论"],
+    "validation": ["验证", "检验", "误差", "可行性", "敏感性", "灵敏度", "稳定性", "边界"],
+    "limitation": ["局限", "不足", "风险", "限制"],
+    "derivation": ["推导", "构造", "建立"],
+    "interpretation": ["解释", "说明", "含义", "回答"],
+}
+CHINESE_NUMERALS = "一二三四五六七八九十"
 
 
 def rel_exists(root: Path, value: str) -> bool:
@@ -157,6 +172,100 @@ def strip_tex_commands(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+def question_number(question: str) -> int | None:
+    match = re.match(r"q(\d+)", question, flags=re.IGNORECASE)
+    return int(match.group(1)) if match else None
+
+
+def question_title_pattern(question: str) -> str:
+    number = question_number(question)
+    if number is None:
+        return re.escape(question)
+    chinese = CHINESE_NUMERALS[number - 1] if 1 <= number <= len(CHINESE_NUMERALS) else str(number)
+    return rf"(?:问题\s*(?:{number}|{chinese})|Q\s*{number})"
+
+
+def tex_headings(text: str) -> list[tuple[str, str, int]]:
+    pattern = re.compile(r"\\(section|subsection|subsubsection)\{([^}]+)\}")
+    return [(match.group(1), match.group(2), match.start()) for match in pattern.finditer(text)]
+
+
+def extract_question_section(text: str, question: str) -> str:
+    target_re = re.compile(question_title_pattern(question), flags=re.IGNORECASE)
+    headings = tex_headings(text)
+    start_index = None
+    for index, (_, title, start) in enumerate(headings):
+        if target_re.search(title):
+            start_index = index
+            start_pos = start
+            break
+    if start_index is None:
+        return ""
+
+    end_pos = len(text)
+    any_question_re = re.compile(r"问题\s*[一二三四五六七八九十\d]+|Q\s*\d+", flags=re.IGNORECASE)
+    for level, title, start in headings[start_index + 1 :]:
+        if any_question_re.search(title) or level == "section":
+            end_pos = start
+            break
+    return text[start_pos:end_pos]
+
+
+def has_math_expression(text: str) -> bool:
+    return bool(
+        re.search(r"\\begin\{equation\}|\\\[|\\\(|\$\$|目标函数|评价函数|决策规则|递推|状态转移|判据", text)
+    )
+
+
+def has_table_or_figure_reference(text: str) -> bool:
+    return bool(
+        FIG_RE.search(text)
+        or TAB_RE.search(text)
+        or re.search(r"\\(?:includegraphics|begin\{figure\}|begin\{table\}|ref\{(?:fig|tab|table)", text)
+    )
+
+
+def audit_paper_density(root: Path, mode: str) -> list[str]:
+    issues: list[str] = []
+    paper = root / "paper" / "main.tex"
+    if not paper.exists():
+        return issues
+    full_text = paper.read_text(encoding="utf-8", errors="ignore")
+    cleaned_full = strip_tex_commands(full_text)
+    questions = first_prize_subquestions(root)
+
+    if mode == "full" and len(cleaned_full) < MIN_FULL_PAPER_CHARS:
+        issues.append(
+            "P1: full paper is too thin; expected at least "
+            f"{MIN_FULL_PAPER_CHARS} cleaned characters with derivation, result interpretation, validation, and limitations."
+        )
+
+    for question in questions:
+        section_text = extract_question_section(full_text, question)
+        if not section_text:
+            continue
+        cleaned_section = strip_tex_commands(section_text)
+        min_chars = MIN_SINGLE_QUESTION_CHARS if len(questions) == 1 else MIN_FULL_QUESTION_CHARS
+        if len(cleaned_section) < min_chars:
+            issues.append(
+                f"P1: solved {question.upper()} paper section is too thin; "
+                f"expected at least {min_chars} cleaned characters."
+            )
+        for label, terms in QUESTION_DENSITY_TERM_GROUPS.items():
+            if not any(term in cleaned_section for term in terms):
+                severity = "P1" if label in {"validation", "limitation", "derivation", "interpretation"} else "P2"
+                issues.append(f"{severity}: solved {question.upper()} paper section lacks {label} content.")
+        if not has_math_expression(section_text):
+            issues.append(
+                f"P1: solved {question.upper()} paper section lacks a formula or explicit mathematical criterion."
+            )
+        if not has_table_or_figure_reference(section_text):
+            issues.append(
+                f"P1: solved {question.upper()} paper section lacks a table or figure reference."
+            )
+    return issues
+
+
 def audit_paper_structure(root: Path, mode: str) -> list[str]:
     issues: list[str] = []
     if mode != "full":
@@ -193,12 +302,6 @@ def audit_paper_structure(root: Path, mode: str) -> list[str]:
         )
     if top_sections and all(re.search(r"问题\s*[一二三四五六七八九十\d]+|Q\s*\d+", title) for title in top_sections[: min(3, len(top_sections))]):
         issues.append("P1: full paper starts with per-question sections instead of global paper sections.")
-
-    cleaned = strip_tex_commands(full_text)
-    if len(cleaned) < 6500:
-        issues.append(
-            "P1: full paper is too thin; expected richer modeling prose, equations, result explanation, validation, and conclusion."
-        )
 
     questions = solved_subquestions_from_figures(root)
     for question in questions:
@@ -320,7 +423,7 @@ def audit_first_prize_gate(root: Path) -> list[str]:
     issues: list[str] = []
     report = root / "results" / "validation_report.md"
     if not report.exists():
-        return ["P1: first-prize mode requires results/validation_report.md with First-prize gate."]
+        return ["P1: CUMCM validation requires results/validation_report.md with First-prize gate."]
 
     text = report.read_text(encoding="utf-8", errors="ignore")
     if "First-prize gate" not in text:
@@ -328,7 +431,13 @@ def audit_first_prize_gate(root: Path) -> list[str]:
 
     for gate in FIRST_PRIZE_GATES:
         row = next(
-            (line for line in text.splitlines() if gate.lower() in line.lower()),
+            (
+                line
+                for line in text.splitlines()
+                if line.strip().startswith("|")
+                and table_cells(line)
+                and table_cells(line)[0].lower() == gate.lower()
+            ),
             "",
         )
         if not row:
@@ -359,7 +468,7 @@ def audit_first_prize_paper(root: Path) -> list[str]:
     issues: list[str] = []
     paper = root / "paper" / "main.tex"
     if not paper.exists():
-        return ["P1: first-prize mode requires paper/main.tex."]
+        return ["P1: CUMCM validation requires paper/main.tex."]
     text = paper.read_text(encoding="utf-8", errors="ignore")
     for label, terms in FIRST_PRIZE_PAPER_TERM_GROUPS.items():
         if not any(term in text for term in terms):
@@ -371,18 +480,18 @@ def audit_first_prize_modeling_ideas(root: Path) -> list[str]:
     issues: list[str] = []
     questions = first_prize_subquestions(root)
     if not questions:
-        issues.append("P1: first-prize mode found no solved subquestion or modeling idea file.")
+        issues.append("P1: CUMCM validation found no solved subquestion or modeling idea file.")
     for question in questions:
         path = root / "modeling" / f"{question}_modeling_idea.md"
         if not path.exists():
             issues.append(
-                f"P1: first-prize mode requires modeling/{question}_modeling_idea.md."
+                f"P1: CUMCM validation requires modeling/{question}_modeling_idea.md."
             )
             continue
         text = path.read_text(encoding="utf-8", errors="ignore")
         for label, terms in FIRST_PRIZE_MODELING_TERM_GROUPS.items():
             matched = all(term in text for term in terms)
-            if label == "first-prize contribution":
+            if label in {"first-prize contribution", "benchmark comparison"}:
                 matched = any(term in text for term in terms)
             if not matched:
                 issues.append(
@@ -434,7 +543,8 @@ def main() -> int:
     parser.add_argument(
         "--first-prize",
         action="store_true",
-        help="enforce first-prize critical gates, benchmark comparison, and modeling contribution checks.",
+        default=True,
+        help="enforce first-prize critical gates, benchmark comparison, and modeling contribution checks (default).",
     )
     args = parser.parse_args()
 
@@ -443,6 +553,7 @@ def main() -> int:
     issues.extend(audit_tables(root))
     issues.extend(audit_paper(root, args.mode))
     issues.extend(audit_paper_structure(root, args.mode))
+    issues.extend(audit_paper_density(root, args.mode))
     issues.extend(audit_modeling_ideas(root, args.mode))
     issues.extend(audit_figure_coverage(root, args.mode))
     if args.mode == "full":

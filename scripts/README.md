@@ -8,7 +8,7 @@
 | `problem_parser.py` | 解析题面，生成题面要点。 |
 | `build_task_plan.py` | 拆解子问题，规划表格、图片和验证。 |
 | `data_profile.py` | 审计 CSV/XLSX 数据，输出到 `tables/`。 |
-| `validate_results.py` | 检查论文、图表、表格和验证说明是否完整一致。 |
+| `validate_results.py` | 检查论文、图表、表格、验证说明和默认一等奖 gate 是否完整一致。 |
 | `make_paper_figures.py` | 统一论文图片字体和样式。 |
 | `compile_tex.py` | 编译 `paper/main.tex`。 |
 | `run_skill_evals.py` | 维护者自检示例和评测文件。 |

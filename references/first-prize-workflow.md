@@ -1,13 +1,14 @@
 # First-Prize Workflow
 
-Use this reference whenever the user asks for 一等奖, 国一, 高水平, 冲奖,
-first-prize-level quality, or judge-style improvement. This workflow raises the
-paper ceiling during modeling, not only at the final review.
+Use this reference for every CUMCM task by default. The skill treats
+first-prize-oriented practice as the normal contest standard, not as an
+optional mode. This workflow raises the paper ceiling during modeling, not only
+at the final review.
 
 ## Official Benchmark Requirement
 
-For first-prize-oriented work, compare the task with official CUMCM signals
-before finalizing routes:
+For every CUMCM run, compare the task with official CUMCM signals before
+finalizing routes:
 
 - Contest problem reviews:
   `https://dxs.moe.gov.cn/zx/hd/sxjm/sxjmstjp/`
@@ -17,7 +18,8 @@ before finalizing routes:
 
 If network or official pages are unavailable, record the blocker in
 `results/validation_report.md` and continue with the local fallback rules. Do
-not silently skip benchmark comparison when claiming first-prize readiness.
+not silently skip benchmark comparison when claiming completeness,
+first-prize readiness, or award readiness.
 
 ## Benchmark Matching
 
@@ -37,7 +39,7 @@ Match by task mechanism before method name:
 
 ## Per-Question First-Prize Contribution
 
-Every solved subquestion in first-prize mode must state its contribution:
+Every solved subquestion must state its first-prize contribution:
 
 - **Mechanism contribution**: what problem mechanism the model captures beyond
   a method name.

@@ -18,6 +18,7 @@ must ultimately update `paper/main.tex`.
 ## Always Read First
 
 - Core rules: `references/core-rules.md`
+- First-prize workflow: `references/first-prize-workflow.md`
 - Output policy and folder layout: `references/output-policy.md`
 - Figure, flowchart, and technical-roadmap policy: `references/figure-plan.md`
 - Beginner-readable modeling derivation standard:
@@ -56,8 +57,8 @@ Read only the relevant file(s):
 - Mathematical depth: `references/advanced-math-modeling.md` when the problem has
   physical mechanisms, networks, uncertainty, causal questions, PDE/ODE dynamics,
   stochastic processes, or when the user asks for stronger mathematical modeling
-- First-prize or high-level work: `references/first-prize-workflow.md`,
-  then `references/first-prize-rubric.md` and `references/official-benchmark.md`
+- First-prize gate, rubric, and benchmark: `references/first-prize-workflow.md`,
+  `references/first-prize-rubric.md`, `references/official-benchmark.md`
 - CUMCM A problem: `references/cumcm-a-problem-patterns.md`
 - Code to paper: `references/code-to-paper.md`, `references/result-tracking.md`
 - Paper writing: `references/paper-writing.md`, `references/paper-assembly.md`
@@ -98,7 +99,7 @@ and reviewer.
 - Do not report optimality without solver status and feasibility checks.
 - Do not claim high accuracy without metrics or a baseline.
 - Do not leave placeholders in final deliverables unless the user asked for a draft.
-- When the user asks for 一等奖, 国一, 高水平, 冲奖, or first-prize-level
-  quality, perform official benchmark comparison and critical gate checks for
-  core mechanism, validation, traceability, and paper readiness. Do not call the
-  work first-prize-level if any critical gate is missing.
+- Every CUMCM run defaults to first-prize-oriented standards: perform official
+  benchmark comparison and critical gate checks for core mechanism, validation,
+  traceability, and paper readiness. Do not call the work complete,
+  first-prize-level, or award-ready if any critical gate is missing.

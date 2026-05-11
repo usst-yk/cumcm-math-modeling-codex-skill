@@ -1,9 +1,8 @@
 # Final Review
 
-Use this as a shorter alias for final judge-style review. For detailed scoring,
-also read `references/final-checklist.md`. For claims about first-prize-level
-quality, read `references/official-benchmark.md` and
-`references/first-prize-rubric.md`.
+Use this as a shorter alias for final judge-style review. For every CUMCM final
+review, also read `references/final-checklist.md`,
+`references/official-benchmark.md`, and `references/first-prize-rubric.md`.
 
 ## Required Checks
 
@@ -17,9 +16,10 @@ quality, read `references/official-benchmark.md` and
 
 Run `scripts/validate_results.py --project <project-dir>` when artifacts exist. Treat P1 findings as blockers.
 
-## First-Prize-Level Claims
+## First-Prize Gate
 
-Do not say a route is first-prize level unless:
+Do not say a route or paper is complete, award-ready, or first-prize level
+unless:
 
 - it scores at least 16/20 in `references/first-prize-rubric.md`;
 - no rubric item is 0;

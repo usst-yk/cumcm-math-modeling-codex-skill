@@ -49,13 +49,20 @@ per question with equivalent global sections before and after.
 Each solved subquestion should include:
 
 - problem role: what this question contributes to the whole paper;
+- route and baseline reasoning: why the selected model is stronger than the
+  baseline and why the fallback remains deliverable;
 - variables and parameters used in the model;
+- assumption purpose: what each active assumption resolves and what limitation
+  it creates;
 - mathematical expression: equation, objective, decision rule, recurrence,
   geometry criterion, or scoring formula;
 - constraints and feasibility conditions;
 - algorithm or solving process, including seed/status when relevant;
-- result table/figure and a paragraph explaining what the result means;
-- validation, sensitivity, boundary check, or limitation.
+- result table/figure and a paragraph explaining what the result means, which
+  question requirement it answers, and which headline value should enter the
+  abstract or conclusion;
+- validation, sensitivity, boundary check, and limitation;
+- handoff to later questions or the final conclusion.
 
 A thin subquestion part with only “we computed X, see figure Y” is not acceptable.
 
@@ -64,6 +71,9 @@ A thin subquestion part with only “we computed X, see figure Y” is not accep
 For a full paper:
 
 - explain every important figure and table in prose;
+- keep each solved subquestion dense enough to stand as a judge-facing paper
+  section: role, variables, derivation, algorithm, result interpretation,
+  validation, limitation, and handoff;
 - do not leave the model as code-only logic;
 - avoid method-name lists without equations or variables;
 - include the route comparison or model-selection reasoning that led to the
@@ -75,17 +85,20 @@ For a full paper:
 ## Assembly Workflow
 
 1. Read `results/validation_report.md`.
-2. Read generated figures/tables and any existing `paper/main.tex` draft.
-3. Build or update the global sections first: restatement, analysis,
+2. Read every solved `modeling/qx_modeling_idea.md`, especially the gradual
+   derivation and code reverse-check. Do not write from final result tables
+   alone.
+3. Read generated figures/tables and any existing `paper/main.tex` draft.
+4. Build or update the global sections first: restatement, analysis,
    assumptions, notation, data audit.
-4. Write subquestion content directly under model/solution and normalize the
+5. Write subquestion content directly under model/solution and normalize the
    heading level inside `paper/main.tex`.
-5. Add validation, evaluation, conclusion, and appendix.
-6. Only after the body is coherent, write the final abstract using
+6. Add validation, evaluation, conclusion, and appendix.
+7. Only after the body is coherent, write the final abstract using
    `agents/abstract_writer.md`.
-7. Run `scripts/validate_results.py --mode full` and fix any paper-structure
+8. Run `scripts/validate_results.py --mode full` and fix any paper-structure
    or traceability findings.
-8. If the only paper artifact is Markdown, mark the report incomplete and
+9. If the only paper artifact is Markdown, mark the report incomplete and
    assemble `paper/main.tex` before handoff.
-9. If `paper/sections/*.tex` exists for a new deliverable, merge the content
+10. If `paper/sections/*.tex` exists for a new deliverable, merge the content
    into `paper/main.tex` and remove the fragments before handoff.

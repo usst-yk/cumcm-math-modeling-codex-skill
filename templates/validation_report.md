@@ -5,7 +5,7 @@
 
 ## First-prize gate
 
-用于一等奖、国一、高水平或冲奖任务。普通任务可保留为空。
+每次 CUMCM 运行默认填写。缺少任一关键 gate 时，不得称为完整或一等奖水平。
 
 | Gate | Score | Evidence file | Blocker status | Rework action |
 | --- | --- | --- | --- | --- |

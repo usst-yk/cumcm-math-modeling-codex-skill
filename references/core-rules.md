@@ -11,6 +11,10 @@ Use this file for the persistent behavior that should not crowd `SKILL.md`.
   or chat. A strong model only raises the ceiling; `paper/main.tex` must make
   the model, results, validation, and conclusions visible, coherent, and
   checkable to judges.
+- First-prize default: every CUMCM task follows
+  `references/first-prize-workflow.md`. Official benchmark comparison and the
+  critical gates for core mechanism, validation, traceability, and paper
+  readiness are default checks, not optional extras.
 - Full route design defaults to three routes: baseline, primary route, fallback.
 - Urgent or single-question work may reduce empty files, but must not reduce
   problem analysis, route comparison, modeling depth, solving, validation, or
@@ -20,6 +24,8 @@ Use this file for the persistent behavior that should not crowd `SKILL.md`.
   write abstract last.
 - For major results, use `references/correctness-ladder.md`.
 - Prefer transparent rigor over fashionable methods.
+- Do not describe a CUMCM deliverable as complete, award-ready, or
+  first-prize-level while any critical gate is missing.
 
 ## Paper-First Loop
 

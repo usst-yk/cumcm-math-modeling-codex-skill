@@ -31,9 +31,9 @@ Do not finalize routes until:
 - excluded sheets/tables have written reasons;
 - row counts, time ranges, and reconstructed entities are compared with the problem statement;
 - missing values, duplicate keys, obvious outliers, and unit risks are recorded.
-- for first-prize-oriented work, the nearest official benchmark task type has
-  been identified using `references/first-prize-workflow.md`, or a blocker has
-  been recorded with the local fallback in `references/official-benchmark.md`.
+- the nearest official benchmark task type has been identified using
+  `references/first-prize-workflow.md`, or a blocker has been recorded with the
+  local fallback in `references/official-benchmark.md`.
 
 ## Stage 3 -> Stage 4: Modeler To Solver
 
@@ -41,18 +41,18 @@ Do not enter Solver until:
 
 - exactly three routes have been compared;
 - at least one baseline or simplified analytical route is defined;
-- for first-prize-oriented work, the route comparison explains the baseline's
-  sanity-check role, the primary route's mechanism contribution, the fallback's
-  deliverability, and the key award risk;
+- the route comparison explains the baseline's sanity-check role, the primary
+  route's mechanism contribution, the fallback's deliverability, and the key
+  award risk;
 - every selected model has variables, objective/evaluation criterion, constraints, input data, output tables/figures, and validation plan;
 - every selected model explains the derivation and solution procedure step by
   step, not only the final formulas;
 - a GPT-image model flowchart prompt path in `modeling/` or `modeling/flowcharts/` is
   planned, unless a written reason says a flowchart would be misleading;
 - `modeling/qx_modeling_idea.md` exists for the subquestions being solved.
-- for first-prize-oriented work, each `modeling/qx_modeling_idea.md` contains
-  the current question's mechanism, validation, figure, and paper-narrative
-  contribution plus first-prize risks.
+- each `modeling/qx_modeling_idea.md` contains the current question's
+  mechanism, validation, figure, and paper-narrative contribution plus
+  first-prize risks.
 
 ## Stage 4 -> Stage 5: Solver To Validator
 
@@ -108,9 +108,8 @@ Do not write the final abstract until:
   artifacts;
 - `scripts/validate_results.py --mode full` has no blocking paper-structure or
   traceability findings when project artifacts exist.
-- for first-prize-oriented work, `scripts/validate_results.py --mode full
-  --first-prize` has no P1 findings, or each remaining P1 has an explicit
-  blocker note and rework action.
+- `scripts/validate_results.py --mode full` has no first-prize P1 findings, or
+  each remaining P1 has an explicit blocker note and rework action.
 
 ## Stage 8 -> Stage 9: Abstract Writer To Reviewer
 
@@ -121,9 +120,9 @@ Do not enter final review until:
 - assumptions are used in the model or removed;
 - paper references to figures/tables point to existing artifacts;
 - appendix lists main script, inputs, outputs, dependencies, seed, and run command.
-- for first-prize-oriented work, abstract, body, tables, figures, validation,
-  limitations, and conclusion pass the critical gates for core mechanism,
-  validation, traceability, and paper readiness.
+- abstract, body, tables, figures, validation, limitations, and conclusion pass
+  the critical gates for core mechanism, validation, traceability, and paper
+  readiness.
 
 ## Human-In-The-Loop
 

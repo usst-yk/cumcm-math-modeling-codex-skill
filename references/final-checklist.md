@@ -2,7 +2,10 @@
 
 Use this reference before final handoff or when the user asks for 审稿, 查错, 评委视角, or 最终交付检查.
 
-When project artifacts exist, run `scripts/validate_results.py` from the project root or pass `--project <project-dir>` before final handoff. Treat P1 findings as blockers unless the user explicitly accepts the limitation.
+When project artifacts exist, run `scripts/validate_results.py` from the
+project root or pass `--project <project-dir>` before final handoff. This
+includes the default first-prize gate. Treat P1 findings as blockers unless the
+user explicitly accepts the limitation.
 
 ## Severity-Ordered Review
 
