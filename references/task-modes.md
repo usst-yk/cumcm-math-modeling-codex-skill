@@ -45,6 +45,11 @@
 即使只做一问，论文入口也必须是 `paper/main.tex`；不要输出
 `paper/sections/qx.tex` 或 Markdown 成品。
 
+若用户要求“一等奖”“国一”“高水平”或“冲奖”，先读取
+`references/first-prize-workflow.md`。单问模式只扩展当前问题：写清本问
+的官方 benchmark 对照、机制亮点、验证亮点、图表亮点、论文叙事贡献和
+冲奖风险，不要顺手展开未请求的后续问题。
+
 ## 写完整论文
 
 适用：已有题目、模型、代码或结果，需要整合成论文。
@@ -113,6 +118,11 @@
 - 是否存在虚构引用、虚构结果或前后矛盾。
 
 检查后直接给出问题清单；若用户要求修改，修改统一回写 `paper/main.tex`。
+
+若用户要求判断是否达到一等奖或国一水平，必须读取
+`references/first-prize-workflow.md`、`references/first-prize-rubric.md` 和
+`references/official-benchmark.md`，并按核心机制、验证、追溯、论文可读性
+四个关键项给出阻断结论。任一关键项缺失时，不得称为一等奖水平。
 
 ## 最后 2 小时压缩检查
 

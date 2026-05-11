@@ -76,6 +76,23 @@ QUALITY_PROCESS_TERMS = [
     "敏感性",
     "局限",
 ]
+FIRST_PRIZE_GATES = [
+    "Core mechanism",
+    "Validation",
+    "Traceability",
+    "Paper readiness",
+]
+FIRST_PRIZE_PAPER_TERM_GROUPS = {
+    "benchmark comparison": ["benchmark", "官方", "赛题讲评", "论文展示", "基准"],
+    "model selection": ["路线", "比较", "选择", "基线", "主模型"],
+    "validation": ["验证", "检验", "敏感性", "灵敏度", "可行性", "误差"],
+    "limitation": ["局限", "不足", "风险", "限制"],
+}
+FIRST_PRIZE_MODELING_TERM_GROUPS = {
+    "first-prize contribution": ["一等奖", "国一", "高水平", "冲奖", "增益点"],
+    "benchmark comparison": ["benchmark", "官方", "赛题讲评", "论文展示", "基准"],
+    "route comparison": ["路线", "比较"],
+}
 
 
 def rel_exists(root: Path, value: str) -> bool:
@@ -284,6 +301,108 @@ def audit_figure_coverage(root: Path, mode: str) -> list[str]:
     return issues
 
 
+def first_prize_subquestions(root: Path) -> list[str]:
+    questions = set(solved_subquestions_from_figures(root))
+    modeling = root / "modeling"
+    if modeling.exists():
+        for path in modeling.glob("q*_modeling_idea.md"):
+            match = re.match(r"q(\d+)_modeling_idea\.md", path.name, flags=re.IGNORECASE)
+            if match:
+                questions.add(f"q{match.group(1)}")
+    return sorted(questions)
+
+
+def table_cells(line: str) -> list[str]:
+    return [cell.strip() for cell in line.strip().strip("|").split("|")]
+
+
+def audit_first_prize_gate(root: Path) -> list[str]:
+    issues: list[str] = []
+    report = root / "results" / "validation_report.md"
+    if not report.exists():
+        return ["P1: first-prize mode requires results/validation_report.md with First-prize gate."]
+
+    text = report.read_text(encoding="utf-8", errors="ignore")
+    if "First-prize gate" not in text:
+        issues.append("P1: validation report is missing the First-prize gate section.")
+
+    for gate in FIRST_PRIZE_GATES:
+        row = next(
+            (line for line in text.splitlines() if gate.lower() in line.lower()),
+            "",
+        )
+        if not row:
+            issues.append(f"P1: First-prize gate is missing row: {gate}.")
+            continue
+        cells = table_cells(row)
+        if len(cells) < 5:
+            issues.append(f"P1: First-prize gate row is incomplete: {gate}.")
+            continue
+        score, evidence, status, action = cells[1:5]
+        if not score or score == "0":
+            issues.append(f"P1: First-prize gate {gate} lacks a passing score.")
+        if not evidence:
+            issues.append(f"P1: First-prize gate {gate} lacks evidence file.")
+        elif not rel_exists(root, evidence):
+            issues.append(f"P2: First-prize gate {gate} evidence path may not exist: {evidence}.")
+        blocking_terms = ["blocker", "fail", "p1", "不通过", "阻断", "缺失", "未通过"]
+        passing_terms = ["pass", "通过", "ok", "无阻断"]
+        status_lower = status.lower()
+        if any(term in status_lower for term in blocking_terms):
+            issues.append(f"P1: First-prize gate {gate} is still blocking: {status}.")
+        if not any(term in status_lower for term in passing_terms) and not action:
+            issues.append(f"P1: First-prize gate {gate} needs status or rework action.")
+    return issues
+
+
+def audit_first_prize_paper(root: Path) -> list[str]:
+    issues: list[str] = []
+    paper = root / "paper" / "main.tex"
+    if not paper.exists():
+        return ["P1: first-prize mode requires paper/main.tex."]
+    text = paper.read_text(encoding="utf-8", errors="ignore")
+    for label, terms in FIRST_PRIZE_PAPER_TERM_GROUPS.items():
+        if not any(term in text for term in terms):
+            issues.append(f"P1: first-prize paper lacks {label} content.")
+    return issues
+
+
+def audit_first_prize_modeling_ideas(root: Path) -> list[str]:
+    issues: list[str] = []
+    questions = first_prize_subquestions(root)
+    if not questions:
+        issues.append("P1: first-prize mode found no solved subquestion or modeling idea file.")
+    for question in questions:
+        path = root / "modeling" / f"{question}_modeling_idea.md"
+        if not path.exists():
+            issues.append(
+                f"P1: first-prize mode requires modeling/{question}_modeling_idea.md."
+            )
+            continue
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        for label, terms in FIRST_PRIZE_MODELING_TERM_GROUPS.items():
+            matched = all(term in text for term in terms)
+            if label == "first-prize contribution":
+                matched = any(term in text for term in terms)
+            if not matched:
+                issues.append(
+                    f"P1: {path.relative_to(root)} lacks first-prize {label} terms."
+                )
+        if not any(term in text for term in MODELING_REVERSE_CHECK_TERMS):
+            issues.append(
+                f"P1: {path.relative_to(root)} lacks code reverse-check/final-idea notes."
+            )
+    return issues
+
+
+def audit_first_prize(root: Path) -> list[str]:
+    issues: list[str] = []
+    issues.extend(audit_first_prize_gate(root))
+    issues.extend(audit_first_prize_paper(root))
+    issues.extend(audit_first_prize_modeling_ideas(root))
+    return issues
+
+
 def audit_unreferenced(root: Path) -> list[str]:
     issues: list[str] = []
     paper_text = ""
@@ -312,6 +431,11 @@ def main() -> int:
         default="results/validation_audit.md",
         help="Audit report path relative to project.",
     )
+    parser.add_argument(
+        "--first-prize",
+        action="store_true",
+        help="enforce first-prize critical gates, benchmark comparison, and modeling contribution checks.",
+    )
     args = parser.parse_args()
 
     root = Path(args.project).expanduser().resolve()
@@ -323,6 +447,8 @@ def main() -> int:
     issues.extend(audit_figure_coverage(root, args.mode))
     if args.mode == "full":
         issues.extend(audit_unreferenced(root))
+    if args.first_prize:
+        issues.extend(audit_first_prize(root))
 
     out = root / args.output
     out.parent.mkdir(parents=True, exist_ok=True)
