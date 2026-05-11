@@ -61,9 +61,8 @@ results/          关键结果登记、验证报告、论文数字来源
 paper/main.tex    论文入口文件；单问和全题都默认写回这里
 ```
 
-默认交付不要再额外发明一套目录。示例案例里如果看到 `logs/`、
-`build/`、`appendix/`、案例内 `references/` 或压缩包，那只是历史案例、
-运行记录、编译缓存、附录材料或打包产物，不是新项目必须生成的默认目录。
+默认交付不要再额外发明一套目录。不要创建 `logs/`、`build/`、
+`appendix/`、案例内 `references/`、`presentation/` 或 `notebooks/`。
 
 其中：
 

@@ -20,8 +20,8 @@
 | `problem/problem_parse.json` | 结构化题面解析。 |
 | `problem/task_plan.json` | 含 benchmark、rubric、selling point 和 revision 字段的任务计划。 |
 | `src/solve_sic_thickness.py` | 生成合成光谱并反演厚度的完整脚本。 |
-| `data/raw/sic_10deg_synthetic.csv` | 10 deg 合成波数-反射率数据，运行脚本后生成。 |
-| `data/raw/sic_15deg_synthetic.csv` | 15 deg 合成波数-反射率数据，运行脚本后生成。 |
+| `data/sic_10deg_synthetic.csv` | 10 deg 合成波数-反射率数据，运行脚本后生成。 |
+| `data/sic_15deg_synthetic.csv` | 15 deg 合成波数-反射率数据，运行脚本后生成。 |
 | `tables/tab_q2_thickness.csv` | 两组光谱厚度估计和误差。 |
 | `tables/tab_q2_reliability.csv` | 真值回归与角度一致性验证。 |
 | `figures/fig_q1_model_flow.png` | 单光束干涉厚度模型示意图。 |
@@ -34,7 +34,6 @@
 | `results/validation_report.md` | 验证报告。 |
 | `paper/main.tex` | 轻量论文入口，运行脚本后刷新。 |
 | `paper/main.pdf` | 交付包内的最新版编译论文 PDF。 |
-| `progress.html` | 返工闭环与子 agent 工作进度面板。 |
 
 ## 运行
 
@@ -67,8 +66,6 @@ abs(estimated_thickness_um - 8.000000) <= 0.050000
 - 折射率固定为 `n = 2.55`，没有展开载流子浓度和波长相关折射率。
 - 多光束干涉只作为风险记录，没有在本轻量案例中求解。
 
-## 交付说明
+## 目录说明
 
-发给作者的压缩包中，`paper/main.pdf` 使用本轮返工后重新编译的 PDF；本地目录里的
-`paper/main_reworked.pdf` 是同一份新 PDF 的工作副本。压缩包不会包含 TeX 编译软件、
-Python 缓存或 LaTeX 中间文件。
+本 benchmark 只保留默认输出目录。返工记录、进度面板、附录目录和打包产物不放入示例。

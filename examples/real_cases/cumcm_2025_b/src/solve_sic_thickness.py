@@ -15,12 +15,11 @@ from plot_utils import setup_chinese_plot
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data" / "raw"
+DATA_DIR = ROOT / "data"
 TABLE_DIR = ROOT / "tables"
 FIGURE_DIR = ROOT / "figures"
 RESULT_DIR = ROOT / "results"
 PAPER_DIR = ROOT / "paper"
-SECTION_DIR = PAPER_DIR / "sections"
 
 N_SIC = 2.55
 TRUE_THICKNESS_UM = 8.0
@@ -893,7 +892,6 @@ def write_paper(
     sensitivity: dict[str, float],
 ) -> None:
     PAPER_DIR.mkdir(parents=True, exist_ok=True)
-    SECTION_DIR.mkdir(parents=True, exist_ok=True)
     p = paper_numbers(results, reliability)
     s = {
         "n_span": f"{sensitivity['refractive_index_span_um']:.4f}",
@@ -981,10 +979,10 @@ $f$ & 波数域干涉主频 & $\mathrm{{cm}}$\\
 \end{{center}}
 
 \section{{模型建立}}
-\input{{sections/q1.tex}}
+{{q1_section}}
 
 \section{{模型求解与结果}}
-\input{{sections/q2.tex}}
+{{q2_section}}
 
 \section{{模型检验}}
 第一，进行合成厚度回收检验。由于本文数值实验的厚度在生成光谱时已知，可以把绝对误差作为算法验证指标；两组入射角的最大绝对误差为 ${p['maxerr']}\,\mu\mathrm{{m}}$，低于 $0.05\,\mu\mathrm{{m}}$ 的设定容差。该指标只说明受控数据下的计算链路正确，不代表实测场景的仪器精度。第二，进行角度一致性检验。两个角度的厚度差为 ${p['spread']}\,\mu\mathrm{{m}}$，说明 Snell 定律修正和单位换算没有引入可见的系统偏差。第三，进行方法对照。峰间距法、FFT 和主频拟合给出的厚度都在 $8\,\mu\mathrm{{m}}$ 附近，其中主频拟合同时给出较小残差，适合作为最终估计。上述验证从变量约束、算法稳定性和误差范围三个层面支持厚度结论。
@@ -1028,7 +1026,6 @@ $f$ & 波数域干涉主频 & $\mathrm{{cm}}$\\
 在题目目录运行求解程序，可重新得到光谱曲线、结果表、敏感性图形和本文数值。复现时需保持折射率 $n=2.55$、入射角 $10^\circ$ 与 $15^\circ$、合成验证厚度 $8.000\,\mu\mathrm{{m}}$ 不变。若改用官方附件或实测数据，应删除“已知厚度误差”指标，改为报告残差、多角度一致性和不确定度区间。
 \end{{document}}
 """
-    (PAPER_DIR / "main.tex").write_text(main, encoding="utf-8")
 
     q1 = r"""在单光束干涉近似下，表面反射光与界面反射光的光程差为
 \[
@@ -1068,8 +1065,6 @@ d=\frac{f}{2n\cos\theta_t}.
 \label{fig:q1result}
 \end{figure}
 """
-    (SECTION_DIR / "q1.tex").write_text(q1, encoding="utf-8")
-
     q2 = rf"""厚度信息在光谱中表现为相位随波数变化的线性斜率。局部峰间距法只利用少数极值点，峰位一旦受扰动移动，误差会直接传递到厚度；整段主频拟合则把所有采样点约束到同一个频率 $f$，把局部扰动主要转化为残差项。因此，本文把峰间距和 FFT 作为量级检查，把全谱残差最小的主频作为最终估计。
 
 设待估频率为 $f$。对每个候选频率，令
@@ -1123,11 +1118,12 @@ $15^\circ$ & ${p['peak15']}$ & ${p['fft15']}$ & ${p['d15_short']}$ & ${p['rmse15
 \label{{fig:q2result}}
 \end{{figure}}
 """
-    (SECTION_DIR / "q2.tex").write_text(q2, encoding="utf-8")
+    main = main.replace("{q1_section}", q1).replace("{q2_section}", q2)
+    (PAPER_DIR / "main.tex").write_text(main, encoding="utf-8")
 
 
 def main() -> int:
-    for directory in [DATA_DIR, TABLE_DIR, FIGURE_DIR, RESULT_DIR, PAPER_DIR, SECTION_DIR]:
+    for directory in [DATA_DIR, TABLE_DIR, FIGURE_DIR, RESULT_DIR, PAPER_DIR]:
         directory.mkdir(parents=True, exist_ok=True)
 
     generate_spectra()

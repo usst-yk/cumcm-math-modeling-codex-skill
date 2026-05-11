@@ -78,8 +78,8 @@
     },
     {
       "criterion": "supervised_rework",
-      "target": "progress log shows revise -> rework -> pass",
-      "evidence": "logs/progress.jsonl"
+      "target": "validation audit records revise -> rework -> pass",
+      "evidence": "results/validation_audit.md"
     }
   ],
   "question_count": 3,
@@ -92,7 +92,7 @@
         "estimate threshold relation"
       ],
       "input_data": [
-        "data/raw/nipt_male_synthetic.csv"
+        "data/nipt_male_synthetic.csv"
       ],
       "decision_object": "Y concentration",
       "constraints": [
@@ -145,7 +145,7 @@
         "sensitivity analysis"
       ],
       "input_data": [
-        "data/raw/nipt_male_synthetic.csv",
+        "data/nipt_male_synthetic.csv",
         "Q1 model"
       ],
       "decision_object": "recommended week",
@@ -199,7 +199,7 @@
         "metrics"
       ],
       "input_data": [
-        "data/raw/nipt_female_synthetic.csv"
+        "data/nipt_female_synthetic.csv"
       ],
       "decision_object": "abnormality risk",
       "constraints": [

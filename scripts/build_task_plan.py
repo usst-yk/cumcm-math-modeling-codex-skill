@@ -148,7 +148,7 @@ def default_style_policy() -> dict:
             "tables/",
             ".csv",
         ],
-        "allowed_disclosures": "Contest-paper main text hides internal workflow; reproducibility details go to appendix.",
+        "allowed_disclosures": "Contest-paper main text hides internal workflow; reproducibility details go to paper/main.tex reproduction notes.",
     }
 
 

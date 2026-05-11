@@ -1,6 +1,6 @@
 [
   {
-    "source_path": "/Users/yangke/.codex/skills/cumcm-math-modeling/examples/real_cases/huadong_cup_a/data/raw/benchmark_activities.csv",
+    "source_path": "/Users/yangke/.codex/skills/cumcm-math-modeling/examples/real_cases/huadong_cup_a/data/benchmark_activities.csv",
     "file": "benchmark_activities.csv",
     "sheet": "benchmark_activities",
     "rows": 19,
@@ -62,7 +62,7 @@
     "empty": false
   },
   {
-    "source_path": "/Users/yangke/.codex/skills/cumcm-math-modeling/examples/real_cases/huadong_cup_a/data/raw/realtime_wait_updates.csv",
+    "source_path": "/Users/yangke/.codex/skills/cumcm-math-modeling/examples/real_cases/huadong_cup_a/data/realtime_wait_updates.csv",
     "file": "realtime_wait_updates.csv",
     "sheet": "realtime_wait_updates",
     "rows": 30,

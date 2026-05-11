@@ -43,8 +43,8 @@
 AI 生图只适合机制示意、场景概念图、简报封面或视觉草稿，不能替代
 代码生成的数据图、结果图、验证图和敏感性图。
 
-需要 AI 辅助图时，先读 `references/ai-figure-brief.md`，并输出
-`figures/ai_briefs/fig_qx_topic.md`。Brief 至少包含：
+需要 AI 辅助图时，先读 `references/ai-figure-brief.md`，并把 brief 写入
+`modeling/fig_qx_ai_brief.md`。Brief 至少包含：
 
 - 图号与论文或简报位置；
 - 该图要表达的科学/工程问题；

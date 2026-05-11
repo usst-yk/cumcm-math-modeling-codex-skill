@@ -15,7 +15,7 @@ modeling, validation, or paper writing.
 | 4-16 h | Q1 baseline model, data cleaning, first runnable code | baseline result, cleaned data, first tables/figures |
 | 16-32 h | Q2/Q3 main model, optimization/prediction/evaluation solving | main scripts, result tables, preliminary validation |
 | 32-44 h | Validation, sensitivity, robustness, figure finalization | error/feasibility/sensitivity tables, final figures |
-| 44-60 h | TeX paper body, conclusion, appendix code | main `.tex`, captions, appendix run commands |
+| 44-60 h | TeX paper body, conclusion, reproduction notes | main `.tex`, captions, run commands |
 | 60-64 h | Final abstract after subquestion results, figures, and validation are stable | traceable abstract draft |
 | 64-68 h | Judge-view review, consistency and traceability check | issue list, corrected numbers, result registry |
 | 68-72 h | Final PDF, code/data/figure packaging | compiled PDF, source code, tables, figures, final checklist |
@@ -52,9 +52,9 @@ modeling, validation, or paper writing.
      Default to a GPT-image final model flowchart plus a result figure. Keep the
      flowchart prompt/spec in `modeling/` or `modeling/flowcharts/`.
    - Use detailed modeling ideas and result registry for every solved question
-     whose numbers enter the paper. Use separate run logs mainly for full
-     projects; this affects logging only, not modeling, validation, or paper
-     writing.
+     whose numbers enter the paper. Put run commands and recovery notes in
+     `results/validation_report.md` or the reproduction note in
+     `paper/main.tex`; do not create a separate run-log directory.
    - Do not draft the final abstract before solved subquestions have traceable
      result tables or registered results.
 
@@ -109,12 +109,12 @@ Standard single-question handoff:
 The handoff is paper-first and paper-complete: do not shorten analysis,
 formulas, solution reasoning, validation explanation, or paper writing.
 
-Full-project handoff:
+Complete-paper handoff:
 
 - Paper source and PDF when possible.
 - Main code and run command.
 - Data inventory and preprocessing notes.
 - Result registry.
 - Tables and figures with stable names.
-- Figure captions and appendix code.
+- Figure captions and reproduction notes.
 - Final score gate result.

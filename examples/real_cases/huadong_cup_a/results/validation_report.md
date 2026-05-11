@@ -2,7 +2,7 @@
 
 ## 数据边界
 
-- 本案例没有官方附件数据，因此 `data/raw/benchmark_activities.csv` 和 `data/raw/realtime_wait_updates.csv` 是透明 benchmark 数据。
+- 本案例没有官方附件数据，因此 `data/benchmark_activities.csv` 和 `data/realtime_wait_updates.csv` 是透明 benchmark 数据。
 - 坐标、排队时间、游客偏好、固定演出时间均用于复现建模流程，不代表上海迪士尼官方或实时运营数据。
 
 ## 问题 1 验证

@@ -3,9 +3,8 @@
 这里集中放最常用的提问方式。新手不用记脚本名，直接复制自然语言提示即可。
 
 默认输出目录只有：`problem/`、`data/`、`modeling/`、`src/`、
-`tables/`、`figures/`、`results/` 和 `paper/main.tex`。示例案例里如果有
-`logs/`、`build/`、`appendix/`、案例内 `references/` 或压缩包，它们只是
-历史案例的运行记录、编译缓存、附录或打包文件，不是新项目默认要生成的目录。
+`tables/`、`figures/`、`results/` 和 `paper/main.tex`。不要创建 `logs/`、
+`build/`、`appendix/`、案例内 `references/`、`presentation/` 或 `notebooks/`。
 
 ## 第一次做建模：直接复制这 7 步
 
@@ -271,7 +270,7 @@
 不想生成太多文件：
 
 ```text
-[$cumcm-math-modeling] 只输出第 1 问需要的支持文件，目录只使用默认输出目录，不要生成 logs、build、appendix 或额外 references 目录。注意：仍然要把第 1 问完整正文写入 paper/main.tex，包括问题分析、模型、结果和验证。
+[$cumcm-math-modeling] 只输出第 1 问需要的支持文件，目录只使用默认输出目录，不要生成 logs、build、appendix、presentation、notebooks 或额外 references 目录。注意：仍然要把第 1 问完整正文写入 paper/main.tex，包括问题分析、模型、结果和验证。
 ```
 
 只写论文，不重新求解：
@@ -463,27 +462,20 @@ results/          结果登记、验证报告、数字来源
 paper/main.tex    单一论文入口
 ```
 
-真实案例为了复盘和测试，可能保留一些额外目录或文件：
-
-| 额外目录或文件 | 含义 |
-| --- | --- |
-| `logs/` | 历史运行和进度记录，不是默认交付目录。 |
-| `build/` | TeX 或图片编译缓存，不是论文源文件。 |
-| `appendix/` | 个别 benchmark 的附录材料；普通任务优先写入 `paper/main.tex`。 |
-| 案例内 `references/` | 个别案例的学习记录或资料摘记，不是默认输出。 |
-| `.zip` 压缩包 | 打包交付物，不代表项目结构。 |
+真实案例也按这些目录整理，不保留 `logs/`、`build/`、`appendix/`、
+`presentation/`、`notebooks/` 或案例内 `references/`。
 
 | 目录或文件 | 用途 |
 | --- | --- |
 | `single_question_minimal/` | 只做一问时的最小输出示例，展示必要成品；真实做题仍优先使用默认目录名。 |
 | `full_problem_demo/` | 小型完整交付 demo，最接近默认目录结构，展示建模思路、结果表、图、注册表、验证报告和单文件 TeX 论文。 |
 | `real_cases/cumcm_2025_a/` | 2025 年国赛 A 题完整 benchmark，含 Q1-Q5 求解、图表、结果注册表、验证报告和 TeX 论文；不是标准答案。 |
-| `real_cases/cumcm_2025_b/` | 2025 年国赛 B 题 benchmark，包含部分历史运行记录；学习模型和论文组织时只看默认输出目录。 |
-| `real_cases/cumcm_2025_c/` | 2025 年国赛 C 题 benchmark，包含部分历史运行记录；学习模型和论文组织时只看默认输出目录。 |
+| `real_cases/cumcm_2025_b/` | 2025 年国赛 B 题 benchmark，按默认输出目录整理。 |
+| `real_cases/cumcm_2025_c/` | 2025 年国赛 C 题 benchmark，按默认输出目录整理。 |
 | `real_cases/huadong_cup_a/` | 华东杯 A 题路线规划 benchmark，含静态路线、实时重规划、中文图表、结果注册表和 TeX 论文。 |
 | `README.md` | 所有自然语言提示集中在本文件，避免分散到多个小文件。 |
 
 真实案例用于检查 skill 在真实题面上的组织能力和建模短板，不等同于标准答案。
-不要照抄真实案例里的历史过程目录；新项目按默认输出目录组织即可。
+真实案例和新项目都按默认输出目录组织。
 2025 A 题 benchmark 已记录一个重要不足：同航向多弹联合优化不能只靠单弹方案叠加，
 需要更专门的联合搜索或动态规划。

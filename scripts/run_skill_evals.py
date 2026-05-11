@@ -136,7 +136,7 @@ def check_demo(issues: list[str]) -> None:
         "modeling/q2_modeling_idea.md",
         "modeling/q3_modeling_idea.md",
         "modeling/route_comparison.md",
-        "data/raw/station_demand.csv",
+        "data/station_demand.csv",
         "src/solve_demo.py",
         "tables/tab_q1_daily_forecast.csv",
         "tables/tab_q2_allocation.csv",
@@ -311,15 +311,15 @@ def check_real_case_2025_b(issues: list[str]) -> None:
         "problem/task_plan.json",
         "problem/task_plan.md",
         "problem/background_benchmark.md",
-        "data/raw/sic_10deg_synthetic.csv",
-        "data/raw/sic_15deg_synthetic.csv",
+        "data/sic_10deg_synthetic.csv",
+        "data/sic_15deg_synthetic.csv",
         "src/plot_utils.py",
         "src/solve_sic_thickness.py",
         "tables/tab_q1_model_parameters.csv",
         "tables/tab_q2_thickness.csv",
         "tables/tab_q2_reliability.csv",
-        "tables/data_profile/data_profile.json",
-        "tables/data_profile/data_profile_summary.md",
+        "tables/data_profile.json",
+        "tables/data_profile_summary.md",
         "figures/fig_problem_overview.png",
         "figures/fig_q1_model_flow.png",
         "figures/fig_q1_result.png",
@@ -331,7 +331,6 @@ def check_real_case_2025_b(issues: list[str]) -> None:
         "results/validation_audit.md",
         "results/benchmark_findings.md",
         "paper/main.tex",
-        "appendix/ai-usage-statement.md",
     ]
     for rel in required:
         require(REAL_CASE_2025_B / rel, issues)
@@ -453,8 +452,8 @@ def check_real_case_huadong_a(issues: list[str]) -> None:
         "modeling/route_comparison.md",
         "modeling/q1_modeling_idea.md",
         "modeling/q2_modeling_idea.md",
-        "data/raw/benchmark_activities.csv",
-        "data/raw/realtime_wait_updates.csv",
+        "data/benchmark_activities.csv",
+        "data/realtime_wait_updates.csv",
         "src/plot_utils.py",
         "src/solve_routes.py",
         "tables/tab_q1_summary.csv",
@@ -593,14 +592,13 @@ def check_policy_conflicts(issues: list[str]) -> None:
         issues.append("SKILL.md should default figure planning to GPT-image model flowchart, not model schematic")
 
     init_text = (ROOT / "scripts" / "init_cumcm_project.py").read_text(encoding="utf-8", errors="ignore")
-    standard_block = init_text.split("FULL_DIRS", 1)[0]
-    for forbidden in ['"logs"', '"appendix"', '"presentation"', '"notebooks"', '"figures/ai_briefs"']:
-        if forbidden in standard_block:
-            issues.append(f"default project initialization should not create {forbidden.strip(chr(34))}/")
+    for forbidden in ['"logs"', '"appendix"', '"presentation"', '"notebooks"', '"figures/ai_briefs"', "progress.html"]:
+        if forbidden in init_text:
+            issues.append(f"project initialization should not create {forbidden.strip(chr(34))}")
 
     validation_text = (ROOT / "references" / "validation.md").read_text(encoding="utf-8", errors="ignore")
-    if "Record failures in `logs/error_log.md`:" in validation_text:
-        issues.append("validation.md should record failures in results/ by default, with logs only for full/supervised mode")
+    if "logs/error_log.md" in validation_text:
+        issues.append("validation.md should record failures in results/ without logs/")
 
     ai_brief = (ROOT / "references" / "ai-figure-brief.md").read_text(encoding="utf-8", errors="ignore")
     if "redraw the final version" in ai_brief or "later be redrawn" in ai_brief:

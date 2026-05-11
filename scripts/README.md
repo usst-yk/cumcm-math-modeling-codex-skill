@@ -4,7 +4,7 @@
 
 | Script | Purpose |
 | --- | --- |
-| `init_cumcm_project.py` | 默认创建论文优先项目目录；加 `--full` 才复制完整模板。 |
+| `init_cumcm_project.py` | 创建固定论文优先项目目录。 |
 | `problem_parser.py` | 离线规则解析题面，生成 `problem_parse.json/md`。 |
 | `build_task_plan.py` | 生成题目拆解模板，并默认规划示意图、结果图和必要验证图。 |
 | `data_profile.py` | 默认输出论文优先数据审计；加 `--full` 才输出全部审计表。 |

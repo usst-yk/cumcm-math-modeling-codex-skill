@@ -15,12 +15,11 @@ from plot_utils import setup_chinese_plot
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data" / "raw"
+DATA_DIR = ROOT / "data"
 TABLE_DIR = ROOT / "tables"
 FIGURE_DIR = ROOT / "figures"
 RESULT_DIR = ROOT / "results"
 PAPER_DIR = ROOT / "paper"
-SECTION_DIR = PAPER_DIR / "sections"
 
 N_SIC = 2.55
 TRUE_THICKNESS_UM = 8.0
@@ -948,8 +947,6 @@ n(\lambda)=A+\frac{B}{\lambda^2}+\frac{C}{\lambda^4},
 \end{figure}
 """
     ).substitute(**p)
-    (SECTION_DIR / "q1.tex").write_text(q1, encoding="utf-8")
-
     q2 = AtTemplate(
         r"""厚度反演前先进行数据处理审计。本文将原始光谱按波数排序后等间距重采样，在受控数据中保留 $1200$--$3800\,\mathrm{cm}^{-1}$ 作为分析波段，并用二次趋势项刻画缓慢背景。平滑只用于辅助峰值识别，最终厚度仍由未被平滑决定的整段拟合和频域证据给出。图 \ref{fig:data_pipeline} 展示了原始光谱、重采样、去趋势和平滑辅助识峰的关系；两角度滑窗 FFT 的中位 SNR 分别为 @snr10 与 @snr15，说明主频在分析波段内具有稳定可识别的能量峰。
 
@@ -1011,8 +1008,6 @@ $15^\circ$ 单角度主频拟合 & @d15 & 与 $10^\circ$ 结果一致\\
 \end{table}
 """
     ).substitute(**p)
-    (SECTION_DIR / "q2.tex").write_text(q2, encoding="utf-8")
-
     q3 = AtTemplate(
         r"""问题3的核心不是继续套用主频公式，而是判断多光束干涉是否存在以及是否需要修正问题2的反演模型。多光束干涉通常需要同时满足：外延层吸收较弱、上下界面反射率足够高、相干长度覆盖多次往返光程、仪器分辨率能够分辨锐化条纹，并且残差中存在单一双光束模型无法解释的周期结构。若这些条件不足，则双光束模型可作为主要厚度估计；若条件成立，则需要引入 Airy 模型。
 
@@ -1039,8 +1034,6 @@ R_A(\nu)=A+\frac{B}{1+F\sin^2\{\delta(\nu)/2\}},
 \end{figure}
 """
     ).substitute(**p)
-    (SECTION_DIR / "q3.tex").write_text(q3, encoding="utf-8")
-
     main = AtTemplate(
         r"""\documentclass[UTF8]{ctexart}
 \usepackage{graphicx}
@@ -1163,12 +1156,9 @@ $F$ & Airy 多光束锐度参数 & 1\\
 \section{附录：复现说明}
 在题目目录运行求解程序，可重新生成光谱、表格、图形、结果登记和本文。若替换为真实附件，应删除已知厚度回收误差，把可靠性改为残差诊断、多角度一致性、方法互证、敏感性和不确定度区间。
 \end{document}
-"""
+    """
     ).substitute(**p, q1_block=q1, q2_block=q2, q3_block=q3)
     (PAPER_DIR / "main.tex").write_text(main, encoding="utf-8")
-    if SECTION_DIR.exists():
-        for section_file in SECTION_DIR.glob("*.tex"):
-            section_file.unlink()
 
 
 def enhance_after_base(

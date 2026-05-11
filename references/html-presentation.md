@@ -5,7 +5,7 @@ defense brief, or full-project handoff beside the paper.
 
 ## Purpose
 
-Generate `presentation/index.html` as a local, static, slide-like brief that
+Generate `results/presentation.html` as a local, static, slide-like brief that
 helps teammates, teachers, or training groups understand the solution. It is
 not the paper and must not introduce facts absent from the result registry,
 tables, figures, or problem statement.
@@ -40,7 +40,7 @@ Use 8-10 slides:
 Generate a minimal static brief with:
 
 ```bash
-python scripts/build_presentation.py --plan problem/task_plan.json --registry results/result_registry.csv --figures figures
+python scripts/build_presentation.py --plan problem/task_plan.json --registry results/result_registry.csv --figures figures --output results/presentation.html
 ```
 
 Review the generated page for missing figures, stale numbers, and unsupported

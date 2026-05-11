@@ -47,13 +47,9 @@ loop:
 4. `recheck`: rerun the gate and record `done`, another `revise`, or explicit
    scope downgrade.
 
-For these supervised modes, write each step to `logs/progress.jsonl` through
-`scripts/update_progress.py`. Lean/default projects should record the same
-failure and recheck facts in `results/validation_report.md` instead of creating
-`logs/`. Required event fields for failed gates are `event_type`, `owner`,
-`next_action`, `retry_reason`, and `evidence`. If a supervised progress
-dashboard is being used and does not show the failure and recheck, the gate is
-incomplete even if files were edited.
+Record each failed gate and recheck in `results/validation_report.md`.
+Required fields for failed gates are `event_type`, `owner`, `next_action`,
+`retry_reason`, and `evidence`. Do not create a separate progress-log folder.
 
 ## Stage 0 -> Stage 1: Problem Parser To Coordinator
 
@@ -139,7 +135,8 @@ Do not validate final conclusions until:
   stated in the final answer or recorded in `results/validation_report.md`;
 - every headline value is traceable to a saved table, code output, problem fact,
   or `results/result_registry.csv`;
-- run commands are stated in the final answer or recorded in `logs/run_log.md`;
+- run commands are stated in the final answer or recorded in `paper/main.tex`
+  reproduction notes;
 - solver status, random seed, or failure status is recorded when relevant.
 - baseline-vs-main comparison, small-case hand check, boundary check, or
   constraint violation check exists for any headline improvement claim.

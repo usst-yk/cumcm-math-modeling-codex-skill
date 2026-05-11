@@ -23,8 +23,8 @@ B 题研究红外干涉法测定外延层厚度。题面说明，红外光入射
 - 折射率：`n = 2.55`，作为 mini benchmark 的已知常数。
 - 真实厚度：`d = 8.000 um`。
 - 入射角：`10 deg` 和 `15 deg` 两组。
-- 合成附件：`data/raw/sic_10deg_synthetic.csv`、
-  `data/raw/sic_15deg_synthetic.csv`。
+- 合成附件：`data/sic_10deg_synthetic.csv`、
+  `data/sic_15deg_synthetic.csv`。
 
 测试目标是从合成反射率-波数曲线中反演厚度，要求两组估计值均满足：
 

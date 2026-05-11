@@ -9,14 +9,15 @@
 - 在求解前显式做 EDA。
 - 代码失败后有重试、反思和错误记录。
 - 论文段落从代码输出和生成图片中写出。
-- 工作目录中保留 notebook、结果 markdown、图表和中间文件。
+- 工作目录中保留必要结果、图表和中间文件；本 skill 不沿用 notebook
+  目录作为默认输出。
 
 本 skill 的对应实现：
 
 - 角色卡放在 `agents/`。
 - 阶段门槛放在 `references/stage-gates.md`。
 - 子问题循环放在 `references/agent-workflow.md`。
-- 失败恢复由 `references/validation.md` 和 `logs/error_log.md` 约束。
+- 失败恢复由 `references/validation.md` 和 `results/validation_report.md` 约束。
 - 结果到论文的一致性由 `references/result-tracking.md` 和 `scripts/validate_results.py` 检查。
 
 ## MM-Agent 可借鉴点

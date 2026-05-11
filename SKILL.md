@@ -78,8 +78,8 @@ Read only the relevant file(s):
 - Model selection: use `references/method-cards.json` for compact method checks,
   then `references/method-library.md` only when details are needed.
 - New project: run `scripts/init_cumcm_project.py` in the background.
-- Output scope: `references/output-policy.md`; do not create full templates
-  unless the user asks for a complete project/workspace.
+- Output scope: `references/output-policy.md`; use only the standard output
+  folders for both single-question and full-problem work.
 - Problem parsing: read `references/problem-parsing.md`, then use
   `scripts/problem_parser.py`.
 - Decomposition: parse first with `scripts/problem_parser.py`, then use

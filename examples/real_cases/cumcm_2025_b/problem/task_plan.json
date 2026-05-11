@@ -84,7 +84,7 @@
       "tables/",
       ".csv"
     ],
-    "allowed_disclosures": "Internal reproducibility details stay in appendix or project artifacts; the PDF main text uses contest-paper prose."
+    "allowed_disclosures": "Reproducibility details stay in paper/main.tex notes or results/validation_report.md; the PDF main text uses contest-paper prose."
   },
   "benchmark_sources": [
     {
@@ -176,8 +176,8 @@
         "compare estimates with the known synthetic truth"
       ],
       "input_data": [
-        "data/raw/sic_10deg_synthetic.csv",
-        "data/raw/sic_15deg_synthetic.csv"
+        "data/sic_10deg_synthetic.csv",
+        "data/sic_15deg_synthetic.csv"
       ],
       "decision_object": "estimated thickness",
       "constraints": [

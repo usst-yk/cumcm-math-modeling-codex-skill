@@ -4,8 +4,8 @@
   "problem_id": "cumcm_2025_c",
   "question_count": 3,
   "attachments": [
-    "data/raw/nipt_male_synthetic.csv",
-    "data/raw/nipt_female_synthetic.csv"
+    "data/nipt_male_synthetic.csv",
+    "data/nipt_female_synthetic.csv"
   ],
   "units": [
     "孕周",

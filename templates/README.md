@@ -1,8 +1,7 @@
 # Templates
 
-这些模板只在用户明确要求完整项目或使用 `init_cumcm_project.py --full`
-时复制到项目目录中。默认论文优先求解不会批量复制模板；这只影响模板
-文件数量，不影响建模、求解、验证或论文写作深度。
+默认项目只创建固定输出目录，不批量复制模板。需要某个模板时，只把内容写入
+默认目录中的对应文件；不要创建额外日志、附录、展示或 notebook 目录。
 
 | Template | Copied to | Purpose |
 | --- | --- | --- |
@@ -17,14 +16,13 @@
 | `validation_report.md` | `results/validation_report.md` | 验证结果记录。 |
 | `paper_main.tex` | `paper/main.tex` | 轻量国赛 TeX 论文骨架；单问和全题都只用这一个文件，不拆 `paper/sections/`。 |
 | `refs.bib` | `paper/refs.bib` | 参考文献占位，含常见数学建模参考书示例。 |
-| `appendix_code.md` | `appendix/code-template.md` | 附录代码说明格式。 |
-| `run_log.md` | `logs/run_log.md` | 运行记录。 |
-| `ai_usage_statement.md` | `appendix/ai-usage-statement.md` | AI 辅助使用、人工核验和可复现声明。 |
-| `ai_figure_brief.md` | `figures/ai_briefs/ai_figure_brief_template.md` | AI 示意图 brief 模板。 |
+| `appendix_code.md` | `paper/main.tex` 的复现说明部分 | 附录代码说明格式。 |
+| `run_log.md` | `results/validation_report.md` 或 `paper/main.tex` 复现说明 | 运行记录。 |
+| `ai_usage_statement.md` | `paper/main.tex` 的 AI 使用说明部分 | AI 辅助使用、人工核验和可复现声明。 |
+| `ai_figure_brief.md` | `modeling/ai_figure_brief_template.md` | AI 示意图 brief 模板。 |
 
-完整项目模式还会创建 `presentation/`、`presentation/figures/` 和
-`figures/ai_briefs/`，用于最终汇报素材和 AI 图示/汇报 brief；精简模式
-不复制这些模板占位。
+不创建 `appendix/`、`logs/`、`presentation/`、`notebooks/` 或
+`figures/ai_briefs/`。
 
 TeX 模板吸收了常见 CUMCM 模板的章节顺序。论文图表字体由
 `assets/fonts/` 和 `scripts/make_paper_figures.py` 统一管理，避免新手因为

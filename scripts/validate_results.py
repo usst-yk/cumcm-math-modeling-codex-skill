@@ -65,6 +65,23 @@ QUALITY_PROCESS_TERMS = [
     "敏感性",
     "局限",
 ]
+DATA_AUDIT_TABLE_NAMES = {
+    "data_inventory.xlsx",
+    "data_preprocessing_draft.md",
+    "data_profile.json",
+    "data_profile_summary.md",
+    "merge_candidate_001.csv",
+    "tab_categorical_profile.xlsx",
+    "tab_data_inventory.xlsx",
+    "tab_duplicate_summary.xlsx",
+    "tab_excluded_sheets.xlsx",
+    "tab_merge_candidates.xlsx",
+    "tab_missing_summary.xlsx",
+    "tab_numeric_profile.xlsx",
+    "tab_sheet_coverage.xlsx",
+    "tab_time_range_summary.xlsx",
+    "tab_unit_guess.xlsx",
+}
 
 
 def read_registry(path: Path) -> pd.DataFrame:
@@ -131,7 +148,7 @@ def audit_registry(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
 def audit_tables(root: Path) -> list[str]:
     issues: list[str] = []
     for path in list((root / "tables").rglob("*.csv")) + list((root / "tables").rglob("*.xlsx")):
-        if "data_profile" in path.parts:
+        if "data_profile" in path.parts or path.name in DATA_AUDIT_TABLE_NAMES:
             continue
         try:
             df = pd.read_csv(path) if path.suffix == ".csv" else pd.read_excel(path)
@@ -390,6 +407,8 @@ def audit_unreferenced(root: Path, registry: pd.DataFrame) -> list[str]:
         if fig.name not in paper_text and fig.name not in registered:
             issues.append(f"P2: generated figure not referenced in TeX: {fig.relative_to(root)}")
     for tab in (root / "tables").glob("tab_*.*"):
+        if tab.name in DATA_AUDIT_TABLE_NAMES:
+            continue
         if tab.name not in paper_text and tab.name not in registered:
             issues.append(f"P2: generated table not referenced in TeX: {tab.relative_to(root)}")
     return issues

@@ -4,8 +4,8 @@
   "title": "2025 B 题：碳化硅外延层厚度的确定",
   "question_count": 2,
   "attachments": [
-    "data/raw/sic_10deg_synthetic.csv",
-    "data/raw/sic_15deg_synthetic.csv"
+    "data/sic_10deg_synthetic.csv",
+    "data/sic_15deg_synthetic.csv"
   ],
   "units": [
     "wavenumber: cm^-1",
@@ -44,8 +44,8 @@
         "用已知真值检查准确性和可靠性"
       ],
       "input_data": [
-        "data/raw/sic_10deg_synthetic.csv",
-        "data/raw/sic_15deg_synthetic.csv"
+        "data/sic_10deg_synthetic.csv",
+        "data/sic_15deg_synthetic.csv"
       ],
       "constraints": [
         "两组入射角应给出一致厚度",

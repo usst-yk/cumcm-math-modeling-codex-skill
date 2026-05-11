@@ -26,12 +26,11 @@ Responsibilities:
 - use the bundled Chinese font under `assets/fonts/` for generated Python
   figures; English letters and numbers should prefer Times New Roman style with
   documented fallback;
-- mention the run command in the final answer and in `paper/main.tex` appendix
-  or reproduction note; create a separate run log only for full projects;
-- in full project mode, write run commands to `logs/run_log.md`;
+- mention the run command in the final answer and in `paper/main.tex`
+  reproduction note;
 - update `results/result_registry.csv` after headline results that appear in
   `paper/main.tex`;
-- record failures in `logs/error_log.md` only when a full project log exists.
+- record failures in `results/validation_report.md`.
 
 Default outputs:
 
@@ -46,14 +45,13 @@ Default outputs:
 - `paper/main.tex`, updated with the current question's analysis, model,
   results, validation, and reproduction note.
 
-Full project outputs, only when requested:
+Additional verification outputs:
 
 - `results/result_registry.csv`
 - `results/validation_report.md`
-- `logs/run_log.md`
-- `logs/error_log.md`
 
-Never report a numerical result that is not saved in a table, log, or registry.
+Never report a numerical result that is not saved in a table, validation report,
+or registry.
 Never leave a mismatch between the modeling idea and the code path unrecorded.
 Never stop after code/tables when the task is a modeling solve; update
 `paper/main.tex` before handoff.

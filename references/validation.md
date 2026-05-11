@@ -24,9 +24,7 @@ When code fails:
    produce a reproducible blocker report;
 5. never write final numerical conclusions from failed code.
 
-Record failures in `results/validation_report.md` by default. Use
-`logs/error_log.md` only when the project is in full/supervised mode and that
-log already exists:
+Record failures in `results/validation_report.md`:
 
 ```markdown
 ## Error 001

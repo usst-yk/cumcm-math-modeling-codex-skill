@@ -90,7 +90,7 @@
 
 \section{数据审计与预处理}
 
-附件为 result1、result2、result3 三个结果模板，不提供额外观测数据。数据审计确认模板 sheet 可读，空白单元格是待填结果而非缺失观测。本文将原始模板保留在 \verb|data/raw/|，将求解后的附件格式结果另存到 \verb|tables/result*_benchmark.xlsx|，避免覆盖原始附件。
+附件为 result1、result2、result3 三个结果模板，不提供额外观测数据。数据审计确认模板 sheet 可读，空白单元格是待填结果而非缺失观测。本文将原始模板保留在 \verb|data/|，将求解后的附件格式结果另存到 \verb|tables/result*_benchmark.xlsx|，避免覆盖原始附件。
 
 由于附件本身是填报模板，真正进入模型计算的数据主要来自题面参数和脚本内置的坐标、速度、半径、有效时间等常量。预处理阶段的关键不是清洗大规模数据，而是统一坐标系和单位：所有空间量用米，时间量用秒，速度量用米每秒。问题一输出投放点和起爆点，保存为 \verb|tables/tab_q1_key_points.csv|；问题二输出单弹策略，保存为 \verb|tables/tab_q2_strategy.csv|；问题三至问题五分别保存策略表 \verb|tables/tab_q3_strategy.csv|、\verb|tables/tab_q4_strategy.csv|、\verb|tables/tab_q5_strategy.csv|。这些策略表是论文中所有方案描述的来源。
 

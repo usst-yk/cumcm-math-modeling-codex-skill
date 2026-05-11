@@ -108,12 +108,13 @@ def check_task_plan_fields(issues: list[str]) -> None:
             issues.append(f"task_plan.json subquestion {idx} missing fields: {', '.join(sorted(missing))}")
 
 
-def check_full_project_dirs(issues: list[str]) -> None:
+def check_project_dirs(issues: list[str]) -> None:
     script = ROOT / "scripts" / "init_cumcm_project.py"
     text = script.read_text(encoding="utf-8")
-    for item in ['"logs"', '"presentation"', '"presentation/figures"', '"figures/ai_briefs"']:
-        if item not in text:
-            issues.append(f"init_cumcm_project.py full mode should include {item.strip(chr(34))}/")
+    forbidden = ['"logs"', '"appendix"', '"presentation"', '"notebooks"', '"figures/ai_briefs"', "progress.html"]
+    for item in forbidden:
+        if item in text:
+            issues.append(f"init_cumcm_project.py should not create {item.strip(chr(34))}")
 
 
 def main() -> int:
@@ -122,7 +123,7 @@ def main() -> int:
     check_referenced_paths(issues)
     check_required_entrypoints(issues)
     check_task_plan_fields(issues)
-    check_full_project_dirs(issues)
+    check_project_dirs(issues)
     if issues:
         print("Skill structure checks failed:")
         for issue in issues:

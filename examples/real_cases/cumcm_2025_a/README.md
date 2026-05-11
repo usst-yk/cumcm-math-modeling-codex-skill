@@ -26,10 +26,10 @@
 | `problem/task_plan.md` | 任务计划的人类可读版本。 |
 | `modeling/qx_modeling_idea.md` | 每问建模思路，先于代码求解。 |
 | `modeling/route_comparison.md` | 三条建模路线比较和主路线选择。 |
-| `data/raw/result1.xlsx` | 问题 3 的结果模板附件。 |
-| `data/raw/result2.xlsx` | 问题 4 的结果模板附件。 |
-| `data/raw/result3.xlsx` | 问题 5 的结果模板附件。 |
-| `tables/data_profile/` | 附件模板的数据审计输出。 |
+| `data/result1.xlsx` | 问题 3 的结果模板附件。 |
+| `data/result2.xlsx` | 问题 4 的结果模板附件。 |
+| `data/result3.xlsx` | 问题 5 的结果模板附件。 |
+| `tables/` | 附件模板的数据审计输出。 |
 | `results/result_registry.csv` | Q1-Q5 核心数值和来源登记表。 |
 | `results/validation_report.md` | Q1-Q5 验证分析记录。 |
 | `results/benchmark_findings.md` | 完整 benchmark 暴露出的不足和后续优化方向。 |

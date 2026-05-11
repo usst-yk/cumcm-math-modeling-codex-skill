@@ -37,7 +37,7 @@ After code runs, update `modeling/qx_modeling_idea.md` with the code reverse
 check. The final paper must use the code-verified modeling idea, not the
 pre-solve draft if they differ.
 
-Full project Qx loop:
+Standard Qx loop:
 
 1. `modeling/qx_modeling_idea.md`
 2. `src/qx_*.py`
@@ -47,8 +47,8 @@ Full project Qx loop:
 6. `results/validation_report.md`
 7. `paper/main.tex`
 
-Full projects must also keep `modeling/qx_modeling_idea.md` consistent with
-the executed code before paper writing.
+Every project must keep `modeling/qx_modeling_idea.md` consistent with the
+executed code before paper writing.
 
 Do not draft the final abstract until solved subquestions have traceable result
 tables or verified registry entries. Keep all paper text in `paper/main.tex`.
@@ -57,4 +57,6 @@ When writing the abstract, use
 
 ## Failure Policy
 
-When a stage fails, do not hide the failure. Record it in `logs/error_log.md` or `results/validation_report.md`, simplify only when justified, and keep the limitation visible in the paper draft.
+When a stage fails, do not hide the failure. Record it in
+`results/validation_report.md`, simplify only when justified, and keep the
+limitation visible in the paper draft.
