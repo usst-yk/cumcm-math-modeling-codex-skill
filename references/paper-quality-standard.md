@@ -24,7 +24,7 @@ Before writing the final paper, make sure the work has passed this chain:
 5. solving: code or derivation produces traceable tables and figures;
 6. validation: baseline, feasibility, sensitivity, error, or boundary check;
 7. paper body: problem analysis, model, results, validation, evaluation;
-8. final abstract: written only after the body and registry are consistent.
+8. final abstract: written only after the body and saved tables, figures, code outputs, and validation notes are consistent.
 
 ## Full Paper Non-Negotiables
 
@@ -53,7 +53,7 @@ Mark the paper incomplete if any of these happens:
   mathematical criterion;
 - figures are inserted without explaining what conclusion they support;
 - assumptions are listed but not used in the model;
-- the abstract has numbers not found in the registry, tables, code output, or
+- the abstract has numbers not found in the saved tables, figures, code outputs, and validation notes, tables, code output, or
   problem facts;
 - the paper hides that the model is a best-found or benchmark result and
   overclaims global optimality.

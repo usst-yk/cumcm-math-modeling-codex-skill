@@ -1,6 +1,6 @@
 # Stage Gates
 
-Use these gates for full-problem solving and substantial single-question work. If a gate fails, either fix the blocker or record it in `logs/error_log.md` / `results/validation_report.md` before proceeding.
+Use these gates for full-problem solving and substantial single-question work. If a gate fails, either fix the blocker or record it in `results/validation_report.md` before proceeding.
 
 For lightweight single-question work, apply the same checks mentally but do not
 create empty templates or logs just to satisfy a gate. Save only the necessary
@@ -58,8 +58,8 @@ Do not validate final conclusions until:
 - if fewer than two figures are generated for a solved question, the reason is
   stated in the final answer or recorded in `results/validation_report.md`;
 - every headline value is traceable to a saved table, code output, problem fact,
-  or `results/result_registry.csv`;
-- run commands are stated in the final answer or recorded in `logs/run_log.md`;
+  or `results/validation_report.md`;
+- run commands are stated in the final answer or recorded in `results/validation_report.md`;
 - solver status, random seed, or failure status is recorded when relevant.
 
 ## Stage 5 -> Stage 6: Validator To Writer
@@ -95,7 +95,7 @@ Do not write the final abstract or enter final review until:
 Do not write the final abstract until:
 
 - the assembled paper body is coherent and no longer a collection of fragments;
-- conclusion numbers and paper captions match the registry and generated
+- conclusion numbers and paper captions match the saved tables, figures, code outputs, and validation notes and generated
   artifacts;
 - `scripts/validate_results.py --mode full` has no blocking paper-structure or
   traceability findings when project artifacts exist.
@@ -104,7 +104,7 @@ Do not write the final abstract until:
 
 Do not enter final review until:
 
-- abstract numbers match `results/result_registry.csv`;
+- abstract numbers match `results/validation_report.md`;
 - table/figure captions match generated filenames;
 - assumptions are used in the model or removed;
 - paper references to figures/tables point to existing artifacts;

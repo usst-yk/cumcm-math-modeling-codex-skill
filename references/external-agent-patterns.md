@@ -16,7 +16,7 @@
 - 角色卡放在 `agents/`。
 - 阶段门槛放在 `references/stage-gates.md`。
 - 子问题循环放在 `references/agent-workflow.md`。
-- 失败恢复由 `references/validation.md` 和 `logs/error_log.md` 约束。
+- 失败恢复由 `references/validation.md` 和 `results/validation_report.md` 约束。
 - 结果到论文的一致性由 `references/result-tracking.md` 和 `scripts/validate_results.py` 检查。
 
 ## MM-Agent 可借鉴点

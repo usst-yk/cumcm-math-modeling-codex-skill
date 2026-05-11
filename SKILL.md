@@ -33,7 +33,7 @@ For each solved subquestion:
 3. Solve with code when needed.
 4. Produce tables, GPT-image model flowchart, result figures, and validation.
 5. Reverse-check code against the modeling idea.
-6. Register headline values in `results/result_registry.csv`.
+6. Record headline value sources in saved tables, figures, and validation notes.
 7. Update `paper/main.tex`.
 
 ## Task Routing
@@ -64,7 +64,7 @@ and reviewer.
 - Standard output folders are `problem/`, `data/`, `modeling/`, `src/`,
   `tables/`, `figures/`, `results/`, and `paper/`.
 - Use `data/`, not `date/`, for raw, cleaned, and processed data.
-- Flowcharts and technical roadmaps default to GPT-image.
+- Flowcharts and technical roadmaps are GPT-image paper figures.
 - Paper figures default to the bundled Chinese font assets under `assets/fonts/`.
 - Do not write final numbers without a saved, traceable source.
 - Do not report optimality without solver status and feasibility checks.

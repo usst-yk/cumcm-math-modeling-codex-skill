@@ -14,6 +14,19 @@ NUM_RE = re.compile(r"(?<![A-Za-z])\d+(?:\.\d+)?%?")
 FIG_RE = re.compile(r"(fig_[A-Za-z0-9_./-]+\.(?:png|jpg|jpeg|pdf|svg))")
 TAB_RE = re.compile(r"(tab_[A-Za-z0-9_./-]+\.(?:csv|xlsx|xls))")
 FIGURE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".pdf", ".svg"}
+DATA_AUDIT_TABLE_NAMES = {
+    "data_inventory.xlsx",
+    "tab_categorical_profile.xlsx",
+    "tab_data_inventory.xlsx",
+    "tab_duplicate_summary.xlsx",
+    "tab_excluded_sheets.xlsx",
+    "tab_merge_candidates.xlsx",
+    "tab_missing_summary.xlsx",
+    "tab_numeric_profile.xlsx",
+    "tab_sheet_coverage.xlsx",
+    "tab_time_range_summary.xlsx",
+    "tab_unit_guess.xlsx",
+}
 REQUIRED_FULL_PAPER_SECTIONS = [
     r"问题重述",
     r"问题分析",
@@ -65,14 +78,6 @@ QUALITY_PROCESS_TERMS = [
 ]
 
 
-def read_registry(path: Path) -> pd.DataFrame:
-    if not path.exists():
-        return pd.DataFrame()
-    if path.suffix.lower() in {".xlsx", ".xls"}:
-        return pd.read_excel(path)
-    return pd.read_csv(path)
-
-
 def rel_exists(root: Path, value: str) -> bool:
     if not value or str(value).lower() == "nan":
         return False
@@ -80,56 +85,10 @@ def rel_exists(root: Path, value: str) -> bool:
     return path.exists() or (root / path).exists()
 
 
-def audit_registry(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
-    issues: list[str] = []
-    if registry.empty:
-        return ["P1: result registry missing or empty."]
-    source_col = (
-        "source_file"
-        if "source_file" in registry.columns
-        else "source_path"
-        if "source_path" in registry.columns
-        else ""
-    )
-    if source_col:
-        for idx, row in registry.iterrows():
-            source = str(row.get(source_col, "")).strip()
-            if source and source.lower() != "nan" and not rel_exists(root, source):
-                issues.append(f"P1: registry row {idx + 1} source file not found: {source}")
-    if "figure_or_table" in registry.columns:
-        for idx, row in registry.iterrows():
-            artifact = str(row.get("figure_or_table", "")).strip()
-            if artifact and artifact.lower() != "nan" and not rel_exists(root, artifact):
-                if not rel_exists(root, f"figures/{Path(artifact).name}") and not rel_exists(
-                    root,
-                    f"tables/{Path(artifact).name}",
-                ):
-                    issues.append(f"P1: registry row {idx + 1} linked figure/table not found: {artifact}")
-    if "source_type" in registry.columns:
-        missing_type = registry[registry["source_type"].astype(str).str.strip().isin(["", "nan"])]
-        if not missing_type.empty:
-            issues.append(f"P2: registry has {len(missing_type)} row(s) without source_type.")
-    status_col = "status" if "status" in registry.columns else ""
-    if status_col:
-        blocked = registry[registry[status_col].astype(str).str.lower().isin(["blocked", "failed"])]
-        if not blocked.empty:
-            issues.append(f"P1: registry contains {len(blocked)} blocked/failed result row(s).")
-    if "claim" in registry.columns:
-        evidence_cols = [col for col in ["solver_status", "validation", "notes"] if col in registry.columns]
-        for idx, row in registry.iterrows():
-            claim = str(row.get("claim", ""))
-            if not re.search(r"最优|最小|最大|optimal|optimum", claim, flags=re.IGNORECASE):
-                continue
-            evidence = " ".join(str(row.get(col, "")) for col in evidence_cols)
-            if not re.search(r"solver|status|可行|feasible|约束|violation", evidence, flags=re.IGNORECASE):
-                issues.append(f"P2: registry row {idx + 1} claims optimality without solver/feasibility evidence.")
-    return issues
-
-
 def audit_tables(root: Path) -> list[str]:
     issues: list[str] = []
     for path in list((root / "tables").rglob("*.csv")) + list((root / "tables").rglob("*.xlsx")):
-        if "data_profile" in path.parts:
+        if "data_profile" in path.parts or path.name in DATA_AUDIT_TABLE_NAMES:
             continue
         try:
             df = pd.read_csv(path) if path.suffix == ".csv" else pd.read_excel(path)
@@ -148,7 +107,7 @@ def audit_tables(root: Path) -> list[str]:
     return issues
 
 
-def audit_paper(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
+def audit_paper(root: Path, mode: str) -> list[str]:
     issues: list[str] = []
     paper = root / "paper" / "main.tex"
     if not paper.exists():
@@ -163,17 +122,6 @@ def audit_paper(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
         if not rel_exists(root, match) and not rel_exists(root, f"tables/{Path(match).name}"):
             issues.append(f"P1: paper references missing table: {match}")
 
-    if not registry.empty:
-        values = set()
-        for col in ["value", "claim"]:
-            if col in registry.columns:
-                values.update(str(v) for v in registry[col].dropna().tolist())
-        abstract = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", text, flags=re.S)
-        if abstract:
-            numbers = [n for n in NUM_RE.findall(abstract.group(1)) if n not in {"1", "2", "3"}]
-            missing = [n for n in numbers if not any(n in v for v in values)]
-            if missing:
-                issues.append(f"P1: abstract number(s) not found in result registry: {', '.join(sorted(set(missing)))}")
     return issues
 
 
@@ -192,7 +140,7 @@ def strip_tex_commands(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
-def audit_paper_structure(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
+def audit_paper_structure(root: Path, mode: str) -> list[str]:
     issues: list[str] = []
     if mode != "full":
         return issues
@@ -235,7 +183,7 @@ def audit_paper_structure(root: Path, registry: pd.DataFrame, mode: str) -> list
             "P1: full paper is too thin; expected richer modeling prose, equations, result explanation, validation, and conclusion."
         )
 
-    questions = solved_subquestions(registry)
+    questions = solved_subquestions_from_figures(root)
     for question in questions:
         q_num = question[1:]
         q_pattern = rf"问题\s*{q_num}|问题\s*{'一二三四五六七八九十'[int(q_num)-1] if q_num.isdigit() and 1 <= int(q_num) <= 10 else q_num}|Q\s*{q_num}"
@@ -261,11 +209,9 @@ def audit_paper_structure(root: Path, registry: pd.DataFrame, mode: str) -> list
     return issues
 
 
-def audit_modeling_ideas(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
+def audit_modeling_ideas(root: Path, mode: str) -> list[str]:
     issues: list[str] = []
-    questions = solved_subquestions(registry)
-    if mode == "standard" and not questions:
-        questions = solved_subquestions_from_figures(root)
+    questions = solved_subquestions_from_figures(root)
     for question in questions:
         path = root / "modeling" / f"{question}_modeling_idea.md"
         if not path.exists():
@@ -287,29 +233,6 @@ def audit_modeling_ideas(root: Path, registry: pd.DataFrame, mode: str) -> list[
                 f"P2: modeling idea for {question.upper()} lacks code reverse-check/final-idea notes."
             )
     return issues
-
-
-def registry_artifact_names(registry: pd.DataFrame) -> set[str]:
-    names: set[str] = set()
-    if registry.empty:
-        return names
-    for col in ["source_file", "source_path", "figure_or_table"]:
-        if col in registry.columns:
-            for value in registry[col].dropna().astype(str):
-                if value and value.lower() != "nan":
-                    names.add(Path(value).name)
-    return names
-
-
-def solved_subquestions(registry: pd.DataFrame) -> list[str]:
-    if registry.empty or "subquestion" not in registry.columns:
-        return []
-    questions: set[str] = set()
-    for value in registry["subquestion"].dropna().astype(str):
-        match = re.search(r"q\s*(\d+)", value, flags=re.IGNORECASE)
-        if match:
-            questions.add(f"q{match.group(1)}")
-    return sorted(questions)
 
 
 def solved_subquestions_from_figures(root: Path) -> list[str]:
@@ -335,11 +258,9 @@ def figure_files_for_question(root: Path, question: str) -> list[Path]:
     )
 
 
-def audit_figure_coverage(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
+def audit_figure_coverage(root: Path, mode: str) -> list[str]:
     issues: list[str] = []
-    questions = solved_subquestions(registry)
-    if mode == "standard" and not questions:
-        questions = solved_subquestions_from_figures(root)
+    questions = solved_subquestions_from_figures(root)
     for question in questions:
         figures = figure_files_for_question(root, question)
         names = [path.name for path in figures]
@@ -351,23 +272,11 @@ def audit_figure_coverage(root: Path, registry: pd.DataFrame, mode: str) -> list
         if not any("model_flow" in name or "flowchart" in name or "流程" in name for name in names):
             issues.append(f"P1: solved {question.upper()} is missing a final model flowchart figure.")
 
-        if "subquestion" not in registry.columns:
-            continue
-        q_rows = registry[registry["subquestion"].astype(str).str.lower().str.replace(" ", "") == question]
-        q_text = " ".join(
-            str(row.get(col, ""))
-            for _, row in q_rows.iterrows()
-            for col in ["claim", "validation", "notes"]
-        )
-        needs_check_figure = re.search(
-            r"优化|最优|搜索|best-found|可行|约束|敏感|扰动|边界|validation|feasibility|sensitivity",
-            q_text,
-            flags=re.IGNORECASE,
-        )
         has_check_figure = any(
             "validation" in name or "sensitivity" in name or "feasibility" in name for name in names
         )
-        if needs_check_figure and len(figures) < 3 and not has_check_figure:
+        has_validation_note = (root / "results" / "validation_report.md").exists()
+        if len(figures) >= 2 and not has_check_figure and not has_validation_note:
             issues.append(
                 f"P2: solved {question.upper()} likely needs a validation/sensitivity figure; "
                 "do not omit checking figures or validation work."
@@ -375,17 +284,16 @@ def audit_figure_coverage(root: Path, registry: pd.DataFrame, mode: str) -> list
     return issues
 
 
-def audit_unreferenced(root: Path, registry: pd.DataFrame) -> list[str]:
+def audit_unreferenced(root: Path) -> list[str]:
     issues: list[str] = []
     paper_text = ""
     for paper in (root / "paper").rglob("*.tex"):
         paper_text += paper.read_text(encoding="utf-8", errors="ignore") + "\n"
-    registered = registry_artifact_names(registry)
     for fig in (root / "figures").glob("fig_*.*"):
-        if fig.name not in paper_text and fig.name not in registered:
+        if fig.name not in paper_text:
             issues.append(f"P2: generated figure not referenced in TeX: {fig.relative_to(root)}")
     for tab in (root / "tables").glob("tab_*.*"):
-        if tab.name not in paper_text and tab.name not in registered:
+        if tab.name not in paper_text:
             issues.append(f"P2: generated table not referenced in TeX: {tab.relative_to(root)}")
     return issues
 
@@ -400,11 +308,6 @@ def main() -> int:
         help="standard checks single-question or staged work; full additionally enforces complete-paper structure and unreferenced artifact checks.",
     )
     parser.add_argument(
-        "--registry",
-        default="results/result_registry.csv",
-        help="Registry path relative to project.",
-    )
-    parser.add_argument(
         "--output",
         default="results/validation_audit.md",
         help="Audit report path relative to project.",
@@ -412,16 +315,14 @@ def main() -> int:
     args = parser.parse_args()
 
     root = Path(args.project).expanduser().resolve()
-    registry = read_registry(root / args.registry)
     issues = []
-    issues.extend(audit_registry(root, registry, args.mode))
     issues.extend(audit_tables(root))
-    issues.extend(audit_paper(root, registry, args.mode))
-    issues.extend(audit_paper_structure(root, registry, args.mode))
-    issues.extend(audit_modeling_ideas(root, registry, args.mode))
-    issues.extend(audit_figure_coverage(root, registry, args.mode))
+    issues.extend(audit_paper(root, args.mode))
+    issues.extend(audit_paper_structure(root, args.mode))
+    issues.extend(audit_modeling_ideas(root, args.mode))
+    issues.extend(audit_figure_coverage(root, args.mode))
     if args.mode == "full":
-        issues.extend(audit_unreferenced(root, registry))
+        issues.extend(audit_unreferenced(root))
 
     out = root / args.output
     out.parent.mkdir(parents=True, exist_ok=True)

@@ -89,7 +89,7 @@ def write_markdown(data: dict, output: Path) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate official CUMCM benchmark metadata.")
     parser.add_argument("--index", default=str(DEFAULT_INDEX), help="official_case_index.json path")
-    parser.add_argument("--write-md", help="optional markdown summary output path")
+    parser.add_argument("--write-md", help="markdown summary output path")
     args = parser.parse_args()
 
     index_path = Path(args.index).expanduser().resolve()

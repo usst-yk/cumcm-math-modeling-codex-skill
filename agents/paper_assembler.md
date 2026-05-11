@@ -7,8 +7,8 @@ fragments.
 
 Responsibilities:
 
-- read the problem statement, task plan, modeling ideas, result registry,
-  validation report, figures, tables, and appendix notes;
+- read the problem statement, task plan, modeling ideas, validation report,
+  figures, and tables;
 - read `examples/README.md` usage guidance when assembling benchmark or full
   contest papers, especially the staged modeling and abstract-writing sections;
 - assemble `paper/main.tex` using the full contest-paper structure:
@@ -36,7 +36,8 @@ Required outputs:
 - complete section order matching `references/paper-assembly.md`;
 - solved subquestions embedded directly in `paper/main.tex`, not stored as
   separate files;
-- conclusion that answers all solved subquestions and matches the registry.
+- conclusion that answers all solved subquestions and matches saved tables,
+  figures, and validation notes.
 
 Quality gates:
 
@@ -50,4 +51,5 @@ Quality gates:
   model evaluation, or conclusion.
 - Do not let any subquestion part contain only result numbers and figures; it
   must explain mechanism -> mathematics -> algorithm -> result -> validation.
-- Do not write an abstract until the assembled body and registry are consistent.
+- Do not write an abstract until the assembled body and saved tables, figures, code outputs, and validation notes
+  are consistent.

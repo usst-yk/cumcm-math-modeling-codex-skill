@@ -24,7 +24,7 @@
 \maketitle
 
 \begin{abstract}
-针对烟幕干扰弹投放策略问题，本文按“运动学建模--遮蔽判据--边际覆盖优化”的主线建模。首先建立导弹匀速飞行、无人机等高度飞行、烟幕弹抛体运动和云团下沉方程，并用真目标轴中点代表视线作为遮蔽判据。对于问题一，复算给定 FY1 投放方案，得到有效遮蔽时长 \(1.405510\) s，并用距离裕度和投影参数验证有效区间。对于问题二，以 FY1 速度、航向角、投放时刻和引信延迟为决策变量，采用固定随机种子粗到细搜索，得到单机单弹 best-found 遮蔽时长 \(4.723893\) s。对于问题三，在 FY1 三弹共享航向和速度约束下，采用边际覆盖搜索，得到并集遮蔽时长 \(4.740000\) s，同时暴露出同航向多弹联合优化仍不足。对于问题四，FY1--FY3 各投放一弹覆盖 M1 不同未遮蔽时间段，得到遮蔽时长 \(14.520000\) s。对于问题五，五架无人机多弹协同干扰三枚导弹，得到 M1、M2、M3 的遮蔽时长分别为 \(22.980000\) s、\(18.360000\) s、\(6.400000\) s。本文所有数值均来自表格、代码和结果注册表；结论属于可复现 benchmark，不声称全局最优。
+针对烟幕干扰弹投放策略问题，本文按“运动学建模--遮蔽判据--边际覆盖优化”的主线建模。首先建立导弹匀速飞行、无人机等高度飞行、烟幕弹抛体运动和云团下沉方程，并用真目标轴中点代表视线作为遮蔽判据。对于问题一，复算给定 FY1 投放方案，得到有效遮蔽时长 \(1.405510\) s，并用距离裕度和投影参数验证有效区间。对于问题二，以 FY1 速度、航向角、投放时刻和引信延迟为决策变量，采用固定随机种子粗到细搜索，得到单机单弹 best-found 遮蔽时长 \(4.723893\) s。对于问题三，在 FY1 三弹共享航向和速度约束下，采用边际覆盖搜索，得到并集遮蔽时长 \(4.740000\) s，同时暴露出同航向多弹联合优化仍不足。对于问题四，FY1--FY3 各投放一弹覆盖 M1 不同未遮蔽时间段，得到遮蔽时长 \(14.520000\) s。对于问题五，五架无人机多弹协同干扰三枚导弹，得到 M1、M2、M3 的遮蔽时长分别为 \(22.980000\) s、\(18.360000\) s、\(6.400000\) s。本文所有数值均来自表格、代码和验证说明；结论属于可复现 benchmark，不声称全局最优。
 \keywords{烟幕干扰弹\quad 运动学建模\quad 遮蔽判据\quad 边际覆盖\quad TeX benchmark}
 \end{abstract}
 
@@ -90,7 +90,7 @@
 
 \section{数据审计与预处理}
 
-附件为 result1、result2、result3 三个结果模板，不提供额外观测数据。数据审计确认模板 sheet 可读，空白单元格是待填结果而非缺失观测。本文将原始模板保留在 \verb|data/raw/|，将求解后的附件格式结果另存到 \verb|tables/result*_benchmark.xlsx|，避免覆盖原始附件。
+附件为 result1、result2、result3 三个结果模板，不提供额外观测数据。数据审计确认模板 sheet 可读，空白单元格是待填结果而非缺失观测。本文将原始模板保留在 \verb|data/|，将求解后的附件格式结果另存到 \verb|tables/result*_benchmark.xlsx|，避免覆盖原始附件。
 
 由于附件本身是填报模板，真正进入模型计算的数据主要来自题面参数和脚本内置的坐标、速度、半径、有效时间等常量。预处理阶段的关键不是清洗大规模数据，而是统一坐标系和单位：所有空间量用米，时间量用秒，速度量用米每秒。问题一输出投放点和起爆点，保存为 \verb|tables/tab_q1_key_points.csv|；问题二输出单弹策略，保存为 \verb|tables/tab_q2_strategy.csv|；问题三至问题五分别保存策略表 \verb|tables/tab_q3_strategy.csv|、\verb|tables/tab_q4_strategy.csv|、\verb|tables/tab_q5_strategy.csv|。这些策略表是论文中所有方案描述的来源。
 
@@ -116,7 +116,7 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.88\linewidth]{fig_q1_model_schematic.png}
+\includegraphics[width=0.88\linewidth]{fig_q1_model_flow.png}
 \caption{问题一投放、起爆、云团下沉和遮蔽判定流程。}
 \end{figure}
 
@@ -140,7 +140,7 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.88\linewidth]{fig_q2_model_schematic.png}
+\includegraphics[width=0.88\linewidth]{fig_q2_model_flow.png}
 \caption{问题二优化变量和投放时序示意。}
 \end{figure}
 
@@ -162,7 +162,7 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.88\linewidth]{fig_q3_model_schematic.png}
+\includegraphics[width=0.88\linewidth]{fig_q3_model_flow.png}
 \caption{问题三 FY1 三弹连续投放示意。}
 \end{figure}
 
@@ -186,7 +186,7 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.88\linewidth]{fig_q4_model_schematic.png}
+\includegraphics[width=0.88\linewidth]{fig_q4_model_flow.png}
 \caption{问题四三机协同覆盖 M1 的建模流程。}
 \end{figure}
 
@@ -208,7 +208,7 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.88\linewidth]{fig_q5_model_schematic.png}
+\includegraphics[width=0.88\linewidth]{fig_q5_model_flow.png}
 \caption{问题五多机多弹多导弹协同示意。}
 \end{figure}
 
@@ -248,9 +248,9 @@
 
 \section{模型评价与推广}
 
-模型优点是统一、可复现、图表和结果注册表完整；缺点是代表视线判据偏简化，Q2--Q5 仍为 best-found 搜索。后续可将完整圆柱目标边界点遮蔽判据、多弹联合优化和局部交换算法加入 skill，形成更接近竞赛强解的版本。
+模型优点是统一、可复现、图表和验证说明完整；缺点是代表视线判据偏简化，Q2--Q5 仍为 best-found 搜索。后续可将完整圆柱目标边界点遮蔽判据、多弹联合优化和局部交换算法加入 skill，形成更接近竞赛强解的版本。
 
-从竞赛论文角度看，本模型最大的优点是叙事清楚：所有问题都围绕同一个遮蔽判据展开，读者能从 Q1 的复算自然过渡到 Q5 的多资源分配。另一个优点是结果可追溯，关键数值写入 \verb|results/result_registry.csv|，表格、图和摘要不会各说各话。模型不足也必须明确：代表点判据会低估或高估完整目标体的遮蔽情况；边际覆盖搜索不能保证全局最优；Q3 的结果已经说明贪心补弹策略对同航向多弹不够强。
+从竞赛论文角度看，本模型最大的优点是叙事清楚：所有问题都围绕同一个遮蔽判据展开，读者能从 Q1 的复算自然过渡到 Q5 的多资源分配。另一个优点是结果可追溯，关键数值写入 \verb|results/validation_report.md|，表格、图和摘要不会各说各话。模型不足也必须明确：代表点判据会低估或高估完整目标体的遮蔽情况；边际覆盖搜索不能保证全局最优；Q3 的结果已经说明贪心补弹策略对同航向多弹不够强。
 
 如果继续提高获奖层次，优先方向不是堆更多图，而是强化数学模型本身。第一，应把代表点遮蔽扩展为圆柱目标边界点遮蔽，至少检查目标上、下圆面和侧面若干关键点。第二，应把多弹联合优化写成分层搜索或混合整数非线性规划的近似形式，避免 Q3 只是单弹方案的弱扩展。第三，应增加对候选策略的局部交换检查，让 best-found 的可信度更高。
 
@@ -262,7 +262,7 @@
 
 若从评委追问的角度审查本文，最可能被问到三点。第一，为什么不用黑箱智能算法直接搜索全部变量。回答是：黑箱算法可以作为求解器，但不能替代遮蔽判据；没有清楚的几何判据，搜索得到的参数没有可解释意义。第二，为什么 Q3 的三弹结果不一定优于 Q2。回答是：多弹受到同一无人机航向、速度和投放间隔约束，后续烟幕弹不一定出现在新的有效遮蔽时段。第三，为什么称为 best-found 而不称为全局最优。回答是：当前脚本没有给出严格全局最优性证明，论文必须保守表述。这些追问也反过来说明，最终论文不能只写结果表，必须写清模型边界和验证逻辑。
 
-因此，本 benchmark 对 skill 的要求也更明确：真实 A 题案例必须先给几何背景图，再给每问模型图、结果图和验证图；论文必须用同一套变量、假设和判据贯穿所有子问；摘要最后写，并且只引用结果注册表中已经验证的数值。这样做会比快速生成答案慢，但能避免“代码跑了、论文很空”的问题。
+因此，本 benchmark 对 skill 的要求也更明确：真实 A 题案例必须先给几何背景图，再给每问模型图、结果图和验证图；论文必须用同一套变量、假设和判据贯穿所有子问；摘要最后写，并且只引用验证说明中已经验证的数值。这样做会比快速生成答案慢，但能避免“代码跑了、论文很空”的问题。
 
 \section{结论}
 
@@ -277,6 +277,6 @@
 \appendix
 \section{复现说明}
 
-核心脚本为 \verb|src/solve_q1.py|、\verb|src/solve_q2.py| 和 \verb|src/solve_q3_q5.py|。核心数值记录在 \verb|results/result_registry.csv|，自动检查记录在 \verb|results/validation_audit.md|。
+核心脚本为 \verb|src/solve_q1.py|、\verb|src/solve_q2.py| 和 \verb|src/solve_q3_q5.py|。核心数值记录在 \verb|results/validation_report.md|，自动检查记录在 \verb|results/validation_audit.md|。
 
 \end{document}

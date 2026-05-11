@@ -12,7 +12,7 @@ src/solve_q1.py
 tables/tab_q1_result.csv
 figures/fig_q1_model_flow.png
 figures/fig_q1_result.png
-results/result_registry.csv
+results/validation_report.md
 paper/main.tex
 ```
 

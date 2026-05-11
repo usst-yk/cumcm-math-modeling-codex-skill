@@ -11,7 +11,6 @@ The demo contains:
 - generated result tables;
 - GPT-image flowchart prompts under `modeling/`;
 - generated paper figures under `figures/`;
-- result registry;
 - validation report;
 - a complete traceable TeX paper at `paper/main.tex`.
 
@@ -24,6 +23,5 @@ Expected checks:
 - result tables are generated under `tables/`;
 - GPT-image flowchart prompts are saved under `modeling/`;
 - figures are generated under `figures/`;
-- `results/result_registry.csv` contains R001-R004;
-- `results/validation_report.md` records basic validation;
+- `results/validation_report.md` records basic validation and key result sources;
 - `paper/main.tex` contains the traceable TeX paper.

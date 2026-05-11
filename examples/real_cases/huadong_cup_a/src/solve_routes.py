@@ -3,12 +3,11 @@
 
 This is a benchmark example, not an official Shanghai Disney recommendation.
 Attraction utilities, queue times, coordinates, and real-time queue shocks are
-the transparent baseline data saved in data/raw.
+the transparent baseline data saved in data/.
 """
 
 from __future__ import annotations
 
-import csv
 import math
 from dataclasses import dataclass
 from functools import lru_cache
@@ -24,7 +23,7 @@ from plot_utils import setup_chinese_plot
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data" / "raw"
+DATA_DIR = ROOT / "data"
 TABLE_DIR = ROOT / "tables"
 FIGURE_DIR = ROOT / "figures"
 RESULT_DIR = ROOT / "results"
@@ -501,7 +500,7 @@ def draw_flowchart(path: Path, title: str, labels: list[str]) -> None:
 
 def write_q1_figures(q1_summary: pd.DataFrame, comparison: pd.DataFrame) -> None:
     draw_flowchart(
-        FIGURE_DIR / "fig_q1_model_schematic.png",
+        FIGURE_DIR / "fig_q1_model_flow.png",
         "问题 1：多情景游览路线优化流程",
         ["游客偏好", "日期场景", "排队预测", "时间窗约束", "动态规划选线", "路线建议"],
     )
@@ -548,7 +547,7 @@ def write_q1_figures(q1_summary: pd.DataFrame, comparison: pd.DataFrame) -> None
 
 def write_q2_figures(q2_summary: pd.DataFrame) -> None:
     draw_flowchart(
-        FIGURE_DIR / "fig_q2_model_schematic.png",
+        FIGURE_DIR / "fig_q2_model_flow.png",
         "问题 2：APP 实时排队触发的剩余路线重规划",
         ["读取原路线", "锁定已完成", "更新排队", "重算剩余路线", "比较收益", "输出调整"],
     )
@@ -601,167 +600,6 @@ def write_q2_figures(q2_summary: pd.DataFrame) -> None:
     plt.close(fig)
 
 
-def write_registry(q1_summary: pd.DataFrame, comparison: pd.DataFrame, q2_summary: pd.DataFrame) -> None:
-    RESULT_DIR.mkdir(parents=True, exist_ok=True)
-    avg_improvement = comparison["score_improvement_pct"].mean()
-    holiday_family = q1_summary[(q1_summary["persona"] == "家庭亲子游") & (q1_summary["day_type"] == "节假日")].iloc[0]
-    q1_best = q1_summary.sort_values("experience_score", ascending=False).iloc[0]
-    avg_wait_saved = q2_summary["queue_wait_saved_min"].mean()
-    avg_score_gain = q2_summary["score_gain"].mean()
-    max_saved = q2_summary.sort_values("queue_wait_saved_min", ascending=False).iloc[0]
-    changed_scenarios = int((q2_summary["changed_activity_count"] > 0).sum())
-    rows = [
-        {
-            "id": "R001",
-            "subquestion": "Q1",
-            "claim": "动态规划路线相对贪心基线的平均得分提升",
-            "value": f"{avg_improvement:.2f}",
-            "unit": "%",
-            "source_type": "code",
-            "source_file": "tables/tab_q1_baseline_comparison.csv",
-            "source_line_or_cell": "mean(score_improvement_pct)",
-            "script": "src/solve_routes.py",
-            "command": "python3 src/solve_routes.py",
-            "figure_or_table": "figures/fig_q1_validation.png",
-            "validation": "九个游客-日期组合均与贪心基线逐项对比",
-            "status": "verified",
-            "created_at": "2026-05-10",
-            "verified_by": "Codex",
-            "notes": "benchmark 数据为透明假设，不代表官方或实时运营数据",
-        },
-        {
-            "id": "R002",
-            "subquestion": "Q1",
-            "claim": "节假日家庭亲子游推荐路线完成体验数",
-            "value": str(int(holiday_family["activity_count_without_rest"])),
-            "unit": "项",
-            "source_type": "code",
-            "source_file": "tables/tab_q1_summary.csv",
-            "source_line_or_cell": "家庭亲子游-节假日 row",
-            "script": "src/solve_routes.py",
-            "command": "python3 src/solve_routes.py",
-            "figure_or_table": "figures/fig_q1_result.png",
-            "validation": "路线总时长不超过 09:00-21:00，固定演出满足时间窗",
-            "status": "verified",
-            "created_at": "2026-05-10",
-            "verified_by": "Codex",
-            "notes": holiday_family["route"],
-        },
-        {
-            "id": "R003",
-            "subquestion": "Q2",
-            "claim": "实时重规划较保持原剩余路线平均减少等待时间",
-            "value": f"{avg_wait_saved:.2f}",
-            "unit": "分钟",
-            "source_type": "code",
-            "source_file": "tables/tab_q2_adjustment_summary.csv",
-            "source_line_or_cell": "mean(queue_wait_saved_min)",
-            "script": "src/solve_routes.py",
-            "command": "python3 src/solve_routes.py",
-            "figure_or_table": "figures/fig_q2_result.png",
-            "validation": "13:30 后锁定已完成项目，使用同一实时排队扰动表重算剩余路线",
-            "status": "verified",
-            "created_at": "2026-05-10",
-            "verified_by": "Codex",
-            "notes": "正值表示重规划减少排队时间",
-        },
-        {
-            "id": "R004",
-            "subquestion": "Q2",
-            "claim": "实时重规划触发路线变更的场景数",
-            "value": str(changed_scenarios),
-            "unit": "个场景",
-            "source_type": "code",
-            "source_file": "tables/tab_q2_adjustment_summary.csv",
-            "source_line_or_cell": "count(changed_activity_count > 0)",
-            "script": "src/solve_routes.py",
-            "command": "python3 src/solve_routes.py",
-            "figure_or_table": "figures/fig_q2_validation.png",
-            "validation": "比较原剩余路线和重规划剩余路线的项目集合",
-            "status": "verified",
-            "created_at": "2026-05-10",
-            "verified_by": "Codex",
-            "notes": "九个场景包含 3 类游客 x 3 类日期",
-        },
-        {
-            "id": "R005",
-            "subquestion": "Q1",
-            "claim": "问题一最高体验得分",
-            "value": f"{float(q1_best['experience_score']):.3f}",
-            "unit": "分",
-            "source_type": "code",
-            "source_file": "tables/tab_q1_summary.csv",
-            "source_line_or_cell": f"{q1_best['persona']}-{q1_best['day_type']} row",
-            "script": "src/solve_routes.py",
-            "command": "python3 src/solve_routes.py",
-            "figure_or_table": "figures/fig_q1_result.png",
-            "validation": "路线总时长不超过 09:00-21:00，固定演出满足时间窗",
-            "status": "verified",
-            "created_at": "2026-05-10",
-            "verified_by": "Codex",
-            "notes": q1_best["route"],
-        },
-        {
-            "id": "R006",
-            "subquestion": "Q2",
-            "claim": "实时重规划平均得分增益",
-            "value": f"{avg_score_gain:.3f}",
-            "unit": "分",
-            "source_type": "code",
-            "source_file": "tables/tab_q2_adjustment_summary.csv",
-            "source_line_or_cell": "mean(score_gain)",
-            "script": "src/solve_routes.py",
-            "command": "python3 src/solve_routes.py",
-            "figure_or_table": "figures/fig_q2_result.png",
-            "validation": "保持原剩余路线和重规划路线使用同一效用函数",
-            "status": "verified",
-            "created_at": "2026-05-10",
-            "verified_by": "Codex",
-            "notes": "正值表示实时调整提升路线效用",
-        },
-        {
-            "id": "R007",
-            "subquestion": "Q2",
-            "claim": "单场景最大等待时间节省",
-            "value": str(int(max_saved["queue_wait_saved_min"])),
-            "unit": "分钟",
-            "source_type": "code",
-            "source_file": "tables/tab_q2_adjustment_summary.csv",
-            "source_line_or_cell": f"{max_saved['persona']}-{max_saved['day_type']} row",
-            "script": "src/solve_routes.py",
-            "command": "python3 src/solve_routes.py",
-            "figure_or_table": "figures/fig_q2_validation.png",
-            "validation": "与保持原剩余路线的同场景等待时间对比; 调整路线时间窗可行",
-            "status": "verified",
-            "created_at": "2026-05-10",
-            "verified_by": "Codex",
-            "notes": f"{max_saved['persona']}-{max_saved['day_type']}",
-        },
-        {
-            "id": "R008",
-            "subquestion": "Q1",
-            "claim": "家庭亲子游工作日完成非休整体验数",
-            "value": str(int(q1_best["activity_count_without_rest"])),
-            "unit": "项",
-            "source_type": "code",
-            "source_file": "tables/tab_q1_summary.csv",
-            "source_line_or_cell": f"{q1_best['persona']}-{q1_best['day_type']} row",
-            "script": "src/solve_routes.py",
-            "command": "python3 src/solve_routes.py",
-            "figure_or_table": "figures/fig_q1_result.png",
-            "validation": "路线总时长不超过 09:00-21:00，固定演出满足时间窗",
-            "status": "verified",
-            "created_at": "2026-05-10",
-            "verified_by": "Codex",
-            "notes": "用于摘要中最高得分场景的项目数追溯",
-        },
-    ]
-    with (RESULT_DIR / "result_registry.csv").open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()), lineterminator="\n")
-        writer.writeheader()
-        writer.writerows(rows)
-
-
 def write_validation_report(q1_summary: pd.DataFrame, comparison: pd.DataFrame, q2_summary: pd.DataFrame) -> None:
     avg_improvement = comparison["score_improvement_pct"].mean()
     min_improvement = comparison["score_improvement_pct"].min()
@@ -771,7 +609,7 @@ def write_validation_report(q1_summary: pd.DataFrame, comparison: pd.DataFrame, 
 
 ## 数据边界
 
-- 本案例没有官方附件数据，因此 `data/raw/benchmark_activities.csv` 和 `data/raw/realtime_wait_updates.csv` 是透明 benchmark 数据。
+- 本案例没有官方附件数据，因此 `data/benchmark_activities.csv` 和 `data/realtime_wait_updates.csv` 是透明 benchmark 数据。
 - 坐标、排队时间、游客偏好、固定演出时间均用于复现建模流程，不代表上海迪士尼官方或实时运营数据。
 
 ## 问题 1 验证
@@ -779,14 +617,14 @@ def write_validation_report(q1_summary: pd.DataFrame, comparison: pd.DataFrame, 
 - 每条路线均检查 09:00-21:00 总时间边界。
 - 固定演出 `parade`、`castle_show`、`fireworks` 只允许在基准时间窗开始。
 - 动态规划路线与贪心基线在 9 个游客-日期组合中逐项比较，平均得分提升 {avg_improvement:.2f}%，最低提升 {min_improvement:.2f}%。
-- 中文图 `fig_q1_model_schematic.png`、`fig_q1_result.png`、`fig_q1_validation.png` 对应模型流程、核心结果和基线验证。
+- 中文图 `fig_q1_model_flow.png`、`fig_q1_result.png`、`fig_q1_validation.png` 对应模型流程、核心结果和基线验证。
 
 ## 问题 2 验证
 
 - 13:30 作为 APP 复核时刻；若游客正在体验某项目，则在该项目结束后重规划。
 - 已完成项目被锁定，剩余候选项目使用同一实时排队扰动表。
 - 相比保持原剩余路线，重规划平均减少等待 {avg_wait_saved:.2f} 分钟，{changed_scenarios} 个场景发生路线项目集合变化。
-- 中文图 `fig_q2_model_schematic.png`、`fig_q2_result.png`、`fig_q2_validation.png` 对应重规划流程、收益结果和保持原路线对照。
+- 中文图 `fig_q2_model_flow.png`、`fig_q2_result.png`、`fig_q2_validation.png` 对应重规划流程、收益结果和保持原路线对照。
 
 ## 限制
 
@@ -925,7 +763,6 @@ def main() -> int:
     write_problem_overview(activities_df)
     write_q1_figures(q1_summary, comparison)
     write_q2_figures(q2_summary)
-    write_registry(q1_summary, comparison, q2_summary)
     write_validation_report(q1_summary, comparison, q2_summary)
     write_paper_sections(q1_summary, comparison, q2_summary)
 

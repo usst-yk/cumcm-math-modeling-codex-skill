@@ -14,8 +14,8 @@
 | `problem/task_plan.json` / `.md` | Q1/Q2 求解计划和 benchmark 边界。 |
 | `modeling/qx_modeling_idea.md` | 每问建模思路，先于代码求解。 |
 | `modeling/route_comparison.md` | 静态规划和实时重规划路线比较。 |
-| `data/raw/benchmark_activities.csv` | 项目坐标、体验时长、偏好效用、排队时间、固定演出时间窗。 |
-| `data/raw/realtime_wait_updates.csv` | 13:30 APP 实时排队扰动 benchmark。 |
+| `data/benchmark_activities.csv` | 项目坐标、体验时长、偏好效用、排队时间、固定演出时间窗。 |
+| `data/realtime_wait_updates.csv` | 13:30 APP 实时排队扰动 benchmark。 |
 | `src/solve_routes.py` | Q1 初始路线和 Q2 实时重规划求解脚本。 |
 | `tables/tab_q1_summary.csv` | 3 类游客 x 3 类日期的路线汇总。 |
 | `tables/tab_q1_routes.csv` | Q1 逐步路线明细。 |
@@ -24,13 +24,12 @@
 | `tables/tab_q2_adjustment_summary.csv` | Q2 重规划收益汇总。 |
 | `tables/tab_q2_adjusted_routes.csv` | Q2 调整后逐步路线明细。 |
 | `figures/fig_problem_overview.png` | 项目位置和固定演出示意图。 |
-| `figures/fig_q1_model_schematic.png` | Q1 模型流程示意图。 |
+| `figures/fig_q1_model_flow.png` | Q1 模型流程示意图。 |
 | `figures/fig_q1_result.png` | Q1 核心结果图。 |
 | `figures/fig_q1_validation.png` | Q1 与贪心基线对比验证图。 |
-| `figures/fig_q2_model_schematic.png` | Q2 实时重规划流程示意图。 |
+| `figures/fig_q2_model_flow.png` | Q2 实时重规划流程示意图。 |
 | `figures/fig_q2_result.png` | Q2 等待节省和得分增益图。 |
 | `figures/fig_q2_validation.png` | Q2 保持原路线与重规划路线对照图。 |
-| `results/result_registry.csv` | 关键 benchmark 数值登记表。 |
 | `results/validation_report.md` | 可行性、基线和实时调整验证记录。 |
 | `paper/main.tex` | 可编译完整 benchmark 论文；问题一和问题二都写在这个单文件中。 |
 
@@ -46,7 +45,7 @@
 ## 使用方式
 
 ```text
-[$cumcm-math-modeling] 请以 examples/real_cases/huadong_cup_a 为 benchmark，复现华东杯 A 题的路线规划和实时调整结果，并检查结果是否和 registry 一致。
+[$cumcm-math-modeling] 请以 examples/real_cases/huadong_cup_a 为 benchmark，复现华东杯 A 题的路线规划和实时调整结果，并检查结果、图表、验证报告和 paper/main.tex 是否一致。
 ```
 
 如果只想看题面解析：

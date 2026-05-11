@@ -36,7 +36,9 @@ jobs:
           PYTHONPYCACHEPREFIX=/tmp/cumcm_pycache python3 -m py_compile \
             scripts/*.py \
             examples/single_question_minimal/src/*.py \
-            examples/real_cases/cumcm_2025_a/src/*.py
+            examples/real_cases/cumcm_2025_a/src/*.py \
+            examples/real_cases/huadong_cup_a/src/*.py \
+            examples/full_problem_demo/src/*.py
 
       - name: Validate full demo artifacts
         run: |
@@ -50,18 +52,15 @@ jobs:
             --project examples/real_cases/cumcm_2025_a \
             --output results/validation_audit.md
 
-      - name: Validate single-question lean demo
+      - name: Validate single-question demo
         run: |
           python3 scripts/validate_results.py \
-            --mode lean \
+            --mode standard \
             --project examples/single_question_minimal \
             --output /tmp/cumcm_single_validation.md
 
-      - name: Generate demo roadmap SVG
+      - name: Validate Huadong Cup A real-case artifacts
         run: |
-          python3 scripts/make_roadmap_svg.py \
-            --task-plan examples/full_problem_demo/problem/task_plan.json \
-            --output /tmp/cumcm_roadmap.svg \
-            --per-question-dir /tmp/cumcm_roadmaps
-          test -s /tmp/cumcm_roadmap.svg
-          test -s /tmp/cumcm_roadmaps/roadmap_q1.svg
+          python3 scripts/validate_results.py \
+            --project examples/real_cases/huadong_cup_a \
+            --output /tmp/huadong_cup_a_validation.md

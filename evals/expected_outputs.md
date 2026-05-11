@@ -21,7 +21,7 @@ Use these expectations for manual checks after skill updates.
 - Gives exactly three routes and chooses primary/fallback routes.
 - Builds a baseline before or beside the main model.
 - Produces validation and sensitivity checks matched to task type.
-- Keeps result numbers traceable through a registry or source references.
+- Keeps result numbers traceable through saved tables, figures, code outputs, or validation notes.
 - For each subquestion, records baseline, primary, fallback route, and minimum
   validation requirements.
 
@@ -29,7 +29,7 @@ Use these expectations for manual checks after skill updates.
 
 - Solves only the requested subquestion.
 - Still includes scoring points, hidden constraints, three routes, baseline, model, validation, figures, and paper text.
-- Keeps the file set lean: only necessary code, result tables, Chinese figures,
+- Keeps the file set focused: code, result tables, Chinese figures,
   and requested paper text. This must not shorten analysis, modeling, solving,
   validation, or requested paper sections.
 - Notes dependencies on later questions without expanding them.

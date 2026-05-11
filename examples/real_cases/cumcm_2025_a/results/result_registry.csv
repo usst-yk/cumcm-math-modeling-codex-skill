@@ -1,6 +1,0 @@
-id,subquestion,claim,value,unit,source_type,source_file,source_line_or_cell,script,command,figure_or_table,validation,status,created_at,verified_by,notes
-R001,Q1,给定方案有效遮蔽时长,1.405510,s,code,tables/tab_q1_intervals.csv,row 1 duration_s,src/solve_q1.py,python3 src/solve_q1.py,figures/fig_q1_validation_margin.png,距离阈值和投影参数均满足代表视线遮蔽判据,verified,2026-05-10,Codex,使用真目标轴中点代表视线判据
-R002,Q2,FY1 单机单弹 best-found 有效遮蔽时长,4.723893,s,code,tables/tab_q2_intervals.csv,row 1 duration_s,src/solve_q2.py,python3 src/solve_q2.py,figures/fig_q2_sensitivity.png,固定随机种子粗到细搜索并做局部扰动检查,verified,2026-05-10,Codex,不声称全局最优
-R003,Q3,FY1 三弹并集遮蔽时长,4.740000,s,code,tables/tab_q3_intervals.csv,sum duration_s,src/solve_q3_q5.py,python3 src/solve_q3_q5.py,figures/fig_q3_validation.png,三弹共享同一航向和速度且投放间隔可行,verified,2026-05-10,Codex,暴露同航向多弹联合优化仍不足
-R004,Q4,FY1-FY3 各一弹协同遮蔽 M1 时长,14.520000,s,code,tables/tab_q4_intervals.csv,sum duration_s,src/solve_q3_q5.py,python3 src/solve_q3_q5.py,figures/fig_q4_validation.png,三机速度范围和起爆高度均通过检查,verified,2026-05-10,Codex,多机覆盖不同未遮蔽时间段
-R005,Q5,多机多弹多导弹有效遮蔽时长,M1=22.980000; M2=18.360000; M3=6.400000,s,code,tables/tab_q5_intervals.csv,groupby missile sum duration_s,src/solve_q3_q5.py,python3 src/solve_q3_q5.py,figures/fig_q5_validation.png,每架无人机最多三弹且投放间隔可查,verified,2026-05-10,Codex,best-found 贪心边际覆盖 benchmark

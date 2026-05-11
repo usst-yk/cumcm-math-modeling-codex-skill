@@ -23,7 +23,7 @@ communication natural; do not expose commands unless the user asks.
 | Final abstract | `agents/abstract_writer.md`, `references/paper-writing.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
 | Conclusion or polishing | `references/paper-writing.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
 | Technical roadmap or model flowchart | `references/technical-roadmap.md`; generate with GPT-image |
-| Figure standards | `references/figure-standards.md`, optionally `scripts/make_paper_figures.py` |
+| Figure standards | `references/figure-standards.md`, or `scripts/make_paper_figures.py` |
 | Final judge review | `references/final-review.md`, `references/final-checklist.md`, `agents/reviewer.md` |
 | Safety or anti-fabrication concern | `references/safety-rules.md` |
 
@@ -35,7 +35,7 @@ communication natural; do not expose commands unless the user asks.
   `references/output-policy.md`; `paper/main.tex` is always part of it.
 - Do not confuse paper-first output with fewer figures or shallower work. For
   solved questions, load `references/figure-plan.md` and generate the planned
-  Chinese figures; keep analysis, modeling, solving, validation, registry, and
+  Chinese figures; keep analysis, modeling, solving, validation, saved tables, figures, code outputs, and validation notes, and
   paper text complete.
 - Do not initialize a full project, copy every template, or create empty files
   for a single-question solve unless the user asks for a complete project.
@@ -49,7 +49,7 @@ communication natural; do not expose commands unless the user asks.
 - For full problems, always work subquestion by subquestion.
 - For single-question requests, write a self-contained single-question paper in
   `paper/main.tex`; do not expand into all subquestions unless the user asks.
-- For paper text with numbers, use the result registry before writing final
+- For paper text with numbers, use the saved tables, figures, code outputs, and validation notes before writing final
   claims.
 - For route design, give three routes and choose a primary route plus fallback.
 - When a task type is clear, use `references/method-cards.json` as the compact

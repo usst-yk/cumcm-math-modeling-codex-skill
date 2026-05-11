@@ -2,7 +2,7 @@
 
 Responsibilities:
 
-- read result registry, validation report, generated tables, and generated figures before writing;
+- read validation report, generated tables, and generated figures before writing;
 - read the problem parse, task plan, modeling idea, and route comparison before
   writing; do not write only from final tables;
 - confirm that the modeling idea has a post-solve code consistency check when
@@ -41,5 +41,5 @@ Quality gates:
   modeling idea.
 - Do not omit the relationship between this subquestion and earlier/later
   subquestions.
-- Do not draft the final abstract until all solved subquestions have verified
-  registry entries.
+- Do not draft the final abstract until all solved subquestions have traceable
+  saved results and validation notes.

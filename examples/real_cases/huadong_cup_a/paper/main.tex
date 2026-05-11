@@ -113,7 +113,7 @@ t_r^{end}=t_r^{arr}+q_{d,i_r}(t_r)+h_{i_r}+s_{i_r}.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.88\linewidth]{fig_q1_model_schematic.png}
+\includegraphics[width=0.88\linewidth]{fig_q1_model_flow.png}
 \caption{问题一动态规划建模流程。}
 \end{figure}
 
@@ -141,7 +141,7 @@ q^{real}_{d,i}(t)=\max\{0,q^0_{d,i}(t)+\rho(t)\Delta_{d,i}\},
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.88\linewidth]{fig_q2_model_schematic.png}
+\includegraphics[width=0.88\linewidth]{fig_q2_model_flow.png}
 \caption{问题二锁定已完成项目后的实时重规划流程。}
 \end{figure}
 
@@ -169,7 +169,7 @@ q^{real}_{d,i}(t)=\max\{0,q^0_{d,i}(t)+\rho(t)\Delta_{d,i}\},
 
 \section{重做流程与论文口径统一}
 
-本次重做没有沿用旧论文，而是按 examples 的步骤重新推进。先重新运行题面解析，发现规则脚本曾把“问题 1 给出的路线”误切成新子问；这一问题已通过解析过滤修正。随后重新生成任务计划，并人工确认 benchmark 数据是后续建模输入。再进行数据审计，确认项目表和实时扰动表字段完整。最后重新运行求解脚本，生成表格、中文图、结果注册表和验证报告。
+本次重做没有沿用旧论文，而是按 examples 的步骤重新推进。先重新运行题面解析，发现规则脚本曾把“问题 1 给出的路线”误切成新子问；这一问题已通过解析过滤修正。随后重新生成任务计划，并人工确认 benchmark 数据是后续建模输入。再进行数据审计，确认项目表和实时扰动表字段完整。最后重新运行求解脚本，生成表格、中文图、验证说明和验证报告。
 
 论文写作时统一三个口径。第一，数据口径：所有数值都来自 benchmark 数据，不写成官方数据。第二，模型口径：问题一和问题二共用同一效用函数与时间窗约束，问题二只是滚动更新剩余路线。第三，结论口径：路线推荐是可复现 benchmark 结果，不是实际游园最优攻略。这样能避免新手论文常见的错误：第一问写一套路由逻辑，第二问又凭感觉重新建议路线，导致两问割裂。
 
@@ -201,7 +201,7 @@ q^{real}_{d,i}(t)=\max\{0,q^0_{d,i}(t)+\rho(t)\Delta_{d,i}\},
 
 若从评委追问的角度审查本文，最可能被问到三点。第一，游客偏好为什么能线性加权。本文的回答是：线性加权不是声称真实体验完全线性，而是在数据有限时给出可解释、可调参、可做敏感性分析的评价函数。第二，动态规划为什么比贪心更合适。原因在于路线规划存在时间窗和未来机会成本，当前一步最优不一定保证全天体验最优。第三，问题二为什么不能简单重排全部项目。原因是游客已经完成的项目、当前位置和当前时间都是历史状态，实时重规划只能改变剩余路线。这些追问决定了论文必须写清模型逻辑，而不是只展示路线清单。
 
-因此，本 benchmark 对 skill 的要求也更明确：所有路线规划、调度和优化类题目都要先画题面或几何背景示意图，再画每问模型示意图、结果图和验证图；论文必须显式说明多问之间如何传递状态、参数或结论；摘要最后写，并且只引用结果注册表中已经验证的核心数值。这样生成的论文会更慢，但它更接近学生真正需要提交的作品。
+因此，本 benchmark 对 skill 的要求也更明确：所有路线规划、调度和优化类题目都要先画题面或几何背景示意图，再画每问模型示意图、结果图和验证图；论文必须显式说明多问之间如何传递状态、参数或结论；摘要最后写，并且只引用验证说明中已经验证的核心数值。这样生成的论文会更慢，但它更接近学生真正需要提交的作品。
 
 \section{结论}
 
@@ -216,5 +216,5 @@ q^{real}_{d,i}(t)=\max\{0,q^0_{d,i}(t)+\rho(t)\Delta_{d,i}\},
 \appendix
 \section{复现说明}
 
-求解脚本为 \verb|src/solve_routes.py|，结果表在 \verb|tables/|，核心数值在 \verb|results/result_registry.csv|，自动审计记录在 \verb|results/validation_audit.md|。
+求解脚本为 \verb|src/solve_routes.py|，结果表在 \verb|tables/|，核心数值在 \verb|results/validation_report.md|，自动审计记录在 \verb|results/validation_audit.md|。
 \end{document}

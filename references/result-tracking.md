@@ -1,48 +1,15 @@
-# Result Tracking
+# Result Source Tracking
 
-Use this reference whenever `paper/main.tex`, abstract, conclusion, or policy recommendation contains numbers.
+论文里的每个关键数字都必须能回到已经保存的证据。证据可以是：
 
-## Registry Rule
+- `tables/` 中的结果表；
+- `figures/` 中的结果图或验证图；
+- `results/validation_report.md` 中的验证说明；
+- `src/` 中可复现的代码输出；
+- 题面明确给出的事实。
 
-Any numerical conclusion in `paper/main.tex` must appear in
-`results/result_registry.csv`. This includes numbers in the abstract,
-conclusion, result section, captions, final recommendations, and single-question
-paper drafts.
+写摘要、结论和图表说明前，先核对这些来源。数字改动后，同步更新
+`paper/main.tex`、相关表格、图注和验证说明。
 
-Do not write final headline numbers directly from memory, chat text, or an
-unsaved terminal output. Save the source table/log first, then register the
-value before writing it into `paper/main.tex`.
-
-## Required Columns
-
-`templates/result_registry.csv` uses:
-
-```csv
-id,subquestion,claim,value,unit,source_type,source_file,source_line_or_cell,script,command,figure_or_table,validation,status,created_at,verified_by,notes
-```
-
-Recommended status values:
-
-- `draft`: value is extracted but not fully checked.
-- `verified`: source file exists and validation is complete.
-- `blocked`: value cannot be trusted because code/data/validation failed.
-
-## Claim Types
-
-Register:
-
-- optimal objective values and selected decisions;
-- prediction metrics and forecast headline values;
-- ranking results and top/bottom entities;
-- simulation peaks, thresholds, and final states;
-- sensitivity-analysis conclusions;
-- values quoted in abstract or conclusion.
-
-## Writer Rule
-
-Before writing final paper text:
-
-1. Read the registry.
-2. Use only `verified` rows for final claims.
-3. If a required claim is `draft`, label the relevant part of `paper/main.tex` as draft.
-4. If a required claim is `blocked`, write the blocker instead of a conclusion.
+不要在论文里写没有保存来源的数字。缺少来源时，先补表格、图或验证说明，
+再写正文。

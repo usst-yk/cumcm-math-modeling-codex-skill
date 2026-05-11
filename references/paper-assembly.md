@@ -38,7 +38,7 @@ clear equivalents:
 8. 模型检验与敏感性分析
 9. 模型评价与推广
 10. 结论
-11. 附录或复现说明
+11. 复现说明
 
 Subquestion content belongs directly inside `paper/main.tex` under “模型建立、
 求解与结果” unless the contest paper deliberately uses one top-level section
@@ -74,7 +74,7 @@ For a full paper:
 
 ## Assembly Workflow
 
-1. Read `results/result_registry.csv` and `results/validation_report.md`.
+1. Read `results/validation_report.md`.
 2. Read generated figures/tables and any existing `paper/main.tex` draft.
 3. Build or update the global sections first: restatement, analysis,
    assumptions, notation, data audit.

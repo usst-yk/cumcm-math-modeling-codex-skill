@@ -9,10 +9,10 @@ quality, read `references/official-benchmark.md` and
 
 - Task coverage: every requested subquestion has a direct answer or a documented blocker.
 - Data audit: all required files/sheets are inspected and exclusions are justified.
-- Registry: all headline numbers appear in `results/result_registry.csv`.
+- saved tables, figures, code outputs, and validation notes: all headline numbers appear in `results/validation_report.md`.
 - Validation: each task type has matching validation or a stated reason why validation is unavailable.
 - Artifacts: referenced figures/tables exist and filenames match captions.
-- Consistency: abstract, body, tables, figures, appendix, and registry agree.
+- Consistency: abstract, body, tables, figures, saved tables, figures, code outputs, and validation notes agree.
 - Reproducibility: commands, main scripts, inputs, outputs, dependencies, and seeds are recorded.
 
 Run `scripts/validate_results.py --project <project-dir>` when artifacts exist. Treat P1 findings as blockers.

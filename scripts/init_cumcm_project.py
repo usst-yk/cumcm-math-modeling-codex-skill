@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Create a CUMCM project workspace.
-
-Default mode is paper-first: create the core directories plus `paper/main.tex`
-and `results/result_registry.csv`, because all useful work should flow back to
-the TeX paper. Use --full when every auxiliary template and log is explicitly
-needed.
-"""
+"""Create a CUMCM project workspace."""
 
 from __future__ import annotations
 
@@ -17,30 +11,12 @@ from pathlib import Path
 STANDARD_DIRS = [
     "problem",
     "modeling",
-    "modeling/flowcharts",
-    "data/raw",
-    "data/processed",
+    "data",
     "src",
     "figures",
     "tables",
     "results",
     "paper",
-]
-
-FULL_DIRS = [
-    "problem",
-    "modeling",
-    "data/raw",
-    "data/processed",
-    "src",
-    "notebooks",
-    "results/sensitivity",
-    "figures",
-    "tables",
-    "tables/data_profile",
-    "paper",
-    "appendix",
-    "logs",
 ]
 
 
@@ -62,7 +38,6 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Create a CUMCM math modeling project skeleton.")
     parser.add_argument("project_dir", nargs="?", help="Directory to create or update.")
     parser.add_argument("--name", help="Project directory name, e.g. cumcm_2026_A.")
-    parser.add_argument("--full", action="store_true", help="Copy full templates and logs.")
     parser.add_argument("--overwrite", action="store_true", help="Overwrite existing template files.")
     args = parser.parse_args()
 
@@ -72,74 +47,22 @@ def main() -> int:
     project_dir = Path(args.project_dir or args.name).expanduser().resolve()
     project_dir.mkdir(parents=True, exist_ok=True)
 
-    dirs = FULL_DIRS if args.full else STANDARD_DIRS
-    for name in dirs:
+    for name in STANDARD_DIRS:
         (project_dir / name).mkdir(parents=True, exist_ok=True)
 
     skill_root = Path(__file__).resolve().parents[1]
     templates = skill_root / "templates"
 
-    if not args.full:
-        copy_file(templates / "paper_main.tex", project_dir / "paper" / "main.tex", args.overwrite)
-        copy_file(templates / "result_registry.csv", project_dir / "results" / "result_registry.csv", args.overwrite)
-        write_text(
-            project_dir / "problem" / "problem_statement.md",
-            "# Problem Statement\n\nPaste the official problem statement here.",
-            args.overwrite,
-        )
-        print(f"Created paper-first CUMCM workspace at: {project_dir}")
-        for name in dirs:
-            print(f"- {name}/")
-        print("Created paper/main.tex and results/result_registry.csv for paper-first work.")
-        return 0
-
-    copy_file(templates / "problem_parse.schema.json", project_dir / "problem" / "problem_parse.schema.json", args.overwrite)
-    copy_file(templates / "task_plan.schema.json", project_dir / "problem" / "task_plan.schema.json", args.overwrite)
-    copy_file(templates / "task_plan.json", project_dir / "problem" / "task_plan.json", args.overwrite)
-    copy_file(templates / "model_card.md", project_dir / "problem" / "model_card_template.md", args.overwrite)
-    copy_file(templates / "modeling_idea.md", project_dir / "modeling" / "modeling_idea_template.md", args.overwrite)
-    copy_file(templates / "assumptions_symbols.md", project_dir / "problem" / "assumptions.md", args.overwrite)
-    copy_file(templates / "result_registry.csv", project_dir / "results" / "result_registry.csv", args.overwrite)
-    copy_file(templates / "validation_report.md", project_dir / "results" / "validation_report.md", args.overwrite)
     copy_file(templates / "paper_main.tex", project_dir / "paper" / "main.tex", args.overwrite)
-    copy_file(templates / "refs.bib", project_dir / "paper" / "refs.bib", args.overwrite)
-    copy_file(templates / "appendix_code.md", project_dir / "appendix" / "code-template.md", args.overwrite)
-    copy_file(templates / "run_log.md", project_dir / "logs" / "run_log.md", args.overwrite)
-
-    write_text(project_dir / "logs" / "error_log.md", "# Error Log\n\nNo errors recorded yet.", args.overwrite)
     write_text(
         project_dir / "problem" / "problem_statement.md",
         "# Problem Statement\n\nPaste the official problem statement here.",
         args.overwrite,
     )
-    write_text(
-        project_dir / "project-structure.md",
-        "\n".join(
-            [
-                "# CUMCM Project Structure",
-                "",
-                "- `problem/`: problem statement, problem parse, assumptions, and task plan.",
-                "- `modeling/`: per-question modeling ideas written before solving.",
-                "- `data/raw/`: untouched attachments.",
-                "- `data/processed/`: cleaned or reconstructed data.",
-                "- `src/`: deterministic scripts, named by subquestion when possible.",
-                "- `notebooks/`: optional exploration notebooks.",
-                "- `results/`: result registry, validation report, and sensitivity outputs.",
-                "- `figures/`: code-generated paper figures and GPT-image roadmap outputs.",
-                "- `tables/`: generated result tables and data audit tables.",
-                "- `paper/`: single TeX paper entry `main.tex`, references, and compiled PDF.",
-                "- `appendix/`: appendix code and supplemental material.",
-                "- `logs/`: run log and error recovery log.",
-                "",
-                "All headline values must be registered in `results/result_registry.csv` before final writing.",
-            ]
-        ),
-        args.overwrite,
-    )
-
-    print(f"Created full CUMCM project skeleton at: {project_dir}")
-    for name in dirs:
+    print(f"Created CUMCM workspace at: {project_dir}")
+    for name in STANDARD_DIRS:
         print(f"- {name}/")
+    print("Created paper/main.tex for paper-first work.")
     return 0
 
 

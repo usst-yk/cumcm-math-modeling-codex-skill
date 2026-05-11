@@ -15,9 +15,9 @@ modeling, validation, or paper writing.
 | 4-16 h | Q1 baseline model, data cleaning, first runnable code | baseline result, cleaned data, first tables/figures |
 | 16-32 h | Q2/Q3 main model, optimization/prediction/evaluation solving | main scripts, result tables, preliminary validation |
 | 32-44 h | Validation, sensitivity, robustness, figure finalization | error/feasibility/sensitivity tables, final figures |
-| 44-60 h | TeX paper body, conclusion, appendix code | main `.tex`, captions, appendix run commands |
+| 44-60 h | TeX paper body, conclusion code | main `.tex`, captions run commands |
 | 60-64 h | Final abstract after subquestion results, figures, and validation are stable | traceable abstract draft |
-| 64-68 h | Judge-view review, consistency and traceability check | issue list, corrected numbers, result registry |
+| 64-68 h | Judge-view review, consistency and traceability check | issue list, corrected numbers, saved tables, figures, code outputs, and validation notes |
 | 68-72 h | Final PDF, code/data/figure packaging | compiled PDF, source code, tables, figures, final checklist |
 
 ## Full Workflow
@@ -51,7 +51,7 @@ modeling, validation, or paper writing.
    - Before coding each Qx, make a figure plan using `references/figure-plan.md`.
      Default to a GPT-image final model flowchart plus a result figure. Keep the
      flowchart prompt/spec in `modeling/` or `modeling/flowcharts/`.
-   - Use detailed modeling ideas and result registry for every solved question
+   - Use detailed modeling ideas and saved tables, figures, code outputs, and validation notes for every solved question
      whose numbers enter the paper. Use separate run logs mainly for full
      projects; this affects logging only, not modeling, validation, or paper
      writing.
@@ -88,7 +88,7 @@ modeling, validation, or paper writing.
    - Summarize every solved subquestion with method, headline result, and
      validation evidence.
    - Check abstract numbers against body, tables, figures, conclusion, and
-     result registry.
+     saved tables, figures, code outputs, and validation notes.
 
 11. Reviewer: review before handoff.
    - Run final artifact checks before handoff.
@@ -103,7 +103,7 @@ Standard single-question handoff:
 - One result table.
 - Usually two Chinese figures: final model flowchart and result figure.
 - Validation/sensitivity figure when needed.
-- `results/result_registry.csv` for headline values used in the paper.
+- `results/validation_report.md` for headline values used in the paper.
 - `paper/main.tex`.
 
 The handoff is paper-first and paper-complete: do not shorten analysis,
@@ -114,7 +114,7 @@ Full-project handoff:
 - Paper source and PDF when possible.
 - Main code and run command.
 - Data inventory and preprocessing notes.
-- Result registry.
+- saved tables, figures, code outputs, and validation notes.
 - Tables and figures with stable names.
 - Figure captions and appendix code.
 - Final score gate result.

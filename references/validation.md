@@ -24,7 +24,7 @@ When code fails:
    produce a reproducible blocker report;
 5. never write final numerical conclusions from failed code.
 
-Record failures in `logs/error_log.md`:
+Record failures in `results/validation_report.md`:
 
 ```markdown
 ## Error 001

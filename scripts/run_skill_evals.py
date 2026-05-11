@@ -126,7 +126,7 @@ def check_demo(issues: list[str]) -> None:
         "../single_question_minimal/modeling/q1_model_flow_prompt.md",
         "../single_question_minimal/figures/fig_q1_model_flow.png",
         "../single_question_minimal/figures/fig_q1_result.png",
-        "../single_question_minimal/results/result_registry.csv",
+        "../single_question_minimal/results/validation_report.md",
         "../single_question_minimal/paper/main.tex",
         "problem/problem_statement.md",
         "problem/task_plan.json",
@@ -134,7 +134,7 @@ def check_demo(issues: list[str]) -> None:
         "modeling/q2_modeling_idea.md",
         "modeling/q3_modeling_idea.md",
         "modeling/route_comparison.md",
-        "data/raw/station_demand.csv",
+        "data/station_demand.csv",
         "src/solve_demo.py",
         "tables/tab_q1_daily_forecast.csv",
         "tables/tab_q2_allocation.csv",
@@ -153,7 +153,6 @@ def check_demo(issues: list[str]) -> None:
         "figures/fig_q3_validation.png",
         "modeling/route_overview_prompt.md",
         "figures/fig_route_overview.png",
-        "results/result_registry.csv",
         "results/validation_report.md",
         "paper/main.tex",
     ]
@@ -180,18 +179,6 @@ def check_demo(issues: list[str]) -> None:
         ids = {item.get("id") for item in subquestions}
         if not {"Q1", "Q2", "Q3"}.issubset(ids):
             issues.append("demo task_plan.json should contain Q1, Q2, and Q3")
-
-    registry = DEMO / "results" / "result_registry.csv"
-    if registry.exists():
-        with registry.open(newline="", encoding="utf-8-sig") as handle:
-            rows = list(csv.DictReader(handle))
-        ids = {row.get("id") for row in rows}
-        if not {"R001", "R002", "R003"}.issubset(ids):
-            issues.append("demo result_registry.csv should contain R001-R003")
-        for row in rows:
-            source = row.get("source_file", "")
-            if source and not (DEMO / source).exists():
-                issues.append(f"registry source not found: {source}")
 
 
 def check_real_case_2025_a(issues: list[str]) -> None:
@@ -227,22 +214,21 @@ def check_real_case_2025_a(issues: list[str]) -> None:
         "tables/result3_benchmark.xlsx",
         "figures/fig_problem_overview_xy.png",
         "figures/fig_problem_question_scope.png",
-        "figures/fig_q1_model_schematic.png",
+        "figures/fig_q1_model_flow.png",
         "figures/fig_q1_distance_geometry.png",
         "figures/fig_q1_validation_margin.png",
-        "figures/fig_q2_model_schematic.png",
+        "figures/fig_q2_model_flow.png",
         "figures/fig_q2_optimized_distance_geometry.png",
         "figures/fig_q2_sensitivity.png",
-        "figures/fig_q3_model_schematic.png",
+        "figures/fig_q3_model_flow.png",
         "figures/fig_q3_result.png",
         "figures/fig_q3_validation.png",
-        "figures/fig_q4_model_schematic.png",
+        "figures/fig_q4_model_flow.png",
         "figures/fig_q4_result.png",
         "figures/fig_q4_validation.png",
-        "figures/fig_q5_model_schematic.png",
+        "figures/fig_q5_model_flow.png",
         "figures/fig_q5_result.png",
         "figures/fig_q5_validation.png",
-        "results/result_registry.csv",
         "results/validation_report.md",
         "results/validation_audit.md",
         "results/benchmark_findings.md",
@@ -258,7 +244,6 @@ def check_real_case_2025_a(issues: list[str]) -> None:
             issues,
         )
 
-    registry = REAL_CASE_2025_A / "results" / "result_registry.csv"
     task_plan = REAL_CASE_2025_A / "problem" / "task_plan.json"
     if task_plan.exists():
         score_task_plan_quality(
@@ -267,35 +252,12 @@ def check_real_case_2025_a(issues: list[str]) -> None:
             issues,
             min_score=11,
         )
-    if registry.exists():
-        with registry.open(newline="", encoding="utf-8-sig") as handle:
-            rows = list(csv.DictReader(handle))
-        ids = {row.get("id") for row in rows}
-        if "R001" not in ids:
-            issues.append("2025 A real case result_registry.csv should contain R001")
-        if "R002" not in ids:
-            issues.append("2025 A real case result_registry.csv should contain R002")
-        for expected_id in ("R003", "R004", "R005"):
-            if expected_id not in ids:
-                issues.append(f"2025 A real case result_registry.csv should contain {expected_id}")
-        values = {row.get("value") for row in rows}
-        if "1.405510" not in values:
-            issues.append("2025 A real case Q1 duration should stay traceable as 1.405510")
-        if "4.723893" not in values:
-            issues.append("2025 A real case Q2 duration should stay traceable as 4.723893")
-        if "4.740000" not in values:
-            issues.append("2025 A real case Q3 duration should stay traceable as 4.740000")
-        if "14.520000" not in values:
-            issues.append("2025 A real case Q4 duration should stay traceable as 14.520000")
-        if "M1=22.980000; M2=18.360000; M3=6.400000" not in values:
-            issues.append("2025 A real case Q5 durations should stay traceable")
-        solved = {row.get("subquestion", "").lower() for row in rows}
-        for question in sorted(q for q in solved if q.startswith("q")):
-            figures = list((REAL_CASE_2025_A / "figures").glob(f"fig_{question}_*.*"))
-            if len(figures) < 3:
-                issues.append(f"2025 A real case solved {question.upper()} should keep at least 3 figures")
-            if not any("schematic" in fig.name or "model_flow" in fig.name for fig in figures):
-                issues.append(f"2025 A real case solved {question.upper()} should include a model flowchart or schematic figure")
+    for qid in ("q1", "q2", "q3", "q4", "q5"):
+        figures = list((REAL_CASE_2025_A / "figures").glob(f"fig_{qid}_*.*"))
+        if len(figures) < 3:
+            issues.append(f"2025 A real case solved {qid.upper()} should keep at least 3 figures")
+        if not any("model_flow" in fig.name for fig in figures):
+            issues.append(f"2025 A real case solved {qid.upper()} should include a GPT-image model flowchart")
     check_full_paper_structure(REAL_CASE_2025_A, "2025 A benchmark paper", issues, min_chars=7000)
 
 
@@ -361,8 +323,8 @@ def check_real_case_huadong_a(issues: list[str]) -> None:
         "modeling/route_comparison.md",
         "modeling/q1_modeling_idea.md",
         "modeling/q2_modeling_idea.md",
-        "data/raw/benchmark_activities.csv",
-        "data/raw/realtime_wait_updates.csv",
+        "data/benchmark_activities.csv",
+        "data/realtime_wait_updates.csv",
         "src/plot_utils.py",
         "src/solve_routes.py",
         "tables/tab_q1_summary.csv",
@@ -372,13 +334,12 @@ def check_real_case_huadong_a(issues: list[str]) -> None:
         "tables/tab_q2_adjustment_summary.csv",
         "tables/tab_q2_adjusted_routes.csv",
         "figures/fig_problem_overview.png",
-        "figures/fig_q1_model_schematic.png",
+        "figures/fig_q1_model_flow.png",
         "figures/fig_q1_result.png",
         "figures/fig_q1_validation.png",
-        "figures/fig_q2_model_schematic.png",
+        "figures/fig_q2_model_flow.png",
         "figures/fig_q2_result.png",
         "figures/fig_q2_validation.png",
-        "results/result_registry.csv",
         "results/validation_report.md",
         "paper/main.tex",
     ]
@@ -417,15 +378,6 @@ def check_real_case_huadong_a(issues: list[str]) -> None:
         if changed != 6:
             issues.append("Huadong Cup A Q2 should keep 6 changed scenarios")
 
-    registry = REAL_CASE_HUADONG_A / "results" / "result_registry.csv"
-    if registry.exists():
-        with registry.open(newline="", encoding="utf-8-sig") as handle:
-            rows = list(csv.DictReader(handle))
-        values = {row.get("id"): row.get("value") for row in rows}
-        expected = {"R001": "16.74", "R002": "9", "R003": "19.67", "R004": "6"}
-        for key, value in expected.items():
-            if values.get(key) != value:
-                issues.append(f"Huadong Cup A registry {key} should stay traceable as {value}")
     check_full_paper_structure(REAL_CASE_HUADONG_A, "Huadong Cup A benchmark paper", issues, min_chars=7000)
 
 

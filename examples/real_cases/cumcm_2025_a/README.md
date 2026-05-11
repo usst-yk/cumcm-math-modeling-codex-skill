@@ -11,7 +11,7 @@
 - 生成题面解析和任务计划；
 - 对附件模板做数据审计；
 - 用统一判据跑通 Q1-Q5；
-- 生成中文图表、结果注册表、验证报告和完整论文；
+- 生成中文图表、验证说明、验证报告和完整论文；
 - 反过来发现 skill 在真实建模题上的不足。
 
 ## 已放入的内容
@@ -26,11 +26,10 @@
 | `problem/task_plan.md` | 任务计划的人类可读版本。 |
 | `modeling/qx_modeling_idea.md` | 每问建模思路，先于代码求解。 |
 | `modeling/route_comparison.md` | 三条建模路线比较和主路线选择。 |
-| `data/raw/result1.xlsx` | 问题 3 的结果模板附件。 |
-| `data/raw/result2.xlsx` | 问题 4 的结果模板附件。 |
-| `data/raw/result3.xlsx` | 问题 5 的结果模板附件。 |
-| `tables/data_profile/` | 附件模板的数据审计输出。 |
-| `results/result_registry.csv` | Q1-Q5 核心数值和来源登记表。 |
+| `data/result1.xlsx` | 问题 3 的结果模板附件。 |
+| `data/result2.xlsx` | 问题 4 的结果模板附件。 |
+| `data/result3.xlsx` | 问题 5 的结果模板附件。 |
+| `tables/` | 附件模板的数据审计输出。 |
 | `results/validation_report.md` | Q1-Q5 验证分析记录。 |
 | `results/benchmark_findings.md` | 完整 benchmark 暴露出的不足和后续优化方向。 |
 | `src/make_problem_figures.py` | 题面背景和子问题范围的中文示意图脚本。 |
@@ -53,19 +52,19 @@
 | `tables/result3_benchmark.xlsx` | 问题 5 附件格式 benchmark 输出。 |
 | `figures/fig_problem_overview_xy.png` | 题面坐标系、导弹、无人机和目标平面示意图。 |
 | `figures/fig_problem_question_scope.png` | 五个子问题的资源范围和输出要求示意图。 |
-| `figures/fig_q1_model_schematic.png` | 问题 1 时序和遮蔽判定示意图。 |
+| `figures/fig_q1_model_flow.png` | 问题 1 时序和遮蔽判定示意图。 |
 | `figures/fig_q1_distance_geometry.png` | 问题 1 距离阈值和侧视几何图。 |
 | `figures/fig_q1_validation_margin.png` | 问题 1 距离裕度和投影参数验证图。 |
-| `figures/fig_q2_model_schematic.png` | 问题 2 优化变量和投放时序示意图。 |
+| `figures/fig_q2_model_flow.png` | 问题 2 优化变量和投放时序示意图。 |
 | `figures/fig_q2_optimized_distance_geometry.png` | 问题 2 距离阈值和侧视几何图。 |
 | `figures/fig_q2_sensitivity.png` | 问题 2 推荐策略的局部敏感性图。 |
-| `figures/fig_q3_model_schematic.png` | 问题 3 三弹协同示意图。 |
+| `figures/fig_q3_model_flow.png` | 问题 3 三弹协同示意图。 |
 | `figures/fig_q3_result.png` | 问题 3 遮蔽时间轴。 |
 | `figures/fig_q3_validation.png` | 问题 3 速度和起爆高度检查图。 |
-| `figures/fig_q4_model_schematic.png` | 问题 4 三机协同示意图。 |
+| `figures/fig_q4_model_flow.png` | 问题 4 三机协同示意图。 |
 | `figures/fig_q4_result.png` | 问题 4 遮蔽时间轴。 |
 | `figures/fig_q4_validation.png` | 问题 4 速度和起爆高度检查图。 |
-| `figures/fig_q5_model_schematic.png` | 问题 5 多机多弹协同示意图。 |
+| `figures/fig_q5_model_flow.png` | 问题 5 多机多弹协同示意图。 |
 | `figures/fig_q5_result.png` | 问题 5 多导弹遮蔽时间轴。 |
 | `figures/fig_q5_validation.png` | 问题 5 速度和起爆高度检查图。 |
 | `results/validation_audit.md` | 产物一致性自动检查结果。 |
@@ -88,7 +87,7 @@
 如果要重新跑完整 benchmark，可以说：
 
 ```text
-[$cumcm-math-modeling] 请重新运行 examples/real_cases/cumcm_2025_a 的 Q1-Q5 benchmark，更新结果注册表、验证报告和论文。
+[$cumcm-math-modeling] 请重新运行 examples/real_cases/cumcm_2025_a 的 Q1-Q5 benchmark，更新验证说明、验证报告和论文。
 ```
 
 本案例的图默认使用中文标题、坐标轴和图例。正式做题时，只要几何关系、时间过程、优化变量、空间布局或任务拆解能用图讲清楚，就应优先生成中文示意图，再写入论文图注。已经求解的每一问至少保留“模型/题意示意图 + 核心结果图”，涉及优化、验证或敏感性分析时再补一张检查图。
