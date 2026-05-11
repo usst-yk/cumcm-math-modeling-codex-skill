@@ -77,6 +77,12 @@ and reviewer.
 - Flowcharts and technical roadmaps are GPT-image paper figures.
 - Paper figures default to the bundled Chinese font assets under `assets/fonts/`.
 - Do not write final numbers without a saved, traceable source.
+- Final paper-facing numeric display must use at most two decimal places in
+  `paper/main.tex`, final tables embedded in the paper, and output figures
+  intended for the paper. Intermediate result files, source tables, logs, and
+  validation records may keep higher precision for traceability, but the final
+  prose, captions, tables, and visible figure labels must not show more than two
+  decimal places.
 - Do not let `modeling/qx_modeling_idea.md` collapse into a formula list; every
   solved question needs a section such as “逐步建模推导” explaining how the
   model is built from the problem facts, in prose a beginner can follow.
