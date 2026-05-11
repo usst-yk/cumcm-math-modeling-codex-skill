@@ -100,6 +100,58 @@ def infer_minimum_validation(task_type: str) -> list[str]:
     return validation.get(task_type, ["compare with a baseline", "state limitations and uncertainty"])
 
 
+def default_method_trials(task_type: str) -> list[dict[str, str]]:
+    return [
+        {
+            "method": "baseline",
+            "assumption": "simple hand-checkable route",
+            "metric": "problem-specific error, feasibility, or stability metric",
+            "result": "",
+            "failure": "",
+            "selected_reason": "",
+        },
+        {
+            "method": "primary",
+            "assumption": f"main {task_type or 'unknown'} route after literature and data checks",
+            "metric": "problem-specific error, feasibility, or stability metric",
+            "result": "",
+            "failure": "",
+            "selected_reason": "",
+        },
+        {
+            "method": "fallback",
+            "assumption": "simpler route if the primary route fails validation",
+            "metric": "minimum acceptable validation",
+            "result": "",
+            "failure": "",
+            "selected_reason": "",
+        },
+    ]
+
+
+def default_style_policy() -> dict:
+    return {
+        "forbidden_body_terms": [
+            "skill",
+            "benchmark",
+            "registry",
+            "verified",
+            "script",
+            "脚本",
+            "代码执行准确性",
+            "回归测试",
+            "本测试案例",
+            "本案例",
+            "mini benchmark",
+            "src/",
+            "results/",
+            "tables/",
+            ".csv",
+        ],
+        "allowed_disclosures": "Contest-paper main text hides internal workflow; reproducibility details go to appendix.",
+    }
+
+
 def infer_figures(qid: str, task_type: str) -> list[str]:
     qid_lower = qid.lower()
     figures = [
@@ -128,12 +180,24 @@ def build_empty_plan(problem_text: str, question_count: int, problem_id: str) ->
                 "tables_needed": [f"tab_q{idx}_result.csv"],
                 **infer_routes("unknown"),
                 "minimum_validation": infer_minimum_validation("unknown"),
+                "method_trials": default_method_trials("unknown"),
                 "status": "draft",
             }
         )
     return {
         "contest": "CUMCM",
         "problem_id": problem_id,
+        "deliverable_type": "contest_paper",
+        "paper_genre": "contest_paper",
+        "literature_gate": {
+            "cutoff": "",
+            "sources_checked": [],
+            "used_facts": [],
+            "route_impact": "",
+            "unavailable_reason": "",
+        },
+        "method_trials": default_method_trials("unknown"),
+        "paper_style_policy": default_style_policy(),
         "question_count": question_count,
         "subquestions": subquestions,
         "global_assumptions": [],
@@ -161,6 +225,7 @@ def build_plan_from_parse(parsed: dict, problem_id: str) -> dict:
             "tables_needed": [f"tab_{qid.lower()}_result.csv"],
             **infer_routes(task_type),
             "minimum_validation": infer_minimum_validation(task_type),
+            "method_trials": default_method_trials(task_type),
             "status": "draft",
             "parse_source": "problem_parse.json",
             "parse_warnings": item.get("warnings", []),
@@ -178,6 +243,17 @@ def build_plan_from_parse(parsed: dict, problem_id: str) -> dict:
     return {
         "contest": parsed.get("contest", "CUMCM"),
         "problem_id": problem_id or parsed.get("problem_id", ""),
+        "deliverable_type": "contest_paper",
+        "paper_genre": "contest_paper",
+        "literature_gate": {
+            "cutoff": "",
+            "sources_checked": [],
+            "used_facts": [],
+            "route_impact": "",
+            "unavailable_reason": "",
+        },
+        "method_trials": default_method_trials("mixed"),
+        "paper_style_policy": default_style_policy(),
         "question_count": len(subquestions),
         "subquestions": subquestions,
         "global_assumptions": [],

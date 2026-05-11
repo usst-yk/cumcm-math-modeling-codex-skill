@@ -1,6 +1,8 @@
 # Stage Gates
 
-Use these gates for full-problem solving and substantial single-question work. If a gate fails, either fix the blocker or record it in `logs/error_log.md` / `results/validation_report.md` before proceeding.
+Use these gates for full-problem solving and substantial single-question work.
+If a gate fails, do not enter the next stage. Either return to the owner stage
+and pass a recheck, or explicitly block/downgrade scope before proceeding.
 
 For lightweight single-question work, apply the same checks mentally but do not
 create empty templates or logs just to satisfy a gate. Save only the necessary
@@ -19,6 +21,36 @@ one of:
 
 Use `agents/supervisor.md` for the decision. A supervisor finding must name:
 owner, issue, expected fix, target rubric item, and evidence needed for recheck.
+Use this schema for progress and notes:
+
+- `gate_id`
+- `decision`: `pass`, `revise`, or `block`
+- `owner`
+- `issue`
+- `expected_fix`
+- `target_rubric_item`
+- `evidence_needed`
+- `evidence`
+- `rework_round`
+- `attempt`
+
+## Rework Loop Contract
+
+For supervised, first-prize-level, or long-running projects, a gate is a closed
+loop:
+
+1. `gate_start`: record the current stage, owner, expected evidence, and attempt.
+2. `revise` or `block`: record the failing rubric item, owner role, retry reason,
+   and exact artifacts that must change.
+3. `rework_done`: regenerate the relevant code, tables, figures, paper sections,
+   or registry rows.
+4. `recheck`: rerun the gate and record `done`, another `revise`, or explicit
+   scope downgrade.
+
+Write each step to `logs/progress.jsonl` through `scripts/update_progress.py`.
+Required event fields for failed gates are `event_type`, `owner`, `next_action`,
+`retry_reason`, and `evidence`. If the progress dashboard does not show the
+failure and recheck, the gate is incomplete even if files were edited.
 
 ## Stage 0 -> Stage 1: Problem Parser To Coordinator
 
@@ -35,6 +67,8 @@ Do not start modeling until:
 - all subquestions are mapped to input -> model object -> output -> validation;
 - hard constraints, units, time/spatial scale, and required attachments are listed;
 - `problem/task_plan.json` exists or an equivalent task table has been written;
+- the deliverable genre is set: `contest_paper`, `benchmark_report`,
+  `route_review`, or `single_section`;
 - assumptions and ambiguity points are separated from facts.
 
 ## Stage 1 -> Stage 2.5: Coordinator To Background Researcher
@@ -50,6 +84,8 @@ main route until:
 - transferable mechanisms, common failure modes, validation clues, and figure
   ideas are listed;
 - unsafe borrowed ideas are marked as reference only, not copied as claims.
+- for current or recent official contest problems, a cutoff date is recorded and
+  post-problem writeups are excluded from model evidence.
 
 For urgent single-question work, keep this as a short benchmark note instead of
 creating a file.
@@ -71,6 +107,8 @@ Do not enter Solver until:
 
 - exactly three routes have been compared;
 - at least one baseline or simplified analytical route is defined;
+- method trials are recorded when possible: baseline, primary, fallback,
+  metric/result/failure, and the selected reason;
 - every selected model has variables, objective/evaluation criterion, constraints, input data, output tables/figures, and validation plan;
 - every selected model explains the derivation and solution procedure step by
   step, not only the final formulas;
@@ -115,6 +153,9 @@ Do not write final paper text until:
 - sensitivity analysis is based on actual perturbation or a reproducible perturbation plan.
 - validation failures that overturn the conclusion are sent back to Modeler or
   Solver, not softened into prose.
+- a scientific storyline exists for any `contest_paper`: research object,
+  core contradiction, observed quantity, target quantity, model route,
+  validation logic, and paper selling point.
 
 ## Stage 6 -> Stage 7: Writer To Paper Assembler
 
@@ -136,6 +177,9 @@ Do not write the final abstract or enter final review until:
   sentence and ties that contribution to a figure, table, or validation result;
 - paper prose passes the anti-template writing rules in
   `references/paper-writing.md`.
+- `contest_paper` main text does not expose skill, benchmark/test wording,
+  registry status, raw script paths, CSV filenames, 回归测试, 本测试案例, or
+  代码执行准确性.
 
 ## Stage 7 -> Stage 8: Paper Assembler To Abstract Writer
 
@@ -146,6 +190,8 @@ Do not write the final abstract until:
   artifacts;
 - `scripts/validate_results.py --mode full` has no blocking paper-structure or
   traceability findings when project artifacts exist.
+- `scripts/lint_paper_style.py --paper paper/main.tex --genre contest_paper`
+  has no P1 findings before formal PDF delivery.
 
 ## Stage 8 -> Stage 9: Abstract Writer To Reviewer
 

@@ -1,0 +1,73 @@
+{
+  "problem_id": "cumcm_2025_c",
+  "question_count": 3,
+  "attachments": [
+    "data/raw/nipt_male_synthetic.csv",
+    "data/raw/nipt_female_synthetic.csv"
+  ],
+  "units": [
+    "孕周",
+    "BMI",
+    "Y 染色体浓度百分比",
+    "Z 值"
+  ],
+  "time_ranges": [
+    "10-24 周"
+  ],
+  "risk_words": [
+    "时点",
+    "分组",
+    "异常判定",
+    "阈值",
+    "敏感性"
+  ],
+  "subquestions": [
+    {
+      "id": "Q1",
+      "task_type": "prediction",
+      "required_output": [
+        "Y 浓度模型",
+        "达标阈值判断"
+      ],
+      "input_data": [
+        "male synthetic NIPT records"
+      ],
+      "decision_object": "Y concentration relation",
+      "constraints": [
+        "threshold = 4%",
+        "features must be clinically interpretable"
+      ]
+    },
+    {
+      "id": "Q2",
+      "task_type": "optimization",
+      "required_output": [
+        "BMI-group timing recommendation"
+      ],
+      "input_data": [
+        "Q1 model",
+        "male synthetic NIPT records"
+      ],
+      "decision_object": "recommended gestational week by BMI group",
+      "constraints": [
+        "balance early failure and late clinical risk"
+      ]
+    },
+    {
+      "id": "Q3",
+      "task_type": "classification",
+      "required_output": [
+        "abnormality risk score",
+        "threshold",
+        "metrics"
+      ],
+      "input_data": [
+        "female synthetic NIPT records"
+      ],
+      "decision_object": "abnormality decision",
+      "constraints": [
+        "screening threshold should favor sensitivity"
+      ]
+    }
+  ]
+}

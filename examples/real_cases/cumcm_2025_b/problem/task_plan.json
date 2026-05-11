@@ -1,6 +1,91 @@
 {
   "contest": "CUMCM",
   "problem_id": "cumcm_2025_b",
+  "deliverable_type": "benchmark_report",
+  "paper_genre": "contest_paper",
+  "literature_gate": {
+    "cutoff": "2025-09-04 18:00 Asia/Shanghai",
+    "sources_checked": [
+      {
+        "source": "GB/T 42905-2023 碳化硅外延层厚度的测试 红外反射法",
+        "use": "SiC infrared reflectance thickness standard",
+        "status": "pre-release source"
+      },
+      {
+        "source": "T/IAWBS 007-2018 4H 碳化硅同质外延层厚度的红外反射测量方法",
+        "use": "industry method, peak picking and FTIR requirements",
+        "status": "pre-release source"
+      },
+      {
+        "source": "Li et al. 2010, Chinese Physics Letters",
+        "use": "SiC thickness determination by infrared reflectance",
+        "status": "pre-release source"
+      },
+      {
+        "source": "Quinten 2019, FFT optical layer thickness determination",
+        "use": "FFT sampling and leakage cautions",
+        "status": "pre-release source"
+      }
+    ],
+    "used_facts": [
+      {
+        "fact": "IR reflectance thickness inversion depends on interference fringe spacing/frequency and angle correction",
+        "use": "Q1 model"
+      },
+      {
+        "fact": "FFT needs evenly sampled spectral domain and can suffer leakage/resolution error",
+        "use": "Q2 method selection"
+      }
+    ],
+    "route_impact": "Use peak spacing and FFT as baselines, then select whole-spectrum main-frequency fitting for the final estimate.",
+    "unavailable_reason": ""
+  },
+  "method_trials": [
+    {
+      "method": "peak_spacing",
+      "assumption": "adjacent extrema spacing is stable enough",
+      "metric": "thickness agreement with reference and angle consistency",
+      "result": "near 8 um but more sensitive to peak picking",
+      "failure": "local perturbation can move extrema",
+      "selected_reason": "baseline only"
+    },
+    {
+      "method": "fft",
+      "assumption": "dominant frequency is captured by the discrete spectrum",
+      "metric": "frequency range and thickness scale",
+      "result": "locates the correct scale but is limited by grid resolution",
+      "failure": "spectral leakage and frequency-bin quantization",
+      "selected_reason": "initial range check"
+    },
+    {
+      "method": "least_squares_main_frequency",
+      "assumption": "one dominant sinusoidal component after slow background handling",
+      "metric": "residual and two-angle agreement",
+      "result": "max_abs_error <= 0.050 um",
+      "failure": "requires a sensible search range",
+      "selected_reason": "final estimate"
+    }
+  ],
+  "paper_style_policy": {
+    "forbidden_body_terms": [
+      "skill",
+      "benchmark",
+      "registry",
+      "verified",
+      "script",
+      "脚本",
+      "代码执行准确性",
+      "回归测试",
+      "本测试案例",
+      "本案例",
+      "mini benchmark",
+      "src/",
+      "results/",
+      "tables/",
+      ".csv"
+    ],
+    "allowed_disclosures": "Internal reproducibility details stay in appendix or project artifacts; the PDF main text uses contest-paper prose."
+  },
   "benchmark_sources": [
     {
       "source": "https://www.mcm.edu.cn/html_cn/node/03c91a444e62eee81a3740fa97a461a6.html",
@@ -107,11 +192,13 @@
       "figures_needed": [
         "fig_q2_model_schematic.png",
         "fig_q2_result.png",
-        "fig_q2_validation.png"
+        "fig_q2_validation.png",
+        "fig_sensitivity.png"
       ],
       "tables_needed": [
         "tab_q2_thickness.csv",
-        "tab_q2_reliability.csv"
+        "tab_q2_reliability.csv",
+        "tab_sensitivity.csv"
       ],
       "baseline_route": "Use peak-spacing thickness as a transparent baseline.",
       "primary_route": "Use least-squares spectral-frequency fitting.",

@@ -1,6 +1,45 @@
 {
   "contest": "CUMCM",
   "problem_id": "",
+  "deliverable_type": "contest_paper",
+  "paper_genre": "contest_paper",
+  "literature_gate": {
+    "cutoff": "",
+    "sources_checked": [],
+    "used_facts": [],
+    "route_impact": "",
+    "unavailable_reason": ""
+  },
+  "method_trials": [
+    {
+      "method": "baseline",
+      "assumption": "simple hand-checkable route",
+      "metric": "correctness, interpretability, and validation fit",
+      "result": "",
+      "failure": "",
+      "selected_reason": ""
+    }
+  ],
+  "paper_style_policy": {
+    "forbidden_body_terms": [
+      "skill",
+      "benchmark",
+      "registry",
+      "verified",
+      "script",
+      "脚本",
+      "代码执行准确性",
+      "回归测试",
+      "本测试案例",
+      "本案例",
+      "mini benchmark",
+      "src/",
+      "results/",
+      "tables/",
+      ".csv"
+    ],
+    "allowed_disclosures": "Contest-paper main text hides internal workflow; reproducibility details go to appendix."
+  },
   "benchmark_sources": [
     {
       "source": "official or nearby benchmark case",
@@ -41,6 +80,32 @@
         "compare with a baseline",
         "state limitations and uncertainty"
       ],
+      "method_trials": [
+        {
+          "method": "baseline",
+          "assumption": "simple hand-checkable route",
+          "metric": "problem-specific error, feasibility, or stability metric",
+          "result": "",
+          "failure": "",
+          "selected_reason": ""
+        },
+        {
+          "method": "primary",
+          "assumption": "main contest route after literature and data checks",
+          "metric": "problem-specific error, feasibility, or stability metric",
+          "result": "",
+          "failure": "",
+          "selected_reason": ""
+        },
+        {
+          "method": "fallback",
+          "assumption": "simpler route if the primary route fails validation",
+          "metric": "minimum acceptable validation",
+          "result": "",
+          "failure": "",
+          "selected_reason": ""
+        }
+      ],
       "benchmark_sources": [],
       "rubric_targets": [
         "problem_coverage",
@@ -70,5 +135,20 @@
     "state": "draft",
     "owner": "",
     "next_action": "confirm benchmark sources and rubric targets before final route freeze"
+  },
+  "supervision_loop": {
+    "required": false,
+    "max_attempts": 3,
+    "current_attempt": 1,
+    "gate_status": "not_started",
+    "progress_required_fields": [
+      "gate_id",
+      "decision",
+      "owner",
+      "issue",
+      "expected_fix",
+      "evidence_needed"
+    ],
+    "last_gate": {}
   }
 }

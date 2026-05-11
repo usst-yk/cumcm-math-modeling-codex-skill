@@ -10,8 +10,11 @@ needed.
 from __future__ import annotations
 
 import argparse
+import json
 import shutil
 from pathlib import Path
+
+from update_progress import now_iso, open_file, render_html
 
 
 STANDARD_DIRS = [
@@ -61,12 +64,42 @@ def write_text(path: Path, text: str, overwrite: bool) -> None:
     path.write_text(text.rstrip() + "\n", encoding="utf-8")
 
 
+def initialize_progress(project_dir: Path, overwrite: bool) -> None:
+    log_path = project_dir / "logs" / "progress.jsonl"
+    html_path = project_dir / "progress.html"
+    event = {
+        "time": now_iso(),
+        "stage": "init",
+        "current_stage": "init",
+        "status": "working",
+        "worker": "init_cumcm_project.py",
+        "message": "Full CUMCM project skeleton initialization started.",
+        "files": [],
+        "generated_files": ["logs/progress.jsonl", "progress.html"],
+        "blocker": "",
+        "retry_reason": "",
+        "score": "",
+        "rubric_status": "not reviewed",
+    }
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    mode = "w" if overwrite or not log_path.exists() else "a"
+    with log_path.open(mode, encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(event, ensure_ascii=False) + "\n")
+    events = [event] if mode == "w" else []
+    if not events:
+        from update_progress import read_jsonl
+
+        events = read_jsonl(log_path)
+    render_html(events, html_path)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Create a CUMCM math modeling project skeleton.")
     parser.add_argument("project_dir", nargs="?", help="Directory to create or update.")
     parser.add_argument("--name", help="Project directory name, e.g. cumcm_2026_A.")
     parser.add_argument("--full", action="store_true", help="Copy full templates and logs.")
     parser.add_argument("--overwrite", action="store_true", help="Overwrite existing template files.")
+    parser.add_argument("--open", action="store_true", help="Open progress.html after full project initialization.")
     args = parser.parse_args()
 
     if not args.project_dir and not args.name:
@@ -95,6 +128,8 @@ def main() -> int:
             print(f"- {name}/")
         print("Created paper/main.tex and results/result_registry.csv for paper-first work.")
         return 0
+
+    initialize_progress(project_dir, args.overwrite)
 
     copy_file(templates / "problem_parse.schema.json", project_dir / "problem" / "problem_parse.schema.json", args.overwrite)
     copy_file(templates / "task_plan.schema.json", project_dir / "problem" / "task_plan.schema.json", args.overwrite)
@@ -148,6 +183,10 @@ def main() -> int:
     print(f"Created full CUMCM project skeleton at: {project_dir}")
     for name in dirs:
         print(f"- {name}/")
+    print("- logs/progress.jsonl")
+    print("- progress.html")
+    if args.open:
+        open_file(project_dir / "progress.html")
     return 0
 
 

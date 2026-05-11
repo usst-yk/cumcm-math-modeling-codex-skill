@@ -1,15 +1,12 @@
-# Validation Report
+# Thickness validation summary
 
-This benchmark uses synthetic spectra with a known thickness of `8.000000 um`.
+- reference thickness: 8.000000 um
+- maximum absolute error: 0.000082 um
+- two-angle spread: 0.000131 um
+- tolerance: 0.050000 um
+- status: pass
 
-| Item | Evidence | Result | Status |
-| --- | --- | --- | --- |
-| sic_10deg thickness error | tables/tab_q2_thickness.csv | 0.000050 um <= 0.050000 um | pass |
-| sic_15deg thickness error | tables/tab_q2_thickness.csv | 0.000082 um <= 0.050000 um | pass |
-| two-angle consistency | tables/tab_q2_reliability.csv | difference=0.000131 um | pass |
-
-Limitations:
-
-- This case checks execution accuracy on a known synthetic spectrum.
-- It does not claim to reproduce the official 2025 B hidden attachments.
-- The refractive index is fixed to keep the regression test deterministic.
+| sample | angle_deg | estimate_um | abs_error_um | peak_um | fft_um |
+|---|---:|---:|---:|---:|---:|
+| sic_10deg | 10.0 | 7.999950 | 0.000050 | 7.997677 | 7.858766 |
+| sic_15deg | 15.0 | 8.000082 | 0.000082 | 7.994296 | 7.881224 |

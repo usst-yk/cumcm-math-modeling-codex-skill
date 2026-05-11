@@ -23,10 +23,19 @@ Responsibilities:
 
 Required outputs:
 
-- stage status: ready, draft, blocked, or not needed;
+- stage decision: `pass`, `revise`, or `block`;
 - blocker list with owner role and required fix;
 - evidence map for headline conclusions;
 - final handoff notes before Writer, Abstract Writer, or Reviewer proceeds.
+- progress event fields for every gate decision: `event_type`, `owner`,
+  `next_action`, `retry_reason`, and `evidence`.
+
+Closed-loop rule:
+
+If a stage is marked `revise` or `block`, the supervisor must require a
+recheck after the owner regenerates the affected artifacts. Do not count the
+gate as passed until the progress dashboard contains both the failed decision
+and a later recheck event with `done`, or an explicit scope downgrade.
 
 Review questions:
 

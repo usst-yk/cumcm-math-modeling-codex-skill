@@ -1,0 +1,277 @@
+# Task Plan
+
+{
+  "contest": "CUMCM",
+  "problem_id": "cumcm_2025_c",
+  "deliverable_type": "contest_paper",
+  "paper_genre": "contest_paper",
+  "literature_gate": {
+    "cutoff": "2025-09-04 18:00 Asia/Shanghai",
+    "sources_checked": [
+      {
+        "source": "2025 全国大学生数学建模竞赛 C 题讲评：NIPT 的时点选择与胎儿的异常判定",
+        "use": "confirm problem topic and review perspective",
+        "status": "official post-contest review, used only as retrospective benchmark"
+      }
+    ],
+    "used_facts": [
+      {
+        "fact": "C problem concerns NIPT timing and fetal abnormality decision",
+        "use": "synthetic case design"
+      }
+    ],
+    "route_impact": "Use interpretable regression, grouped timing optimization, and classification validation.",
+    "unavailable_reason": ""
+  },
+  "method_trials": [
+    {
+      "method": "linear_y_model",
+      "assumption": "Y concentration grows approximately linearly in the operating window",
+      "metric": "R2 and MAE",
+      "result": "selected for interpretability",
+      "failure": "cannot capture nonlinear clinical detail",
+      "selected_reason": "transparent enough for a skill regression case"
+    },
+    {
+      "method": "risk_grid_search",
+      "assumption": "BMI group shares a recommendation window",
+      "metric": "risk score and unqualified rate",
+      "result": "selected for Q2",
+      "failure": "sensitive to threshold and late-risk weight",
+      "selected_reason": "easy to supervise and validate"
+    },
+    {
+      "method": "logistic_classifier",
+      "assumption": "chromosome Z-value features summarize abnormality risk",
+      "metric": "AUC, sensitivity, specificity",
+      "result": "selected for Q3",
+      "failure": "requires threshold tuning",
+      "selected_reason": "classification metrics are directly auditable"
+    }
+  ],
+  "paper_style_policy": {
+    "forbidden_body_terms": [
+      "skill",
+      "benchmark",
+      "registry",
+      "verified",
+      "script",
+      "脚本",
+      ".csv",
+      "回归测试",
+      "本案例"
+    ],
+    "allowed_disclosures": "Internal workflow details stay in README/progress; paper main text stays contest-style."
+  },
+  "benchmark_sources": [
+    {
+      "source": "https://dxs.moe.gov.cn/zx/a/hd_sxjm_sxjmstjp_2025sxjmstjp/251202/2025781.shtml",
+      "use": "official review title and topic confirmation",
+      "status": "checked"
+    }
+  ],
+  "rubric_targets": [
+    {
+      "criterion": "traceability",
+      "target": "all headline values trace to tables and registry",
+      "evidence": "results/result_registry.csv"
+    },
+    {
+      "criterion": "supervised_rework",
+      "target": "progress log shows revise -> rework -> pass",
+      "evidence": "logs/progress.jsonl"
+    }
+  ],
+  "question_count": 3,
+  "subquestions": [
+    {
+      "id": "Q1",
+      "task_type": "prediction",
+      "required_output": [
+        "fit Y concentration model",
+        "estimate threshold relation"
+      ],
+      "input_data": [
+        "data/raw/nipt_male_synthetic.csv"
+      ],
+      "decision_object": "Y concentration",
+      "constraints": [
+        "Y threshold = 4%",
+        "interpretable model"
+      ],
+      "validation": [
+        "R2/MAE",
+        "residual plot"
+      ],
+      "figures_needed": [
+        "fig_q1_model_schematic.png",
+        "fig_q1_result.png",
+        "fig_q1_validation.png"
+      ],
+      "tables_needed": [
+        "tab_q1_model_coefficients.csv",
+        "tab_q1_fit_metrics.csv"
+      ],
+      "baseline_route": "week-only linear fit",
+      "primary_route": "week, BMI, age, and GC linear model",
+      "fallback_route": "BMI-stratified median threshold week",
+      "minimum_validation": [
+        "baseline comparison",
+        "residual check"
+      ],
+      "rubric_targets": [
+        "traceability",
+        "validation"
+      ],
+      "selling_points": [
+        {
+          "claim": "阈值时点可由可解释模型反推",
+          "evidence": "fig_q1_result.png",
+          "validation": "R2/MAE"
+        }
+      ],
+      "revision_status": {
+        "state": "verified",
+        "owner": "solver",
+        "next_action": "none"
+      },
+      "status": "verified"
+    },
+    {
+      "id": "Q2",
+      "task_type": "optimization",
+      "required_output": [
+        "BMI-group timing recommendation",
+        "sensitivity analysis"
+      ],
+      "input_data": [
+        "data/raw/nipt_male_synthetic.csv",
+        "Q1 model"
+      ],
+      "decision_object": "recommended week",
+      "constraints": [
+        "early unqualified risk",
+        "late risk"
+      ],
+      "validation": [
+        "risk score",
+        "threshold sensitivity"
+      ],
+      "figures_needed": [
+        "fig_q2_model_schematic.png",
+        "fig_q2_result.png",
+        "fig_q2_sensitivity.png"
+      ],
+      "tables_needed": [
+        "tab_q2_timing.csv",
+        "tab_q2_sensitivity.csv"
+      ],
+      "baseline_route": "same week for all BMI",
+      "primary_route": "BMI-group risk minimization",
+      "fallback_route": "earliest-week percentile by group",
+      "minimum_validation": [
+        "group risk comparison",
+        "threshold perturbation"
+      ],
+      "rubric_targets": [
+        "optimization",
+        "supervised_rework"
+      ],
+      "selling_points": [
+        {
+          "claim": "分组时点同时呈现风险和敏感性",
+          "evidence": "fig_q2_sensitivity.png",
+          "validation": "threshold perturbation"
+        }
+      ],
+      "revision_status": {
+        "state": "verified",
+        "owner": "solver",
+        "next_action": "none"
+      },
+      "status": "verified"
+    },
+    {
+      "id": "Q3",
+      "task_type": "classification",
+      "required_output": [
+        "abnormality classifier",
+        "metrics"
+      ],
+      "input_data": [
+        "data/raw/nipt_female_synthetic.csv"
+      ],
+      "decision_object": "abnormality risk",
+      "constraints": [
+        "screening threshold favors sensitivity"
+      ],
+      "validation": [
+        "ROC/AUC",
+        "confusion matrix"
+      ],
+      "figures_needed": [
+        "fig_q3_model_schematic.png",
+        "fig_q3_result.png",
+        "fig_q3_validation.png"
+      ],
+      "tables_needed": [
+        "tab_q3_classification.csv"
+      ],
+      "baseline_route": "max Z-score threshold",
+      "primary_route": "logistic risk score",
+      "fallback_route": "rule-based high-risk flag",
+      "minimum_validation": [
+        "AUC",
+        "confusion matrix"
+      ],
+      "rubric_targets": [
+        "classification",
+        "validation"
+      ],
+      "selling_points": [
+        {
+          "claim": "异常判定从单指标阈值扩展到多指标风险评分",
+          "evidence": "fig_q3_result.png",
+          "validation": "AUC and sensitivity"
+        }
+      ],
+      "revision_status": {
+        "state": "verified",
+        "owner": "solver",
+        "next_action": "none"
+      },
+      "status": "verified"
+    }
+  ],
+  "global_assumptions": [
+    "Synthetic data are used to test workflow and reproducibility.",
+    "Clinical claims are not made from this controlled dataset."
+  ],
+  "risk_points": [
+    "Official attachments are not redistributed.",
+    "Synthetic validation does not imply medical performance."
+  ],
+  "revision_status": {
+    "state": "verified",
+    "owner": "supervisor",
+    "next_action": "final audit"
+  },
+  "supervision_loop": {
+    "required": true,
+    "max_attempts": 3,
+    "current_attempt": 2,
+    "gate_status": "passed_after_rework",
+    "progress_required_fields": [
+      "gate_id",
+      "decision",
+      "owner",
+      "issue",
+      "expected_fix",
+      "evidence_needed"
+    ],
+    "last_gate": {
+      "gate_id": "G5-validation",
+      "decision": "pass"
+    }
+  }
+}

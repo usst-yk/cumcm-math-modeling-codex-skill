@@ -78,6 +78,26 @@ AI 图进入论文时必须在图注或说明中标明其为“示意图”或�
 - 每张图必须能对应一句论文结论。
 - GPT-image 图生成后必须检查中文文字、箭头方向、节点顺序和是否混入未使用方法。
 
+## Figure Referee Rules
+
+Before final PDF delivery, use `agents/figure_referee.md` for figures that
+support headline claims. Every figure must answer:
+
+1. What claim does this figure support?
+2. Can the claim be understood without reading code?
+3. Is the visual form suitable for a formal modeling paper?
+
+Revise figures that:
+
+- only repeat "result", "schematic", or "flowchart" in the caption;
+- occupy a large page area but add little evidence;
+- show internal workflow instead of model logic;
+- look like raw default plots when annotation, units, or uncertainty are needed;
+- mix file names, script names, registry language, or dashboard language into a
+  formal contest paper figure;
+- omit the unit, scenario, comparison baseline, or conclusion needed to read the
+  figure.
+
 ## Skip Rules
 
 不要因为“赶时间”跳过模型流程图或必要示意图。可以跳过的情况只有：

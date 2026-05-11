@@ -11,6 +11,12 @@
 | `coder.md` | 写可复现代码，保存表格、图和结果记录。 |
 | `writer.md` | 从已登记结果写论文段落。 |
 | `paper_assembler.md` | 把各问段落、图表、验证和结论总装成完整论文。 |
+| `storyline_planner.md` | Plans the contest-paper or benchmark-report storyline before drafting. |
+| `paper_author.md` | Drafts paper prose under the selected genre gate. |
+| `academic_polisher.md` | Polishes academic prose, captions, decimals, and units without changing validated content. |
+| `style_referee.md` | Checks contest-paper wording for internal benchmark and path leakage. |
+| `figure_referee.md` | Reviews whether each figure supports a paper claim and is suitable for formal submission. |
+| `paper_referee.md` | Reviews the finished paper and blocks contest submissions with P1 genre leaks. |
 | `abstract_writer.md` | 在各问正文和结果确定后，最后写并检查摘要。 |
 | `supervisor.md` | 在阶段门处做 pass/revise/block 判断并分派返工 owner。 |
 | `reviewer.md` | 从评委视角做终审和阻塞项检查。 |

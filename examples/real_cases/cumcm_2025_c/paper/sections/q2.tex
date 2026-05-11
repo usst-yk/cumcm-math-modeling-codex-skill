@@ -1,0 +1,17 @@
+对 BMI 组 $g$ 和候选孕周 $t$，定义风险函数
+\[
+R_g(t)=\lambda(t-12)_+ + 3P_g(\hat y(t)<4\%),
+\]
+其中第一项表示检测推迟带来的风险，第二项表示浓度未达标风险。对每一组在候选孕周上搜索 $R_g(t)$ 的最小值，得到推荐检测时点。该做法保留了可解释性：若阈值或风险权重变化，推荐时点应随之调整并被敏感性分析记录。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{../figures/fig_q2_model_schematic.png}
+\caption{BMI 分组检测时点优化链条：分组、候选孕周、未达标率估计和风险最小化共同决定推荐孕周}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{../figures/fig_q2_result.png}
+\caption{不同 BMI 组的推荐检测时点及其对应未达标风险，高 BMI 组通常需要更晚的推荐时点}
+\end{figure}

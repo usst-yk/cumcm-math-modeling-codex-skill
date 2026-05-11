@@ -1,0 +1,23 @@
+女胎异常判定使用多指标风险评分。令 $x_1=\max(z_13,z_18,z_21)$，$x_2=|z_X|$，$x_3=|GC-0.5|$，并加入年龄和 BMI，采用
+\[
+p=\frac{1}{1+\exp[-(\alpha+\sum_kw_kx_k)]}
+\]
+计算异常概率。阈值取 $0.38$，使判定更偏向筛查中的灵敏度要求。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{../figures/fig_q3_model_schematic.png}
+\caption{女胎异常风险评分模型，综合染色体 Z 值、X 染色体偏离和 GC 偏离形成概率判定}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{../figures/fig_q3_result.png}
+\caption{异常风险评分分布与 ROC 曲线；AUC 为 $0.859，说明多指标评分能够区分高低风险样本}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.58\textwidth]{../figures/fig_q3_validation.png}
+\caption{异常判定混淆矩阵，用于同时检查漏判和误判数量}
+\end{figure}

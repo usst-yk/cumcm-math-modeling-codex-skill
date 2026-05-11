@@ -27,10 +27,14 @@
 | `figures/fig_q1_model_schematic.png` | 单光束干涉厚度模型示意图。 |
 | `figures/fig_q2_model_schematic.png` | 反演算法流程图。 |
 | `figures/fig_q2_result.png` | 两组光谱与峰值检测结果。 |
-| `figures/fig_q2_validation.png` | 估计厚度与真值误差验证图。 |
+| `figures/fig_q2_validation.png` | 估计厚度与合成验证误差图。 |
+| `figures/fig_sensitivity.png` | 折射率和入射角敏感性分析图。 |
+| `tables/tab_sensitivity.csv` | 折射率和入射角扰动下的厚度变化表。 |
 | `results/result_registry.csv` | 核心数值来源登记。 |
 | `results/validation_report.md` | 验证报告。 |
 | `paper/main.tex` | 轻量论文入口，运行脚本后刷新。 |
+| `paper/main.pdf` | 交付包内的最新版编译论文 PDF。 |
+| `progress.html` | 返工闭环与子 agent 工作进度面板。 |
 
 ## 运行
 
@@ -62,3 +66,9 @@ abs(estimated_thickness_um - 8.000000) <= 0.050000
 - 合成光谱只用于代码准确性回归，不等同于官方附件求解。
 - 折射率固定为 `n = 2.55`，没有展开载流子浓度和波长相关折射率。
 - 多光束干涉只作为风险记录，没有在本轻量案例中求解。
+
+## 交付说明
+
+发给作者的压缩包中，`paper/main.pdf` 使用本轮返工后重新编译的 PDF；本地目录里的
+`paper/main_reworked.pdf` 是同一份新 PDF 的工作副本。压缩包不会包含 TeX 编译软件、
+Python 缓存或 LaTeX 中间文件。

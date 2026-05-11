@@ -1,0 +1,92 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{amsmath}
+\geometry{a4paper, margin=2.5cm}
+\title{NIPT 检测时点选择与胎儿异常判定模型}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+\begin{abstract}
+本文围绕 NIPT 检测中的时点选择和胎儿异常判定问题，建立男胎 Y 染色体浓度模型、BMI 分组检测时点优化模型以及女胎异常风险判别模型。首先以孕周、BMI、年龄和 GC 含量解释 Y 染色体浓度，模型拟合得到 $R^2=0.963$，平均绝对误差为 $0.317$ 个百分点，可用于反推浓度达到 $4\%$ 阈值的孕周。其次将检测过早造成的未达标风险与检测过晚风险合并为分组风险函数，得到 BMI 分组推荐时点：<28 组 17.5 周，28-32 组 18.0 周，32-36 组 19.0 周，>=36 组 19.5 周，并通过阈值扰动检验推荐结果的稳定性。最后构造基于染色体 Z 值、X 染色体偏离和 GC 含量的异常风险评分，得到 AUC 为 $0.859$，灵敏度为 $0.586$。结果说明，可解释统计模型、分组优化和判别曲线能够形成一条可复核的 NIPT 决策链；受控数据只用于方法验证，不替代真实临床结论。
+
+\textbf{关键词：}NIPT；检测时点；BMI 分组；风险优化；异常判定
+\end{abstract}
+
+\section{问题重述}
+无创产前检测通过孕妇外周血中的胎儿游离 DNA 信息评估胎儿染色体风险。对男胎而言，Y 染色体浓度是否达到阈值会影响检测可靠性；对女胎而言，需要综合常染色体和性染色体相关指标识别异常风险。检测时间过早可能造成胎儿浓度不足，检测时间过晚又可能增加临床处置风险，因此时点选择本质上是一个在可靠性和风险之间折中的决策问题。
+
+本文将问题拆分为三层：第一，建立男胎 Y 染色体浓度与孕周、BMI 等因素之间的关系；第二，按 BMI 分组选择推荐检测孕周，并检验阈值变化对推荐结果的影响；第三，对女胎样本建立异常风险评分并评价判别效果。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\textwidth]{../figures/fig_problem_overview.png}
+\caption{NIPT 检测时点与异常判定的建模对象、输入指标和验证线索}
+\end{figure}
+
+\section{问题分析}
+Y 染色体浓度一般随孕周增加而上升，但 BMI 较高时胎儿 DNA 相对浓度可能下降，因此单独用孕周判断会忽略个体差异。BMI 分组后，推荐检测时点既要使组内大多数样本达到浓度阈值，又不能无节制推迟。女胎异常判定则不能依赖 Y 染色体浓度，需要从 13、18、21 号染色体 Z 值、X 染色体偏离和 GC 含量等指标构造风险评分。本文采用线性浓度模型、分组网格搜索和 Logistic 判别模型，是因为三者分别对应解释、决策和分类，且每一步都有明确的验证指标。
+
+\section{数据预处理}
+对男胎数据，保留孕周、BMI、年龄、GC 含量和 Y 染色体浓度，并以 $4\%$ 作为达标阈值。对女胎数据，构造最大常染色体 Z 值、X 染色体偏离绝对值、GC 偏离量、年龄和 BMI 等特征。所有连续变量在建模前检查范围和缺失情况；分类模型中特征先标准化，以免量纲差异影响权重估计。本文使用受控数据进行流程验证，因此评价指标用于检查模型链路和监督返工，而不是声称真实医学性能。
+
+\section{模型假设}
+\begin{enumerate}
+\item 在分析窗口内，Y 染色体浓度随孕周的主效应可用线性项近似。
+\item BMI、年龄和 GC 含量对浓度的影响在受控样本中可用加性主效应表示。
+\item 同一 BMI 组内采用统一推荐检测时点，组内个体差异进入未达标率和敏感性分析。
+\item 女胎异常风险可由染色体 Z 值、X 染色体偏离和 GC 偏离的组合评分近似刻画。
+\item 判别阈值服务于筛查任务，因此优先保证灵敏度，再兼顾特异度。
+\end{enumerate}
+
+\section{符号说明}
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+符号 & 含义 & 单位\\
+\midrule
+$t$ & 孕周 & 周\\
+$b$ & BMI & 1\\
+$y$ & Y 染色体浓度 & \%\\
+$z_k$ & 第 $k$ 号染色体 Z 值 & 1\\
+$p$ & 异常风险评分 & 1\\
+$R_g(t)$ & BMI 组 $g$ 在孕周 $t$ 的风险 & 1\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{模型建立与求解}
+\input{sections/q1.tex}
+\input{sections/q2.tex}
+\input{sections/q3.tex}
+
+\section{模型检验}
+第一，Y 浓度模型通过拟合优度和残差图检验。$R^2=0.963$ 表明孕周、BMI、年龄和 GC 含量可以解释主要变化，残差没有出现明显的系统弯曲。第二，分组时点模型用未达标率和阈值扰动检验。若阈值从 $3.8\%$ 调整到 $4.2\%$，部分 BMI 组推荐孕周随之后移，说明阈值设定必须在报告中明示。第三，异常判定模型用 ROC 曲线和混淆矩阵检验，AUC 为 $0.859$，灵敏度为 $0.586$，符合筛查任务对漏判风险更敏感的要求。
+
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{../figures/fig_q2_sensitivity.png}
+\caption{Y 浓度阈值扰动下各 BMI 组推荐检测时点的变化，显示高 BMI 组对阈值变化更敏感}
+\end{figure}
+
+
+\section{模型评价}
+本文模型的优点是每一步都能解释并检查：浓度模型给出阈值周数的来源，分组优化把早检失败和晚检风险放入同一目标，异常判定用概率评分替代单指标硬阈值。模型也有局限。线性关系只适合受控窗口；真实临床数据可能存在批次效应、重复检测、孕妇疾病史和样本质量差异。若用于真实数据，应加入更严格的数据清洗、交叉验证、校准曲线和医学阈值审查。
+
+\section{结论}
+本文建立了 NIPT 检测时点选择与胎儿异常判定的三层模型。男胎 Y 浓度模型给出 $R^2=0.963$、平均绝对误差 $0.317$ 个百分点；BMI 分组优化给出 <28 组 17.5 周，28-32 组 18.0 周，32-36 组 19.0 周，>=36 组 19.5 周 的推荐时点；女胎异常判定模型得到 AUC=$0.859$、灵敏度=$0.586$、特异度=$0.947。这些结果共同说明，时点选择不应只由孕周决定，而应同时考虑 BMI、阈值扰动和异常风险判定。受控数据下的结果证明了建模和监督流程的可复核性，真实应用还需结合官方附件和临床约束重新估计参数。
+
+\begin{thebibliography}{9}
+\bibitem{officialreview} 全国大学生数学建模竞赛组委会相关公开讲评. 2025 全国大学生数学建模竞赛 C 题讲评：NIPT 的时点选择与胎儿的异常判定[EB/OL].
+\bibitem{clinical} Lo Y. M. D., et al. Presence of fetal DNA in maternal plasma and serum[J]. The Lancet, 1997.
+\bibitem{screening} Bianchi D. W., et al. DNA sequencing versus standard prenatal aneuploidy screening[J]. New England Journal of Medicine, 2014.
+\end{thebibliography}
+
+\appendix
+\section{复现说明}
+运行求解程序可重新生成受控数据、图表、结果表和论文源文件。受控数据不包含真实个人信息，也不用于给出医学结论。
+\end{document}

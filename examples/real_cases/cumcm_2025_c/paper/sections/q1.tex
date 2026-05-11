@@ -1,0 +1,23 @@
+男胎 Y 染色体浓度模型采用可解释的加性形式：
+\[
+\hat y=\beta_0+\beta_1t+\beta_2b+\beta_3a+\beta_4g,
+\]
+其中 $t$ 为孕周，$b$ 为 BMI，$a$ 为年龄，$g$ 为 GC 含量。模型拟合后可由 $\hat y=4\%$ 反推出给定个体的最早达标孕周。该模型不是为了追求复杂预测，而是为了让阈值时点能够追溯到变量影响。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{../figures/fig_q1_model_schematic.png}
+\caption{Y 染色体浓度模型把孕周、BMI、年龄和 GC 含量映射为浓度预测，并由 $4\%$ 阈值反推检测时点}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{../figures/fig_q1_result.png}
+\caption{Y 浓度拟合和达标阈值关系；颜色表示 BMI，红色虚线为 $4\%$ 达标阈值}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.76\textwidth]{../figures/fig_q1_validation.png}
+\caption{Y 浓度模型残差分布，用于检查主效应模型是否存在明显系统偏差}
+\end{figure}

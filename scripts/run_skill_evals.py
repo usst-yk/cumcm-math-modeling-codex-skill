@@ -327,8 +327,6 @@ def check_real_case_2025_b(issues: list[str]) -> None:
         "results/validation_audit.md",
         "results/benchmark_findings.md",
         "paper/main.tex",
-        "paper/sections/q1.tex",
-        "paper/sections/q2.tex",
         "appendix/ai-usage-statement.md",
     ]
     for rel in required:
@@ -523,7 +521,13 @@ def check_folder_indexes(issues: list[str]) -> None:
     expected = [
         "agents/README.md",
         "agents/abstract_writer.md",
+        "agents/academic_polisher.md",
+        "agents/figure_referee.md",
+        "agents/paper_author.md",
         "agents/paper_assembler.md",
+        "agents/paper_referee.md",
+        "agents/storyline_planner.md",
+        "agents/style_referee.md",
         "evals/README.md",
         "examples/README.md",
         "references/README.md",
@@ -548,6 +552,8 @@ def check_reference_names(issues: list[str]) -> None:
         "references/paper-quality-standard.md",
         "references/benchmark-rebuild.md",
         "references/paper-section-flow.md",
+        "references/paper-genre-gate.md",
+        "references/scientific-prose-style.md",
         "references/external-agent-patterns.md",
         "references/figure-plan.md",
     ]
@@ -614,6 +620,19 @@ def check_templates(issues: list[str]) -> None:
         for term in MODELING_TEMPLATE_TERMS:
             if term not in text:
                 issues.append(f"modeling_idea.md template should mention: {term}")
+    task_template = ROOT / "templates" / "task_plan.json"
+    if task_template.exists():
+        task = json.loads(task_template.read_text(encoding="utf-8"))
+        for field in ["deliverable_type", "paper_genre", "literature_gate", "method_trials", "paper_style_policy"]:
+            if field not in task:
+                issues.append(f"templates/task_plan.json missing {field}")
+    task_schema = ROOT / "templates" / "task_plan.schema.json"
+    if task_schema.exists():
+        schema = json.loads(task_schema.read_text(encoding="utf-8"))
+        props = schema.get("properties", {})
+        for field in ["deliverable_type", "paper_genre", "literature_gate", "method_trials", "paper_style_policy"]:
+            if field not in props:
+                issues.append(f"task_plan.schema.json missing property {field}")
 
 
 def type_ok(value: Any, expected: str) -> bool:

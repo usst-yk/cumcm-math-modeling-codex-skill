@@ -26,6 +26,26 @@ must ultimately update `paper/main.tex`.
 For full problems, follow the staged workflow in `references/workflow.md` and
 the gate checks in `references/stage-gates.md`.
 
+- Correctness before speed: parse questions, constraints, units, outputs,
+  attachments, and scoring clues first.
+- Paper quality before speed: for final papers, a slow but complete TeX paper
+  is better than a quick thin report.
+- Full route design defaults to three routes: baseline, primary route, fallback.
+  For urgent or single-question work, keep the same modeling logic and reduce
+  only unnecessary project files; do not shorten problem analysis, route
+  comparison, modeling, solving, validation, or paper writing.
+- Before writing a full paper, follow the staged usage logic in
+  `examples/README.md`: parse -> compare routes -> deepen the model through
+  multiple rounds -> solve -> validate -> write body -> write abstract last.
+- For 2025 CUMCM B-type optical-thickness problems, do not stop at a
+  single-beam dominant-frequency baseline. Read the B-problem references and
+  build the evidence chain: raw spectrum audit -> Snell/Fresnel/Cauchy model
+  route -> sliding FFT/band selection -> single-angle and joint fitting ->
+  residual diagnostics -> Airy multi-beam decision -> uncertainty.
+- For major results, use `references/correctness-ladder.md`.
+- Do not write final numbers without a saved, traceable source.
+- Prefer transparent rigor over fashionable methods.
+
 For each solved subquestion:
 
 1. Parse the task and data dependencies.
@@ -41,16 +61,51 @@ For each solved subquestion:
 Read only the relevant file(s):
 
 - Full problem: `references/workflow.md`, `references/problem-routing.md`
-- Single subquestion: `references/task-modes.md`, `references/problem-routing.md`
-- Data audit: `references/data-audit.md`, then use `scripts/data_profile.py`
-- Problem parsing: `references/problem-parsing.md`, then use `scripts/problem_parser.py`
-- Task decomposition: use `scripts/build_task_plan.py`
-- Model selection: `references/method-cards.json`, then `references/method-library.md` if needed
-- CUMCM A problem: `references/cumcm-a-problem-patterns.md`
-- Code to paper: `references/code-to-paper.md`, `references/result-tracking.md`
-- Paper writing: `references/paper-writing.md`, `references/paper-assembly.md`
-- Abstract: `agents/abstract_writer.md`
-- Review: `references/final-review.md`, `references/final-checklist.md`
+- CUMCM 2025 B / thin-film optical thickness: read
+  `references/award-paper-learning.md`, `references/reference_miner.md`,
+  `references/B_problem_data_pipeline.md`, `references/B_problem_model_referee.md`,
+  `references/B_problem_validation.md`,
+  `references/B_problem_figure_referee.md`, and
+  `references/storyline_planner.md` before finalizing the route or paper.
+- When using award papers or public paper packs, extract only structure,
+  model progression, validation logic, figure function, and style rules. Never
+  copy prose, figures, final numbers, data, or unlicensed code into the skill
+  or current paper.
+- CUMCM A problem: read `references/cumcm-a-problem-patterns.md` before route
+  comparison.
+- High-level route review: use `references/official-benchmark.md` and
+  `references/first-prize-rubric.md` as judge-style benchmark references.
+- Model selection: use `references/method-cards.json` for compact method checks,
+  then `references/method-library.md` only when details are needed.
+- New project: run `scripts/init_cumcm_project.py` in the background.
+- Output scope: `references/output-policy.md`; do not create full templates
+  unless the user asks for a complete project/workspace.
+- Problem parsing: read `references/problem-parsing.md`, then use
+  `scripts/problem_parser.py`.
+- Decomposition: parse first with `scripts/problem_parser.py`, then use
+  `scripts/build_task_plan.py`.
+- Single subquestion/paper: `references/task-modes.md` and
+  `references/problem-routing.md`.
+- Data files: run `scripts/data_profile.py`, then read `references/data-audit.md`.
+- Figure planning: read `references/figure-plan.md`; default to model schematic
+  plus result figure for each solved subquestion.
+- Outputs to paper: read files first, then use `references/code-to-paper.md` and
+  `references/result-tracking.md`.
+- Paper writing: `references/paper-writing.md`, `references/paper-assembly.md`,
+  `references/paper-quality-standard.md`, `references/scoring-checklist.md`.
+- Benchmark rebuild or real-case redo: read `references/benchmark-rebuild.md`;
+  delete generated outputs first, then re-parse, re-plan, re-audit, re-solve,
+  re-write TeX, and validate.
+- Full paper assembly: `agents/paper_assembler.md`,
+  `references/paper-assembly.md`, `references/paper-quality-standard.md`, and
+  `templates/paper_main.tex`.
+- Final abstract: `agents/abstract_writer.md`, `references/paper-writing.md`,
+  `references/result-tracking.md`, `references/scoring-checklist.md`.
+- Roadmap/flowchart: `references/technical-roadmap.md`; prefer editable
+  Mermaid, Graphviz, or SVG.
+- Final audit or judge review: read `references/final-review.md` and
+  `references/final-checklist.md`; for first-prize-level claims also read
+  `references/first-prize-rubric.md`, then lead with severity-ordered findings.
 - Maintenance: `references/maintenance.md`
 
 Role cards live in `agents/`. Use them when entering that stage:

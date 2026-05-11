@@ -35,10 +35,17 @@ def main() -> int:
     else:
         cmd = [engine, "-interaction=nonstopmode", tex.name]
 
-    proc = subprocess.run(cmd, cwd=tex.parent, text=True, capture_output=True)
+    proc = subprocess.run(
+        cmd,
+        cwd=tex.parent,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        capture_output=True,
+    )
     if proc.returncode != 0:
         log = tex.parent / "compile_error.log"
-        log.write_text(proc.stdout + "\n" + proc.stderr, encoding="utf-8")
+        log.write_text((proc.stdout or "") + "\n" + (proc.stderr or ""), encoding="utf-8")
         print(f"Compile failed. Error log: {log}")
         return proc.returncode
     print(f"Compile succeeded: {tex.with_suffix('.pdf')}")
