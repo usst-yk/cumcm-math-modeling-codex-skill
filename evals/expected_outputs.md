@@ -29,8 +29,9 @@ Use these expectations for manual checks after skill updates.
 
 - Solves only the requested subquestion.
 - Still includes scoring points, hidden constraints, three routes, baseline, model, validation, figures, and paper text.
-- Keeps outputs lean: only necessary code, result tables, Chinese figures, and
-  requested paper text.
+- Keeps the file set lean: only necessary code, result tables, Chinese figures,
+  and requested paper text. This must not shorten analysis, modeling, solving,
+  validation, or requested paper sections.
 - Notes dependencies on later questions without expanding them.
 
 ## Code To Paper

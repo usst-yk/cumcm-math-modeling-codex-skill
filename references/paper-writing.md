@@ -1,7 +1,5 @@
 # CUMCM论文写作指南
 
-For section-by-section handoff from code outputs to paper sections, also read
-`references/paper-section-flow.md`.
 For complete reports, full benchmark cases, final TeX, or contest deliverables,
 also read `references/paper-assembly.md`.
 For final quality gates, also read `references/paper-quality-standard.md`.
@@ -32,7 +30,10 @@ For final quality gates, also read `references/paper-quality-standard.md`.
 10. 参考文献
 11. 附录
 
-完整论文不能只是把 Q1/Q2/Q3 片段连续 `\input` 到 `main.tex`。每问内容应嵌入完整论文结构中，并且正文要先交代问题重述、问题分析、假设、符号和数据，再进入分问题模型建立与求解。
+所有论文成品只写 `paper/main.tex`。完整论文不能只是把 Q1/Q2/Q3 片段连续
+`\input` 到 `main.tex`，也不能依赖 `paper/sections/*.tex`。每问内容应直接
+写入完整论文结构中，并且正文要先交代问题重述、问题分析、假设、符号和数据，
+再进入分问题模型建立与求解。
 
 ## 摘要模式
 
@@ -130,7 +131,7 @@ For final quality gates, also read `references/paper-quality-standard.md`.
 - 所有符号在首次使用前已定义。
 - 每个公式下方说明变量和参数含义。
 - 每个子问题有模型、求解、结果和检验。
-- 复杂数值模型有解析基线、简化模型或边界条件作为合理性支撑。
+- 复杂数值模型有解析基线、合理近似模型或边界条件作为合理性支撑。
 - 图表编号连续，正文均有引用。
 - 论文中的核心图均可由代码复现，且坐标轴、单位、图例、图注完整。
 - 灵敏度分析围绕关键结论，不是形式化附加。

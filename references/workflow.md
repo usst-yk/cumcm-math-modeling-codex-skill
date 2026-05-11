@@ -2,9 +2,10 @@
 
 Use this reference for full-problem solving, route design, and contest-time planning.
 
-For beginner-facing solving, keep outputs lean. Read
-`references/output-policy.md` before creating template files. Lean output means
-fewer templates, not fewer figures.
+For beginner-facing solving, keep only the file set lean. Read
+`references/output-policy.md` before creating template files. File-lean output
+means fewer templates and empty process files, not fewer figures, weaker
+analysis, thinner modeling, reduced validation, or shorter paper writing.
 
 ## 72-Hour Contest Workflow
 
@@ -15,7 +16,7 @@ fewer templates, not fewer figures.
 | 16-32 h | Q2/Q3 main model, optimization/prediction/evaluation solving | main scripts, result tables, preliminary validation |
 | 32-44 h | Validation, sensitivity, robustness, figure finalization | error/feasibility/sensitivity tables, final figures |
 | 44-60 h | TeX paper body, conclusion, appendix code | main `.tex`, captions, appendix run commands |
-| 60-64 h | Final abstract after Q sections, figures, and validation are stable | traceable abstract draft |
+| 60-64 h | Final abstract after subquestion results, figures, and validation are stable | traceable abstract draft |
 | 64-68 h | Judge-view review, consistency and traceability check | issue list, corrected numbers, result registry |
 | 68-72 h | Final PDF, code/data/figure packaging | compiled PDF, source code, tables, figures, final checklist |
 
@@ -42,13 +43,15 @@ fewer templates, not fewer figures.
    - Select the route that maximizes correctness, validation, and paper clarity under time limits.
 
 5. Solver: solve subquestions one by one.
-   - For each Qx, implement code and save only the needed result table, figure,
-     and paper section.
+   - For each Qx, implement code and save only the needed result table and figures.
+     If paper text is requested, write it directly into `paper/main.tex`.
    - Before coding each Qx, make a figure plan using `references/figure-plan.md`.
      Default to a model schematic plus a result figure.
    - Use model cards, result registry, and run logs for full projects or final
-     paper delivery, not for every small single-question solve.
-   - Do not draft the final abstract before solved sections have traceable
+     paper delivery, not for every small single-question solve. This affects
+     file creation only; the modeling and validation work still need to be
+     complete enough for the question.
+   - Do not draft the final abstract before solved subquestions have traceable
      result tables or registered results.
 
 6. Build baseline before main computation.
@@ -66,7 +69,7 @@ fewer templates, not fewer figures.
    - Match validation to task type: prediction error, optimization feasibility, ranking stability, simulation sensitivity, classification metrics, or boundary cases.
    - Mark missing validation as a limitation, not as success.
 
-9. Writer: write Qx paper sections for judges.
+9. Writer: write judge-facing subquestion content directly in `paper/main.tex`.
    - Put the answer before method inventory.
    - Link every headline number to a table, figure, equation, output file, or assumption.
    - Keep only figures that support a conclusion.
@@ -83,14 +86,17 @@ fewer templates, not fewer figures.
 
 ## Final Deliverables
 
-Lean single-question handoff:
+File-lean single-question handoff:
 
 - Main answer and limitation.
 - Current-question code when code was needed.
 - One result table.
 - Usually two Chinese figures: model schematic and result figure.
 - Validation/sensitivity figure when needed.
-- Paper paragraph only when requested.
+- `paper/main.tex` only when paper text is requested.
+
+The handoff is file-lean, not content-lean: do not shorten analysis, formulas,
+solution reasoning, validation explanation, or requested paper writing.
 
 Full-project handoff:
 

@@ -104,7 +104,7 @@ def check_demo(issues: list[str]) -> None:
         "../single_question_minimal/tables/tab_q1_result.csv",
         "../single_question_minimal/figures/fig_q1_model_schematic.svg",
         "../single_question_minimal/figures/fig_q1_result.svg",
-        "../single_question_minimal/paper/sections/q1.tex",
+        "../single_question_minimal/paper/main.tex",
         "problem/problem_statement.md",
         "problem/task_plan.json",
         "data/raw/station_demand.csv",
@@ -125,7 +125,6 @@ def check_demo(issues: list[str]) -> None:
         "results/result_registry.csv",
         "results/validation_report.md",
         "paper/main.tex",
-        "paper/sections/q1.tex",
     ]
     for rel in demo_required:
         require((DEMO / rel).resolve(), issues)
@@ -199,12 +198,6 @@ def check_real_case_2025_a(issues: list[str]) -> None:
         "results/validation_audit.md",
         "results/benchmark_findings.md",
         "paper/main.tex",
-        "paper/sections/problem_overview.tex",
-        "paper/sections/q1.tex",
-        "paper/sections/q2.tex",
-        "paper/sections/q3.tex",
-        "paper/sections/q4.tex",
-        "paper/sections/q5.tex",
     ]
     for rel in required:
         require(REAL_CASE_2025_A / rel, issues)
@@ -268,10 +261,9 @@ def check_full_paper_structure(root: Path, label: str, issues: list[str], min_ch
         return
     main_text = paper.read_text(encoding="utf-8", errors="ignore")
     full_text = main_text
-    section_dir = root / "paper" / "sections"
-    if section_dir.exists():
-        for section in sorted(section_dir.glob("*.tex")):
-            full_text += "\n" + section.read_text(encoding="utf-8", errors="ignore")
+    section_fragments = list((root / "paper" / "sections").glob("*.tex"))
+    if section_fragments:
+        issues.append(f"{label} should be a single paper/main.tex and must not use paper/sections/*.tex")
     required = [
         "问题重述",
         "问题分析",
@@ -294,7 +286,7 @@ def check_full_paper_structure(root: Path, label: str, issues: list[str], min_ch
         issues.append(f"{label} is too thin; expected richer modeling prose and validation")
     top_sections = re.findall(r"\\section\{([^}]+)\}", main_text)
     if len(top_sections) < 8:
-        issues.append(f"{label} should have a complete paper section structure, not only Qx inputs")
+        issues.append(f"{label} should have a complete paper structure, not only per-question fragments")
 
 
 def check_real_case_huadong_a(issues: list[str]) -> None:
@@ -326,8 +318,6 @@ def check_real_case_huadong_a(issues: list[str]) -> None:
         "results/result_registry.csv",
         "results/validation_report.md",
         "paper/main.tex",
-        "paper/sections/q1.tex",
-        "paper/sections/q2.tex",
     ]
     for rel in required:
         require(REAL_CASE_HUADONG_A / rel, issues)

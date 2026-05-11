@@ -20,7 +20,8 @@ When code fails:
 1. inspect the traceback;
 2. fix the smallest local error;
 3. rerun the same command;
-4. if it fails twice, simplify the model or produce a reproducible blocker report;
+4. if it fails twice, switch to a justified smaller-scope fallback model or
+   produce a reproducible blocker report;
 5. never write final numerical conclusions from failed code.
 
 Record failures in `logs/error_log.md`:

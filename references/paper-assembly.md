@@ -5,10 +5,10 @@ full-problem report, final TeX, or contest deliverable.
 
 ## Core Rule
 
-A complete solved paper must be TeX. Use `paper/main.tex` as the final entry
-file for full reports and benchmark cases. Markdown is acceptable only for
-draft notes, section outlines, README examples, or quick single-section
-discussion; it must not be the final paper artifact.
+A complete solved paper must be TeX. Use `paper/main.tex` as the only paper
+file for full reports, benchmark cases, and single-question paper requests.
+Markdown is acceptable only for draft notes, section outlines, README examples,
+or quick discussion; it must not be the final paper artifact.
 
 Paper quality comes before speed. The assembler must preserve the full modeling
 chain from `examples/README.md`: staged parsing, multiple modeling rounds,
@@ -20,7 +20,8 @@ coherent modeling work:
 题目理解 -> 建模主线 -> 合理假设 -> 数学符号 -> 数据审计 -> 模型建立 ->
 算法求解 -> 结果解释 -> 验证分析 -> 模型评价 -> 结论。
 
-If the paper only concatenates Q1/Q2/Q3 sections, mark it incomplete.
+If the paper only concatenates Q1/Q2/Q3 fragments or depends on
+`paper/sections/*.tex`, mark it incomplete.
 
 ## Required Structure
 
@@ -39,9 +40,9 @@ clear equivalents:
 10. 结论
 11. 附录或复现说明
 
-Qx sections belong inside “模型建立、求解与结果” unless the contest paper
-deliberately uses one top-level section per question with equivalent global
-sections before and after.
+Subquestion content belongs directly inside `paper/main.tex` under “模型建立、
+求解与结果” unless the contest paper deliberately uses one top-level section
+per question with equivalent global sections before and after.
 
 ## Per-Question Fullness
 
@@ -56,7 +57,7 @@ Each solved subquestion should include:
 - result table/figure and a paragraph explaining what the result means;
 - validation, sensitivity, boundary check, or limitation.
 
-A thin Qx section with only “we computed X, see figure Y” is not acceptable.
+A thin subquestion part with only “we computed X, see figure Y” is not acceptable.
 
 ## Writing Density Gate
 
@@ -74,10 +75,11 @@ For a full paper:
 ## Assembly Workflow
 
 1. Read `results/result_registry.csv` and `results/validation_report.md`.
-2. Read all Qx sections and generated figures/tables.
+2. Read generated figures/tables and any existing `paper/main.tex` draft.
 3. Build or update the global sections first: restatement, analysis,
    assumptions, notation, data audit.
-4. Embed Qx sections under model/solution and normalize their heading level.
+4. Write subquestion content directly under model/solution and normalize the
+   heading level inside `paper/main.tex`.
 5. Add validation, evaluation, conclusion, and appendix.
 6. Only after the body is coherent, write the final abstract using
    `agents/abstract_writer.md`.
@@ -85,3 +87,5 @@ For a full paper:
    or traceability findings.
 8. If the only paper artifact is Markdown, mark the report incomplete and
    assemble `paper/main.tex` before handoff.
+9. If `paper/sections/*.tex` exists for a new deliverable, merge the content
+   into `paper/main.tex` and remove the fragments before handoff.

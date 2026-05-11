@@ -67,13 +67,7 @@
 | `figures/fig_q5_result.png` | 问题 5 多导弹遮蔽时间轴。 |
 | `figures/fig_q5_validation.png` | 问题 5 速度和起爆高度检查图。 |
 | `results/validation_audit.md` | 产物一致性自动检查结果。 |
-| `paper/main.tex` | 可编译完整 benchmark 论文入口。 |
-| `paper/sections/problem_overview.tex` | 题面结构与几何背景论文片段。 |
-| `paper/sections/q1.tex` | 问题 1 论文片段。 |
-| `paper/sections/q2.tex` | 问题 2 论文片段。 |
-| `paper/sections/q3.tex` | 问题 3 论文片段。 |
-| `paper/sections/q4.tex` | 问题 4 论文片段。 |
-| `paper/sections/q5.tex` | 问题 5 论文片段。 |
+| `paper/main.tex` | 可编译完整 benchmark 论文；所有问题内容都在这个单文件中。 |
 
 ## 使用方式
 

@@ -110,11 +110,119 @@
 \end{equation}
 起爆后云团中心为 \(\bm c(t)=\bm b-v_c(t-t_d)(0,0,1)\)。若云团中心到导弹--目标代表点线段距离 \(d(t)\le R\)，且垂足位于线段内部，则判为有效遮蔽。
 
-\input{sections/q1}
-\input{sections/q2}
-\input{sections/q3}
-\input{sections/q4}
-\input{sections/q5}
+\subsection{问题一：给定方案复算}
+
+问题一的作用是校准统一遮蔽判据。按题面给定速度、投放时刻和引信延迟，FY1 的投放点为 \((17620,0,1800)\)，起爆点为 \((17188,0,1736.496)\)。计算得到有效遮蔽区间为 \(8.013006\sim 9.418516\) s，遮蔽时长为 \(1.405510\) s。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{fig_q1_model_schematic.png}
+\caption{问题一投放、起爆、云团下沉和遮蔽判定流程。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q1_distance_geometry.png}
+\caption{问题一云团到代表视线线段的距离随时间变化。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q1_validation_margin.png}
+\caption{问题一距离裕度和垂足参数验证。}
+\end{figure}
+
+\subsection{问题二：FY1 单机单弹优化}
+
+问题二在问题一判据基础上优化 FY1 的速度、航向角、投放时刻和引信延迟。目标函数为最大化单枚烟幕弹对 M1 的有效遮蔽时长，约束包括速度范围、起爆高度、云团有效时间和投放后运动学方程。搜索采用固定随机种子的粗到细策略，保证结果可复现。
+
+推荐方案速度为 \(80.963727\) m/s，航向角约 \(177.496552^\circ\)，投放时刻为 \(0.056749\) s，引信延迟为 \(2.654856\) s，有效遮蔽时长为 \(4.723893\) s。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{fig_q2_model_schematic.png}
+\caption{问题二优化变量和投放时序示意。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q2_optimized_distance_geometry.png}
+\caption{问题二推荐策略的距离阈值和侧视几何。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q2_sensitivity.png}
+\caption{问题二推荐策略的局部敏感性分析。}
+\end{figure}
+
+\subsection{问题三：FY1 三弹连续投放}
+
+问题三要求同一架无人机投放三枚烟幕弹，因此三弹共享 FY1 的航向和速度，并满足相邻投放间隔。本文采用边际覆盖搜索：先给出可行候选弹，再选择能最大增加遮蔽并集的投放方案。该策略得到 M1 遮蔽并集时长 \(4.740000\) s。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{fig_q3_model_schematic.png}
+\caption{问题三 FY1 三弹连续投放示意。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q3_result.png}
+\caption{问题三三弹对 M1 的遮蔽时间轴。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q3_validation.png}
+\caption{问题三速度约束和起爆高度检查。}
+\end{figure}
+
+该结果与问题二非常接近，说明当前边际贪心没有充分解决同航向多弹联合优化，这是本次重做后最明确的改进方向。
+
+\subsection{问题四：三机单弹协同}
+
+问题四把资源从单机扩展为 FY1、FY2、FY3 各一枚烟幕弹。本文沿用遮蔽区间并集思想，让不同无人机覆盖 M1 的不同未遮蔽时段。求解得到三个遮蔽区间，总时长为 \(14.520000\) s。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{fig_q4_model_schematic.png}
+\caption{问题四三机协同覆盖 M1 的建模流程。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q4_result.png}
+\caption{问题四三机单弹遮蔽时间轴。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q4_validation.png}
+\caption{问题四速度与起爆高度可行性检查。}
+\end{figure}
+
+\subsection{问题五：多机多弹多导弹协同}
+
+问题五是资源分配问题。每架无人机最多三弹，目标从 M1 扩展到 M1、M2、M3。本文把候选弹按对各导弹遮蔽并集的边际贡献排序，同时检查每架无人机的投放次数和间隔。得到 M1、M2、M3 的遮蔽时长分别为 \(22.980000\) s、\(18.360000\) s、\(6.400000\) s。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{fig_q5_model_schematic.png}
+\caption{问题五多机多弹多导弹协同示意。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q5_result.png}
+\caption{问题五三枚导弹的遮蔽时间轴。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q5_validation.png}
+\caption{问题五无人机速度、投放次数和起爆高度检查。}
+\end{figure}
 
 \section{模型检验与敏感性分析}
 

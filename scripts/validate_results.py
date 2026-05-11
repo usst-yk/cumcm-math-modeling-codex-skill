@@ -178,12 +178,7 @@ def read_full_paper_text(root: Path) -> str:
     paper = root / "paper" / "main.tex"
     if not paper.exists():
         return ""
-    text = paper.read_text(encoding="utf-8", errors="ignore")
-    section_dir = root / "paper" / "sections"
-    if section_dir.exists():
-        for section in sorted(section_dir.glob("*.tex")):
-            text += "\n" + section.read_text(encoding="utf-8", errors="ignore")
-    return text
+    return paper.read_text(encoding="utf-8", errors="ignore")
 
 
 def strip_tex_commands(text: str) -> str:
@@ -200,6 +195,12 @@ def audit_paper_structure(root: Path, registry: pd.DataFrame, mode: str) -> list
         return issues
     if (root / "paper" / "main.md").exists():
         issues.append("P1: full-mode paper should not use paper/main.md; use paper/main.tex.")
+    section_fragments = list((root / "paper" / "sections").glob("*.tex"))
+    if section_fragments:
+        issues.append(
+            "P1: paper deliverable must be a single paper/main.tex; "
+            "merge and remove paper/sections/*.tex."
+        )
     paper = root / "paper" / "main.tex"
     if not paper.exists():
         return issues
@@ -338,7 +339,7 @@ def audit_figure_coverage(root: Path, registry: pd.DataFrame, mode: str) -> list
         if needs_check_figure and len(figures) < 3 and not has_check_figure:
             issues.append(
                 f"P2: solved {question.upper()} likely needs a validation/sensitivity figure; "
-                "lean output should remove templates, not checking figures."
+                "file-lean output should remove templates, not checking figures or validation work."
             )
     return issues
 
@@ -365,7 +366,7 @@ def main() -> int:
         "--mode",
         choices=["lean", "full"],
         default="full",
-        help="lean allows single-question outputs without registry or paper/main.tex; full enforces final-project traceability.",
+        help="lean is file-lean: single-question outputs may omit registry or paper/main.tex, but analysis, figures, validation, and requested paper text are still checked.",
     )
     parser.add_argument(
         "--registry",

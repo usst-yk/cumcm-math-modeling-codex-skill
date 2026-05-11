@@ -1,0 +1,43 @@
+\documentclass[12pt]{ctexart}
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{../figures/}}
+
+\title{单问最小示例：线性趋势基线模型}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{问题分析}
+
+问题一要求根据某站点过去 5 天需求量预测第 6 天需求量。该最小示例只演示单问求解时的文件形态，因此采用可手算、可解释的线性趋势基线模型。文件精简只减少模板和日志，不把论文写成几句结果说明。
+
+\section{模型建立与求解}
+
+设第 \(t\) 天需求量为 \(y_t\)。由第 \(1\) 天至第 \(5\) 天需求量从
+\(80\) 件增加到 \(99\) 件，可得平均日增长量
+\[
+k=\frac{99-80}{5-1}=4.75.
+\]
+因此第 \(6\) 天预测需求量为
+\[
+\hat y_6=y_5+k=103.75\text{ 件}.
+\]
+结果保存于 \verb|tables/tab_q1_result.csv|。
+
+\section{结果与验证}
+
+图 \verb|fig_q1_model_schematic.svg| 给出建模流程示意，图
+\verb|fig_q1_result.svg| 展示历史需求与预测结果。由于样本只有 5 天，
+该结果应作为基线预测，而不能包装成高精度模型。正式竞赛中应补充更多
+历史数据，并与移动平均、季节性基线或滚动验证结果比较。
+
+\section{结论}
+
+在当前最小数据下，第 \(6\) 天需求量的线性趋势预测值为
+\(103.75\) 件。该单问示例的论文成品只使用 \verb|paper/main.tex|，
+不再拆分为 \verb|paper/sections/q1.tex|。
+
+\end{document}

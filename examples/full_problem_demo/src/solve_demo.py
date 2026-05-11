@@ -2,7 +2,7 @@
 """Solve the toy CUMCM workflow demo.
 
 This script is intentionally simple. It demonstrates traceable artifacts:
-tables, figures, result registry rows, a validation report, and a paper section.
+tables, figures, result registry rows, a validation report, and a single TeX paper.
 """
 
 from __future__ import annotations

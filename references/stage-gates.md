@@ -68,13 +68,13 @@ Do not write final paper text until:
 
 Do not write the final abstract or enter final review until:
 
-- Qx sections are assembled into a complete paper structure, not just
-  concatenated fragments;
+- solved subquestion content is written directly in `paper/main.tex`, not as
+  separate `paper/sections/*.tex` fragments;
 - `paper/main.tex` contains problem restatement, problem analysis, assumptions,
   notation, data audit/preprocessing, model establishment and solution,
   validation/sensitivity analysis, model evaluation, conclusion, and appendix
   or clear equivalents;
-- each solved Qx section explains mechanism, mathematics, algorithm, result, and
+- each solved subquestion part explains mechanism, mathematics, algorithm, result, and
   validation, not only numbers and figures;
 - later questions explicitly state how they reuse earlier assumptions,
   variables, parameters, results, or strategy outputs.

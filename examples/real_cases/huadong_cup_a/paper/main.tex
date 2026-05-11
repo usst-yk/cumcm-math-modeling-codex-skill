@@ -107,8 +107,57 @@ t_r^{end}=t_r^{arr}+q_{d,i_r}(t_r)+h_{i_r}+s_{i_r}.
 
 这个算法比普通贪心更慢，但它保留了路线规划的核心结构。贪心每一步只看当前项目的单位时间收益，容易为了眼前高收益错过后续演出；动态规划会把未来可行性纳入状态价值。本文没有声称它适合无限大项目集合，而是把它用于 benchmark 的核心项目集合，保证模型刚好可解。
 
-\input{sections/q1}
-\input{sections/q2}
+\subsection{问题一：静态游览路线规划}
+
+问题一在全天开放时间内安排三类游客的路线。模型对象是项目访问序列，决策变量是项目集合、访问顺序和到达/开始/结束时刻。动态规划结果保存在 \verb|tab_q1_summary.csv| 和 \verb|tab_q1_routes.csv|。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{fig_q1_model_schematic.png}
+\caption{问题一动态规划建模流程。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q1_result.png}
+\caption{问题一不同游客和日期下的得分、排队和项目数。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q1_validation.png}
+\caption{问题一动态规划与贪心基线比较。}
+\end{figure}
+
+动态规划相对贪心基线平均得分提升 \(16.74\)。家庭亲子游工作日得分最高，为 \(96.734\)，完成 \(11\) 项非休整体验；节假日家庭亲子游在排队压力上升后仍完成 \(9\) 项非休整体验。
+
+\subsection{问题二：基于实时排队的剩余路线重规划}
+
+问题二继承问题一路线，锁定已完成项目。实时排队更新模型为
+\begin{equation}
+q^{real}_{d,i}(t)=\max\{0,q^0_{d,i}(t)+\rho(t)\Delta_{d,i}\},
+\end{equation}
+其中 \(\Delta_{d,i}\) 来自 APP 实时排队扰动，\(\rho(t)\) 表示扰动随时间回归基准的衰减。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.88\linewidth]{fig_q2_model_schematic.png}
+\caption{问题二锁定已完成项目后的实时重规划流程。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q2_result.png}
+\caption{问题二实时重规划的等待节省和得分增益。}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{fig_q2_validation.png}
+\caption{问题二保持原路线与重规划路线对照。}
+\end{figure}
+
+实时重规划平均减少等待 \(19.67\) 分钟，平均得分增益 \(3.626\)。共有 \(6\) 个场景改变了剩余项目集合，最大等待节省为 \(119\) 分钟。
 
 \section{模型检验与敏感性分析}
 

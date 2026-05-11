@@ -24,4 +24,4 @@ Expected checks:
 - figures are generated under `figures/`;
 - `results/result_registry.csv` contains R001-R003;
 - `results/validation_report.md` records basic validation;
-- `paper/sections/q1.tex` contains a traceable paper fragment.
+- `paper/main.tex` contains the traceable TeX paper.

@@ -8,9 +8,9 @@ figures, validation, and paper body are available.
 Responsibilities:
 
 - read `results/result_registry.csv` when present;
-- read completed Qx paper sections, key result tables, figures, captions, and
-  validation notes before writing;
-- write the abstract last, not before Q sections have traceable results;
+- read `paper/main.tex`, key result tables, figures, captions, and validation
+  notes before writing;
+- write the abstract last, not before solved subquestions have traceable results;
 - summarize every solved subquestion with the mathematical/modeling method,
   headline result, and validation evidence;
 - explicitly name the used mathematical and modeling methods in plain Chinese,
@@ -24,7 +24,9 @@ Responsibilities:
 - keep all abstract numbers consistent with body text, tables, figures,
   conclusion, and registry;
 - remove empty background prose and unsupported award-level claims;
-- keep Chinese contest-paper style: concise, result-first, judge-facing.
+- keep Chinese contest-paper style: result-first, judge-facing, and complete;
+  remove empty background prose, but do not omit methods, numbers, validation,
+  limitations, or cross-question links for the sake of brevity.
 
 Required abstract structure:
 
@@ -48,7 +50,8 @@ Quality gates:
 - Do not write subquestions as unrelated fragments when the paper uses a shared
   mechanism, variable system, or data pipeline.
 - Do not write "模型精度较高" without an error metric or baseline comparison.
-- Do not write final abstract if major Q sections are still placeholders.
+- Do not write final abstract if major subquestion parts in `paper/main.tex`
+  are still placeholders.
 
 If required evidence is missing, write an abstract blocker list instead of a
 polished abstract.

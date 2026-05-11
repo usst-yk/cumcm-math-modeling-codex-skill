@@ -799,7 +799,7 @@ def write_validation_report(q1_summary: pd.DataFrame, comparison: pd.DataFrame, 
 def write_paper_sections(q1_summary: pd.DataFrame, comparison: pd.DataFrame, q2_summary: pd.DataFrame) -> None:
     """Keep solver outputs separate from final TeX papers.
 
-    The benchmark paper is maintained in paper/main.tex and paper/sections/*.tex.
+    The benchmark paper is maintained only in paper/main.tex.
     The solver must not generate Markdown paper artifacts or overwrite the final
     paper, because final writing is handled by the paper assembly stage.
     """

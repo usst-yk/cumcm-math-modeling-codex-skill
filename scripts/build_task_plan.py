@@ -63,7 +63,7 @@ def infer_routes(task_type: str) -> dict[str, str]:
             "fallback_route": "If weights are uncertain, report rank intervals or groups instead of a single overclaimed order.",
         },
         "simulation": {
-            "baseline_route": "Use a simplified analytical or boundary-case simulation first.",
+            "baseline_route": "Use an analytical, hand-checkable, or boundary-case baseline first.",
             "primary_route": "Run a parameterized simulation with explicit state variables and units.",
             "fallback_route": "If parameters are uncertain, report scenario bands and sensitivity instead of one value.",
         },
@@ -83,7 +83,7 @@ def infer_routes(task_type: str) -> dict[str, str]:
         {
             "baseline_route": "Build a simple hand-checkable baseline first.",
             "primary_route": "Use the most transparent model that answers the required output.",
-            "fallback_route": "If evidence is insufficient, simplify the model and state limitations.",
+            "fallback_route": "If evidence is insufficient, use a justified smaller-scope model with explicit assumptions, validation, and limitations.",
         },
     )
 

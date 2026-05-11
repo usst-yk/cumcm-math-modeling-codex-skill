@@ -7,13 +7,13 @@ communication natural; do not expose commands unless the user asks.
 
 | User asks for | Use |
 | --- | --- |
-| Start a new problem or project | use lean outputs by default; run `scripts/init_cumcm_project.py` only when the user asks to create a workspace |
+| Start a new problem or project | use file-lean outputs by default; run `scripts/init_cumcm_project.py` only when the user asks to create a workspace |
 | Full CUMCM problem solving | `references/workflow.md`, `references/problem-routing.md`, `references/stage-gates.md`, `references/scoring-checklist.md` |
 | CUMCM A problem or engineering/physics problem | `references/cumcm-a-problem-patterns.md`, `references/method-cards.json`, `references/problem-routing.md` |
 | Parse problem statement | `agents/problem_parser.md`, `references/problem-parsing.md`, `scripts/problem_parser.py` |
 | Read and decompose a problem | parse first, then `scripts/build_task_plan.py`, `agents/coordinator.md`, `references/problem-routing.md` |
 | Only one subquestion | `references/task-modes.md`, `references/problem-routing.md`, `references/correctness-ladder.md` |
-| Single-question paper section | `references/task-modes.md`, `references/paper-writing.md`, `references/paper-section-flow.md`, `references/result-tracking.md` |
+| Single-question paper | `references/task-modes.md`, `references/paper-writing.md`, `references/result-tracking.md` |
 | Data attachments present | `scripts/data_profile.py`, `references/data-audit.md` |
 | Choose a model | `agents/modeler.md`, `references/problem-routing.md`, `references/method-cards.json`, `references/method-library.md` |
 | Write or fix solving code | `agents/coder.md`, `references/python-matlab-guide.md` |
@@ -21,7 +21,7 @@ communication natural; do not expose commands unless the user asks.
 | Validate results | `references/validation.md`, `scripts/validate_results.py` when project artifacts exist |
 | Code/tables/figures to paper | `references/code-to-paper.md`, `references/result-tracking.md`, `agents/writer.md` |
 | Final abstract | `agents/abstract_writer.md`, `references/paper-writing.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
-| Conclusion or polishing | `references/paper-writing.md`, `references/paper-section-flow.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
+| Conclusion or polishing | `references/paper-writing.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
 | Technical roadmap or model flowchart | `references/technical-roadmap.md`, `scripts/make_roadmap_svg.py` |
 | Figure standards | `references/figure-standards.md`, optionally `scripts/make_paper_figures.py` |
 | Final judge review | `references/final-review.md`, `references/final-checklist.md`, `agents/reviewer.md` |
@@ -33,8 +33,10 @@ communication natural; do not expose commands unless the user asks.
   file names.
 - Before creating files, choose the smallest useful output set from
   `references/output-policy.md`.
-- Do not confuse lean output with too few figures. For solved questions, load
-  `references/figure-plan.md` and generate the planned Chinese figures.
+- Do not confuse file-lean output with fewer figures or shallower work. For
+  solved questions, load `references/figure-plan.md` and generate the planned
+  Chinese figures; keep analysis, modeling, solving, validation, and requested
+  paper text complete.
 - Do not initialize a full project, copy templates, or create empty files for a
   single-question solve unless the user asks for a complete project.
 - Parse the problem statement before route design when an official statement is available.

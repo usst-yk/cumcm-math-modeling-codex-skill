@@ -54,7 +54,7 @@
     {
       "id": "paper_readiness",
       "max_score": 2,
-      "pass_condition": "Generated text is judge-facing: concise, Chinese, result-first, and free of placeholders or unsupported award-level claims.",
+      "pass_condition": "Generated text is judge-facing, Chinese, result-first, complete enough for a modeling paper section, and free of placeholders or unsupported award-level claims.",
       "beginner_visible_check": "The student can paste or adapt the section into a modeling paper."
     }
   ]

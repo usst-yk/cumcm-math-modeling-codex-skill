@@ -17,7 +17,7 @@
       "tables_needed": [],
       "baseline_route": "Build a simple hand-checkable baseline first.",
       "primary_route": "Use the most transparent model that answers the required output.",
-      "fallback_route": "If evidence is insufficient, simplify the model and state limitations.",
+      "fallback_route": "If evidence is insufficient, use a justified smaller-scope model with explicit assumptions, validation, and limitations.",
       "minimum_validation": [
         "compare with a baseline",
         "state limitations and uncertainty"

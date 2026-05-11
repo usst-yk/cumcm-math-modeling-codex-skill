@@ -30,8 +30,7 @@
 | `figures/fig_q2_validation.png` | Q2 保持原路线与重规划路线对照图。 |
 | `results/result_registry.csv` | 关键 benchmark 数值登记表。 |
 | `results/validation_report.md` | 可行性、基线和实时调整验证记录。 |
-| `paper/main.tex` | 可编译完整 benchmark 论文入口。 |
-| `paper/sections/q1.tex` / `q2.tex` | 问题一、问题二的 TeX 论文段落。 |
+| `paper/main.tex` | 可编译完整 benchmark 论文；问题一和问题二都写在这个单文件中。 |
 
 ## 核心 benchmark 结果
 

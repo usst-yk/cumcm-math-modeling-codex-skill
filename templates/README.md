@@ -1,7 +1,8 @@
 # Templates
 
 这些模板只在用户明确要求完整项目或使用 `init_cumcm_project.py --full`
-时复制到项目目录中。默认精简求解不会批量复制模板。
+时复制到项目目录中。默认文件精简求解不会批量复制模板；这只影响模板
+文件数量，不影响建模、求解、验证或论文写作深度。
 
 | Template | Copied to | Purpose |
 | --- | --- | --- |
@@ -13,7 +14,7 @@
 | `assumptions_symbols.md` | `problem/assumptions.md` | 假设和符号说明模板。 |
 | `result_registry.csv` | `results/result_registry.csv` | 关键数值来源追踪。 |
 | `validation_report.md` | `results/validation_report.md` | 验证结果记录。 |
-| `paper_main.tex` | `paper/main.tex` | 轻量国赛 TeX 论文骨架，按“摘要、重述、分析、假设、符号、数据、逐问建模求解、验证、评价、结论、附录”组织。 |
+| `paper_main.tex` | `paper/main.tex` | 轻量国赛 TeX 论文骨架；单问和全题都只用这一个文件，不拆 `paper/sections/`。 |
 | `refs.bib` | `paper/refs.bib` | 参考文献占位，含常见数学建模参考书示例。 |
 | `appendix_code.md` | `appendix/code-template.md` | 附录代码说明格式。 |
 | `run_log.md` | `logs/run_log.md` | 运行记录。 |

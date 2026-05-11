@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Create a CUMCM project workspace.
 
-Default mode is intentionally lean for beginners: create only useful folders.
+Default mode is intentionally file-lean for beginners: create only useful
+folders and do not copy empty templates.
 Use --full when a complete template-based project is explicitly needed.
 """
 
@@ -19,7 +20,7 @@ LEAN_DIRS = [
     "figures",
     "tables",
     "results",
-    "paper/sections",
+    "paper",
 ]
 
 FULL_DIRS = [
@@ -32,7 +33,7 @@ FULL_DIRS = [
     "figures",
     "tables",
     "tables/data_profile",
-    "paper/sections",
+    "paper",
     "appendix",
     "logs",
 ]
@@ -71,7 +72,7 @@ def main() -> int:
         (project_dir / name).mkdir(parents=True, exist_ok=True)
 
     if not args.full:
-        print(f"Created lean CUMCM workspace at: {project_dir}")
+        print(f"Created file-lean CUMCM workspace at: {project_dir}")
         for name in dirs:
             print(f"- {name}/")
         print("No template files were copied. Add files only as each task needs them.")
@@ -98,12 +99,6 @@ def main() -> int:
         "# Problem Statement\n\nPaste the official problem statement here.",
         args.overwrite,
     )
-    for qid in ("q1", "q2", "q3", "q4", "q5"):
-        write_text(
-            project_dir / "paper" / "sections" / f"{qid}.tex",
-            f"% Write {qid.upper()} section after results are registered.",
-            args.overwrite,
-        )
     write_text(
         project_dir / "project-structure.md",
         "\n".join(
@@ -118,7 +113,7 @@ def main() -> int:
                 "- `results/`: result registry, validation report, and sensitivity outputs.",
                 "- `figures/`: code-generated paper figures and editable roadmap outputs.",
                 "- `tables/`: generated result tables and data audit tables.",
-                "- `paper/`: TeX paper, sections, references, and compiled PDF.",
+                "- `paper/`: single TeX paper entry `main.tex`, references, and compiled PDF.",
                 "- `appendix/`: appendix code and supplemental material.",
                 "- `logs/`: run log and error recovery log.",
                 "",
