@@ -12,3 +12,8 @@ build/
 *.out
 *.toc
 *.synctex.gz
+
+# External reference packs are for local reading only; do not package them.
+examples/real_cases/_tmp_*/
+examples/real_cases/*_reference_pack.zip
+examples/real_cases/*_author_delivery_*.zip

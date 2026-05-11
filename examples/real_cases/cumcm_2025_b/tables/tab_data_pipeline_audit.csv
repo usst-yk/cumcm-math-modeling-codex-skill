@@ -1,3 +1,0 @@
-﻿sample_id,angle_deg,raw_points,uniform_points,median_step_cm^-1,step_cv,analysis_band_cm^-1,corrected_std,smoothed_std,sliding_fft_windows,median_snr
-sic_10deg,10.0,3001,3001,1.000,0.000000,1200-3800,5.6923,5.6250,10,1.54
-sic_15deg,15.0,3001,3001,1.000,0.000000,1200-3800,5.6673,5.6002,10,1.47

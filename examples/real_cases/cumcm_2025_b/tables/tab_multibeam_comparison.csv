@@ -1,3 +1,0 @@
-﻿model,thickness_um,finesse,sse,aic,decision
-two_beam_main_frequency,8.000016,not_applicable,501.619,-14881.012,baseline
-airy_multibeam,8.025410,0.0200,4568.034,-1626.605,Airy模型未带来显著改进

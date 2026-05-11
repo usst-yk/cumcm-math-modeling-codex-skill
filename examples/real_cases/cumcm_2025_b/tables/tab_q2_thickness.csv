@@ -1,3 +1,0 @@
-﻿sample_id,angle_deg,true_thickness_um,estimated_thickness_um,abs_error_um,relative_error_pct,peak_count,mean_peak_spacing_cm^-1,peak_thickness_um,fft_thickness_um,fit_frequency_cycles_per_cm^-1,fit_rmse_reflectance_pct
-sic_10deg,10.0,8.000000,7.999950,0.000050,0.000623,12,245.739662,7.997677,7.858766,0.004070504,0.289120
-sic_15deg,15.0,8.000000,8.000082,0.000082,0.001020,12,246.546125,7.994296,7.881224,0.004058971,0.289092

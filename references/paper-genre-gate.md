@@ -19,7 +19,9 @@ It still needs clear scientific prose, readable units, and useful captions.
 ## Contest Paper Main-Body Ban List
 
 The following terms are P1 when they appear in the main body of a
-`contest_paper`. They are allowed in appendix or reproduction notes when needed.
+`contest_paper`. For an official submission, they should not appear in the
+submitted appendix either; keep command/path details in internal reproduction
+notes instead.
 
 - `skill`
 - `benchmark`
@@ -49,8 +51,10 @@ Appendix text begins after one of these signals:
 - a section title containing `附录`, `Appendix`, `复现`, or `Reproduction`
 - a section file whose name contains `appendix`, `repro`, or `supplement`
 
-Reproducibility details may live there: commands, data filenames, scripts,
-environment notes, seeds, and output paths.
+Official appendices should use paper-facing wording: data口径, calculation口径,
+result consistency, and limitations. Commands, data filenames, scripts,
+environment notes, seeds, and output paths belong in internal reproduction notes
+or project reports, not the submitted paper.
 
 ## Severity
 
@@ -71,5 +75,5 @@ template phrases, and captions too weak to support the figure.
   cleaned data set", or "the appendix reproduction files".
 - Replace benchmark language with problem-facing language: "representative
   scenario", "historical sample", "validation set", or "comparison baseline".
-- Move commands, file names, seeds, package versions, and folder names to the
-  appendix.
+- Move commands, file names, seeds, package versions, and folder names out of
+  the submitted paper and into internal reproduction notes.

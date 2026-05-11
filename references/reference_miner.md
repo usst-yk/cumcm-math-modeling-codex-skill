@@ -49,3 +49,24 @@ For 2025 B-type thin-film work, search or verify:
 - Airy multi-beam interference formula;
 - refractive-index values for the material and spectral band;
 - numerical fitting practices for reflectance/transmittance spectra.
+
+## C-Problem NIPT Prompts
+
+For 2025 C-type NIPT timing and fetal abnormality work, search or verify:
+
+- official four-question structure and data-column meaning before reducing the
+  task into a smaller synthetic case;
+- fetal fraction definition, platform-dependent threshold ranges, and the role
+  of the common 4% quality-control cutoff;
+- evidence that fetal fraction is affected by gestational age, BMI or maternal
+  weight, age, and sequencing/sample quality;
+- low-fetal-fraction, no-call, and false-negative risks, with clear wording
+  that NIPT is a screening test rather than a diagnostic conclusion;
+- male-fetus routes that use Y concentration only after data-quality checks;
+- female-fetus routes that do not treat missing/zero Y concentration as
+  abnormality evidence, and instead use chromosome Z-scores, X-chromosome
+  signals, GC correction, read-depth/unique-read/filtering quality indicators,
+  ROC, sensitivity, specificity, PPV/NPV when a valid label and prevalence are
+  available;
+- threshold, BMI-boundary, weight, and measurement-error sensitivity needed to
+  defend a recommended NIPT timing plan.

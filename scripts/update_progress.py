@@ -191,7 +191,7 @@ def event_detail(event: dict) -> str:
     extras = {key: value for key, value in event.items() if key not in known and key not in {"task", "step", "action", "owner", "agent", "checkpoint"}}
     if extras:
         parts.append(json.dumps(extras, ensure_ascii=False, sort_keys=True))
-    return "；".join(parts)
+    return " | ".join(parts)
 
 
 def render_html(
@@ -258,7 +258,7 @@ def render_html(
             if key == "path":
                 continue
             registry_items.append(f"{html.escape(str(key))}: {html.escape(str(value))}")
-    registry_html = "；".join(registry_items) if registry_items else "No registry summary loaded."
+    registry_html = " | ".join(registry_items) if registry_items else "No registry summary loaded."
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(
         f"""<!doctype html>

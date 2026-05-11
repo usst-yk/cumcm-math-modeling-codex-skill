@@ -99,6 +99,30 @@ def rel_exists(root: Path, value: str) -> bool:
     return path.exists() or (root / path).exists()
 
 
+def numeric_token_close(token: str, registry_values: set[str]) -> bool:
+    """Allow paper abstracts to quote rounded values from the result registry."""
+    raw = token.rstrip("%")
+    try:
+        target = float(raw)
+    except ValueError:
+        return False
+    if "." in raw:
+        decimals = len(raw.split(".", 1)[1])
+        tolerance = 0.5 * 10 ** (-decimals) + 1e-12
+    else:
+        tolerance = 1e-12
+    for value in registry_values:
+        for match in NUM_RE.findall(value):
+            candidate_raw = match.rstrip("%")
+            try:
+                candidate = float(candidate_raw)
+            except ValueError:
+                continue
+            if abs(candidate - target) <= tolerance:
+                return True
+    return False
+
+
 def audit_registry(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
     issues: list[str] = []
     if registry.empty:
@@ -190,7 +214,11 @@ def audit_paper(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
         abstract = re.search(r"\\begin\{abstract\}(.*?)\\end\{abstract\}", text, flags=re.S)
         if abstract:
             numbers = [n for n in NUM_RE.findall(abstract.group(1)) if n not in {"1", "2", "3"}]
-            missing = [n for n in numbers if not any(n in v for v in values)]
+            missing = [
+                n
+                for n in numbers
+                if not any(n in v for v in values) and not numeric_token_close(n, values)
+            ]
             if missing:
                 issues.append(f"P1: abstract number(s) not found in result registry: {', '.join(sorted(set(missing)))}")
     return issues

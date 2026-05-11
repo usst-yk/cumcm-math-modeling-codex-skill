@@ -7,6 +7,27 @@ maintain `paper/main.tex`. Read `references/output-policy.md` before creating
 template files. Avoiding empty templates must not reduce figures, analysis,
 modeling, validation, or paper writing.
 
+## Rework Loop
+
+When continuing an existing case, start with synchronization and review:
+
+1. Check branch, dirty state, and remotes. Pull or merge the latest upstream
+   before changing artifacts. If conflicts occur, keep upstream skill
+   infrastructure and preserve local improvements that add stronger modeling,
+   validation, figures, or paper-facing prose.
+2. Open or refresh the progress page/dashboard when the user asks for progress.
+   Record subagent reviews, blockers, validation outcomes, and remaining risks.
+3. Use independent reviewer subagents for prize-oriented or final-paper rework
+   when available. Give them read-only review tasks and ask for P0/P1/P2
+   findings, not generic polishing.
+4. Compare against local excellent papers or reference packs. If no local
+   reference exists for the problem/topic, search trustworthy web sources and
+   record the sources used. Extract strategy only: structure, model progression,
+   validation logic, figure function, and writing standards.
+5. Before final validation, run the formal-paper prose gate: remove workflow,
+   script, dashboard, agent, benchmark, registry, test-passed, and closed-loop
+   wording from the abstract, body, captions, and conclusion.
+
 ## 72-Hour Contest Workflow
 
 | Time | Goal | Outputs |

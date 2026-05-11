@@ -1,2 +1,0 @@
-﻿auc,accuracy,sensitivity,specificity,threshold,tp,fp,tn,fn,sample_count
-0.859,0.889,0.586,0.947,0.38,17,8,143,12,180

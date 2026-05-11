@@ -32,11 +32,15 @@ Recommended status values:
 Register:
 
 - optimal objective values and selected decisions;
+- optimization objective values, solver/search status, feasibility status,
+  trace file, baseline objective, and optimality limitation;
 - prediction metrics and forecast headline values;
 - ranking results and top/bottom entities;
 - simulation peaks, thresholds, and final states;
 - sensitivity-analysis conclusions;
 - values quoted in abstract or conclusion.
+- objective-function parameters used in the paper, such as thresholds, weights,
+  target rates, time steps, risk coefficients, and decision bounds.
 
 ## Writer Rule
 

@@ -13,6 +13,8 @@
 1. `fig_qx_model_flow.png`：最终模型流程图，默认用 GPT-image 生成。生成前把
    中文提示、节点、箭头、图注和论文解释保存到
    `modeling/qx_model_flow_prompt.md` 或 `modeling/flowcharts/`。
+   如果流程图最终由代码绘制，也必须保存等价规格文件，说明节点、箭头、
+   图题、图注和对应论文结论。
 2. `fig_qx_result.png`：核心结果图。
 
 如果有验证、误差、约束或敏感性分析，再生成：

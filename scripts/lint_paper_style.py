@@ -12,10 +12,53 @@ from pathlib import Path
 
 CONTEST_BANNED_TERMS = [
     "mini benchmark",
+    "同一程序",
+    "程序生成",
+    "运行命令",
+    "项目验证程序",
+    "程序一致性",
+    "结果文件",
+    "文件路径",
+    "代码路径",
+    "随机种子",
     "代码执行准确性",
     "回归测试",
     "本测试案例",
     "本案例",
+    "本项目",
+    "该项目",
+    "项目组",
+    "项目报告",
+    "本报告",
+    "工作流",
+    "项目流程",
+    "执行流程",
+    "完整流程",
+    "自动化流程",
+    "处理流水线",
+    "pipeline",
+    "workflow",
+    "dashboard",
+    "进度面板",
+    "看板",
+    "任务分工",
+    "完成情况",
+    "阶段性成果",
+    "下一步工作",
+    "交付物",
+    "产出物",
+    "代码跑通",
+    "跑通",
+    "闭环",
+    "注册表闭环",
+    "结果注册表",
+    "测试用例",
+    "案例测试",
+    "单元测试",
+    "验收测试",
+    "自测",
+    "对拍",
+    "复现通过",
     "skill",
     "benchmark",
     "registry",
@@ -25,7 +68,27 @@ CONTEST_BANNED_TERMS = [
     "src/",
     "results/",
     "tables/",
+    "outputs/",
+    "main.tex",
+    "solve_",
+    ".py",
+    ".json",
+    ".xlsx",
     ".csv",
+]
+
+CONTEST_APPENDIX_META_TERMS = [
+    "运行命令",
+    "项目验证程序",
+    "程序一致性",
+    "同一程序",
+    "程序生成",
+    "结果文件",
+    "文件路径",
+    "代码路径",
+    "\\texttt{python",
+    "src/",
+    ".py",
 ]
 
 TEMPLATE_PHRASES = [
@@ -38,6 +101,17 @@ TEMPLATE_PHRASES = [
     "具有一定的参考价值",
     "具有良好的应用前景",
     "验证了模型的有效性",
+    "本文完成了",
+    "本项目完成了",
+    "本文围绕该问题开展工作",
+    "按照流程",
+    "依次完成",
+    "首先进行数据处理，然后建立模型",
+    "通过上述流程得到结果",
+    "形成了完整方案",
+    "实现了自动化求解",
+    "具有较强可操作性",
+    "取得了较好效果",
 ]
 
 WEAK_CAPTION_PHRASES = [
@@ -207,6 +281,44 @@ def find_contest_banned_terms(source: Source) -> list[Issue]:
     return issues
 
 
+def iter_appendix_spans(source: Source) -> list[tuple[int, int]]:
+    if source.appendix:
+        return [(0, len(source.text))]
+    marker = APPENDIX_MARKER_RE.search(source.text)
+    if not marker:
+        return []
+    return [(marker.start(), len(source.text))]
+
+
+def find_contest_appendix_meta_terms(source: Source) -> list[Issue]:
+    issues: list[Issue] = []
+    starts = line_index(source.text)
+    for begin, end in iter_appendix_spans(source):
+        body = source.text[begin:end]
+        lower = body.lower()
+        for term in CONTEST_APPENDIX_META_TERMS:
+            haystack = lower if term.isascii() else body
+            needle = term.lower() if term.isascii() else term
+            search_from = 0
+            while True:
+                found = haystack.find(needle, search_from)
+                if found < 0:
+                    break
+                pos = begin + found
+                issues.append(
+                    Issue(
+                        severity="P1",
+                        rule="contest-appendix-meta-ban",
+                        path=source.path,
+                        line=line_at(starts, pos),
+                        evidence=term,
+                        suggestion="Use formal calculation-scope and consistency wording; keep commands, paths, and project validation details out of the submitted paper.",
+                    )
+                )
+                search_from = found + max(1, len(needle))
+    return issues
+
+
 def find_path_pollution(source: Source, genre: str) -> list[Issue]:
     if genre != "contest_paper":
         return []
@@ -331,6 +443,7 @@ def lint(sources: list[Source], genre: str) -> list[Issue]:
     for source in sources:
         if genre == "contest_paper":
             issues.extend(find_contest_banned_terms(source))
+            issues.extend(find_contest_appendix_meta_terms(source))
             issues.extend(find_path_pollution(source, genre))
         issues.extend(find_long_decimals(source))
         issues.extend(find_unit_issues(source))

@@ -279,12 +279,6 @@
 [$cumcm-math-modeling] 我只需要第 1 问论文。请先核对已有结果表和图片，再写成 paper/main.tex。正文必须包括问题分析、假设和符号、模型公式、求解过程、结果解释、验证分析、局限说明和图表引用；不要编造新数字。
 ```
 
-最小输出参考：
-
-```text
-examples/single_question_minimal/
-```
-
 真实赛题 benchmark 参考：
 
 ```text
@@ -467,15 +461,13 @@ paper/main.tex    单一论文入口
 
 | 目录或文件 | 用途 |
 | --- | --- |
-| `single_question_minimal/` | 只做一问时的最小输出示例，展示必要成品；真实做题仍优先使用默认目录名。 |
-| `full_problem_demo/` | 小型完整交付 demo，最接近默认目录结构，展示建模思路、结果表、图、注册表、验证报告和单文件 TeX 论文。 |
 | `real_cases/cumcm_2025_a/` | 2025 年国赛 A 题完整 benchmark，含 Q1-Q5 求解、图表、结果注册表、验证报告和 TeX 论文；不是标准答案。 |
-| `real_cases/cumcm_2025_b/` | 2025 年国赛 B 题 benchmark，按默认输出目录整理。 |
-| `real_cases/cumcm_2025_c/` | 2025 年国赛 C 题 benchmark，按默认输出目录整理。 |
 | `real_cases/huadong_cup_a/` | 华东杯 A 题路线规划 benchmark，含静态路线、实时重规划、中文图表、结果注册表和 TeX 论文。 |
 | `README.md` | 所有自然语言提示集中在本文件，避免分散到多个小文件。 |
 
 真实案例用于检查 skill 在真实题面上的组织能力和建模短板，不等同于标准答案。
+为控制 skill 体积，仓库只保留一个国赛 A 题工程物理案例和一个华东杯 A 题
+路线规划案例；其他题型通过 `references/` 的方法卡和提示词路由覆盖。
 真实案例和新项目都按默认输出目录组织。
 2025 A 题 benchmark 已记录一个重要不足：同航向多弹联合优化不能只靠单弹方案叠加，
 需要更专门的联合搜索或动态规划。

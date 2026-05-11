@@ -14,11 +14,22 @@
 | `B_problem_figure_referee.md` | 审查机制图、处理图、频域图、拟合图、残差图、敏感性图和多光束判定图是否支撑结论。 |
 | `storyline_planner.md` | 把 B 题写成“物理基线 -> 实测反演 -> 多光束判定与修正”的三问递进故事线。 |
 
+## 2025 C Problem NIPT Evidence Chain
+
+| File | Purpose |
+| --- | --- |
+| `literature-research.md` | 对胎儿浓度、BMI/孕周影响、4% 阈值、no-call 风险和筛查/诊断边界做文献门。 |
+| `reference_miner.md` | 抽取 C 题官方题面、医学机制、质量控制、评价指标和优秀论文结构规则。 |
+| `award-paper-learning.md` | 从优秀论文包学习 baseline -> 主模型 -> 修正/稳健层，不复制正文、图、数据或代码。 |
+| `C_problem_nipt_pipeline.md` | 规定 C 题四问路线、图表证据链、验证门和论文降级/返工规则。 |
+| `first-prize-rubric.md` | 按省奖/一等奖导向审查问题覆盖、机制、基线、验证、鲁棒性、图表和论文 readiness。 |
+
 ## Core Workflow
 
 | File | Purpose |
 | --- | --- |
 | `core-rules.md` | 核心行为、论文优先循环、硬规则和默认图表字体。 |
+| `prompt-router.md` | 把用户自然语言请求映射到 `examples/README.md` 的分步提示词，并规定逐问子 agent 模式。 |
 | `task-routing.md` | 判断用户需求对应的工作模式和参考文件。 |
 | `problem-parsing.md` | 题面解析标准：子问、输入、输出、约束、单位、附件和风险词。 |
 | `agent-workflow.md` | Coordinator -> Modeler -> Coder -> Writer -> Reviewer 的阶段流程。 |

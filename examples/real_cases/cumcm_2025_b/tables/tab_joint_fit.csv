@@ -1,3 +1,0 @@
-﻿method,thickness_um,rmse_reflectance_pct,comment
-single_angle_mean,8.000016,0.289,two single-angle fits averaged after Snell correction
-two_angle_joint_fit,8.000026,0.289096,shared thickness with angle-specific linear amplitudes

@@ -111,6 +111,10 @@ Do not enter Solver until:
 - every selected model has variables, objective/evaluation criterion, constraints, input data, output tables/figures, and validation plan;
 - every selected model explains the derivation and solution procedure step by
   step, not only the final formulas;
+- each `modeling/qx_modeling_idea.md` includes problem meaning, input/output,
+  variables, parameters, assumptions, formulas, objective/evaluation,
+  constraints, baseline, primary model, solution steps, validation plan,
+  figure/table plan, and paper-writing plan;
 - every selected route names benchmark evidence or an explicit gap, a target
   rubric item, a selling point, and the validation that would prove the selling
   point is not cosmetic;
@@ -135,11 +139,14 @@ Do not validate final conclusions until:
   stated in the final answer or recorded in `results/validation_report.md`;
 - every headline value is traceable to a saved table, code output, problem fact,
   or `results/result_registry.csv`;
-- run commands are stated in the final answer or recorded in `paper/main.tex`
-  reproduction notes;
-- solver status, random seed, or failure status is recorded when relevant.
+- solver status, search status, or failure status is recorded when relevant;
 - baseline-vs-main comparison, small-case hand check, boundary check, or
-  constraint violation check exists for any headline improvement claim.
+  constraint violation check exists for any headline improvement claim;
+- after solving Qx, code variables/formulas/constraints/results/figures have
+  been reverse-checked against `modeling/qx_modeling_idea.md`; if they differ,
+  update the modeling idea before writing `paper/main.tex`;
+- any `fig_qx_model_flow.png` has a saved prompt/spec such as
+  `modeling/qx_model_flow_prompt.md`, even when the final figure is code-drawn.
 
 ## Stage 5 -> Stage 6: Validator To Writer
 
@@ -201,7 +208,9 @@ Do not enter final review until:
 - table/figure captions match generated filenames;
 - assumptions are used in the model or removed;
 - paper references to figures/tables point to existing artifacts;
-- appendix lists main script, inputs, outputs, dependencies, seed, and run command.
+- official appendix uses formal data/calculation口径 and consistency language;
+  scripts, paths, dependencies, seeds, and run commands stay in internal
+  reproducibility records rather than the submitted paper.
 - AI-assisted figures, text, code, or references are declared according to
   `references/ai-compliance-reproducibility.md` when applicable;
 - AI-generated schematic figures are clearly marked as schematic/conceptual and
