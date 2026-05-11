@@ -53,6 +53,9 @@ Read only the relevant file(s):
 - Problem parsing: `references/problem-parsing.md`, then use `scripts/problem_parser.py`
 - Task decomposition: use `scripts/build_task_plan.py`
 - Model selection: `references/method-cards.json`, then `references/method-library.md` if needed
+- Mathematical depth: `references/advanced-math-modeling.md` when the problem has
+  physical mechanisms, networks, uncertainty, causal questions, PDE/ODE dynamics,
+  stochastic processes, or when the user asks for stronger mathematical modeling
 - CUMCM A problem: `references/cumcm-a-problem-patterns.md`
 - Code to paper: `references/code-to-paper.md`, `references/result-tracking.md`
 - Paper writing: `references/paper-writing.md`, `references/paper-assembly.md`
@@ -77,6 +80,13 @@ and reviewer.
 - Do not let `modeling/qx_modeling_idea.md` collapse into a formula list; every
   solved question needs a section such as “逐步建模推导” explaining how the
   model is built from the problem facts, in prose a beginner can follow.
+- Do not stop at generic contest methods when a mechanism-based mathematical
+  model is justified. For physics, supply-chain, PDE/ODE, stochastic, network,
+  control, or causal tasks, consider whether a deeper mathematical model can be
+  used as the main model, correction model, or validation model.
+- Do not force advanced mathematics for decoration. Every advanced model must
+  have variables, assumptions, equations, parameter sources, numerical solution
+  steps, and validation or boundary checks that can be written into the paper.
 - Do not report optimality without solver status and feasibility checks.
 - Do not claim high accuracy without metrics or a baseline.
 - Do not leave placeholders in final deliverables unless the user asked for a draft.

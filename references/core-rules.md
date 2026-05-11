@@ -7,6 +7,10 @@ Use this file for the persistent behavior that should not crowd `SKILL.md`.
 - Correctness before speed: parse questions, constraints, units, outputs,
   attachments, and scoring clues first.
 - Paper quality before speed: a complete TeX paper is better than a thin report.
+- Award-oriented rule: the judged product is the paper, not code, scratch notes,
+  or chat. A strong model only raises the ceiling; `paper/main.tex` must make
+  the model, results, validation, and conclusions visible, coherent, and
+  checkable to judges.
 - Full route design defaults to three routes: baseline, primary route, fallback.
 - Urgent or single-question work may reduce empty files, but must not reduce
   problem analysis, route comparison, modeling depth, solving, validation, or
@@ -29,6 +33,16 @@ Process each subquestion as:
 6. saved tables, figures, code outputs, and validation notes;
 7. validation;
 8. update `paper/main.tex`.
+
+For every solved subquestion, prepare paper-ready material immediately:
+
+- the role of this subquestion in the whole paper;
+- variables, assumptions, objective/evaluation function, constraints, and
+  outputs;
+- result tables, Chinese figures, captions, and explanatory prose;
+- baseline, error, feasibility, sensitivity, robustness, or boundary checks;
+- variables, parameters, assumptions, metrics, or intermediate results shared
+  with later subquestions.
 
 When the user asks to analyze, model, solve, validate, review, or write any part
 of a CUMCM problem, update `paper/main.tex`. Do not interpret "solve Qx",
@@ -71,6 +85,11 @@ of a CUMCM problem, update `paper/main.tex`. Do not interpret "solve Qx",
 - Never claim "模型精度较高" without an error metric or comparison baseline.
 - Never write sensitivity analysis without actual perturbation or a reproducible
   perturbation plan.
+- Never rely on brute-force enumeration as the final "model" unless the search
+  space is small enough to enumerate exactly and the paper explains why that
+  enumeration is complete. For larger contest problems, use assumptions,
+  structure, decomposition, optimization, simulation, or bounds to make the
+  problem sufficiently realistic, solvable, and verifiable.
 - Never cite figures/tables that were not generated or provided.
 - Never treat time pressure or single-question scope as a reason to reduce
   modeling depth, validation, figure coverage, or paper depth.

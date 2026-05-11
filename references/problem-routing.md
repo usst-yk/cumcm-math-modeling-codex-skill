@@ -16,6 +16,9 @@ an algorithm.
 | 调度 | FIFO、最短加工时间、最近邻 | MILP、CP-SAT、动态规划、遗传算法、模拟退火、禁忌搜索 | 时间窗/容量可行性、延误/成本、基线方案、小规模枚举 |
 | 评价 | 等权评分、单指标排序 | 熵权-TOPSIS、AHP、组合赋权、PCA、灰色关联、模糊综合评价 | 指标方向、标准化、权重扰动、排序稳定性、替代权重 |
 | 传播 | 指数增长、Logistic | SIR/SEIR、差分方程、元胞自动机、Agent-based simulation | 参数敏感性、峰值/终态、边界案例、重复运行 |
+| 物理/流体/扩散 | 匀速、线性衰减、稳态或无阻力近似 | 牛顿动力学、阻力 ODE、对流-扩散 PDE、高斯烟羽、有限差分/有限体积 | 量纲/单位、守恒或边界条件、网格收敛、无阻力/无扩散极限 |
+| 供应链/库存/排队 | EOQ、规则补货、单期容量平衡、贪心调拨 | 网络流、随机规划、鲁棒优化、MILP、排队网络、库存控制 | 可行性、服务水平、容量/流量守恒、场景压力测试、对偶/松弛界 |
+| 因果/政策评估 | 相关分析、前后均值差、线性回归 | DAG、倾向得分、双重差分、工具变量、断点回归、面板固定效应 | 识别假设、平衡性、安慰剂检验、稳健性、混杂敏感性 |
 | 空间 | 欧氏距离、最近点、区域均值 | GIS、IDW/Kriging、Voronoi、p-median、最大覆盖、空间聚类 | 坐标/尺度检查、边界效应、距离敏感性、覆盖率 |
 | 分类 | 多数类、逻辑回归/简单树 | SVM、随机森林、XGBoost、CNN/迁移学习 only with enough images | 混淆矩阵、准确率/召回率/F1、误判分析、特征贡献 |
 | 聚类 | K-means with small K, 人工分组 | K-means、层次聚类、DBSCAN、GMM、谱聚类 | 轮廓系数、CH/DBI、稳定性、簇解释 |
@@ -35,6 +38,21 @@ For every full problem and single-question deep solution, compare exactly three 
 
 ## Method Guardrails
 
+- Before finalizing a route, perform a mathematical-depth pass. If the problem
+  has physical, operational, stochastic, network, control, or causal mechanisms,
+  read `references/advanced-math-modeling.md` and decide whether an ODE/PDE,
+  stochastic process, network flow, robust optimization, optimal control, or
+  causal model should be the main model, correction model, or validation model.
+- Prefer mechanism-based mathematical models over generic scoring or black-box
+  fitting when the mechanism can be expressed and validated.
+- Do not add advanced formulas only for decoration. The paper must explain the
+  mechanism, assumptions, parameters, equations, solution, and validation.
+- Choose a model that is just realistic enough, just solvable enough, and just
+  verifiable enough. Too simple misses the task mechanism; too complex cannot
+  be solved, checked, or explained within contest time.
+- Use brute force only as a small-case exact check, baseline, or bounded
+  exhaustive search. Do not present unstructured large enumeration as the main
+  modeling contribution.
 - Do not use TOPSIS/AHP/entropy weighting unless the task is genuinely evaluation/ranking and indicator direction can be checked.
 - Do not use neural networks when the sample is small or no validation split is possible.
 - Do not force ARIMA when there is no time-series structure.

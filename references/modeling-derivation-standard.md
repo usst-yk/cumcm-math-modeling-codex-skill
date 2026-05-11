@@ -24,33 +24,45 @@ Write the derivation as a chain of small transformations:
    operational, or evaluation mechanism that connects variables.
 4. **Assumptions with purpose**: for each assumption, say what missing detail it
    resolves, why it is reasonable, and what limitation it creates.
-5. **Equation construction**: derive each equation or criterion from the
+5. **Mathematical depth choice**: decide whether the mechanism calls for a
+   deeper mathematical model such as ODE/PDE, stochastic process, network flow,
+   dynamic programming, robust optimization, optimal control, or causal
+   inference. If yes, state whether it is the main model, correction model, or
+   validation model. If no, state why a simpler model is sufficient.
+6. **Equation construction**: derive each equation or criterion from the
    mechanism. Explain what the left side means, what the right side means, and
    why the equality/inequality is the right one.
-6. **Constraints and boundaries**: list domain limits, time windows, capacity
+7. **Constraints and boundaries**: list domain limits, time windows, capacity
    limits, feasibility requirements, initial/final conditions, and invalid
    cases.
-7. **From local condition to global answer**: explain how pointwise,
+8. **From local condition to global answer**: explain how pointwise,
    single-sample, single-path, or single-period conditions are aggregated into
    the final objective, duration, score, ranking, forecast, or strategy.
-8. **Algorithm from equations**: translate formulas into implementable steps:
+9. **Algorithm from equations**: translate formulas into implementable steps:
    inputs, preprocessing, loops/search/solver/fitting, stopping or boundary
    rules, outputs, and failure status.
-9. **Validation hooks**: state which intermediate values, baselines, edge
+10. **Validation hooks**: state which intermediate values, baselines, edge
    cases, sensitivity checks, or conservation/feasibility checks will verify
    the model.
-10. **Paper wording plan**: note which derivation paragraphs, formulas, tables,
+11. **Paper wording plan**: note which derivation paragraphs, formulas, tables,
     and figures must be written back to `paper/main.tex`.
 
 ## Task-Type Prompts
 
 - **Geometry/physics**: explain coordinate system, object representation,
   motion law, distance/intersection/contact condition, boundary event, and
-  time/space aggregation.
+  time/space aggregation. If drag, diffusion, flow, or field evolution matters,
+  consider ODE/PDE, finite-difference/finite-volume discretization, and
+  conservation or limiting-case checks.
 - **Optimization**: explain decision variables, objective source, every
-  constraint source, baseline, solver status, and feasibility checks.
+  constraint source, baseline, solver status, and feasibility checks. For
+  supply-chain, routing, or resource-allocation tasks, consider network flow,
+  stochastic/robust optimization, dynamic programming, queueing, or inventory
+  control before using a generic heuristic.
 - **Prediction**: explain target variable, temporal split, features, baseline,
   loss metric, validation window, and error interpretation.
+- **Causal/statistical intervention**: explain treatment, outcome, confounders,
+  causal graph or identification strategy, model equation, and robustness tests.
 - **Evaluation/ranking**: explain indicator meaning, direction, normalization,
   weight source, score aggregation, and ranking stability.
 - **Simulation**: explain state variables, transition rule, parameters,
@@ -63,6 +75,8 @@ Before solving or writing the paper, ask:
 - Could a beginner identify where each equation came from?
 - Did every symbol in a formula appear earlier with units or meaning?
 - Did the text explain why this model fits the problem better than the baseline?
+- Did the text check whether a deeper mathematical model is useful, and avoid
+  both under-modeling and decorative over-modeling?
 - Are assumptions doing necessary work rather than hiding the conclusion?
 - Is the algorithm a direct implementation of the derived equations?
 - Are there validation hooks for the main mechanism and the headline result?
