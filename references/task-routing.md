@@ -18,7 +18,7 @@ communication natural; do not expose commands unless the user asks.
 | Data attachments present | `scripts/data_profile.py`, `references/data-audit.md` |
 | Choose a model | `agents/modeler.md`, `references/problem-routing.md`, `references/method-cards.json`, `references/method-library.md` |
 | Write or fix solving code | `agents/coder.md`, `references/python-matlab-guide.md` |
-| Figure planning for a solved question | `references/figure-plan.md`, `references/figure-standards.md` |
+| Figure planning for a solved question | `references/figure-plan.md`, `references/figure-standards.md`; default to GPT-image model flowchart plus result figure |
 | Validate results | `references/validation.md`, `scripts/validate_results.py` when project artifacts exist |
 | Code/tables/figures to paper | `references/code-to-paper.md`, `references/result-tracking.md`, `agents/writer.md` |
 | Final abstract | `agents/abstract_writer.md`, `references/paper-writing.md`, `references/scoring-checklist.md`, `references/result-tracking.md` |
