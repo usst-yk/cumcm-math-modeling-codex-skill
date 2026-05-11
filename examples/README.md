@@ -60,9 +60,74 @@
 
 ## 示例目录
 
+先按自己当前需求选目录：
+
 | 目录 | 用途 |
 | --- | --- |
 | `single_question_minimal/` | 只做一问的最小示例。 |
 | `full_problem_demo/` | 小型三问 toy demo，用来检查完整流程。 |
 | `real_cases/cumcm_2025_a/` | 2025 国赛 A 题 benchmark，覆盖 Q1-Q5。 |
 | `real_cases/huadong_cup_a/` | 华东杯 A 题路线规划 benchmark。 |
+
+### `single_question_minimal/`
+
+这个目录演示“我只负责第 1 问”时应该留下哪些文件。它适合队伍分工、
+只想先把某一问做扎实、或者想确认 `paper/main.tex` 单问写法的新手。
+
+里面主要看：
+
+- `problem.md`：这一问的题面简化版。
+- `modeling/`：第 1 问详细建模思路和 GPT-image 流程图提示。
+- `src/`：第 1 问求解脚本。
+- `tables/`：第 1 问结果表。
+- `figures/`：模型流程图和结果图。
+- `results/`：验证说明。
+- `paper/main.tex`：第 1 问论文正文。
+
+### `full_problem_demo/`
+
+这个目录是一个很小的三问示例，用来展示完整闭环：读题、拆题、建模、
+代码、表格、图片、验证、论文。它不是竞赛强题，只用来理解流程。
+
+里面主要看：
+
+- `problem/`：题面和 Q1-Q3 任务拆解。
+- `data/`：示例数据。
+- `modeling/`：每问建模思路和路线比较。
+- `src/`：生成结果表和结果图的脚本。
+- `tables/`：数据审计表和每问结果表。
+- `figures/`：技术路线图、模型流程图、结果图、验证图。
+- `results/`：验证报告和自动检查记录。
+- `paper/main.tex`：三问合在一起的论文示例。
+
+### `real_cases/cumcm_2025_a/`
+
+这个目录是 2025 国赛 A 题 benchmark，适合看工程物理类 A 题如何组织：
+坐标系、运动学、遮蔽判据、多问递进、结果表和论文叙事。
+
+里面主要看：
+
+- `problem/`：真实题面、题面解析和 Q1-Q5 任务计划。
+- `data/`：result1、result2、result3 附件模板。
+- `modeling/`：Q1-Q5 每问详细建模思路。
+- `src/`：Q1、Q2、Q3-Q5 的求解脚本和绘图工具。
+- `tables/`：关键点、策略、遮蔽区间、附件格式 benchmark 输出。
+- `figures/`：题面几何图、每问模型流程图、结果图和验证图。
+- `results/`：验证报告、自动检查记录和 benchmark 发现的问题。
+- `paper/main.tex`：完整 benchmark 论文。
+
+### `real_cases/huadong_cup_a/`
+
+这个目录是华东杯 A 题路线规划 benchmark，适合看路线规划、调度、
+动态规划、实时重规划和游客偏好建模。
+
+里面主要看：
+
+- `problem/`：题面、题面解析和两问任务计划。
+- `data/`：项目位置、排队时间、游客偏好和实时排队扰动数据。
+- `modeling/`：静态路线规划和实时重规划的建模思路。
+- `src/`：路线求解脚本和图表工具。
+- `tables/`：路线汇总、逐步路线、基线对比和实时调整结果。
+- `figures/`：项目位置图、模型流程图、结果图和验证图。
+- `results/`：验证报告。
+- `paper/main.tex`：完整 benchmark 论文。
