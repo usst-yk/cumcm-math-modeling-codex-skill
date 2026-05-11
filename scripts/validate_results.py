@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import argparse
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -348,7 +350,10 @@ def audit_figure_coverage(root: Path, registry: pd.DataFrame, mode: str) -> list
                 f"P1: solved {question.upper()} has fewer than two figures; "
                 "expected a model flowchart plus a result figure."
             )
-        if not any("model_flow" in name or "flowchart" in name or "流程" in name for name in names):
+        if not any(
+            "model_flow" in name or "model_schematic" in name or "flowchart" in name or "流程" in name
+            for name in names
+        ):
             issues.append(f"P1: solved {question.upper()} is missing a final model flowchart figure.")
 
         if "subquestion" not in registry.columns:
@@ -409,6 +414,12 @@ def main() -> int:
         default="results/validation_audit.md",
         help="Audit report path relative to project.",
     )
+    parser.add_argument(
+        "--paper-genre",
+        choices=["none", "contest_paper", "benchmark_report"],
+        default="none",
+        help="Optional paper prose style gate.",
+    )
     args = parser.parse_args()
 
     root = Path(args.project).expanduser().resolve()
@@ -422,6 +433,27 @@ def main() -> int:
     issues.extend(audit_figure_coverage(root, registry, args.mode))
     if args.mode == "full":
         issues.extend(audit_unreferenced(root, registry))
+    if args.paper_genre != "none":
+        lint_script = Path(__file__).resolve().parent / "lint_paper_style.py"
+        if lint_script.exists():
+            proc = subprocess.run(
+                [
+                    sys.executable,
+                    str(lint_script),
+                    "--paper",
+                    str(root / "paper" / "main.tex"),
+                    "--genre",
+                    args.paper_genre,
+                ],
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                capture_output=True,
+            )
+            if proc.returncode != 0:
+                issues.append(f"P1: paper style lint failed for {args.paper_genre}.")
+        else:
+            issues.append("P1: paper style lint script not found.")
 
     out = root / args.output
     out.parent.mkdir(parents=True, exist_ok=True)

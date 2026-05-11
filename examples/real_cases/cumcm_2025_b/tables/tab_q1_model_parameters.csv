@@ -1,0 +1,4 @@
+﻿parameter,value,unit,meaning
+refractive_index,2.550000,1,constant refractive index used in the inverse formula
+known_thickness,8.000000,um,known reference thickness
+error_tolerance,0.050000,um,accepted upper bound of absolute error

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import re
+import json
 from pathlib import Path
 
 
@@ -71,11 +72,57 @@ def check_required_entrypoints(issues: list[str]) -> None:
             issues.append(f"missing required entrypoint: {rel}")
 
 
+def check_task_plan_fields(issues: list[str]) -> None:
+    schema_path = ROOT / "templates" / "task_plan.schema.json"
+    template_path = ROOT / "templates" / "task_plan.json"
+    required_fields = {"benchmark_sources", "rubric_targets", "selling_points", "revision_status"}
+    try:
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        template = json.loads(template_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        issues.append(f"task plan template/schema could not be read: {exc}")
+        return
+
+    top_props = set(schema.get("properties", {}))
+    missing_top = {"benchmark_sources", "rubric_targets", "revision_status"} - top_props
+    if missing_top:
+        issues.append(f"task_plan.schema.json missing top-level fields: {', '.join(sorted(missing_top))}")
+
+    sub_props = set(
+        schema.get("properties", {})
+        .get("subquestions", {})
+        .get("items", {})
+        .get("properties", {})
+    )
+    missing_sub = required_fields - sub_props
+    if missing_sub:
+        issues.append(f"task_plan.schema.json missing subquestion fields: {', '.join(sorted(missing_sub))}")
+
+    missing_template_top = {"benchmark_sources", "rubric_targets", "revision_status"} - set(template)
+    if missing_template_top:
+        issues.append(f"task_plan.json missing top-level fields: {', '.join(sorted(missing_template_top))}")
+
+    for idx, subquestion in enumerate(template.get("subquestions", []), start=1):
+        missing = required_fields - set(subquestion)
+        if missing:
+            issues.append(f"task_plan.json subquestion {idx} missing fields: {', '.join(sorted(missing))}")
+
+
+def check_full_project_dirs(issues: list[str]) -> None:
+    script = ROOT / "scripts" / "init_cumcm_project.py"
+    text = script.read_text(encoding="utf-8")
+    for item in ['"logs"', '"presentation"', '"presentation/figures"', '"figures/ai_briefs"']:
+        if item not in text:
+            issues.append(f"init_cumcm_project.py full mode should include {item.strip(chr(34))}/")
+
+
 def main() -> int:
     issues: list[str] = []
     check_front_matter(issues)
     check_referenced_paths(issues)
     check_required_entrypoints(issues)
+    check_task_plan_fields(issues)
+    check_full_project_dirs(issues)
     if issues:
         print("Skill structure checks failed:")
         for issue in issues:

@@ -1,0 +1,260 @@
+\documentclass[UTF8]{ctexart}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{array}
+\usepackage{amsmath}
+\geometry{a4paper, margin=2.5cm}
+\title{碳化硅外延层厚度的红外干涉反演模型}
+\author{}
+\date{}
+\begin{document}
+\maketitle
+\begin{abstract}
+本文研究碳化硅外延层厚度的红外反射光谱反演问题。围绕“物理建模、实测型光谱处理、多光束判定”三问递进关系，先由 Snell 定律、光程差和 Fresnel 反射系数建立双光束基线模型，并讨论 Cauchy 色散折射率对常数折射率近似的限制；再构造排序、等间距重采样、边缘波段裁剪、去趋势、辅助平滑、滑窗 FFT 和 SNR 选带的数据处理链；最后以 Airy 模型比较多光束修正是否必要。对 $10^\circ$ 与 $15^\circ$ 两组受控光谱，单角度主频拟合分别得到 8.0000 和 8.0001 $\mu\mathrm{m}$，双角度联合拟合得到共享厚度 8.0000 $\mu\mathrm{m}$；合成回收最大绝对误差为 $8.16\times10^{-5}$ $\mu\mathrm{m}$。残差曲线、残差分布、残差频谱、滑窗 FFT、单角度/联合拟合对比以及折射率和入射角敏感性共同构成可靠性证据链。Airy 多光束比较显示当前受控数据中 Airy模型未带来显著改进，因此问题2的厚度不需按多光束结果修正。上述数值用于验证可复现流程；处理官方附件或真实硅片时，应重新估计色散参数、多光束条件和不确定度区间。
+
+\textbf{关键词：}碳化硅外延层；红外干涉；Cauchy 色散；联合拟合；Airy 多光束；残差诊断
+\end{abstract}
+
+\section{问题重述}
+碳化硅外延层厚度是外延片质量控制中的关键参数。红外反射法利用外延层上下界面反射光的相干叠加，把几何厚度转化为波数域反射率曲线中的干涉条纹周期。题目要求不是简单代入一个峰间距公式，而是依次完成三个层次：建立由入射角、折射率和厚度决定条纹相位的物理模型；根据不同入射角下的光谱数据反演厚度并说明结果可靠性；判断是否存在多光束干涉，若存在则修正原有模型。
+
+本文的数值部分使用已知厚度的受控光谱来检验建模和计算链路。由于没有引入官方附件3/4或真实硅片数据，文中可报告合成回收误差，但不能把该误差解释为仪器精度或官方附件测量精度。真实应用中应以残差诊断、多角度一致性、方法互证、敏感性和不确定度区间作为主要可靠性依据。
+
+\section{问题分析}
+该问题的观测量是波数 $\nu$ 与反射率 $R(\nu)$，目标量是厚度 $d$。如果只使用相邻峰间距，计算透明但容易受峰值定位、平滑窗口和局部扰动影响；如果只使用 FFT，能快速给出主频量级，但会受到频率栅格和窗函数泄漏限制；如果只做单角度拟合，又难以证明两个入射角共享同一几何厚度。因此本文采用“峰间距初查--滑窗 FFT 选带--单角度主频拟合--双角度联合拟合--残差诊断”的链条。
+
+多光束部分则作为独立判定门。双光束模型解释主导条纹，Airy 模型解释多次反射导致的峰形锐化。只有当物理条件和残差证据同时支持多光束存在，才用 Airy 结果修正问题2厚度；否则应保留双光束结果，并把多光束比较作为可靠性说明。
+
+\section{数据预处理}
+波数域反射率曲线在拟合前先完成排序、等间距重采样、分析波段选择、趋势项估计和辅助平滑。等间距重采样保证 FFT 和滑窗频域分析有统一采样间隔；波段选择用于减少边缘区或低信噪区对主频的影响；去趋势用于把缓慢背景和干涉振荡分离；平滑只辅助识别峰值，不直接决定最终厚度。该处理流程把“为什么选这个波段和主频”变成可审计证据，而不是人工经验。
+
+\section{模型假设}
+\begin{enumerate}
+\item 外延层在受控分析中采用 $n_0=2.55$ 的常数折射率；正式实测应考虑 Cauchy 色散或将折射率作为待估参数。
+\item 反射率主导振荡来自空气--外延层表面和外延层--衬底界面的相干反射；多光束只在物理条件和残差证据满足时启用。
+\item 两个入射角对应同一几何厚度，联合拟合中厚度共享，幅值、相位和背景允许随角度变化。
+\item 平滑不改变最终拟合目标，峰间距和 FFT 只提供初值、选带和互证。
+\item 受控合成数据的已知厚度可用于回收误差检验；真实附件不能使用未知真值误差作可靠性指标。
+\end{enumerate}
+
+\section{符号说明}
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+符号 & 含义 & 单位\\
+\midrule
+$\nu$ & 波数 & $\mathrm{cm}^{-1}$\\
+$R(\nu)$ & 反射率 & \%\\
+$d$ & 外延层厚度 & $\mu\mathrm{m}$\\
+$n(\nu)$ & 外延层折射率 & 1\\
+$\theta,\theta_t$ & 入射角、折射角 & $^\circ$ 或 rad\\
+$f$ & 波数域主频 & $\mathrm{cm}$\\
+$F$ & Airy 多光束锐度参数 & 1\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{变量、约束与算法路线}
+本文的核心变量分为三类。第一类是观测变量，包括波数 $\nu_i$、反射率 $R_i$ 和入射角 $\theta_k$；第二类是物理参数，包括厚度 $d$、折射率 $n(\nu)$、折射角 $\theta_t$ 与多光束锐度 $F$；第三类是拟合辅助变量，包括背景项、振幅项、相位项和残差。这样的划分可以避免把可测量量、文献常数和待估参数混在同一层解释。
+
+模型约束来自物理和数据两方面。物理约束要求入射角与折射角满足 Snell 定律，厚度在不同入射角下保持同一几何值，折射率假设必须说明来源和适用波段；数据约束要求波数采样近似等间距，拟合频段具有足够主频信噪比，平滑不能直接改变最终厚度。对于问题三，只有当物理条件和残差证据都支持多光束存在时，Airy 模型才进入修正步骤。
+
+算法路线采用由浅入深的判据。先用峰间距和 FFT 得到厚度量级，检查是否存在单位或角度换算错误；再用单角度主频拟合获得初始厚度和残差；随后建立共享厚度的双角度联合目标函数，用同一 $d$ 解释两组光谱；最后比较双光束模型和 Airy 模型的残差平方和、信息准则和厚度稳定性。该路线把“算出一个数”改为“每一层模型都解释上一层留下的问题”。
+
+\section{模型建立}
+单次有效反射的基线模型从 Snell 定律开始。空气折射率取 $1$，外延层折射率记为 $n(\nu)$，则
+\[
+\sin\theta=n(\nu)\sin\theta_t(\nu).
+\]
+表面反射光与界面反射光的光程差为
+\[
+\Delta L(\nu)=2n(\nu)d\cos\theta_t(\nu),
+\]
+相位差为
+\[
+\delta(\nu)=4\pi n(\nu)d\cos\theta_t(\nu)\nu+\phi_0.
+\]
+若在窄波段内先把折射率近似为常数 $n_0$，反射率的主振荡可写为
+\[
+R(\nu)=a_0+a_1\cos(2\pi f\nu)+a_2\sin(2\pi f\nu)+\varepsilon(\nu),
+\qquad f=2n_0d\cos\theta_t.
+\]
+于是厚度反演公式为
+\[
+d=\frac{f}{2n_0\cos\theta_t},
+\]
+其中 $d$ 以 $\mathrm{cm}$ 表示时需乘以 $10^4$ 转换为 $\mu\mathrm{m}$。
+
+为了把该基线模型推进到正式 B 题所需的双光束模型，需要把反射强度写成反射系数的相干叠加。设空气--外延层和外延层--衬底界面的 Fresnel 反射系数分别为 $r_{01}$ 与 $r_{12}$，忽略高阶多次反射时有
+\[
+R_2(\nu)\approx A(\nu)+B(\nu)\cos\delta(\nu),
+\]
+其中 $A(\nu)$ 与 $B(\nu)$ 由 $r_{01},r_{12}$ 及吸收、仪器背景共同决定。本文的主频拟合相当于把 $A(\nu)$ 近似为缓慢背景，把 $B(\nu)$ 近似为局部稳定振幅；因此它适合作为初值和受控验证，但不是实测附件的终点模型。
+
+折射率色散用 Cauchy 形式表示为
+\[
+n(\lambda)=A+\frac{B}{\lambda^2}+\frac{C}{\lambda^4},
+\qquad \lambda=\frac{10^4}{\nu}\,\mu\mathrm{m}.
+\]
+在没有足够实测信息估计 $A,B,C$ 时，常数折射率只能作为基线假设；正式反演应把色散参数纳入拟合或至少纳入敏感性分析。本文保留常数 $n_0=2.55$ 的受控设置，并在后文用折射率扰动说明该假设对厚度的影响。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\textwidth]{../figures/fig_problem_overview.png}
+\caption{红外干涉测厚的物理机制：入射角经 Snell 定律转化为外延层内折射角，厚度通过相位差进入反射率条纹}
+\label{fig:problem_overview}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\textwidth]{../figures/fig_q1_model_flow.png}
+\caption{由波数主频反演厚度的基线链条；在正式实测中，该链条应继续接入 Fresnel 系数和 Cauchy 色散}
+\label{fig:q1schematic}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\textwidth]{../figures/fig_q1_result.png}
+\caption{受控光谱中的条纹周期与厚度映射；该图只用于解释主频初值，不替代正式的色散和多光束拟合}
+\label{fig:q1period}
+\end{figure}
+
+
+\section{模型求解与结果}
+厚度反演前先进行数据处理审计。本文将原始光谱按波数排序后等间距重采样，在受控数据中保留 $1200$--$3800\,\mathrm{cm}^{-1}$ 作为分析波段，并用二次趋势项刻画缓慢背景。平滑只用于辅助峰值识别，最终厚度仍由未被平滑决定的整段拟合和频域证据给出。图 \ref{fig:data_pipeline} 展示了原始光谱、重采样、去趋势和平滑辅助识峰的关系；两角度滑窗 FFT 的中位 SNR 分别为 1.54 与 1.47，说明主频在分析波段内具有稳定可识别的能量峰。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{../figures/fig_q2_model_flow.png}
+\caption{问题二的算法路线：峰间距提供人工基线，滑窗 FFT 选择稳定频段，主频拟合和双角度联合目标给出厚度估计}
+\label{fig:q2methodchain}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{../figures/fig_data_pipeline.png}
+\caption{数据处理审计链：等间距重采样保证 FFT 适用性，分析波段排除边缘影响，去趋势和平滑只服务频率识别与残差解释}
+\label{fig:data_pipeline}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{../figures/fig_sliding_fft_snr.png}
+\caption{滑窗 FFT 给出的厚度稳定性和主频信噪比；其作用不是替代拟合，而是证明选带和主频初值可靠}
+\label{fig:sliding_fft}
+\end{figure}
+
+设单角度拟合的目标函数为
+\[
+\min_{f,a_0,a_1,a_2,b}\sum_i\left[R_i-a_0-a_1\cos(2\pi f\nu_i)-a_2\sin(2\pi f\nu_i)-b\tilde{\nu}_i\right]^2,
+\]
+其中 $\tilde{\nu}_i$ 为中心化后的波数，用于吸收缓慢背景。峰间距和 FFT 先给出厚度量级与主频范围，随后在该范围内做非线性主频细化。单角度结果为 $10^\circ$ 下 8.0000 $\mu\mathrm{m}$、$15^\circ$ 下 8.0001 $\mu\mathrm{m}$，两者差异为 $1.31\times10^{-4}$ $\mu\mathrm{m}$。
+
+仅比较两个单角度结果仍不够。优秀解法应进一步把两组光谱放入同一目标函数，共享厚度参数 $d$：
+\[
+\min_d\sum_{k\in\{10^\circ,15^\circ\}}\min_{\beta_k}
+\left\|R_k-X_k\!\left(f(d,\theta_k)\right)\beta_k\right\|_2^2,
+\qquad
+f(d,\theta_k)=2n_0d\cos\theta_{t,k}.
+\]
+这样可避免“两个角度分别算完再相互背书”的弱验证。本文联合拟合得到共享厚度 8.0000 $\mu\mathrm{m}$，联合 RMSE 为 0.289 个反射率百分点，与单角度结果一致。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{../figures/fig_joint_fit.png}
+\caption{双角度联合拟合：左图为共享厚度目标函数，右图比较单角度估计与联合估计}
+\label{fig:joint_fit}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{单角度与双角度联合反演结果}
+\begin{tabular}{lcc}
+\toprule
+方法 & 厚度$/\mu\mathrm{m}$ & 评价\\
+\midrule
+$10^\circ$ 单角度主频拟合 & 8.0000 & 通过 Snell 修正得到厚度\\
+$15^\circ$ 单角度主频拟合 & 8.0001 & 与 $10^\circ$ 结果一致\\
+双角度联合拟合 & 8.0000 & 共享同一厚度参数\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\section{多光束干涉判定与修正}
+问题3的核心不是继续套用主频公式，而是判断多光束干涉是否存在以及是否需要修正问题2的反演模型。多光束干涉通常需要同时满足：外延层吸收较弱、上下界面反射率足够高、相干长度覆盖多次往返光程、仪器分辨率能够分辨锐化条纹，并且残差中存在单一双光束模型无法解释的周期结构。若这些条件不足，则双光束模型可作为主要厚度估计；若条件成立，则需要引入 Airy 模型。
+
+Airy 型多光束反射项可写为
+\[
+R_A(\nu)=A+\frac{B}{1+F\sin^2\{\delta(\nu)/2\}},
+\]
+其中 $F$ 为与界面反射率有关的锐度参数，$\delta(\nu)=4\pi n(\nu)d\cos\theta_t\nu+\phi_0$。该模型与双光束模型使用同一个厚度相位，但允许多次反射使峰形变尖、谷形变窄。判定时应比较二者厚度、残差平方和和信息准则，而不能只凭曲线“看起来更贴合”作结论。
+
+本文受控数据由主频型双光束条纹生成，因此多光束判定的目的在于验证流程是否完整，而不是冒充官方附件3/4的测量结果。对两角度数据做 Airy 修正后，Airy 厚度为 8.0254 $\mu\mathrm{m}$，锐度参数 $F=0.020$；双光束 SSE 为 501.6，Airy SSE 为 4568.0，AIC 差值为 13254.41。按信息准则和残差改善幅度，当前判定为：Airy模型未带来显著改进。若换成真实硅片或高反射界面数据，需重新读取附件并用同一判定门槛给出是否修正的结论。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{../figures/fig_q3_model_flow.png}
+\caption{问题三的多光束判定门：先检查物理条件和残差证据，再用 Airy 模型与双光束模型比较是否需要修正厚度}
+\label{fig:q3schematic}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{../figures/fig_q3_multibeam_airy.png}
+\caption{多光束判定示例：用 Airy 模型与双光束主频模型比较局部拟合和信息准则，决定是否修正问题2厚度}
+\label{fig:q3_airy}
+\end{figure}
+
+
+\section{模型检验}
+首先，受控厚度回收检验给出最大绝对误差 $8.16\times10^{-5}$ $\mu\mathrm{m}$，说明单位换算、角度修正和频率搜索链路是闭合的。其次，两个入射角的单角度结果差异为 $1.31\times10^{-4}$ $\mu\mathrm{m}$，双角度联合拟合进一步把这一一致性写入同一个目标函数。第三，残差诊断显示主要干涉结构已经被主频项解释；残差曲线、分布、频谱和 Q-Q 图共同用于检查是否存在未建模的周期成分。
+
+可靠性分析不只看一个误差值，而是检查证据是否来自相互独立的环节。数据处理环节回答“输入光谱是否适合做频率估计”，滑窗 FFT 回答“主频是否只在个别窗口偶然出现”，单角度拟合回答“每条光谱能否由同一类相位模型解释”，双角度联合拟合回答“两个入射角是否共享同一几何厚度”，残差频谱回答“拟合后是否仍残留与厚度相关的周期结构”，Airy 对比回答“多光束修正是否真的改善解释能力”。只有这些判断方向一致时，厚度点估计才有资格进入结论。
+
+在当前受控数据中，峰间距和 FFT 只承担基线与初值作用，最终结果来自全谱主频拟合和联合目标函数。若未来替换为官方附件，本文的约束仍然保留，但验证指标需要改变：不能再报告已知真值误差，而应报告拟合残差、两个角度厚度差、不同频段厚度跨度、折射率模型扰动、波数刻度扰动和多光束模型差异。这样处理可以避免把合成验证的高精度误解为真实仪器测量精度。
+
+代码反向验证时，逐项核对了求解程序中的排序、等间距重采样、选带、去趋势、主频搜索、单角度拟合、双角度联合目标、Airy 比较和敏感性扰动是否与上文模型一致。由此得到的最终建模思路是：用峰间距和 FFT 只确定可解释初值，用共享厚度的联合拟合给出主要厚度，用残差诊断和 Airy 模型比较决定是否进入多光束修正，并把折射率扰动作为主要系统误差来源记录在结论中。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.92\textwidth]{../figures/fig_residual_diagnostics.png}
+\caption{残差诊断总览：曲线、分布、频谱和 Q-Q 图共同检查主频拟合后是否仍有结构性误差}
+\label{fig:residual_diagnostics}
+\end{figure}
+
+\section{敏感性与不确定度分析}
+厚度公式中的折射率和入射角都会通过 $2n\cos\theta_t$ 影响结果。保持主频估计不变时，$n$ 在 $2.50$--$2.60$ 内变化会带来约 0.3162 $\mu\mathrm{m}$ 的平均厚度跨度，最大偏移约 0.1612 $\mu\mathrm{m}$；入射角存在 $\pm0.5^\circ$ 偏差时，平均厚度跨度约 0.0046 $\mu\mathrm{m}$，最大偏移约 0.0023 $\mu\mathrm{m}$。这说明在当前小入射角设置下，折射率来源比角度读数更可能成为系统误差主因。正式附件反演应继续加入波数刻度、选带范围和色散参数的不确定度。
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.90\textwidth]{../figures/fig_sensitivity.png}
+\caption{折射率与入射角扰动下的厚度敏感性；常数折射率假设对系统偏差的影响高于小范围入射角读数误差}
+\label{fig:sensitivity}
+\end{figure}
+
+\section{模型评价}
+本文相较单一主频 baseline 的改进在于：把数据处理、频域选带、单角度拟合、双角度联合、残差诊断和多光束判定连接成证据链。该链条可以解释每个关键选择，也能在多光束证据不足时避免过度修正。局限在于当前数据仍是受控合成光谱，折射率色散、真实吸收峰、硅片折射率模型和附件3/4的多光束证据没有被真实数据检验。若用于正式 B 题终稿，应替换为官方附件数据，并报告每个附件的最终厚度和不确定度。
+
+从建模角度看，本文的优点是层次清楚：低自由度的主频模型保证初值和单位换算可查，高一层的双角度联合模型减少角度分别拟合带来的偶然一致性，问题三的 Airy 比较则把“是否存在多光束”转化为可计算的模型选择问题。其不足也同样明确：常数折射率把材料色散压缩成一个参数，无法解释载流子浓度、掺杂和波长共同变化时的谱形差异；Airy 模型这里只作为判定框架，还没有真实高反射样品来检验锐化峰形；受控光谱中扰动较温和，不能覆盖仪器噪声、低波数异常和吸收峰遮挡等复杂情形。
+
+因此，正式使用时应把本文流程看成可复现的最小证据链，而不是最终物理上限。若有官方附件数据，第一步应重新完成原始光谱审计和选带，第二步用 Cauchy 或 Drude-Lorentz 形式估计折射率色散，第三步用单角度和双角度目标函数共同反演厚度，第四步用残差频谱和 Airy 模型判定多光束影响，最后用扰动实验给出厚度区间。只有这样，论文才能从“算得准”提升为“解释得清楚且知道误差边界”。
+这也是本文后续迁移到真实附件时最需要保留的判断顺序。
+
+\section{结论}
+本文建立了红外干涉测厚的双光束基线模型，并把常数折射率主频拟合作为可复现初值；通过数据处理审计、滑窗 FFT、单角度拟合和双角度联合拟合，得到共享厚度 8.0000 $\mu\mathrm{m}$。残差诊断和敏感性分析说明，当前受控数据的主要系统风险来自折射率取值而非入射角读数。进一步的 Airy 多光束比较给出“Airy模型未带来显著改进”的判定，因此本受控案例不需用多光束厚度修正问题2结果。完整的正式赛题解答还应在真实附件上估计 Cauchy 色散、多光束条件和不确定度区间。
+
+\begin{thebibliography}{9}
+\bibitem{gb42905} 国家市场监督管理总局，国家标准化管理委员会. GB/T 42905-2023 碳化硅外延层厚度的测试 红外反射法[S]. 2023.
+\bibitem{tiawbs007} 中关村天合宽禁带半导体技术创新联盟. T/IAWBS 007-2018 4H 碳化硅同质外延层厚度的红外反射测量方法[S]. 2018.
+\bibitem{oishi2006} Oishi T., Miyanagi T., et al. Simultaneous determination of carrier concentration, mobility, and thickness of SiC homoepilayers by infrared reflectance spectroscopy[J]. Japanese Journal of Applied Physics, 2006.
+\bibitem{li2010} Li Z. Y., Tang X. Y., et al. Methods for thickness determination of SiC homoepilayers by using infrared reflectance spectroscopy[J]. Chinese Physics Letters, 2010.
+\bibitem{quinten2019} Quinten M. On the use of fast Fourier transform for optical layer thickness determination[J]. SN Applied Sciences, 2019.
+\bibitem{macleod2010} MacLeod H. A. Thin-Film Optical Filters[M]. 4th ed. CRC Press, 2010.
+\end{thebibliography}
+
+\appendix
+\section{附录：复现说明}
+在题目目录运行求解程序，可重新生成光谱、表格、图形、结果登记和本文。若替换为真实附件，应删除已知厚度回收误差，把可靠性改为残差诊断、多角度一致性、方法互证、敏感性和不确定度区间。
+\end{document}

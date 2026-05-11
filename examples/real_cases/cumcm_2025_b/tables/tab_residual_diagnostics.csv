@@ -1,0 +1,3 @@
+﻿sample_id,angle_deg,residual_mean,residual_std,residual_spectral_peak,residual_snr
+sic_10deg,10.0,0.000000,0.289108,0.002999000,255.610
+sic_15deg,15.0,0.000000,0.289080,0.002999000,249.219

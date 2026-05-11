@@ -4,17 +4,21 @@ Use this reference for 技术路线图, 技术路线, 流程图, 流程框图, o
 
 ## Priority
 
-For contest-final or paper-final diagrams, use GPT-image by default.
+Use GPT-image by default for contest-final and paper-final technical roadmaps
+and model flowcharts.
 
 Save:
 
-- `modeling/qx_model_flow_prompt.md` or `modeling/flowcharts/qx_model_flow_prompt.md`:
-  the Chinese diagram brief, node list, arrow logic, caption, and paper
-  explanation.
-- `figures/fig_qx_model_flow.png`: the GPT-image model flowchart used in the
-  paper.
-- `figures/fig_route_overview.png`: the GPT-image technical roadmap for the
-  full paper or multi-question route.
+- `modeling/qx_model_flow_prompt.md` or
+  `modeling/flowcharts/qx_model_flow_prompt.md`: the Chinese diagram brief,
+  node list, arrow logic, caption, and paper explanation.
+- `figures/fig_qx_model_flow.png`: the final model flowchart used in the paper.
+- `figures/fig_route_overview.png`: the technical roadmap for the full paper or
+  multi-question route.
+
+Do not use diagram generation as a shortcut around modeling. The prompt must be
+derived from the final modeling idea, code behavior, result tables, and
+validation plan.
 
 ## Technical Roadmap Structure
 
@@ -60,3 +64,13 @@ Write the prompt before generating the image. Include:
 
 After generation, inspect the image. If labels, arrows, or node order are wrong,
 regenerate rather than silently using the flawed image.
+
+## Paper Integration
+
+For every accepted roadmap or flowchart:
+
+- save the final image under `figures/`;
+- save the prompt, node list, arrow logic, and caption under `modeling/`;
+- reference the figure from `paper/main.tex`;
+- explain what modeling decision, data path, or validation logic the figure
+  supports.

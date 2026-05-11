@@ -7,8 +7,8 @@
 | Template | Copied to | Purpose |
 | --- | --- | --- |
 | `problem_parse.schema.json` | `problem/problem_parse.schema.json` | 题面解析字段约束。 |
-| `task_plan.json` | `problem/task_plan.json` | 结构化题目拆解。 |
-| `task_plan.schema.json` | `problem/task_plan.schema.json` | 任务计划字段约束。 |
+| `task_plan.json` | `problem/task_plan.json` | 结构化题目拆解，含 benchmark 来源、评分目标、卖点和修订状态占位。 |
+| `task_plan.schema.json` | `problem/task_plan.schema.json` | 任务计划字段约束，覆盖 benchmark、rubric、selling point 和 revision 字段。 |
 | `method_card.schema.json` | 默认不复制 | 结构化方法卡字段约束。 |
 | `model_card.md` | `problem/model_card_template.md` | 每问模型卡。 |
 | `modeling_idea.md` | `modeling/modeling_idea_template.md` | 每问详细建模思路模板，包含逐步推导、求解步骤、GPT-image 流程图计划和论文写法，先于代码求解。 |
@@ -19,6 +19,12 @@
 | `refs.bib` | `paper/refs.bib` | 参考文献占位，含常见数学建模参考书示例。 |
 | `appendix_code.md` | `appendix/code-template.md` | 附录代码说明格式。 |
 | `run_log.md` | `logs/run_log.md` | 运行记录。 |
+| `ai_usage_statement.md` | `appendix/ai-usage-statement.md` | AI 辅助使用、人工核验和可复现声明。 |
+| `ai_figure_brief.md` | `figures/ai_briefs/ai_figure_brief_template.md` | AI 示意图 brief 模板。 |
+
+完整项目模式还会创建 `presentation/`、`presentation/figures/` 和
+`figures/ai_briefs/`，用于最终汇报素材和 AI 图示/汇报 brief；精简模式
+不复制这些模板占位。
 
 TeX 模板吸收了常见 CUMCM 模板的章节顺序。论文图表字体由
 `assets/fonts/` 和 `scripts/make_paper_figures.py` 统一管理，避免新手因为
