@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="300" viewBox="0 0 900 300">
-  <rect width="100%" height="100%" fill="#ffffff"/>
-  <style>text{font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif;fill:#0f172a}.bar{fill:#16a34a}</style>
-  <text x="450" y="38" text-anchor="middle" font-size="24" font-weight="700">问题二：容量分配结果</text>
-  <line x1="120" y1="240" x2="780" y2="240" stroke="#334155" stroke-width="2"/>
-  <rect class="bar" x="250" y="90" width="120" height="150"/><text x="310" y="80" text-anchor="middle" font-size="18">已分配</text><text x="310" y="270" text-anchor="middle" font-size="18">满足需求</text>
-  <rect class="bar" x="530" y="240" width="120" height="0"/><text x="590" y="80" text-anchor="middle" font-size="18">0 件</text><text x="590" y="270" text-anchor="middle" font-size="18">未满足需求</text>
-</svg>
-

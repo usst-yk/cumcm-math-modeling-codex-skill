@@ -7,7 +7,9 @@ For SCI/Nature/PRL-style publication graphics, read `references/figure-standards
 ## Core Rules
 
 - Every figure must support one subquestion conclusion.
-- Every figure must be reproducible from code or a saved source table.
+- Result, validation, and sensitivity figures must be reproducible from code or
+  a saved source table. GPT-image flowcharts and technical roadmaps must keep
+  their prompt/spec and pass visual text/order checks.
 - Figure numbers, captions, and filenames must match the paper text.
 - Use the bundled Chinese font by default: `assets/fonts/NotoSansCJKsc-Regular.otf`
   for normal Chinese text and `assets/fonts/NotoSansCJKsc-Bold.otf` for titles.
@@ -80,7 +82,8 @@ Each caption should state:
 1. what the figure shows;
 2. which subquestion it supports;
 3. the key trend/result;
-4. the source table or script when useful;
+4. the source table/script for result figures, or the prompt/spec file for
+   GPT-image flowcharts;
 5. validation meaning when the figure is a check.
 
 Example:

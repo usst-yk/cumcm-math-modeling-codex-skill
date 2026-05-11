@@ -23,9 +23,9 @@
         "线性趋势外推风险说明"
       ],
       "figures_needed": [
-        "fig_q1_model_schematic.svg",
+        "fig_q1_model_flow.png",
         "fig_q1_demand_forecast.png",
-        "fig_q1_validation.svg"
+        "fig_q1_validation.png"
       ],
       "tables_needed": [
         "tab_q1_daily_forecast.csv"
@@ -59,9 +59,9 @@
         "按原始优先级贪心基线比较"
       ],
       "figures_needed": [
-        "fig_q2_model_schematic.svg",
-        "fig_q2_result.svg",
-        "fig_q2_sensitivity.svg"
+        "fig_q2_model_flow.png",
+        "fig_q2_result.png",
+        "fig_q2_sensitivity.png"
       ],
       "tables_needed": [
         "tab_q2_allocation.csv"
@@ -93,9 +93,9 @@
         "权重扰动后排序稳定性检查"
       ],
       "figures_needed": [
-        "fig_q3_model_schematic.svg",
+        "fig_q3_model_flow.png",
         "fig_q3_priority_ranking.png",
-        "fig_q3_validation.svg"
+        "fig_q3_validation.png"
       ],
       "tables_needed": [
         "tab_q3_priority_ranking.csv"
