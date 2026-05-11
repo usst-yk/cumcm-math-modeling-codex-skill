@@ -549,11 +549,6 @@ def parse_args() -> argparse.Namespace:
         default="tables",
         help="Output directory.",
     )
-    parser.add_argument(
-        "--full",
-        action="store_true",
-        help="Write all detailed audit tables. Default writes only a compact workbook and summary.",
-    )
     return parser.parse_args()
 
 
@@ -598,11 +593,10 @@ def main() -> int:
         merge_candidates,
         profiles,
         tables_by_signature,
-        args.full,
+        False,
     )
     print(f"Profiled {len(profiles)} table(s) from {len(files)} file(s).")
-    mode = "full audit" if args.full else "paper-first audit"
-    print(f"{mode} reports written to: {outdir}")
+    print(f"Data audit reports written to: {outdir}")
     return 0
 
 

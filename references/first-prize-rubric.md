@@ -16,7 +16,7 @@ For award-oriented work, paper planning starts during modeling:
 - each subquestion should produce paper-ready equations, figures, captions,
   result interpretation, and validation wording as soon as it is solved;
 - abstract writing stays last, after body text, figures, tables, validation, and
-  result registry agree;
+  saved tables, figures, code outputs, and validation notes agree;
 - a mathematically strong solution with a thin, fragmented, or inconsistent
   paper should be downgraded before a simpler but clearer complete paper.
 
@@ -32,7 +32,7 @@ Score each item 0-2:
 | Validation | No real validation | One weak check | Task-matched validation: feasibility, error metric, sensitivity, boundary case, or stability |
 | Robustness | Single fragile result | Mentions uncertainty only | Tests key parameters or scenarios and explains result stability |
 | Figures | Few or decorative figures | Figures show results but not mechanism | Chinese schematic, result, and validation figures directly support conclusions |
-| Traceability | Numbers cannot be traced | Some key numbers traceable | Every headline number traces to data, table, code output, or registry |
+| Traceability | Numbers cannot be traced | Some key numbers traceable | Every headline number traces to data, table, code output, or saved tables, figures, code outputs, and validation notes |
 | Paper readiness | Chat-like or placeholder text | Mostly usable but inconsistent | Judge-facing Chinese prose with consistent abstract, body, tables, figures, and appendix |
 
 ## Gate Rules

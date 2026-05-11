@@ -9,7 +9,7 @@
 | `background_researcher.md` | 在建模前做背景、官方案例、方法和领域资料调研。 |
 | `modeler.md` | 比较三条建模路线，形成每问建模思路/模型卡。 |
 | `coder.md` | 写可复现代码，保存表格、图和结果记录。 |
-| `writer.md` | 从已登记结果写论文段落。 |
+| `writer.md` | 根据结果表、图片和验证说明写论文段落。 |
 | `paper_assembler.md` | 把各问段落、图表、验证和结论总装成完整论文。 |
 | `storyline_planner.md` | Plans the contest-paper or benchmark-report storyline before drafting. |
 | `paper_author.md` | Drafts paper prose under the selected genre gate. |

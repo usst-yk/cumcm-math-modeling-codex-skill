@@ -25,7 +25,7 @@ Score each item 0-2:
 | 求解可靠性 | No reproducible path | Code exists but diagnostics weak | Reproducible code, seed/status/feasibility checks |
 | 验证 | None | One weak check | Task-appropriate error/feasibility/sensitivity/robustness |
 | 图表 | Decorative or missing | Shows result but weak caption | Supports conclusion, named, readable, and traceable |
-| 论文一致性 | Numbers conflict | Mostly consistent | Abstract, body, tables, figures, appendix agree |
+| 论文一致性 | Numbers conflict | Mostly consistent | Abstract, body, tables, figures agree |
 
 If any item is 0, mark the deliverable incomplete and list the blocker.
 
@@ -33,7 +33,7 @@ If any item is 0, mark the deliverable incomplete and list the blocker.
 
 For single-question work, only check supporting files that were actually needed
 for that question. Do not require empty templates, logs, or appendices. Always
-check whether the analysis, model, solution, validation, figures, registry, and
+check whether the analysis, model, solution, validation, figures, saved tables, figures, code outputs, and validation notes, and
 `paper/main.tex` are complete enough for the question.
 
 For complete papers, check:
@@ -46,6 +46,6 @@ For complete papers, check:
 - Generated tables and figures use stable names.
 - Figure captions explain what conclusion each figure supports.
 - Appendix code lists main script, inputs, outputs, dependencies, seed, and command.
-- Result registry agrees with abstract, conclusion, tables, figures, and captions.
+- saved tables, figures, code outputs, and validation notes agrees with abstract, conclusion, tables, figures, and captions.
 - `modeling/qx_modeling_idea.md` agrees with the executed code and
   `paper/main.tex`.

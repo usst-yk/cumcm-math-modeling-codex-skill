@@ -30,7 +30,6 @@
 | `figures/fig_q2_model_flow.png` | Q2 实时重规划流程示意图。 |
 | `figures/fig_q2_result.png` | Q2 等待节省和得分增益图。 |
 | `figures/fig_q2_validation.png` | Q2 保持原路线与重规划路线对照图。 |
-| `results/result_registry.csv` | 关键 benchmark 数值登记表。 |
 | `results/validation_report.md` | 可行性、基线和实时调整验证记录。 |
 | `paper/main.tex` | 可编译完整 benchmark 论文；问题一和问题二都写在这个单文件中。 |
 
@@ -46,7 +45,7 @@
 ## 使用方式
 
 ```text
-[$cumcm-math-modeling] 请以 examples/real_cases/huadong_cup_a 为 benchmark，复现华东杯 A 题的路线规划和实时调整结果，并检查结果是否和 registry 一致。
+[$cumcm-math-modeling] 请以 examples/real_cases/huadong_cup_a 为 benchmark，复现华东杯 A 题的路线规划和实时调整结果，并检查结果、图表、验证报告和 paper/main.tex 是否一致。
 ```
 
 如果只想看题面解析：

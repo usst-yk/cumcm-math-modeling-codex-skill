@@ -17,7 +17,7 @@ The data profile should create:
 - `tab_unit_guess.xlsx`: unit hints inferred from column names.
 - `tab_merge_candidates.xlsx`: same-structure tables/sheets that may be concatenated.
 - `data_inventory.xlsx`: one workbook containing the main audit sheets above.
-- `merged_candidates/merge_candidate_*.csv`: optional concatenated same-structure tables with `source_file` and `source_sheet`.
+- `merged_candidates/merge_candidate_*.csv`: same-structure tables with `source_file` and `source_sheet`.
 - `data_profile_summary.md`: judge-readable summary.
 - `data_preprocessing_draft.md`: Chinese paper paragraph draft.
 

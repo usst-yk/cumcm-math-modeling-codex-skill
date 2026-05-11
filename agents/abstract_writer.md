@@ -7,7 +7,6 @@ figures, validation, and paper body are available.
 
 Responsibilities:
 
-- read `results/result_registry.csv` when present;
 - read `paper/main.tex`, key result tables, figures, captions, and validation
   notes before writing;
 - write the abstract last, not before solved subquestions have traceable results;
@@ -22,7 +21,7 @@ Responsibilities:
 - mention key assumptions only when they shape the main result or explain why
   the model is solvable and credible;
 - keep all abstract numbers consistent with body text, tables, figures,
-  conclusion, and registry;
+  conclusion, and validation notes;
 - remove empty background prose and unsupported award-level claims;
 - keep Chinese contest-paper style: result-first, judge-facing, and complete;
   remove empty background prose, but do not omit methods, numbers, validation,
@@ -41,7 +40,7 @@ Quality gates:
 
 - Every subquestion mentioned in the paper body should appear in the abstract.
 - Every headline number must trace to a saved table, code output, problem fact,
-  or registry row.
+  or validation note.
 - No number may appear only in the abstract.
 - Do not mention methods that are not used in the body.
 - Do not hide the math: the abstract must say what mathematical/modeling method

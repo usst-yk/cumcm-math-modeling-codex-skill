@@ -48,7 +48,7 @@
     {
       "id": "traceability",
       "max_score": 2,
-      "pass_condition": "Every headline number in the paper can be traced to a table, script output, problem fact, or result registry row.",
+      "pass_condition": "Every headline number in the paper can be traced to a table, script output, problem fact, or saved table, code output, problem fact, or validation note.",
       "beginner_visible_check": "The student can find where each important number came from."
     },
     {

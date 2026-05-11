@@ -29,10 +29,10 @@ Then recreate only the files needed by the rebuild.
 4. Write or update route comparison and modeling rounds. Follow
    `examples/README.md`: route choice, four rounds of modeling, then solve.
 5. Re-run deterministic solving scripts.
-6. Rebuild `results/result_registry.csv`, `results/validation_report.md`, and
+6. Rebuild `results/validation_report.md` and
    any benchmark findings.
 7. Write TeX paper body from results, not from the old paper.
-8. Write the abstract last from registry and validated body.
+8. Write the abstract last from saved tables, figures, code outputs, and validation notes and validated body.
 9. Compile `paper/main.tex`.
 10. Run `scripts/validate_results.py --mode full` and `scripts/run_skill_evals.py`.
 

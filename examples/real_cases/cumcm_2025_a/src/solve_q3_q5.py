@@ -24,7 +24,7 @@ from plot_utils import setup_chinese_plot
 ROOT = Path(__file__).resolve().parents[1]
 TABLE_DIR = ROOT / "tables"
 FIGURE_DIR = ROOT / "figures"
-RAW_DIR = ROOT / "data" / "raw"
+RAW_DIR = ROOT / "data"
 
 G = 9.8
 MISSILE_SPEED = 300.0

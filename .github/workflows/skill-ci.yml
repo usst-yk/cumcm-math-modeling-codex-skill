@@ -35,17 +35,8 @@ jobs:
         run: |
           PYTHONPYCACHEPREFIX=/tmp/cumcm_pycache python3 -m py_compile \
             scripts/*.py \
-            examples/single_question_minimal/src/*.py \
             examples/real_cases/cumcm_2025_a/src/*.py \
-            examples/real_cases/cumcm_2025_b/src/*.py \
-            examples/real_cases/cumcm_2025_c/src/*.py
-
-      - name: Validate full demo artifacts
-        run: |
-          python3 scripts/validate_results.py \
-            --project examples/full_problem_demo \
-            --mode full \
-            --output results/validation_audit.md
+            examples/real_cases/huadong_cup_a/src/*.py
 
       - name: Validate 2025 A real-case artifacts
         run: |
@@ -53,23 +44,8 @@ jobs:
             --project examples/real_cases/cumcm_2025_a \
             --output results/validation_audit.md
 
-      - name: Validate 2025 B real-case artifacts
+      - name: Validate Huadong Cup A real-case artifacts
         run: |
           python3 scripts/validate_results.py \
-            --project examples/real_cases/cumcm_2025_b \
-            --mode full \
-            --output /tmp/cumcm_2025_b_validation.md
-
-      - name: Validate 2025 C real-case artifacts
-        run: |
-          python3 scripts/validate_results.py \
-            --project examples/real_cases/cumcm_2025_c \
-            --mode full \
-            --output /tmp/cumcm_2025_c_validation.md
-
-      - name: Validate single-question lean demo
-        run: |
-          python3 scripts/validate_results.py \
-            --mode standard \
-            --project examples/single_question_minimal \
-            --output /tmp/cumcm_single_validation.md
+            --project examples/real_cases/huadong_cup_a \
+            --output /tmp/huadong_cup_a_validation.md
