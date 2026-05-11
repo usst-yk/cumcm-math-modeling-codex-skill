@@ -21,6 +21,7 @@ python3 scripts/init_cumcm_project.py /path/to/project --full
 生成目录：
 
 - `problem/`: 题面原文和必要的题面解析结果。
+- `modeling/`: 每问建模思路，先写思路再求解。
 - `data/`: 原始数据和清洗数据。
 - `src/`: 数据处理、建模、求解、绘图代码。
 - `figures/`: 代码生成的论文图片。
@@ -33,6 +34,7 @@ python3 scripts/init_cumcm_project.py /path/to/project --full
 - `problem/task_plan.schema.json`: 任务计划字段约束。
 - `problem/task_plan.json`: 任务计划草稿。
 - `problem/model_card_template.md`: 每问模型卡模板。
+- `modeling/modeling_idea_template.md`: 每问建模思路模板。
 - `problem/assumptions.md`: 假设和符号说明模板。
 - `paper/main.tex`: TeX 论文骨架。最终论文、benchmark 和完整报告都使用
   TeX，Markdown 只用于说明文档或草稿笔记。

@@ -57,7 +57,7 @@ and `references/stage-gates.md` before stage changes.
 | 0 Problem Parser / 题面解析 | `agents/problem_parser.md` | problem parse |
 | 1 Coordinator / 任务拆解 | `agents/coordinator.md` | task plan |
 | 2 Data Auditor / 附件审计 | `references/data-audit.md` | data inventory |
-| 3 Modeler / 建模路线 | `agents/modeler.md` | Qx model card |
+| 3 Modeler / 建模思路 | `agents/modeler.md` | `modeling/qx_modeling_idea.md` |
 | 4 Solver / 代码求解 | `agents/coder.md` | scripts, tables, figures, registry rows |
 | 5 Validator / 验证分析 | `references/validation.md` | validation report |
 | 6 Writer / 论文写作 | `agents/writer.md` | update `paper/main.tex` |
@@ -65,7 +65,8 @@ and `references/stage-gates.md` before stage changes.
 | 8 Abstract Writer / 摘要写作 | `agents/abstract_writer.md` | final abstract |
 | 9 Reviewer / 终审 | `agents/reviewer.md` | final findings and blockers |
 
-Process each subquestion as: model card -> code -> tables/figures -> registry ->
+Process each subquestion as: initial modeling idea -> code -> tables/figures ->
+reverse-check code against the idea -> final modeling idea -> registry ->
 validation -> update the relevant part of `paper/main.tex`. Write the final
 abstract only after solved subquestions have registered or otherwise traceable
 results.
@@ -122,6 +123,16 @@ Read `references/task-routing.md` for the complete table.
 - Create only files needed for the current task. For a single subquestion, do
   not create full project templates, empty paper fragments, schema files, or logs
   unless the user explicitly asks for a complete project.
+- For every solved subquestion, write the modeling idea before solving:
+  `modeling/qx_modeling_idea.md`. It must include the question role,
+  assumptions, variables, core equations or decision criterion, constraints,
+  baseline, primary route, fallback route, solving plan, validation plan, and
+  figure plan. Solver code must follow this file, not invent a different model.
+- After solving, compare the actual code path, equations, constraints, solver
+  status, generated tables, and figures against `modeling/qx_modeling_idea.md`.
+  If they differ, write the difference and update the file to a final modeling
+  idea before paper writing. Do not let `paper/main.tex` describe a model that
+  is different from the executed code.
 - For every solved subquestion, create a figure plan and normally generate at
   least two Chinese figures: one model/problem schematic and one result figure.
   Add validation/sensitivity/feasibility figures for optimization, prediction,
@@ -146,7 +157,8 @@ Read `references/task-routing.md` for the complete table.
 - Final papers must be written as complete mathematical modeling papers: explain
   why the model is reasonable, how assumptions make the problem just solvable,
   how variables/equations/constraints are built, why the algorithm is chosen,
-  what each result means, and how later questions inherit earlier work.
+  what each result means, how code verification changed or confirmed the
+  original modeling idea, and how later questions inherit earlier work.
 
 ## Final Handoff
 

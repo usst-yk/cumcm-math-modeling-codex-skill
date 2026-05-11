@@ -17,6 +17,7 @@ DEMO = ROOT / "examples" / "full_problem_demo"
 REAL_CASE_2025_A = ROOT / "examples" / "real_cases" / "cumcm_2025_a"
 REAL_CASE_HUADONG_A = ROOT / "examples" / "real_cases" / "huadong_cup_a"
 CHECK_FIGURE_TYPES = {"prediction", "optimization", "evaluation", "simulation", "scheduling"}
+MODELING_IDEA_TERMS = ["变量", "公式", "约束", "验证", "图表", "代码反向验证", "最终思路"]
 
 PARSER_EXPECTATIONS = {
     "prediction": {
@@ -90,6 +91,16 @@ def require(path: Path, issues: list[str]) -> None:
         issues.append(f"missing: {path.relative_to(ROOT)}")
 
 
+def check_modeling_idea(path: Path, label: str, issues: list[str]) -> None:
+    require(path, issues)
+    if not path.exists():
+        return
+    text = path.read_text(encoding="utf-8", errors="ignore")
+    for term in MODELING_IDEA_TERMS:
+        if term not in text:
+            issues.append(f"{label} should mention modeling idea item: {term}")
+
+
 def check_demo(issues: list[str]) -> None:
     required = [
         "README.md",
@@ -100,6 +111,7 @@ def check_demo(issues: list[str]) -> None:
     demo_required = [
         "../single_question_minimal/README.md",
         "../single_question_minimal/problem.md",
+        "../single_question_minimal/modeling/q1_modeling_idea.md",
         "../single_question_minimal/src/solve_q1.py",
         "../single_question_minimal/tables/tab_q1_result.csv",
         "../single_question_minimal/figures/fig_q1_model_schematic.svg",
@@ -107,6 +119,10 @@ def check_demo(issues: list[str]) -> None:
         "../single_question_minimal/paper/main.tex",
         "problem/problem_statement.md",
         "problem/task_plan.json",
+        "modeling/q1_modeling_idea.md",
+        "modeling/q2_modeling_idea.md",
+        "modeling/q3_modeling_idea.md",
+        "modeling/route_comparison.md",
         "data/raw/station_demand.csv",
         "src/solve_demo.py",
         "tables/tab_q1_daily_forecast.csv",
@@ -128,6 +144,18 @@ def check_demo(issues: list[str]) -> None:
     ]
     for rel in demo_required:
         require((DEMO / rel).resolve(), issues)
+
+    check_modeling_idea(
+        ROOT / "examples" / "single_question_minimal" / "modeling" / "q1_modeling_idea.md",
+        "single question modeling idea",
+        issues,
+    )
+    for qid in ("q1", "q2", "q3"):
+        check_modeling_idea(
+            DEMO / "modeling" / f"{qid}_modeling_idea.md",
+            f"full demo {qid.upper()} modeling idea",
+            issues,
+        )
 
     task_plan = DEMO / "problem" / "task_plan.json"
     if task_plan.exists():
@@ -158,6 +186,12 @@ def check_real_case_2025_a(issues: list[str]) -> None:
         "problem/problem_statement.md",
         "problem/problem_parse.json",
         "problem/task_plan.json",
+        "modeling/route_comparison.md",
+        "modeling/q1_modeling_idea.md",
+        "modeling/q2_modeling_idea.md",
+        "modeling/q3_modeling_idea.md",
+        "modeling/q4_modeling_idea.md",
+        "modeling/q5_modeling_idea.md",
         "src/make_problem_figures.py",
         "src/plot_utils.py",
         "src/solve_q1.py",
@@ -201,6 +235,13 @@ def check_real_case_2025_a(issues: list[str]) -> None:
     ]
     for rel in required:
         require(REAL_CASE_2025_A / rel, issues)
+
+    for qid in ("q1", "q2", "q3", "q4", "q5"):
+        check_modeling_idea(
+            REAL_CASE_2025_A / "modeling" / f"{qid}_modeling_idea.md",
+            f"2025 A {qid.upper()} modeling idea",
+            issues,
+        )
 
     registry = REAL_CASE_2025_A / "results" / "result_registry.csv"
     task_plan = REAL_CASE_2025_A / "problem" / "task_plan.json"
@@ -287,6 +328,10 @@ def check_full_paper_structure(root: Path, label: str, issues: list[str], min_ch
     top_sections = re.findall(r"\\section\{([^}]+)\}", main_text)
     if len(top_sections) < 8:
         issues.append(f"{label} should have a complete paper structure, not only per-question fragments")
+    if "代码反向验证" not in main_text or "最终建模思路" not in main_text:
+        issues.append(
+            f"{label} should explain code reverse-check and the final code-verified modeling idea"
+        )
 
 
 def check_real_case_huadong_a(issues: list[str]) -> None:
@@ -298,6 +343,9 @@ def check_real_case_huadong_a(issues: list[str]) -> None:
         "problem/problem_parse.md",
         "problem/task_plan.json",
         "problem/task_plan.md",
+        "modeling/route_comparison.md",
+        "modeling/q1_modeling_idea.md",
+        "modeling/q2_modeling_idea.md",
         "data/raw/benchmark_activities.csv",
         "data/raw/realtime_wait_updates.csv",
         "src/plot_utils.py",
@@ -321,6 +369,13 @@ def check_real_case_huadong_a(issues: list[str]) -> None:
     ]
     for rel in required:
         require(REAL_CASE_HUADONG_A / rel, issues)
+
+    for qid in ("q1", "q2"):
+        check_modeling_idea(
+            REAL_CASE_HUADONG_A / "modeling" / f"{qid}_modeling_idea.md",
+            f"Huadong Cup A {qid.upper()} modeling idea",
+            issues,
+        )
 
     task_plan = REAL_CASE_HUADONG_A / "problem" / "task_plan.json"
     if task_plan.exists():

@@ -39,6 +39,8 @@ communication natural; do not expose commands unless the user asks.
   paper text complete.
 - Do not initialize a full project, copy templates, or create empty files for a
   single-question solve unless the user asks for a complete project.
+- Do not solve a subquestion before writing its modeling idea file under
+  `modeling/`.
 - Parse the problem statement before route design when an official statement is available.
 - For A problems, treat them as engineering mechanism problems first; build
   coordinates, units, physical constraints, and a baseline before choosing an

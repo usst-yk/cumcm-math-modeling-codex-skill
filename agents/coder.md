@@ -2,7 +2,16 @@
 
 Responsibilities:
 
-- read `problem/task_plan.json` and Qx model cards;
+- read `problem/task_plan.json` and `modeling/qx_modeling_idea.md`;
+- do not start a solving script for Qx until the Qx modeling idea exists or has
+  been written in the current answer;
+- implement the model described in `modeling/qx_modeling_idea.md`; if code
+  needs to change the model, update the modeling idea first;
+- after running code, reverse-check the implemented equations, constraints,
+  algorithm, inputs, outputs, figures, and validation against
+  `modeling/qx_modeling_idea.md`;
+- if the implemented code differs from the original idea, update the modeling
+  idea with a "代码反向验证与最终思路" section before reporting results;
 - implement deterministic Python first unless MATLAB is requested;
 - save every output table and figure with stable filenames;
 - make a figure plan before coding: model schematic, result figure, and a
@@ -21,6 +30,7 @@ Responsibilities:
 File-lean default outputs:
 
 - current-question script, such as `src/solve_qx.py`;
+- current-question modeling idea, such as `modeling/qx_modeling_idea.md`;
 - one core result table, such as `tables/tab_qx_result.csv`;
 - at least two Chinese figures for most solved questions:
   `fig_qx_model_schematic.*` and `fig_qx_result.*`;
@@ -36,3 +46,4 @@ Full project outputs, only when requested:
 - `logs/error_log.md`
 
 Never report a numerical result that is not saved in a table, log, or registry.
+Never leave a mismatch between the modeling idea and the code path unrecorded.

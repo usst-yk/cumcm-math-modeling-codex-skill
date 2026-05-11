@@ -12,6 +12,8 @@
 | `problem/problem_statement.md` | A 题题面文字。 |
 | `problem/problem_parse.json` / `.md` | 人工核对后的 2 问题面解析。 |
 | `problem/task_plan.json` / `.md` | Q1/Q2 求解计划和 benchmark 边界。 |
+| `modeling/qx_modeling_idea.md` | 每问建模思路，先于代码求解。 |
+| `modeling/route_comparison.md` | 静态规划和实时重规划路线比较。 |
 | `data/raw/benchmark_activities.csv` | 项目坐标、体验时长、偏好效用、排队时间、固定演出时间窗。 |
 | `data/raw/realtime_wait_updates.csv` | 13:30 APP 实时排队扰动 benchmark。 |
 | `src/solve_routes.py` | Q1 初始路线和 Q2 实时重规划求解脚本。 |

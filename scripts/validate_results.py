@@ -47,6 +47,13 @@ QUALITY_MODEL_TERMS = [
     "判据",
     "误差函数",
 ]
+MODELING_REVERSE_CHECK_TERMS = [
+    "代码反向验证",
+    "最终思路",
+    "代码实际",
+    "实现一致",
+    "差异",
+]
 QUALITY_PROCESS_TERMS = [
     "路线",
     "比较",
@@ -258,6 +265,34 @@ def audit_paper_structure(root: Path, registry: pd.DataFrame, mode: str) -> list
     return issues
 
 
+def audit_modeling_ideas(root: Path, registry: pd.DataFrame, mode: str) -> list[str]:
+    issues: list[str] = []
+    questions = solved_subquestions(registry)
+    if mode == "lean" and not questions:
+        questions = solved_subquestions_from_figures(root)
+    for question in questions:
+        path = root / "modeling" / f"{question}_modeling_idea.md"
+        if not path.exists():
+            issues.append(
+                f"P1: solved {question.upper()} is missing modeling idea file: "
+                f"modeling/{question}_modeling_idea.md"
+            )
+            continue
+        text = path.read_text(encoding="utf-8", errors="ignore")
+        required = ["模型", "求解", "验证"]
+        missing = [word for word in required if word not in text]
+        if missing:
+            issues.append(
+                f"P2: modeling idea for {question.upper()} is too thin; missing "
+                + ", ".join(missing)
+            )
+        if not any(term in text for term in MODELING_REVERSE_CHECK_TERMS):
+            issues.append(
+                f"P2: modeling idea for {question.upper()} lacks code reverse-check/final-idea notes."
+            )
+    return issues
+
+
 def registry_artifact_names(registry: pd.DataFrame) -> set[str]:
     names: set[str] = set()
     if registry.empty:
@@ -387,6 +422,7 @@ def main() -> int:
     issues.extend(audit_tables(root))
     issues.extend(audit_paper(root, registry, args.mode))
     issues.extend(audit_paper_structure(root, registry, args.mode))
+    issues.extend(audit_modeling_ideas(root, registry, args.mode))
     issues.extend(audit_figure_coverage(root, registry, args.mode))
     if args.mode == "full":
         issues.extend(audit_unreferenced(root, registry))

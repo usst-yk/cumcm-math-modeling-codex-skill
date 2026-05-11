@@ -39,13 +39,16 @@ Do not enter Solver until:
 - exactly three routes have been compared;
 - at least one baseline or simplified analytical route is defined;
 - every selected model has variables, objective/evaluation criterion, constraints, input data, output tables/figures, and validation plan;
-- Qx model cards exist for the subquestions being solved.
+- `modeling/qx_modeling_idea.md` exists for the subquestions being solved.
 
 ## Stage 4 -> Stage 5: Solver To Validator
 
 Do not validate final conclusions until:
 
 - code has produced saved output tables/figures;
+- code follows the model described in `modeling/qx_modeling_idea.md`, or the
+  modeling idea has been updated to match the implemented model;
+- `modeling/qx_modeling_idea.md` records the post-solve code reverse check;
 - the figure plan has been executed: model schematic plus result figure for most
   solved questions, and validation/sensitivity figure when needed;
 - if fewer than two figures are generated for a solved question, the reason is
@@ -62,6 +65,8 @@ Do not write final paper text until:
 - validation items are completed or explicitly marked unavailable with reasons;
 - infeasible solver results, failed code, or missing data are not hidden;
 - every figure/table has a source script or source data;
+- the final modeling idea matches the code path, output tables, and generated
+  figures;
 - sensitivity analysis is based on actual perturbation or a reproducible perturbation plan.
 
 ## Stage 6 -> Stage 7: Writer To Paper Assembler
@@ -78,6 +83,8 @@ Do not write the final abstract or enter final review until:
   validation, not only numbers and figures;
 - later questions explicitly state how they reuse earlier assumptions,
   variables, parameters, results, or strategy outputs.
+- `paper/main.tex` explains the code-verified final modeling idea, not an
+  obsolete pre-code plan.
 
 ## Stage 7 -> Stage 8: Paper Assembler To Abstract Writer
 

@@ -6,6 +6,7 @@
 
 ```text
 problem.md
+modeling/q1_modeling_idea.md
 src/solve_q1.py
 tables/tab_q1_result.csv
 figures/fig_q1_model_schematic.svg

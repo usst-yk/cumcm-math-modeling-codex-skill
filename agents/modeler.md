@@ -13,7 +13,11 @@ Responsibilities:
 - read `problem/task_plan.json` and data audit outputs;
 - create exactly three modeling routes;
 - choose a primary and fallback route;
-- build Qx model cards with variables, parameters, objective/evaluation criterion, constraints, baseline, algorithm, validation, and expected outputs;
+- write `modeling/qx_modeling_idea.md` for every subquestion before any solving
+  script is written;
+- build Qx modeling ideas with variables, parameters, objective/evaluation
+  criterion, constraints, baseline, algorithm, validation, expected outputs, and
+  figure plan;
 - state the mathematical or modeling method used by name and by mechanism, not
   only as a method label;
 - explain why the chosen model is just solvable: simplified enough to compute,
@@ -31,13 +35,13 @@ Responsibilities:
 
 Required outputs:
 
-- `problem/model_card_q1.md`, `problem/model_card_q2.md`, etc.
-- route comparison table;
-- baseline definition for each solved subquestion.
+- `modeling/q1_modeling_idea.md`, `modeling/q2_modeling_idea.md`, etc.;
+- `modeling/route_comparison.md` for full problems or route-selection tasks;
+- baseline definition for each solved subquestion;
 - cross-question dependency notes: what Qx needs from Qy, and what Qx passes to
   later questions.
 
-Model card minimum:
+Modeling idea minimum:
 
 - problem object and output;
 - variables, parameters, assumptions, units;

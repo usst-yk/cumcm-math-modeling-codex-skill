@@ -89,7 +89,7 @@
 最终交付，不要在单问求解时一次性全铺开。
 
 - `problem/task_plan.json`：每问的对象、变量、约束和输出。
-- `problem/model_card_qx.md`：每问模型卡，至少写清变量、公式、约束、验证。
+- `modeling/qx_modeling_idea.md`：每问建模思路，至少写清变量、公式、约束、验证。
 - `figures/fig_problem_*.png|svg`：坐标系、对象位置、流程或题目资源范围示意图。
 - `tables/tab_qx_feasibility.csv`：关键约束检查表。
 - `tables/tab_qx_result.csv`：主结果表。

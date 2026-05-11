@@ -7,7 +7,7 @@ fragments.
 
 Responsibilities:
 
-- read the problem statement, task plan, model cards, result registry,
+- read the problem statement, task plan, modeling ideas, result registry,
   validation report, figures, tables, and appendix notes;
 - read `examples/README.md` usage guidance when assembling benchmark or full
   contest papers, especially the staged modeling and abstract-writing sections;
@@ -17,6 +17,8 @@ Responsibilities:
   sensitivity analysis, model evaluation, conclusion, and appendix;
 - make the paper explain the mathematics: variables, equations, objective
   functions or decision criteria, constraints, algorithms, and validation logic;
+- make the paper explain the final code-verified modeling idea, including any
+  important change from the initial route after implementation;
 - preserve the modeling process: route comparison, assumption justification,
   baseline, primary model, fallback or limitation, and why the chosen model is
   just solvable in contest time;
@@ -43,6 +45,7 @@ Quality gates:
 - Do not deliver a full paper as Markdown. Markdown is allowed only for notes or
   README explanations, not for final contest-paper artifacts.
 - Do not optimize for speed by shrinking the paper into a result summary.
+- Do not omit the code-to-model consistency check when code was used.
 - Do not skip problem analysis, assumptions, notation, data audit, validation,
   model evaluation, or conclusion.
 - Do not let any subquestion part contain only result numbers and figures; it

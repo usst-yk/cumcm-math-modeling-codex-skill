@@ -14,6 +14,7 @@
 
 单问求解通常只需要：
 
+- `modeling/qx_modeling_idea.md`：当前问题的建模思路，先于代码生成。
 - `src/solve_qx.py`：当前问题的求解脚本。
 - `tables/tab_qx_result.csv`：当前问题的核心结果表。必要时再拆成 1-2 个更清楚的表。
 - `figures/fig_qx_model_schematic.png|svg`：当前问题的模型/题意示意图。
@@ -22,6 +23,13 @@
 - `paper/main.tex`：只有用户要求写论文或论文段落时才生成；单问也写这个文件。
 
 可以在最终回复里用自然语言说明验证结果，不必为了每次小任务都生成 `logs/`、`model_card`、`task_plan`、空论文模板、空附录模板或 schema 文件。
+
+但不能省略建模思路。`modeling/qx_modeling_idea.md` 是求解前的核心文件，
+不是可选模板。它应说明为什么这样建模、模型如何刚好可解、代码将按什么
+变量/公式/约束/验证去实现。
+
+代码运行后也不能省略反向验证。若实际代码、表格或图表与初始建模思路不同，
+必须把差异和最终思路写回 `modeling/qx_modeling_idea.md`，再写论文。
 
 如果生成 `paper/main.tex`，它必须是可提交或可继续扩展的 TeX 正文，
 而不是聊天式总结。单问论文也至少写清问题分析、符号和假设、模型公式、

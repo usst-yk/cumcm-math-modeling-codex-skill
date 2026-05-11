@@ -24,6 +24,8 @@
 | `problem/problem_parse.md` | 题面解析的人类可读版本。 |
 | `problem/task_plan.json` | 由题面解析生成的任务计划。 |
 | `problem/task_plan.md` | 任务计划的人类可读版本。 |
+| `modeling/qx_modeling_idea.md` | 每问建模思路，先于代码求解。 |
+| `modeling/route_comparison.md` | 三条建模路线比较和主路线选择。 |
 | `data/raw/result1.xlsx` | 问题 3 的结果模板附件。 |
 | `data/raw/result2.xlsx` | 问题 4 的结果模板附件。 |
 | `data/raw/result3.xlsx` | 问题 5 的结果模板附件。 |

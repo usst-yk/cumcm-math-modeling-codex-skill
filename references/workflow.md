@@ -43,11 +43,15 @@ analysis, thinner modeling, reduced validation, or shorter paper writing.
    - Select the route that maximizes correctness, validation, and paper clarity under time limits.
 
 5. Solver: solve subquestions one by one.
-   - For each Qx, implement code and save only the needed result table and figures.
+   - For each Qx, first write `modeling/qx_modeling_idea.md`, then implement
+     code and save only the needed result table and figures.
+   - After running code, compare the actual implementation with the modeling
+     idea. Update `modeling/qx_modeling_idea.md` with the final code-verified
+     modeling idea before writing the paper.
      If paper text is requested, write it directly into `paper/main.tex`.
    - Before coding each Qx, make a figure plan using `references/figure-plan.md`.
      Default to a model schematic plus a result figure.
-   - Use model cards, result registry, and run logs for full projects or final
+   - Use detailed modeling ideas, result registry, and run logs for full projects or final
      paper delivery, not for every small single-question solve. This affects
      file creation only; the modeling and validation work still need to be
      complete enough for the question.
@@ -67,11 +71,15 @@ analysis, thinner modeling, reduced validation, or shorter paper writing.
 
 8. Validator: validate.
    - Match validation to task type: prediction error, optimization feasibility, ranking stability, simulation sensitivity, classification metrics, or boundary cases.
+   - Check whether code, result tables, figures, and the modeling idea describe
+     the same model.
    - Mark missing validation as a limitation, not as success.
 
 9. Writer: write judge-facing subquestion content directly in `paper/main.tex`.
    - Put the answer before method inventory.
    - Link every headline number to a table, figure, equation, output file, or assumption.
+   - Write the final code-verified modeling idea, including any important
+     difference from the initial idea.
    - Keep only figures that support a conclusion.
 
 10. Abstract Writer: write the final abstract last.
@@ -89,6 +97,7 @@ analysis, thinner modeling, reduced validation, or shorter paper writing.
 File-lean single-question handoff:
 
 - Main answer and limitation.
+- Current-question modeling idea.
 - Current-question code when code was needed.
 - One result table.
 - Usually two Chinese figures: model schematic and result figure.

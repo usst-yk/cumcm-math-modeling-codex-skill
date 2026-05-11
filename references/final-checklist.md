@@ -47,3 +47,5 @@ For full projects, check:
 - Figure captions explain what conclusion each figure supports.
 - Appendix code lists main script, inputs, outputs, dependencies, seed, and command.
 - Result registry agrees with abstract, conclusion, tables, figures, and captions.
+- `modeling/qx_modeling_idea.md` agrees with the executed code and
+  `paper/main.tex`.

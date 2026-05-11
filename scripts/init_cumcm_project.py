@@ -15,6 +15,7 @@ from pathlib import Path
 
 LEAN_DIRS = [
     "problem",
+    "modeling",
     "data/raw",
     "src",
     "figures",
@@ -25,6 +26,7 @@ LEAN_DIRS = [
 
 FULL_DIRS = [
     "problem",
+    "modeling",
     "data/raw",
     "data/processed",
     "src",
@@ -85,6 +87,7 @@ def main() -> int:
     copy_file(templates / "task_plan.schema.json", project_dir / "problem" / "task_plan.schema.json", args.overwrite)
     copy_file(templates / "task_plan.json", project_dir / "problem" / "task_plan.json", args.overwrite)
     copy_file(templates / "model_card.md", project_dir / "problem" / "model_card_template.md", args.overwrite)
+    copy_file(templates / "modeling_idea.md", project_dir / "modeling" / "modeling_idea_template.md", args.overwrite)
     copy_file(templates / "assumptions_symbols.md", project_dir / "problem" / "assumptions.md", args.overwrite)
     copy_file(templates / "result_registry.csv", project_dir / "results" / "result_registry.csv", args.overwrite)
     copy_file(templates / "validation_report.md", project_dir / "results" / "validation_report.md", args.overwrite)
@@ -105,7 +108,8 @@ def main() -> int:
             [
                 "# CUMCM Project Structure",
                 "",
-                "- `problem/`: problem statement, problem parse, assumptions, task plan, and model cards.",
+                "- `problem/`: problem statement, problem parse, assumptions, and task plan.",
+                "- `modeling/`: per-question modeling ideas written before solving.",
                 "- `data/raw/`: untouched attachments.",
                 "- `data/processed/`: cleaned or reconstructed data.",
                 "- `src/`: deterministic scripts, named by subquestion when possible.",
