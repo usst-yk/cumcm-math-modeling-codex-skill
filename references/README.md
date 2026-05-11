@@ -6,6 +6,7 @@
 
 | File | Purpose |
 | --- | --- |
+| `core-rules.md` | 核心行为、论文优先循环、硬规则和默认图表字体。 |
 | `task-routing.md` | 判断用户需求对应的工作模式和参考文件。 |
 | `problem-parsing.md` | 题面解析标准：子问、输入、输出、约束、单位、附件和风险词。 |
 | `agent-workflow.md` | Coordinator -> Modeler -> Coder -> Writer -> Reviewer 的阶段流程。 |

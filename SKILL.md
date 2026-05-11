@@ -65,6 +65,7 @@ and reviewer.
   `tables/`, `figures/`, `results/`, and `paper/`.
 - Use `data/`, not `date/`, for raw, cleaned, and processed data.
 - Flowcharts and technical roadmaps default to GPT-image.
+- Paper figures default to the bundled Chinese font assets under `assets/fonts/`.
 - Do not write final numbers without a saved, traceable source.
 - Do not report optimality without solver status and feasibility checks.
 - Do not claim high accuracy without metrics or a baseline.

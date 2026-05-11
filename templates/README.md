@@ -20,6 +20,8 @@
 | `appendix_code.md` | `appendix/code-template.md` | 附录代码说明格式。 |
 | `run_log.md` | `logs/run_log.md` | 运行记录。 |
 
-TeX 模板吸收了常见 CUMCM 模板的章节顺序，但不依赖额外 class、字体文件或编译产物，避免新手因为缺字体而编译失败。
+TeX 模板吸收了常见 CUMCM 模板的章节顺序。论文图表字体由
+`assets/fonts/` 和 `scripts/make_paper_figures.py` 统一管理，避免新手因为
+macOS/Windows 字体差异导致图中文字变形。
 
 命名约定：模板名与目标产物保持一致。

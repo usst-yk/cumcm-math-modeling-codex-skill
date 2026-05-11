@@ -11,6 +11,23 @@ from matplotlib import font_manager
 import pandas as pd
 
 
+ROOT = Path(__file__).resolve().parents[1]
+FONT_DIR = ROOT / "assets" / "fonts"
+CHINESE_REGULAR = FONT_DIR / "NotoSansCJKsc-Regular.otf"
+CHINESE_BOLD = FONT_DIR / "NotoSansCJKsc-Bold.otf"
+ENGLISH_SERIF = ["Times New Roman", "Times", "Nimbus Roman", "Liberation Serif", "DejaVu Serif"]
+
+
+def register_bundled_fonts() -> str:
+    """Register bundled fonts and return the Chinese family name."""
+    for font_path in [CHINESE_REGULAR, CHINESE_BOLD]:
+        if font_path.exists():
+            font_manager.fontManager.addfont(str(font_path))
+    if CHINESE_REGULAR.exists():
+        return font_manager.FontProperties(fname=str(CHINESE_REGULAR)).get_name()
+    return available_font(["Noto Sans CJK SC", "Microsoft YaHei", "SimHei"])
+
+
 def available_font(candidates: list[str]) -> str:
     installed = {font.name for font in font_manager.fontManager.ttflist}
     for name in candidates:
@@ -20,32 +37,33 @@ def available_font(candidates: list[str]) -> str:
 
 
 def apply_cumcm_style(font_size: int = 18) -> None:
-    font = available_font(
-        [
-            "Songti SC",
-            "PingFang SC",
-            "Heiti SC",
-            "Microsoft YaHei",
-            "Noto Sans CJK SC",
-            "SimHei",
-            "SimSun",
-        ]
-    )
+    chinese_font = register_bundled_fonts()
+    english_font = available_font(ENGLISH_SERIF)
     plt.rcParams.update(
         {
-            "font.family": font,
+            "font.family": [english_font, chinese_font],
+            "font.serif": ENGLISH_SERIF,
+            "font.sans-serif": [chinese_font, "Noto Sans CJK SC", "Microsoft YaHei", "SimHei"],
             "font.size": font_size,
             "axes.titlesize": font_size + 2,
             "axes.labelsize": font_size,
             "xtick.labelsize": font_size - 2,
             "ytick.labelsize": font_size - 2,
             "legend.fontsize": font_size - 2,
-            "figure.dpi": 120,
-            "savefig.dpi": 300,
+            "mathtext.fontset": "stix",
+            "axes.unicode_minus": False,
+            "figure.dpi": 160,
+            "savefig.dpi": 360,
             "axes.grid": True,
-            "grid.alpha": 0.25,
+            "grid.alpha": 0.22,
+            "grid.linewidth": 0.8,
             "axes.spines.top": False,
             "axes.spines.right": False,
+            "axes.linewidth": 1.0,
+            "figure.facecolor": "white",
+            "savefig.facecolor": "white",
+            "savefig.bbox": "tight",
+            "legend.frameon": False,
         }
     )
 

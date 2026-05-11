@@ -440,6 +440,21 @@ def check_folder_indexes(issues: list[str]) -> None:
         require(ROOT / rel, issues)
 
 
+def check_font_assets(issues: list[str]) -> None:
+    for rel in [
+        "assets/fonts/NotoSansCJKsc-Regular.otf",
+        "assets/fonts/NotoSansCJKsc-Bold.otf",
+        "assets/fonts/OFL.txt",
+    ]:
+        require(ROOT / rel, issues)
+    style = ROOT / "scripts" / "make_paper_figures.py"
+    if style.exists():
+        text = style.read_text(encoding="utf-8", errors="ignore")
+        for term in ["NotoSansCJKsc-Regular.otf", "NotoSansCJKsc-Bold.otf", "Times New Roman"]:
+            if term not in text:
+                issues.append(f"make_paper_figures.py should configure bundled font item: {term}")
+
+
 def check_reference_names(issues: list[str]) -> None:
     expected = [
         "references/problem-parsing.md",
@@ -854,6 +869,7 @@ def check_parser_cases(issues: list[str]) -> None:
 def main() -> int:
     issues: list[str] = []
     check_folder_indexes(issues)
+    check_font_assets(issues)
     check_reference_names(issues)
     check_templates(issues)
     check_method_cards(issues)
