@@ -7,6 +7,7 @@ import csv
 import json
 import re
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -15,6 +16,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 DEMO = ROOT / "examples" / "full_problem_demo"
 REAL_CASE_2025_A = ROOT / "examples" / "real_cases" / "cumcm_2025_a"
+REAL_CASE_2025_B = ROOT / "examples" / "real_cases" / "cumcm_2025_b"
 REAL_CASE_HUADONG_A = ROOT / "examples" / "real_cases" / "huadong_cup_a"
 CHECK_FIGURE_TYPES = {"prediction", "optimization", "evaluation", "simulation", "scheduling"}
 MODELING_IDEA_TERMS = [
@@ -299,6 +301,96 @@ def check_real_case_2025_a(issues: list[str]) -> None:
     check_full_paper_structure(REAL_CASE_2025_A, "2025 A benchmark paper", issues, min_chars=7000)
 
 
+def check_real_case_2025_b(issues: list[str]) -> None:
+    required = [
+        "README.md",
+        "problem/problem_statement.pdf",
+        "problem/problem_statement.md",
+        "problem/problem_parse.json",
+        "problem/problem_parse.md",
+        "problem/task_plan.json",
+        "problem/task_plan.md",
+        "problem/background_benchmark.md",
+        "data/raw/sic_10deg_synthetic.csv",
+        "data/raw/sic_15deg_synthetic.csv",
+        "src/plot_utils.py",
+        "src/solve_sic_thickness.py",
+        "tables/tab_q1_model_parameters.csv",
+        "tables/tab_q2_thickness.csv",
+        "tables/tab_q2_reliability.csv",
+        "tables/data_profile/data_profile.json",
+        "tables/data_profile/data_profile_summary.md",
+        "figures/fig_problem_overview.png",
+        "figures/fig_q1_model_flow.png",
+        "figures/fig_q1_result.png",
+        "figures/fig_q2_model_flow.png",
+        "figures/fig_q2_result.png",
+        "figures/fig_q2_validation.png",
+        "results/result_registry.csv",
+        "results/validation_report.md",
+        "results/validation_audit.md",
+        "results/benchmark_findings.md",
+        "paper/main.tex",
+        "appendix/ai-usage-statement.md",
+    ]
+    for rel in required:
+        require(REAL_CASE_2025_B / rel, issues)
+
+    task_plan = REAL_CASE_2025_B / "problem" / "task_plan.json"
+    if task_plan.exists():
+        plan = json.loads(task_plan.read_text(encoding="utf-8"))
+        if plan.get("problem_id") != "cumcm_2025_b":
+            issues.append("2025 B real case task_plan.json should use problem_id cumcm_2025_b")
+        score_task_plan_quality(plan, "2025 B real case task_plan.json", issues, min_score=11)
+        for subquestion in plan.get("subquestions", []):
+            if not subquestion.get("selling_points"):
+                issues.append("2025 B real case subquestions should include selling_points")
+            if not subquestion.get("revision_status"):
+                issues.append("2025 B real case subquestions should include revision_status")
+
+    registry = REAL_CASE_2025_B / "results" / "result_registry.csv"
+    if registry.exists():
+        with registry.open(newline="", encoding="utf-8-sig") as handle:
+            rows = list(csv.DictReader(handle))
+        ids = {row.get("id") for row in rows}
+        for expected_id in ("R001", "R002", "R003", "R004", "R005", "R006", "R007"):
+            if expected_id not in ids:
+                issues.append(f"2025 B real case result_registry.csv should contain {expected_id}")
+        values = {row.get("id"): row.get("value") for row in rows}
+        if values.get("R005") != "8.000000":
+            issues.append("2025 B real case should keep true thickness as 8.000000 um")
+        try:
+            max_error = float(values.get("R007", "nan"))
+        except ValueError:
+            max_error = float("nan")
+        if not max_error <= 0.05:
+            issues.append("2025 B real case max thickness error should be <= 0.050000 um")
+        for row in rows:
+            for col in ["source_file", "script", "figure_or_table"]:
+                value = row.get(col, "")
+                if value and not (REAL_CASE_2025_B / value).exists():
+                    issues.append(f"2025 B registry {col} not found: {value}")
+
+    reliability = REAL_CASE_2025_B / "tables" / "tab_q2_reliability.csv"
+    if reliability.exists():
+        with reliability.open(newline="", encoding="utf-8-sig") as handle:
+            rows = list(csv.DictReader(handle))
+        if not rows or rows[0].get("status") != "pass":
+            issues.append("2025 B reliability table should have status pass")
+        if rows:
+            try:
+                max_error = float(rows[0].get("max_abs_error_um", "nan"))
+            except ValueError:
+                max_error = float("nan")
+            if not max_error <= 0.05:
+                issues.append("2025 B reliability max_abs_error_um should be <= 0.050000")
+
+    audit = REAL_CASE_2025_B / "results" / "validation_audit.md"
+    if audit.exists() and "No blocking artifact issue found" not in audit.read_text(encoding="utf-8", errors="ignore"):
+        issues.append("2025 B validation_audit.md should have no blocking artifact issue")
+    check_full_paper_structure(REAL_CASE_2025_B, "2025 B benchmark paper", issues, min_chars=4500)
+
+
 def clean_tex_text(text: str) -> str:
     text = re.sub(r"%.*", " ", text)
     text = re.sub(r"\\(?:begin|end)\{[^}]+\}", " ", text)
@@ -433,7 +525,13 @@ def check_folder_indexes(issues: list[str]) -> None:
     expected = [
         "agents/README.md",
         "agents/abstract_writer.md",
+        "agents/academic_polisher.md",
+        "agents/figure_referee.md",
+        "agents/paper_author.md",
         "agents/paper_assembler.md",
+        "agents/paper_referee.md",
+        "agents/storyline_planner.md",
+        "agents/style_referee.md",
         "evals/README.md",
         "examples/README.md",
         "references/README.md",
@@ -473,6 +571,8 @@ def check_reference_names(issues: list[str]) -> None:
         "references/paper-quality-standard.md",
         "references/benchmark-rebuild.md",
         "references/paper-section-flow.md",
+        "references/paper-genre-gate.md",
+        "references/scientific-prose-style.md",
         "references/external-agent-patterns.md",
         "references/figure-plan.md",
     ]
@@ -539,6 +639,19 @@ def check_templates(issues: list[str]) -> None:
         for term in MODELING_TEMPLATE_TERMS:
             if term not in text:
                 issues.append(f"modeling_idea.md template should mention: {term}")
+    task_template = ROOT / "templates" / "task_plan.json"
+    if task_template.exists():
+        task = json.loads(task_template.read_text(encoding="utf-8"))
+        for field in ["deliverable_type", "paper_genre", "literature_gate", "method_trials", "paper_style_policy"]:
+            if field not in task:
+                issues.append(f"templates/task_plan.json missing {field}")
+    task_schema = ROOT / "templates" / "task_plan.schema.json"
+    if task_schema.exists():
+        schema = json.loads(task_schema.read_text(encoding="utf-8"))
+        props = schema.get("properties", {})
+        for field in ["deliverable_type", "paper_genre", "literature_gate", "method_trials", "paper_style_policy"]:
+            if field not in props:
+                issues.append(f"task_plan.schema.json missing property {field}")
 
 
 def type_ok(value: Any, expected: str) -> bool:
@@ -715,7 +828,7 @@ def check_official_cases(issues: list[str]) -> None:
     if not script.exists() or not index.exists():
         return
     result = subprocess.run(
-        ["python3", str(script), "--index", str(index)],
+        [sys.executable, str(script), "--index", str(index)],
         cwd=ROOT,
         text=True,
         capture_output=True,
@@ -785,7 +898,7 @@ def check_parser_cases(issues: list[str]) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             outdir = Path(tmp)
             parse_cmd = [
-                "python3",
+                sys.executable,
                 str(parser),
                 "--problem",
                 str(problem),
@@ -795,7 +908,7 @@ def check_parser_cases(issues: list[str]) -> None:
                 case,
             ]
             plan_cmd = [
-                "python3",
+                sys.executable,
                 str(planner),
                 "--parse",
                 str(outdir / "problem_parse.json"),
@@ -881,6 +994,7 @@ def main() -> int:
     check_official_cases(issues)
     check_demo(issues)
     check_real_case_2025_a(issues)
+    check_real_case_2025_b(issues)
     check_real_case_huadong_a(issues)
     check_eval_prompts(issues)
     check_parser_cases(issues)

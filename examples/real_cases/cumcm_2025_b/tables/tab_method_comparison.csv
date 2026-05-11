@@ -1,0 +1,7 @@
+﻿sample_id,angle_deg,method,thickness_um,frequency_or_spacing,rmse_reflectance_pct
+sic_10deg,10.0,peak_spacing,7.997677,245.739662,not_applicable
+sic_10deg,10.0,fft,7.858766,0.003998667,not_applicable
+sic_10deg,10.0,least_squares_main_frequency,7.999950,0.004070504,0.289120
+sic_15deg,15.0,peak_spacing,7.994296,246.546125,not_applicable
+sic_15deg,15.0,fft,7.881224,0.003998667,not_applicable
+sic_15deg,15.0,least_squares_main_frequency,8.000082,0.004058971,0.289092

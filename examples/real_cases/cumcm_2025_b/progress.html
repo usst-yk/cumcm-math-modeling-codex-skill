@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="5">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project Progress</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; color: #1f2937; background: #f8fafc; }
+    main { max-width: 1280px; margin: 0 auto; padding: 32px 20px; }
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    .meta { margin: 0 0 24px; color: #64748b; }
+    .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin: 0 0 20px; }
+    .summary div { background: #fff; border: 1px solid #e5e7eb; padding: 12px; }
+    .label { display: block; color: #64748b; font-size: 12px; margin-bottom: 4px; }
+    .generated { background: #fff; border: 1px solid #e5e7eb; padding: 12px; margin: 0 0 20px; font-size: 14px; }
+    .task-grid { display: grid; grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr); gap: 12px; margin: 0 0 20px; }
+    .panel { background: #fff; border: 1px solid #e5e7eb; padding: 12px; }
+    .panel table { border: 0; }
+    .panel th, .panel td { padding: 7px 8px; }
+    .table-wrap { overflow-x: auto; border: 1px solid #e5e7eb; background: #fff; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #e5e7eb; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid #e5e7eb; text-align: left; vertical-align: top; font-size: 14px; }
+    td:nth-child(5) { min-width: 320px; }
+    td:nth-child(6) { min-width: 180px; color: #475569; }
+    th { background: #f1f5f9; color: #334155; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .pill { display: inline-block; min-width: 64px; padding: 2px 8px; border-radius: 999px; text-align: center; font-size: 12px; }
+    .done { background: #dcfce7; color: #166534; }
+    .blocked { background: #fee2e2; color: #991b1b; }
+    .risk { background: #fef3c7; color: #92400e; }
+    .working { background: #dbeafe; color: #1e40af; }
+    .todo { background: #e5e7eb; color: #374151; }
+    @media (max-width: 760px) { .task-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Project Progress</h1>
+  <p class="meta">Generated from logs/progress.jsonl.</p>
+  <section class="summary">
+    <div><span class="label">Current stage</span>feedback-loop</div>
+    <div><span class="label">Events</span>30</div>
+    <div><span class="label">Last updated</span>2026-05-11T10:26:40</div>
+    <div><span class="label">Refresh</span>Every 5 seconds while this file is open</div>
+  </section>
+  <section class="generated"><span class="label">Recent generated files</span><a href="paper/main.tex">paper/main.tex</a>, <a href="paper/main_reworked.pdf">paper/main_reworked.pdf</a>, <a href="figures/fig_q3_model_flow.png">figures/fig_q3_model_flow.png</a>, <a href="results/result_registry.csv">results/result_registry.csv</a>, <a href="references/award-paper-learning.md">references/award-paper-learning.md</a>, <a href="figures/fig_data_pipeline.png">figures/fig_data_pipeline.png</a>, <a href="figures/fig_sliding_fft_snr.png">figures/fig_sliding_fft_snr.png</a>, <a href="figures/fig_joint_fit.png">figures/fig_joint_fit.png</a>, <a href="figures/fig_residual_diagnostics.png">figures/fig_residual_diagnostics.png</a>, <a href="figures/fig_q3_multibeam_airy.png">figures/fig_q3_multibeam_airy.png</a>, <a href="tables/tab_data_pipeline_audit.csv">tables/tab_data_pipeline_audit.csv</a>, <a href="tables/tab_joint_fit.csv">tables/tab_joint_fit.csv</a>, <a href="tables/tab_multibeam_comparison.csv">tables/tab_multibeam_comparison.csv</a>, <a href="results/feedback_loop_audit.md">results/feedback_loop_audit.md</a>, <a href="paper/sections/q3.tex">paper/sections/q3.tex</a></section>
+  <section class="task-grid">
+    <div class="panel">
+      <span class="label">Question status</span>
+      <table>
+        <thead><tr><th>Question</th><th>Status</th><th>Owner</th><th>Next action</th></tr></thead>
+        <tbody>
+<tr><td>Q1</td><td>verified</td><td>modeler</td><td>none</td></tr>
+<tr><td>Q2</td><td>verified</td><td>coder</td><td>rerun solve_sic_thickness.py after code changes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="panel">
+      <span class="label">Registry summary</span>
+      total: 19；verified: 19
+    </div>
+  </section>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Time</th><th>Stage</th><th>Status</th><th>Worker</th><th>Message</th><th>Details</th><th>Blocker / Retry</th><th>Score / Rubric</th><th>Files</th></tr></thead>
+    <tbody>
+<tr><td>2026-05-11T10:26:40</td><td>feedback-loop</td><td><span class="pill done">done</span></td><td>codex-main</td><td>三轮反馈闭环完成：skill吸收公开优秀论文学习规则；B题论文改为单文件主稿并通过审计、文体和编译</td><td>question: ALL；agent_role: coordinator；event_type: recheck；gate_id: G-final-validation；decision: pass</td><td></td><td></td><td><a href="paper/main.tex">paper/main.tex</a>, <a href="paper/main_reworked.pdf">paper/main_reworked.pdf</a>, <a href="figures/fig_q3_model_flow.png">figures/fig_q3_model_flow.png</a>, <a href="results/result_registry.csv">results/result_registry.csv</a>, <a href="references/award-paper-learning.md">references/award-paper-learning.md</a></td></tr>
+<tr><td>2026-05-11T09:48:05</td><td>feedback-loop</td><td><span class="pill done">done</span></td><td>codex-main</td><td>第1轮完成：补数据处理审计、滑窗FFT、联合拟合、残差诊断和Airy判定生成链</td><td>question: ALL；agent_role: solver；event_type: rework_done；rework_round: 1</td><td></td><td></td><td><a href="figures/fig_data_pipeline.png">figures/fig_data_pipeline.png</a>, <a href="figures/fig_sliding_fft_snr.png">figures/fig_sliding_fft_snr.png</a>, <a href="figures/fig_joint_fit.png">figures/fig_joint_fit.png</a>, <a href="figures/fig_residual_diagnostics.png">figures/fig_residual_diagnostics.png</a>, <a href="figures/fig_q3_multibeam_airy.png">figures/fig_q3_multibeam_airy.png</a>, <a href="tables/tab_data_pipeline_audit.csv">tables/tab_data_pipeline_audit.csv</a>, <a href="tables/tab_joint_fit.csv">tables/tab_joint_fit.csv</a>, <a href="tables/tab_multibeam_comparison.csv">tables/tab_multibeam_comparison.csv</a>, <a href="results/feedback_loop_audit.md">results/feedback_loop_audit.md</a>, <a href="paper/sections/q3.tex">paper/sections/q3.tex</a></td></tr>
+<tr><td>2026-05-11T09:35:36</td><td>feedback-loop</td><td><span class="pill working">working</span></td><td>codex-main</td><td>启动三轮反馈循环：参考挖掘、论文补强、skill升级并行进行</td><td>question: ALL；agent_role: coordinator；event_type: loop_start</td><td></td><td></td><td><a href="paper/main.tex">paper/main.tex</a>, <a href="SKILL.md">SKILL.md</a>, <a href="references">references</a></td></tr>
+<tr><td>2026-05-11T02:13:13</td><td>packaging</td><td><span class="pill done">done</span></td><td>Codex</td><td>README 已补充新版 PDF、敏感性图表、progress 面板和交付说明。</td><td>question: ALL；agent_role: packager；event_type: readme_update；owner: Codex；next_action: 刷新压缩包</td><td></td><td></td><td><a href="README.md">README.md</a>, <a href="progress.html">progress.html</a>, <a href="progress.html">progress.html</a></td></tr>
+<tr><td>2026-05-11T02:12:14</td><td>packaging</td><td><span class="pill done">done</span></td><td>Codex</td><td>交付包已创建并验证：52 个条目，未包含 TeX 编译软件、缓存或编译中间文件；包内 paper/main.pdf 使用新版 reworked PDF。</td><td>question: ALL；agent_role: packager；event_type: package_done；owner: Codex；next_action: 交付给作者</td><td></td><td>package=pass; excluded tex engines/intermediates</td><td><a href="../cumcm_2025_b_author_delivery_20260511.zip">../cumcm_2025_b_author_delivery_20260511.zip</a>, <a href="progress.html">progress.html</a>, <a href="../cumcm_2025_b_author_delivery_20260511.zip">../cumcm_2025_b_author_delivery_20260511.zip</a></td></tr>
+<tr><td>2026-05-11T02:11:01</td><td>final-validation</td><td><span class="pill done">done</span></td><td>Codex</td><td>最终验证通过：validate_results Findings=0，paper style lint P1=0/P2=0，reworked PDF 重新编译完成。</td><td>question: ALL；agent_role: validator；event_type: gate_pass；owner: Codex；next_action: 创建交付压缩包</td><td></td><td>validation=pass; style=pass; pdf=pass</td><td><a href="results/validation_audit.md">results/validation_audit.md</a>, <a href="results/paper_style_audit.md">results/paper_style_audit.md</a>, <a href="paper/main_reworked.pdf">paper/main_reworked.pdf</a>, <a href="results/validation_audit.md">results/validation_audit.md</a>, <a href="results/paper_style_audit.md">results/paper_style_audit.md</a>, <a href="paper/main_reworked.pdf">paper/main_reworked.pdf</a></td></tr>
+<tr><td>2026-05-11T02:09:19</td><td>tex-compile</td><td><span class="pill done">done</span></td><td>Codex</td><td>PDF 已成功编译到 paper/main_reworked.pdf；原 paper/main.pdf 疑似被浏览器占用，打包时会用新 PDF 作为包内 paper/main.pdf。</td><td>question: ALL；agent_role: builder；event_type: compile_done；owner: Codex；next_action: 进入最终验证与打包</td><td></td><td>PDF pages=9; visual render pass</td><td><a href="paper/main.tex">paper/main.tex</a>, <a href="paper/main_reworked.pdf">paper/main_reworked.pdf</a>, <a href="paper/main_reworked.pdf">paper/main_reworked.pdf</a>, <a href="build/pdf/main.pdf">build/pdf/main.pdf</a>, <a href="build/pdf/page_1.png">build/pdf/page_1.png</a>, <a href="build/pdf/page_7.png">build/pdf/page_7.png</a></td></tr>
+<tr><td>2026-05-11T02:06:31</td><td>tex-compile</td><td><span class="pill working">working</span></td><td>Codex</td><td>开始重新编译论文 PDF，确认新图表与敏感性章节进入最终文档。</td><td>question: ALL；agent_role: builder；event_type: compile_start；owner: Codex；next_action: 运行 TeX 编译并检查 PDF</td><td></td><td></td><td><a href="paper/main.tex">paper/main.tex</a>, <a href="paper/sections/q1.tex">paper/sections/q1.tex</a>, <a href="paper/sections/q2.tex">paper/sections/q2.tex</a></td></tr>
+<tr><td>2026-05-11T02:06:20</td><td>figure-review</td><td><span class="pill done">done</span></td><td>Codex</td><td>新机制图与验证图通过视觉复审：光路、折射角、参考线、误差容差和字体均明显改善。</td><td>question: Q1,Q2；agent_role: reviewer；event_type: visual_gate；owner: Codex；next_action: 编译 PDF</td><td></td><td></td><td><a href="figures/fig_problem_overview.png">figures/fig_problem_overview.png</a>, <a href="figures/fig_q2_validation.png">figures/fig_q2_validation.png</a></td></tr>
+<tr><td>2026-05-11T02:05:26</td><td>paper-rework</td><td><span class="pill done">done</span></td><td>Codex</td><td>论文与图表已重新生成：新增敏感性表/图，重画机制图、路线图和验证图，正文明确合成验证边界。</td><td>question: Q2；agent_role: writer；event_type: artifact_regeneration；owner: Codex；next_action: 审查新图、编译 PDF</td><td></td><td></td><td><a href="src/solve_sic_thickness.py">src/solve_sic_thickness.py</a>, <a href="src/plot_utils.py">src/plot_utils.py</a>, <a href="paper/main.tex">paper/main.tex</a>, <a href="paper/sections/q1.tex">paper/sections/q1.tex</a>, <a href="paper/sections/q2.tex">paper/sections/q2.tex</a>, <a href="figures/fig_problem_overview.png">figures/fig_problem_overview.png</a>, <a href="figures/fig_q2_model_flow.png">figures/fig_q2_model_flow.png</a>, <a href="figures/fig_q2_validation.png">figures/fig_q2_validation.png</a>, <a href="figures/fig_sensitivity.png">figures/fig_sensitivity.png</a>, <a href="tables/tab_sensitivity.csv">tables/tab_sensitivity.csv</a>, <a href="paper/main.tex">paper/main.tex</a></td></tr>
+<tr><td>2026-05-11T02:05:13</td><td>paper-rework</td><td><span class="pill working">working</span></td><td>Codex</td><td>开始论文与图表返工：补合成验证边界、文献作用表、敏感性分析，重画图1/图4/图6。</td><td>question: Q2；agent_role: writer；event_type: edit；owner: Codex；next_action: 运行求解脚本并重新生成论文、图表、敏感性表</td><td></td><td></td><td><a href="src/plot_utils.py">src/plot_utils.py</a>, <a href="src/solve_sic_thickness.py">src/solve_sic_thickness.py</a>, <a href="problem/task_plan.json">problem/task_plan.json</a>, <a href="progress.html">progress.html</a></td></tr>
+<tr><td>2026-05-11T02:00:09</td><td>progress-dashboard</td><td><span class="pill done">done</span></td><td>Codex</td><td>progress 面板补齐默认 append 自动渲染、子 agent 字段、题目状态摘要和 registry 摘要。</td><td>question: ALL；agent_role: supervisor；event_type: dashboard_patch；owner: Codex；next_action: 进入论文图表与敏感性返工；rework_round: 2</td><td></td><td></td><td><a href="scripts/update_progress.py">scripts/update_progress.py</a>, <a href="progress.html">progress.html</a>, <a href="logs/progress.jsonl">logs/progress.jsonl</a>, <a href="problem/task_plan.json">problem/task_plan.json</a>, <a href="results/result_registry.csv">results/result_registry.csv</a>, <a href="progress.html">progress.html</a></td></tr>
+<tr><td>2026-05-11T01:58:13</td><td>progress-dashboard</td><td><span class="pill done">done</span></td><td>Codex</td><td>progress 面板完成第一轮修复：HTML 自动刷新，update_progress 支持 --watch，新增 Details 列和 generated_files 汇总。</td><td>{&quot;meta&quot;: &quot;{agent:Newton/Raman/Dirac,step:dashboard-runtime}&quot;}</td><td></td><td></td><td><a href="scripts/update_progress.py">scripts/update_progress.py</a>, <a href="progress.html">progress.html</a>, <a href="progress.html">progress.html</a></td></tr>
+<tr><td>2026-05-11T01:57:09</td><td>progress-dashboard</td><td><span class="pill working">working</span></td><td>Codex</td><td>开始修复 progress 面板：加入自动刷新、watch 渲染和子 agent 事件字段，保证返工细节能随日志更新。</td><td></td><td></td><td></td><td><a href="scripts/update_progress.py">scripts/update_progress.py</a>, <a href="progress.html">progress.html</a>, <a href="logs/progress.jsonl">logs/progress.jsonl</a></td></tr>
+<tr><td>2026-05-11T01:09:48</td><td>rework-loop-1</td><td><span class="pill working">working</span></td><td>Codex</td><td>进入第1轮返工闭环：集成题前文献、正式论文文体分流、自动 style lint、方法选优和案例 PDF 重写。</td><td></td><td></td><td>target: contest_paper style; max_retry=3</td><td><a href="SKILL.md">SKILL.md</a>, <a href="references/paper-writing.md">references/paper-writing.md</a>, <a href="scripts/lint_paper_style.py">scripts/lint_paper_style.py</a>, <a href="examples/real_cases/cumcm_2025_b/paper/main.tex">examples/real_cases/cumcm_2025_b/paper/main.tex</a></td></tr>
+<tr><td>2026-05-11T00:54:39</td><td>paper-genre-redesign</td><td><span class="pill working">working</span></td><td>Codex</td><td>启动正式论文文体重构：分流 benchmark_report 与 contest_paper，补题目前文献调研、方法选优、正文禁词审查和进度面板可视化。</td><td></td><td></td><td></td><td><a href="progress.html">progress.html</a>, <a href="logs/progress.jsonl">logs/progress.jsonl</a></td></tr>
+<tr><td>2026-05-11T00:45:14</td><td>tex-compile</td><td><span class="pill done">done</span></td><td>Codex</td><td>Tectonic TeX 环境配置完成，ctexart 中文论文编译通过，生成 paper/main.pdf。</td><td></td><td></td><td></td><td><a href="paper/main.tex">paper/main.tex</a>, <a href="paper/main.pdf">paper/main.pdf</a>, <a href="src/solve_sic_thickness.py">src/solve_sic_thickness.py</a></td></tr>
+<tr><td>2026-05-11T00:36:01</td><td>tex-compile</td><td><span class="pill risk">risk</span></td><td>Codex</td><td>按用户指令跳过本地 TeX 编译，先提交 PR；TeX 源文件保留在 paper/main.tex，PDF 可在完整 LaTeX 环境中后续生成。</td><td></td><td></td><td></td><td><a href="paper/main.tex">paper/main.tex</a></td></tr>
+<tr><td>2026-05-11T00:20:29</td><td>final-check</td><td><span class="pill done">done</span></td><td>Codex</td><td>最终检查通过：check_skill_structure、validate_results Findings=0、run_skill_evals 均通过</td><td></td><td></td><td></td><td><a href="results/validation_audit.md">results/validation_audit.md</a>, <a href="progress.html">progress.html</a></td></tr>
+<tr><td>2026-05-11T00:20:14</td><td>eval-integration</td><td><span class="pill done">done</span></td><td>Codex</td><td>run_skill_evals.py 已通过，新案例纳入全仓库自检</td><td></td><td></td><td></td><td><a href="results/validation_audit.md">results/validation_audit.md</a>, <a href="progress.html">progress.html</a>, <a href="scripts/run_skill_evals.py">scripts/run_skill_evals.py</a></td></tr>
+<tr><td>2026-05-11T00:20:02</td><td>eval-integration</td><td><span class="pill blocked">revise</span></td><td>Codex</td><td>修复 task_plan Q1 figures_needed，补登记 fig_q1_result.png</td><td></td><td></td><td></td><td><a href="problem/task_plan.json">problem/task_plan.json</a></td></tr>
+<tr><td>2026-05-11T00:19:48</td><td>eval-integration</td><td><span class="pill working">working</span></td><td>Codex</td><td>已接入 examples 索引和 run_skill_evals，开始全仓库验证</td><td></td><td></td><td></td><td><a href="scripts/run_skill_evals.py">scripts/run_skill_evals.py</a>, <a href="examples/README.md">examples/README.md</a>, <a href="examples/real_cases/README.md">examples/real_cases/README.md</a></td></tr>
+<tr><td>2026-05-11T00:18:52</td><td>validation</td><td><span class="pill done">done</span></td><td>Codex</td><td>validate_results --mode full 通过，Findings=0</td><td></td><td></td><td></td><td><a href="results/validation_audit.md">results/validation_audit.md</a></td></tr>
+<tr><td>2026-05-11T00:18:31</td><td>rework</td><td><span class="pill working">working</span></td><td>Codex</td><td>继续补厚论文：增加角度一致性、基线/主模型差异、失败定位和返工路径</td><td></td><td></td><td></td><td><a href="src/solve_sic_thickness.py">src/solve_sic_thickness.py</a></td></tr>
+<tr><td>2026-05-11T00:17:53</td><td>rework</td><td><span class="pill done">done</span></td><td>Codex</td><td>完成 registry claim 和论文厚度返工，准备重新运行案例</td><td></td><td></td><td></td><td><a href="src/solve_sic_thickness.py">src/solve_sic_thickness.py</a></td></tr>
+<tr><td>2026-05-11T00:17:07</td><td>rework</td><td><span class="pill working">working</span></td><td>Codex</td><td>开始返工：调整 registry claim 措辞，补厚论文机制、变量、约束和误差解释</td><td></td><td></td><td></td><td><a href="src/solve_sic_thickness.py">src/solve_sic_thickness.py</a></td></tr>
+<tr><td>2026-05-11T00:17:07</td><td>validation</td><td><span class="pill blocked">revise</span></td><td>Codex</td><td>validate_results 剩余 3 项：registry claim 触发最大/最优误判，paper 正文厚度不足</td><td></td><td></td><td></td><td><a href="results/validation_audit.md">results/validation_audit.md</a>, <a href="results/result_registry.csv">results/result_registry.csv</a>, <a href="paper/main.tex">paper/main.tex</a></td></tr>
+<tr><td>2026-05-11T00:14:45</td><td>validation</td><td><span class="pill working">working</span></td><td>Codex</td><td>validate_results 发现论文厚度和 Q1 图表需补齐，正在修复</td><td></td><td></td><td></td><td><a href="results/validation_audit.md">results/validation_audit.md</a>, <a href="paper/main.tex">paper/main.tex</a></td></tr>
+<tr><td>2026-05-11T00:14:45</td><td>solving</td><td><span class="pill done">done</span></td><td>Codex</td><td>首次运行厚度反演脚本，max_abs_error=0.000082 um</td><td></td><td></td><td></td><td><a href="tables/tab_q2_reliability.csv">tables/tab_q2_reliability.csv</a>, <a href="figures/fig_q2_validation.png">figures/fig_q2_validation.png</a></td></tr>
+<tr><td>2026-05-11T00:14:45</td><td>setup</td><td><span class="pill done">done</span></td><td>Codex</td><td>选择 2025 B 题并搭建合成光谱回归案例</td><td></td><td></td><td></td><td><a href="problem/task_plan.json">problem/task_plan.json</a>, <a href="src/solve_sic_thickness.py">src/solve_sic_thickness.py</a></td></tr>
+    </tbody>
+  </table>
+  </div>
+</main>
+</body>
+</html>
