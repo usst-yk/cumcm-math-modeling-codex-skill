@@ -56,6 +56,8 @@ Modeling idea minimum:
 - variables, parameters, assumptions, units, value ranges, and data sources;
 - assumption source, why each assumption is needed, its consequence, and how it
   will be tested or explained;
+- a section named `逐步建模推导`, `逐步建模过程`, or equivalent, following
+  `references/modeling-derivation-standard.md`;
 - step-by-step derivation of the core equation, objective function, evaluation
   score, geometric criterion, recurrence, or state transition;
 - constraints, boundary conditions, initial values, and feasibility checks;

@@ -45,6 +45,11 @@ of a CUMCM problem, update `paper/main.tex`. Do not interpret "solve Qx",
   question role, task facts, assumptions, variables, step-by-step derivation,
   core equations or criterion, constraints, baseline, primary route, fallback
   route, algorithm, validation plan, figure plan, and paper-writing plan.
+- The step-by-step derivation must follow
+  `references/modeling-derivation-standard.md`: translate problem wording into
+  variables, mechanism, equations/criteria, constraints, algorithm, validation
+  hooks, and paper wording. A formula list without prose derivation is
+  incomplete.
 - After solving, compare the actual code path, equations, constraints, solver
   status, tables, and figures against `modeling/qx_modeling_idea.md`. If they
   differ, update the file before paper writing.

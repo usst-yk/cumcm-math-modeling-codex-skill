@@ -20,6 +20,8 @@ must ultimately update `paper/main.tex`.
 - Core rules: `references/core-rules.md`
 - Output policy and folder layout: `references/output-policy.md`
 - Figure, flowchart, and technical-roadmap policy: `references/figure-plan.md`
+- Beginner-readable modeling derivation standard:
+  `references/modeling-derivation-standard.md`
 
 ## Workflow
 
@@ -29,7 +31,10 @@ the gate checks in `references/stage-gates.md`.
 For each solved subquestion:
 
 1. Parse the task and data dependencies.
-2. Write `modeling/qx_modeling_idea.md` with detailed step-by-step modeling.
+2. Write `modeling/qx_modeling_idea.md` using
+   `references/modeling-derivation-standard.md`; it must include a
+   beginner-readable derivation from problem wording to variables, mechanisms,
+   equations/criteria, constraints, algorithm, validation, and paper wording.
 3. Solve with code when needed.
 4. Produce tables, GPT-image model flowchart, result figures, and validation.
 5. Reverse-check code against the modeling idea.
@@ -42,6 +47,8 @@ Read only the relevant file(s):
 
 - Full problem: `references/workflow.md`, `references/problem-routing.md`
 - Single subquestion: `references/task-modes.md`, `references/problem-routing.md`
+- Before writing any `modeling/qx_modeling_idea.md`:
+  `references/modeling-derivation-standard.md`
 - Data audit: `references/data-audit.md`, then use `scripts/data_profile.py`
 - Problem parsing: `references/problem-parsing.md`, then use `scripts/problem_parser.py`
 - Task decomposition: use `scripts/build_task_plan.py`
@@ -67,6 +74,9 @@ and reviewer.
 - Flowcharts and technical roadmaps are GPT-image paper figures.
 - Paper figures default to the bundled Chinese font assets under `assets/fonts/`.
 - Do not write final numbers without a saved, traceable source.
+- Do not let `modeling/qx_modeling_idea.md` collapse into a formula list; every
+  solved question needs a section such as “逐步建模推导” explaining how the
+  model is built from the problem facts, in prose a beginner can follow.
 - Do not report optimality without solver status and feasibility checks.
 - Do not claim high accuracy without metrics or a baseline.
 - Do not leave placeholders in final deliverables unless the user asked for a draft.

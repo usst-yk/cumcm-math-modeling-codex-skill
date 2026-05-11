@@ -32,6 +32,9 @@
 
 - 当前问题分析。
 - 模型假设和符号。
+- `modeling/qx_modeling_idea.md` 中必须有“逐步建模推导”或等价章节，按
+  `references/modeling-derivation-standard.md` 写清题面文字如何转成变量、
+  机制、公式、约束、算法和验证；不能只列核心公式。
 - 解析基线、合理近似模型或边界条件。
 - 数值模型和求解流程。
 - `paper/main.tex` 中的完整单问论文正文：问题作用、变量假设、公式、
