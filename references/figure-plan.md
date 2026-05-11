@@ -20,8 +20,9 @@
 3. `fig_qx_validation.png` 或 `fig_qx_sensitivity.png`。
 
 如果题面对象、几何关系、机理结构或约束系统仅靠流程图说不清楚，再补
-`fig_qx_model_flow.png`。流程图解释建模步骤，示意图解释对象
-结构；二者可以同时存在。
+`fig_qx_structure.png`、`fig_qx_schematic.png` 或
+`fig_qx_geometry.png`。流程图解释建模步骤，示意图解释对象结构；
+二者可以同时存在。
 
 对优化、预测、评价排序、调度、仿真这类需要证明可靠性的题目，第三张检查图通常不是可省项。只有当检查结果用 1 个很小的表格更清楚时，才可以不画，并说明原因。
 
