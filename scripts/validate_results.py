@@ -14,9 +14,11 @@ NUM_RE = re.compile(r"(?<![A-Za-z])\d+(?:\.\d+)?%?")
 FIG_RE = re.compile(r"(fig_[A-Za-z0-9_./-]+\.(?:png|jpg|jpeg|pdf|svg))")
 TAB_RE = re.compile(r"(tab_[A-Za-z0-9_./-]+\.(?:csv|xlsx|xls))")
 FIGURE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".pdf", ".svg"}
-MIN_FULL_PAPER_CHARS = 9000
-MIN_FULL_QUESTION_CHARS = 1200
-MIN_SINGLE_QUESTION_CHARS = 1800
+MIN_FULL_PAPER_CHARS = 12000
+MIN_FULL_QUESTION_CHARS = 2000
+MIN_SINGLE_QUESTION_CHARS = 2500
+MIN_CHARS_PER_VISUAL = 700
+MIN_SECTION_CHARS_PER_VISUAL = 500
 DATA_AUDIT_TABLE_NAMES = {
     "data_inventory.xlsx",
     "tab_categorical_profile.xlsx",
@@ -69,6 +71,18 @@ MODELING_REVERSE_CHECK_TERMS = [
     "代码实际",
     "实现一致",
     "差异",
+]
+CODE_MODELING_PROCESS_TERMS = [
+    "代码建模流程",
+    "数据到代码变量",
+    "清洗",
+    "单位",
+    "公式",
+    "约束",
+    "循环",
+    "中间输出",
+    "保存路径",
+    "新手",
 ]
 QUALITY_PROCESS_TERMS = [
     "路线",
@@ -225,6 +239,17 @@ def has_table_or_figure_reference(text: str) -> bool:
     )
 
 
+def visual_count(text: str) -> int:
+    figure_files = len(set(FIG_RE.findall(text)))
+    included_figures = len(re.findall(r"\\includegraphics", text))
+    figure_envs = len(re.findall(r"\\begin\{figure\}", text))
+    table_files = len(set(TAB_RE.findall(text)))
+    table_float_envs = len(re.findall(r"\\begin\{(?:table|longtable)\}", text))
+    inline_table_envs = len(re.findall(r"\\begin\{(?:tabularx|tabular)\}", text))
+    table_count = table_float_envs if table_float_envs else inline_table_envs
+    return max(figure_files, included_figures, figure_envs) + max(table_files, table_count)
+
+
 def audit_paper_density(root: Path, mode: str) -> list[str]:
     issues: list[str] = []
     paper = root / "paper" / "main.tex"
@@ -239,6 +264,12 @@ def audit_paper_density(root: Path, mode: str) -> list[str]:
             "P1: full paper is too thin; expected at least "
             f"{MIN_FULL_PAPER_CHARS} cleaned characters with derivation, result interpretation, validation, and limitations."
         )
+    full_visuals = visual_count(full_text)
+    if mode == "full" and full_visuals and len(cleaned_full) < full_visuals * MIN_CHARS_PER_VISUAL:
+        issues.append(
+            "P1: full paper is too figure/table dominated; expected more explanatory prose "
+            f"around {full_visuals} visual/table artifact(s)."
+        )
 
     for question in questions:
         section_text = extract_question_section(full_text, question)
@@ -250,6 +281,12 @@ def audit_paper_density(root: Path, mode: str) -> list[str]:
             issues.append(
                 f"P1: solved {question.upper()} paper section is too thin; "
                 f"expected at least {min_chars} cleaned characters."
+            )
+        section_visuals = visual_count(section_text)
+        if section_visuals and len(cleaned_section) < section_visuals * MIN_SECTION_CHARS_PER_VISUAL:
+            issues.append(
+                f"P1: solved {question.upper()} paper section is too figure/table dominated; "
+                "expand the prose explanation or move secondary visuals/tables out of the body."
             )
         for label, terms in QUESTION_DENSITY_TERM_GROUPS.items():
             if not any(term in cleaned_section for term in terms):
@@ -351,6 +388,14 @@ def audit_modeling_ideas(root: Path, mode: str) -> list[str]:
         if not any(term in text for term in MODELING_REVERSE_CHECK_TERMS):
             issues.append(
                 f"P2: modeling idea for {question.upper()} lacks code reverse-check/final-idea notes."
+            )
+        missing_code_process = [
+            term for term in CODE_MODELING_PROCESS_TERMS if term not in text
+        ]
+        if missing_code_process:
+            issues.append(
+                f"P2: modeling idea for {question.upper()} lacks detailed code modeling process terms: "
+                + ", ".join(missing_code_process)
             )
     return issues
 
@@ -500,6 +545,14 @@ def audit_first_prize_modeling_ideas(root: Path) -> list[str]:
         if not any(term in text for term in MODELING_REVERSE_CHECK_TERMS):
             issues.append(
                 f"P1: {path.relative_to(root)} lacks code reverse-check/final-idea notes."
+            )
+        missing_code_process = [
+            term for term in CODE_MODELING_PROCESS_TERMS if term not in text
+        ]
+        if missing_code_process:
+            issues.append(
+                f"P1: {path.relative_to(root)} lacks detailed code modeling process terms: "
+                + ", ".join(missing_code_process)
             )
     return issues
 

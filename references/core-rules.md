@@ -64,7 +64,8 @@ of a CUMCM problem, update `paper/main.tex`. Do not interpret "solve Qx",
 - Write `modeling/qx_modeling_idea.md` before solving. It must include the
   question role, task facts, assumptions, variables, step-by-step derivation,
   core equations or criterion, constraints, baseline, primary route, fallback
-  route, algorithm, validation plan, figure plan, and paper-writing plan.
+  route, detailed code modeling process, algorithm, validation plan, figure
+  plan, and paper-writing plan.
 - The step-by-step derivation must follow
   `references/modeling-derivation-standard.md`: translate problem wording into
   variables, mechanism, equations/criteria, constraints, algorithm, validation
@@ -73,6 +74,11 @@ of a CUMCM problem, update `paper/main.tex`. Do not interpret "solve Qx",
 - After solving, compare the actual code path, equations, constraints, solver
   status, tables, and figures against `modeling/qx_modeling_idea.md`. If they
   differ, update the file before paper writing.
+- The code modeling process must be written in `modeling/qx_modeling_idea.md`,
+  not only implied by scripts. It should map problem data to code variables,
+  explain preprocessing, show how each equation or rule is implemented, describe
+  loops/search/solver calls, list intermediate sanity checks, and name the saved
+  tables, figures, and validation records.
 - Key numbers must trace to saved result tables, code output, problem facts, or
   `results/validation_report.md`.
 - All papers and paper drafts use TeX at `paper/main.tex`; Markdown is only for

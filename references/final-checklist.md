@@ -28,6 +28,7 @@ Score each item 0-2:
 | 求解可靠性 | No reproducible path | Code exists but diagnostics weak | Reproducible code, seed/status/feasibility checks |
 | 验证 | None | One weak check | Task-appropriate error/feasibility/sensitivity/robustness |
 | 图表 | Decorative or missing | Shows result but weak caption | Supports conclusion, named, readable, and traceable |
+| 论文深度 | Thin result digest | Some explanation but figure/table heavy | Continuous reasoning with controlled, well-explained visuals |
 | 论文一致性 | Numbers conflict | Mostly consistent | Abstract, body, tables, figures agree |
 
 If any item is 0, mark the deliverable incomplete and list the blocker.
@@ -48,6 +49,9 @@ For full projects, check:
 - Input data notes or data inventory exist.
 - Generated tables and figures use stable names.
 - Figure captions explain what conclusion each figure supports.
+- Body prose is deep enough that figures/tables support the reasoning instead
+  of replacing it.
+- Repeated or process-only tables/figures are moved to appendix/artifacts.
 - Appendix code lists main script, inputs, outputs, dependencies, seed, and command.
 - saved tables, figures, code outputs, and validation notes agrees with abstract, conclusion, tables, figures, and captions.
 - `modeling/qx_modeling_idea.md` agrees with the executed code and

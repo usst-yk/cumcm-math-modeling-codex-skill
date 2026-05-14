@@ -4,7 +4,7 @@
 
 - `problem/`: 题面、题面解析和任务拆解。
 - `data/`: 原始数据、清洗后数据和重建 benchmark 数据。
-- `modeling/`: 每问详细建模思路、GPT-image 流程图提示和技术路线图提示。
+- `modeling/`: 每问详细建模思路、代码建模流程、GPT-image 流程图提示和技术路线图提示。
 - `src/`: 可复现求解脚本。
 - `tables/`: 数据审计表、结果表和验证表。
 - `figures/`: GPT-image 流程图、技术路线图、结果图和验证图。

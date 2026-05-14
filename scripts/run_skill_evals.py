@@ -26,7 +26,14 @@ MODELING_IDEA_TERMS = [
     "代码反向验证",
     "最终思路",
 ]
-MODELING_TEMPLATE_TERMS = ["逐步推导", "GPT-image", "论文写法", "代码反向验证"]
+MODELING_TEMPLATE_TERMS = [
+    "逐步推导",
+    "GPT-image",
+    "论文写法",
+    "代码建模流程",
+    "新手",
+    "代码反向验证",
+]
 
 PARSER_EXPECTATIONS = {
     "prediction": {

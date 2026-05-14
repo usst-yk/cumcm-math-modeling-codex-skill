@@ -35,7 +35,8 @@ For each solved subquestion:
 2. Write `modeling/qx_modeling_idea.md` using
    `references/modeling-derivation-standard.md`; it must include a
    beginner-readable derivation from problem wording to variables, mechanisms,
-   equations/criteria, constraints, algorithm, validation, and paper wording.
+   equations/criteria, constraints, code modeling process, algorithm,
+   validation, and paper wording.
 3. Solve with code when needed.
 4. Produce tables, GPT-image model flowchart, result figures, and validation.
 5. Reverse-check code against the modeling idea.
@@ -89,6 +90,10 @@ and reviewer.
 - Do not let `modeling/qx_modeling_idea.md` collapse into a formula list; every
   solved question needs a section such as “逐步建模推导” explaining how the
   model is built from the problem facts, in prose a beginner can follow.
+- Do not let code exist only in `src/`. Every solved question needs a detailed
+  “代码建模流程” section in `modeling/qx_modeling_idea.md` that maps data,
+  variables, formulas, constraints, loops/solvers, intermediate checks, outputs,
+  and figures to the actual implementation.
 - Do not stop at generic contest methods when a mechanism-based mathematical
   model is justified. For physics, supply-chain, PDE/ODE, stochastic, network,
   control, or causal tasks, consider whether a deeper mathematical model can be

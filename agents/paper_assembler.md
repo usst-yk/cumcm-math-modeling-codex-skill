@@ -26,6 +26,8 @@ Responsibilities:
   intermediate results, and strategy handoff;
 - write rich explanatory prose around every figure/table so the paper is not a
   thin result dump;
+- remove or move secondary visuals/tables when they crowd out the written
+  derivation, result interpretation, validation, and limitations;
 - keep the final abstract last and delegate final abstract wording to
   `agents/abstract_writer.md` after the body is coherent.
 
@@ -51,5 +53,7 @@ Quality gates:
   model evaluation, or conclusion.
 - Do not let any subquestion part contain only result numbers and figures; it
   must explain mechanism -> mathematics -> algorithm -> result -> validation.
+- Do not let the body be dominated by figures and tables. If prose cannot carry
+  the argument without visuals, expand the writing before adding more artifacts.
 - Do not write an abstract until the assembled body and saved tables, figures, code outputs, and validation notes
   are consistent.

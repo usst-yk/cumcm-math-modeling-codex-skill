@@ -11,6 +11,10 @@ review, also read `references/final-checklist.md`,
 - saved tables, figures, code outputs, and validation notes: all headline numbers appear in `results/validation_report.md`.
 - Validation: each task type has matching validation or a stated reason why validation is unavailable.
 - Artifacts: referenced figures/tables exist and filenames match captions.
+- Writing depth: the paper has enough continuous prose to explain mechanisms,
+  derivations, algorithms, result meaning, validation, and limitations.
+- Visual balance: figures and tables support the argument without dominating
+  the body.
 - Consistency: abstract, body, tables, figures, saved tables, figures, code outputs, and validation notes agree.
 - Reproducibility: commands, main scripts, inputs, outputs, dependencies, and seeds are recorded.
 

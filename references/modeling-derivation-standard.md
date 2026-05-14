@@ -41,10 +41,19 @@ Write the derivation as a chain of small transformations:
 9. **Algorithm from equations**: translate formulas into implementable steps:
    inputs, preprocessing, loops/search/solver/fitting, stopping or boundary
    rules, outputs, and failure status.
-10. **Validation hooks**: state which intermediate values, baselines, edge
+10. **Detailed code modeling process**: write how the implementation embodies
+   the model, not just what script to run. Use beginner-readable granularity:
+   map data files and columns to code variables; state units, sorting, grouping,
+   indexing, matrix/vector dimensions, and missing-value handling; translate
+   formulas/criteria to functions or calculation steps; translate constraints
+   to filters or checks; explain every loop/search/solver/fitting input and
+   output; record boundary and failure handling; connect intermediate values to
+   saved diagnostics; and map final outputs to `tables/`, `figures/`,
+   `results/`, and `paper/main.tex`.
+11. **Validation hooks**: state which intermediate values, baselines, edge
    cases, sensitivity checks, or conservation/feasibility checks will verify
    the model.
-11. **Paper wording plan**: note which derivation paragraphs, formulas, tables,
+12. **Paper wording plan**: note which derivation paragraphs, formulas, tables,
     and figures must be written back to `paper/main.tex`.
 
 ## Task-Type Prompts
@@ -79,6 +88,11 @@ Before solving or writing the paper, ask:
   both under-modeling and decorative over-modeling?
 - Are assumptions doing necessary work rather than hiding the conclusion?
 - Is the algorithm a direct implementation of the derived equations?
+- Does `modeling/qx_modeling_idea.md` explain the code modeling process in
+  enough detail that the implementation can be checked without reading every
+  line of `src/`?
+- Could a beginner reproduce the solve from the modeling file without guessing
+  hidden cleaning, sorting, loop, solver, or output steps?
 - Are there validation hooks for the main mechanism and the headline result?
 
 If any answer is no, deepen `modeling/qx_modeling_idea.md` before coding or

@@ -10,6 +10,11 @@ Responsibilities:
 - after running code, reverse-check the implemented equations, constraints,
   algorithm, inputs, outputs, figures, and validation against
   `modeling/qx_modeling_idea.md`;
+- update the modeling idea's "代码建模流程详解" section so the data-to-variable,
+  formula-to-function, constraint-to-check, loop/solver, intermediate diagnostic,
+  and output-to-paper mappings are explicit; use beginner-readable granularity
+  and do not hide cleaning, sorting, grouping, indexing, dimensions, defaults,
+  solver inputs/outputs, or failure handling inside vague function names;
 - if the implemented code differs from the original idea, update the modeling
   idea with a "代码反向验证与最终思路" section before reporting results;
 - implement deterministic Python first unless MATLAB is requested;

@@ -23,6 +23,11 @@ coherent modeling work:
 If the paper only concatenates Q1/Q2/Q3 fragments or depends on
 `paper/sections/*.tex`, mark it incomplete.
 
+The paper must not be figure/table dominated. Figures and tables are evidence
+for a written argument; they are not the argument itself. If removing the
+figures and tables leaves only a thin method list and result list, mark the
+paper incomplete and expand the prose before adding more visuals.
+
 ## Required Structure
 
 For full CUMCM-style papers, `paper/main.tex` should contain these sections or
@@ -71,9 +76,14 @@ A thin subquestion part with only “we computed X, see figure Y” is not accep
 For a full paper:
 
 - explain every important figure and table in prose;
+- write the model chain in paragraph form before inserting dense tables:
+  problem fact -> variable -> mechanism -> equation/criterion -> algorithm ->
+  result -> validation -> limitation;
 - keep each solved subquestion dense enough to stand as a judge-facing paper
   section: role, variables, derivation, algorithm, result interpretation,
   validation, limitation, and handoff;
+- keep正文文字 as the main carrier of reasoning. Do not let a section become a
+  sequence of figures, tables, captions, and one-sentence comments;
 - do not leave the model as code-only logic;
 - avoid method-name lists without equations or variables;
 - include the route comparison or model-selection reasoning that led to the
@@ -93,12 +103,17 @@ For a full paper:
    assumptions, notation, data audit.
 5. Write subquestion content directly under model/solution and normalize the
    heading level inside `paper/main.tex`.
-6. Add validation, evaluation, conclusion, and appendix.
-7. Only after the body is coherent, write the final abstract using
+6. For each inserted figure/table, write a before-and-after explanation:
+   why it is needed, what it shows, what conclusion it supports, and how it
+   relates to baseline or validation.
+7. Remove repeated or decorative figures/tables; move large intermediate
+   outputs to appendix or saved artifacts.
+8. Add validation, evaluation, conclusion, and appendix.
+9. Only after the body is coherent, write the final abstract using
    `agents/abstract_writer.md`.
-8. Run `scripts/validate_results.py --mode full` and fix any paper-structure
+10. Run `scripts/validate_results.py --mode full` and fix any paper-structure
    or traceability findings.
-9. If the only paper artifact is Markdown, mark the report incomplete and
+11. If the only paper artifact is Markdown, mark the report incomplete and
    assemble `paper/main.tex` before handoff.
-10. If `paper/sections/*.tex` exists for a new deliverable, merge the content
+12. If `paper/sections/*.tex` exists for a new deliverable, merge the content
    into `paper/main.tex` and remove the fragments before handoff.

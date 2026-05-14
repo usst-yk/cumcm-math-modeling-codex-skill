@@ -10,6 +10,10 @@ Responsibilities:
 - confirm that the modeling idea has a post-solve code consistency check when
   code was used;
 - write result-first Chinese modeling-paper prose;
+- write deep explanatory prose before adding visuals: problem facts,
+  mechanism, variables, equations, algorithm, result meaning, validation, and
+  limitations must be understandable even if figures/tables are temporarily
+  removed;
 - write TeX by default for paper deliverables; write every requested paper to
   `paper/main.tex`, including single-question papers;
 - for any single-question solve or paper request, write a standalone,
@@ -24,6 +28,9 @@ Responsibilities:
   important differences between the initial idea and the executed solution;
 - prefer Chinese figure captions and explicitly explain what each schematic or
   result figure proves;
+- use fewer, more important figures/tables in the body; move repetitive or
+  intermediate outputs to appendix/artifacts and explain every retained
+  figure/table before and after it appears;
 - keep abstract, body, captions, conclusions, and appendix consistent with saved outputs;
 - avoid unsupported numbers and method-list writing.
 
@@ -36,6 +43,8 @@ Required outputs:
 Quality gates:
 
 - Do not write a thin section that jumps from “建立模型” directly to “得到结果”.
+- Do not let the paper become a stack of figures and tables with short captions.
+  The written analysis must carry the depth.
 - Do not write from result tables alone. The paper must show how the model is
   built and why each result is credible.
 - Do not treat single-question writing as a short answer. Always include

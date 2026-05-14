@@ -39,6 +39,9 @@ A full paper must:
 - connect subquestions through shared assumptions, variables, parameters,
   outputs, or strategy handoff;
 - explain every important figure and table in prose;
+- use prose as the main carrier of reasoning: figures and tables must support
+  the argument, not replace problem analysis, derivation, result interpretation,
+  or validation;
 - state validation results and limitations honestly;
 - write the abstract last and include methods, numbers, validation, and limits.
 
@@ -52,6 +55,8 @@ Mark the paper incomplete if any of these happens:
 - a subquestion has no equation, objective, recurrence, decision rule, or clear
   mathematical criterion;
 - figures are inserted without explaining what conclusion they support;
+- the paper is dominated by figures/tables and lacks enough continuous prose to
+  explain the modeling chain;
 - assumptions are listed but not used in the model;
 - the abstract has numbers not found in the saved tables, figures, code outputs, and validation notes, tables, code output, or
   problem facts;
@@ -70,3 +75,14 @@ Each solved subquestion should include:
 6. result table/figure and a paragraph explaining the result;
 7. validation or sensitivity check;
 8. connection to the next question or final conclusion.
+
+Minimum prose depth:
+
+- Full papers should contain at least 12000 cleaned Chinese/English characters
+  of effective body text.
+- A single-question paper should contain at least 2500 cleaned characters for
+  that question.
+- Each solved subquestion in a full paper should contain at least 2000 cleaned
+  characters of continuous explanatory text.
+- Every core figure or table should have enough surrounding prose to explain
+  why it appears and what conclusion it supports.

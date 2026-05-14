@@ -17,6 +17,9 @@ Use these expectations for manual checks after skill updates.
   role, problem-to-variable translation, derivation, algorithm, result
   interpretation, validation, limitation, and handoff. Thin result summaries
   are incomplete even when files exist.
+- Paper-readiness also includes figure/table discipline: visuals should support
+  the prose argument, not replace it. A paper dominated by figures and tables is
+  incomplete if it lacks continuous modeling explanation.
 - If any criterion is 0, the answer is incomplete even when all files exist.
 
 ## Full Problem
@@ -30,6 +33,8 @@ Use these expectations for manual checks after skill updates.
 - Writes full paper sections with enough prose to explain mechanisms,
   equations, figures, validation, and limitations; do not hand off a thin
   result digest.
+- Keeps only key figures/tables in the body and explains each one before and
+  after it appears.
 - For each subquestion, records baseline, primary, fallback route, and minimum
   validation requirements.
 
