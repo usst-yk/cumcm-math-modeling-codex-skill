@@ -34,6 +34,15 @@ MODELING_TEMPLATE_TERMS = [
     "新手",
     "代码反向验证",
 ]
+PROMPT_AUTO_COMPLETE_TERMS = [
+    "Candidate Models",
+    "Direct Derivation",
+    "Deeper Mathematical Model",
+    "Improve Or Optimize Existing Model",
+    "Abstract Revision",
+    "Validation, Sensitivity, And Baseline",
+    "Emergency Mode",
+]
 
 PARSER_EXPECTATIONS = {
     "prediction": {
@@ -476,6 +485,12 @@ def check_eval_prompts(issues: list[str]) -> None:
     ]
     for rel in expected:
         require(ROOT / rel, issues)
+    auto_complete = ROOT / "prompts" / "auto-complete.md"
+    if auto_complete.exists():
+        text = auto_complete.read_text(encoding="utf-8", errors="ignore")
+        for term in PROMPT_AUTO_COMPLETE_TERMS:
+            if term not in text:
+                issues.append(f"auto-complete.md should cover prompt intent: {term}")
 
 
 def check_templates(issues: list[str]) -> None:
