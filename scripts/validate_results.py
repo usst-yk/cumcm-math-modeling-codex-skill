@@ -252,6 +252,8 @@ def visual_count(text: str) -> int:
 
 def audit_paper_density(root: Path, mode: str) -> list[str]:
     issues: list[str] = []
+    if mode != "full":
+        return issues
     paper = root / "paper" / "main.tex"
     if not paper.exists():
         return issues
@@ -259,13 +261,13 @@ def audit_paper_density(root: Path, mode: str) -> list[str]:
     cleaned_full = strip_tex_commands(full_text)
     questions = first_prize_subquestions(root)
 
-    if mode == "full" and len(cleaned_full) < MIN_FULL_PAPER_CHARS:
+    if len(cleaned_full) < MIN_FULL_PAPER_CHARS:
         issues.append(
             "P1: full paper is too thin; expected at least "
             f"{MIN_FULL_PAPER_CHARS} cleaned characters with derivation, result interpretation, validation, and limitations."
         )
     full_visuals = visual_count(full_text)
-    if mode == "full" and full_visuals and len(cleaned_full) < full_visuals * MIN_CHARS_PER_VISUAL:
+    if full_visuals and len(cleaned_full) < full_visuals * MIN_CHARS_PER_VISUAL:
         issues.append(
             "P1: full paper is too figure/table dominated; expected more explanatory prose "
             f"around {full_visuals} visual/table artifact(s)."
@@ -598,6 +600,12 @@ def main() -> int:
         action="store_true",
         default=True,
         help="enforce first-prize critical gates, benchmark comparison, and modeling contribution checks (default).",
+    )
+    parser.add_argument(
+        "--no-first-prize",
+        dest="first_prize",
+        action="store_false",
+        help="skip first-prize gate checks for lightweight compatibility audits.",
     )
     args = parser.parse_args()
 
