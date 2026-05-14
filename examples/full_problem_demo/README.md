@@ -2,6 +2,10 @@
 
 This is a small toy case for checking the skill workflow without claiming contest-level performance.
 
+For beginners, read this demo as a file-organization example, not as a prize
+paper. A real contest paper still needs deeper prose, stronger validation, and
+fewer but better-explained figures/tables.
+
 The demo contains:
 
 - problem statement;
