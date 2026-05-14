@@ -448,6 +448,8 @@ def check_reference_names(issues: list[str]) -> None:
 
 def check_eval_prompts(issues: list[str]) -> None:
     expected = [
+        "prompts/README.md",
+        "prompts/auto-complete.md",
         "evals/expected_outputs.md",
         "evals/modeling_quality_rubric.json",
         "evals/official_cases/README.md",

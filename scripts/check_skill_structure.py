@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PATH_RE = re.compile(
-    r"(?<![\w/.-])((?:agents|references|scripts|templates|examples|evals|\.github)/[A-Za-z0-9_./*-]+)"
+    r"(?<![\w/.-])((?:agents|prompts|references|scripts|templates|examples|evals|\.github)/[A-Za-z0-9_./*-]+)"
 )
 
 

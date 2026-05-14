@@ -17,6 +17,8 @@ must ultimately update `paper/main.tex`.
 
 ## Always Read First
 
+- Prompt auto-completion for short beginner requests:
+  `prompts/auto-complete.md`
 - Core rules: `references/core-rules.md`
 - First-prize workflow: `references/first-prize-workflow.md`
 - Output policy and folder layout: `references/output-policy.md`
@@ -47,6 +49,8 @@ For each solved subquestion:
 
 Read only the relevant file(s):
 
+- Short or vague beginner request: `prompts/auto-complete.md`, then route by the
+  expanded intent below
 - Full problem: `references/workflow.md`, `references/problem-routing.md`
 - Single subquestion: `references/task-modes.md`, `references/problem-routing.md`
 - Before writing any `modeling/qx_modeling_idea.md`:
@@ -104,6 +108,10 @@ and reviewer.
 - Do not report optimality without solver status and feasibility checks.
 - Do not claim high accuracy without metrics or a baseline.
 - Do not leave placeholders in final deliverables unless the user asked for a draft.
+- Treat terse requests such as “帮我求解第一问”, “做 Q1”, “帮我写论文”, and
+  “检查一下” as complete intent shortcuts using `prompts/auto-complete.md`.
+  Do not ask the user to write long prompts and do not lower quality because
+  the prompt is short.
 - Every CUMCM run defaults to first-prize-oriented standards: perform official
   benchmark comparison and critical gate checks for core mechanism, validation,
   traceability, and paper readiness. Do not call the work complete,
