@@ -17,14 +17,8 @@ must ultimately update `paper/main.tex`.
 
 ## Always Read First
 
-- Prompt auto-completion for short beginner requests:
-  `prompts/auto-complete.md`
+- Short beginner request intent map: `prompts/intent-map.md`
 - Core rules: `references/core-rules.md`
-- First-prize workflow: `references/first-prize-workflow.md`
-- Output policy and folder layout: `references/output-policy.md`
-- Figure, flowchart, and technical-roadmap policy: `references/figure-plan.md`
-- Beginner-readable modeling derivation standard:
-  `references/modeling-derivation-standard.md`
 
 ## Workflow
 
@@ -49,8 +43,17 @@ For each solved subquestion:
 
 Read only the relevant file(s):
 
-- Short or vague beginner request: `prompts/auto-complete.md`, then route by the
-  expanded intent below
+- Short or vague beginner request: `prompts/intent-map.md`, then route by the
+  expanded intent below. Use `prompts/auto-complete.md` only as the compatibility
+  navigation entry if needed
+- Solve one subquestion or full problem: `prompts/solve.md`
+- Candidate models, direct derivation, deeper model, or model optimization:
+  `prompts/modeling.md`
+- Abstract, paper writing, figure/table discipline, or code-to-paper writing:
+  `prompts/writing.md`
+- Baseline, validation, sensitivity, or reliability checks:
+  `prompts/validation.md`
+- Judge-style review, award readiness, or emergency mode: `prompts/review.md`
 - Full problem: `references/workflow.md`, `references/problem-routing.md`
 - Single subquestion: `references/task-modes.md`, `references/problem-routing.md`
 - Before writing any `modeling/qx_modeling_idea.md`:
@@ -109,7 +112,7 @@ and reviewer.
 - Do not claim high accuracy without metrics or a baseline.
 - Do not leave placeholders in final deliverables unless the user asked for a draft.
 - Treat terse requests such as “帮我求解第一问”, “做 Q1”, “帮我写论文”, and
-  “检查一下” as complete intent shortcuts using `prompts/auto-complete.md`.
+  “检查一下” as complete intent shortcuts using `prompts/intent-map.md`.
   Do not ask the user to write long prompts and do not lower quality because
   the prompt is short.
 - Every CUMCM run defaults to first-prize-oriented standards: perform official

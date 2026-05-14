@@ -34,15 +34,38 @@ MODELING_TEMPLATE_TERMS = [
     "新手",
     "代码反向验证",
 ]
-PROMPT_AUTO_COMPLETE_TERMS = [
-    "Candidate Models",
-    "Direct Derivation",
-    "Deeper Mathematical Model",
-    "Improve Or Optimize Existing Model",
-    "Abstract Revision",
-    "Validation, Sensitivity, And Baseline",
-    "Emergency Mode",
-]
+PROMPT_FILE_TERMS = {
+    "prompts/intent-map.md": [
+        "Intent Detection",
+        "Intent Expansion Map",
+        "When To Ask The User",
+    ],
+    "prompts/solve.md": [
+        "Solve One Subquestion",
+        "Solve Full Problem",
+        "代码建模流程",
+    ],
+    "prompts/modeling.md": [
+        "Candidate Models",
+        "Direct Derivation",
+        "Deeper Mathematical Model",
+        "Improve Or Optimize Existing Model",
+    ],
+    "prompts/writing.md": [
+        "Abstract Revision",
+        "Paper Writing Or Rewriting",
+        "Figure, Flowchart, Or Roadmap",
+        "Code Or Result To Paper",
+    ],
+    "prompts/validation.md": [
+        "Validation, Sensitivity, And Baseline",
+        "Baseline Design",
+    ],
+    "prompts/review.md": [
+        "Review, Award Readiness, Or Final Check",
+        "Emergency Mode",
+    ],
+}
 
 PARSER_EXPECTATIONS = {
     "prediction": {
@@ -459,6 +482,12 @@ def check_eval_prompts(issues: list[str]) -> None:
     expected = [
         "prompts/README.md",
         "prompts/auto-complete.md",
+        "prompts/intent-map.md",
+        "prompts/solve.md",
+        "prompts/modeling.md",
+        "prompts/writing.md",
+        "prompts/validation.md",
+        "prompts/review.md",
         "evals/expected_outputs.md",
         "evals/modeling_quality_rubric.json",
         "evals/official_cases/README.md",
@@ -485,12 +514,13 @@ def check_eval_prompts(issues: list[str]) -> None:
     ]
     for rel in expected:
         require(ROOT / rel, issues)
-    auto_complete = ROOT / "prompts" / "auto-complete.md"
-    if auto_complete.exists():
-        text = auto_complete.read_text(encoding="utf-8", errors="ignore")
-        for term in PROMPT_AUTO_COMPLETE_TERMS:
-            if term not in text:
-                issues.append(f"auto-complete.md should cover prompt intent: {term}")
+    for rel, terms in PROMPT_FILE_TERMS.items():
+        path = ROOT / rel
+        if path.exists():
+            text = path.read_text(encoding="utf-8", errors="ignore")
+            for term in terms:
+                if term not in text:
+                    issues.append(f"{rel} should cover prompt intent: {term}")
 
 
 def check_templates(issues: list[str]) -> None:

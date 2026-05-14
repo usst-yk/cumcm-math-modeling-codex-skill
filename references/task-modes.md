@@ -3,7 +3,7 @@
 根据用户当前阶段选择模式，但所有模式都遵守同一条主线：
 有效工作最终必须回到 `paper/main.tex`。不要把审题、建模、求解、验证和
 写作割裂成互不相连的文件；论文是主交付，其他文件是证据和复现材料。
-用户提示很短时，先按 `prompts/auto-complete.md` 自动补全意图，不要求用户
+用户提示很短时，先按 `prompts/intent-map.md` 自动补全意图，不要求用户
 复制长提示词。
 默认按一等奖导向执行：每个 CUMCM 任务都读取
 `references/first-prize-workflow.md`，并写清官方 benchmark 对照、机制亮点、
