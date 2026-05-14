@@ -32,14 +32,15 @@ communication natural; do not expose commands unless the user asks.
 - For beginners, prefer direct natural-language guidance over showing internal
   file names.
 - Before creating files, choose the useful output set from
-  `references/output-policy.md`; `paper/main.tex` is always part of it.
+  `references/output-policy.md`; include `paper/main.tex` for solved or
+  paper-facing work, not for every planning-only answer.
 - Do not confuse paper-first output with fewer figures or shallower work. For
   solved questions, load `references/figure-plan.md` and generate the planned
   Chinese figures; keep analysis, modeling, solving, validation, saved tables, figures, code outputs, and validation notes, and
   paper text complete.
 - Do not initialize a full project, copy every template, or create empty files
   for a single-question solve unless the user asks for a complete project.
-  Still create/update `paper/main.tex`.
+  For single-question solves or writing tasks, create/update `paper/main.tex`.
 - Do not solve a subquestion before writing its modeling idea file under
   `modeling/`.
 - Parse the problem statement before route design when an official statement is available.

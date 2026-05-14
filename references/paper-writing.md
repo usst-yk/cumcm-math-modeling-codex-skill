@@ -4,6 +4,21 @@ For complete reports, full benchmark cases, final TeX, or contest deliverables,
 also read `references/paper-assembly.md`.
 For final quality gates, also read `references/paper-quality-standard.md`.
 
+## 目录
+
+- 最高优先级
+- 论文结构
+- 摘要模式
+- 问题分析写法
+- 模型假设写法
+- 结果段写法
+- 正文深度要求
+- 图表节制规则
+- 每问正文固定展开链
+- 饱满度要求
+- 图表要求
+- 最终检查清单
+
 ## 最高优先级
 
 论文质量优先于速度。完整论文必须是 TeX 成品，不允许为了快而把

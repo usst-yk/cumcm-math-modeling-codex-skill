@@ -3,6 +3,14 @@
 Use this reference when the task asks for a complete paper, complete benchmark,
 full-problem report, final TeX, or contest deliverable.
 
+## 目录
+
+- Core Rule
+- Required Structure
+- Per-Question Fullness
+- Writing Density Gate
+- Assembly Workflow
+
 ## Core Rule
 
 A complete solved paper must be TeX. Use `paper/main.tex` as the only paper

@@ -34,7 +34,9 @@ Internally expand to:
    `results/validation_report.md`.
 4. Link every validation conclusion to a source table, figure, metric, solver
    log, or code output.
-5. Explain in `paper/main.tex` what the check proves and what it does not prove.
+5. If validation is executed for a solved or paper-facing result, explain in
+   `paper/main.tex` what the check proves and what it does not prove. If the
+   user only asks for a validation plan, save the plan without editing the paper.
 6. If validation fails, record limitation and fallback route instead of hiding
    the failure.
 

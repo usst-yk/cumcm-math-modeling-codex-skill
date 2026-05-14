@@ -3,6 +3,13 @@
 Use this file for model selection, direct derivation, deeper mathematical
 modeling, and model improvement.
 
+## 目录
+
+- Completed Prompt: Candidate Models
+- Completed Prompt: Direct Derivation
+- Completed Prompt: Deeper Mathematical Model
+- Completed Prompt: Improve Or Optimize Existing Model
+
 ## Completed Prompt: Candidate Models
 
 Trigger examples:
@@ -34,7 +41,9 @@ Internally expand to:
 4. Recommend one route and explain why it is better for contest scoring, not
    only why it sounds advanced.
 5. Save route comparison to `modeling/route_comparison.md` for full problems or
-   the relevant `modeling/qx_modeling_idea.md` for one subquestion.
+   the relevant `modeling/qx_modeling_idea.md` for one subquestion. Do not edit
+   `paper/main.tex` unless the user also asks to solve, write, or adopt the
+   chosen route in the paper.
 
 Do not only list method names such as TOPSIS, ARIMA, neural network, or genetic
 algorithm. Tie each candidate to the problem mechanism.
@@ -120,8 +129,9 @@ Internally expand to:
 5. Reject decorative complexity. Every deeper model must include variables,
    assumptions, equations, parameter sources, numerical solution steps, and
    validation or boundary checks.
-6. Update `modeling/qx_modeling_idea.md` and `paper/main.tex` with the improved
-   mechanism and explain what changed from the simpler model.
+6. Update `modeling/qx_modeling_idea.md` with the improved mechanism. Update
+   `paper/main.tex` only if the model is already solved, paper-facing, or the
+   user asks to revise the paper. Explain what changed from the simpler model.
 
 If the deeper model cannot be identified, estimated, solved, or validated within
 contest constraints, state that clearly and use it as limitation or validation,
@@ -164,8 +174,9 @@ Internally expand to:
    - add small exact case or hand-checkable comparison;
    - rewrite paper derivation and result interpretation.
 5. Implement only improvements that can be traced, solved, and validated.
-6. Update modeling idea, code if needed, validation report, figures/tables if
-   needed, and `paper/main.tex`.
+6. Update modeling idea, code if needed, validation report, and figures/tables
+   if needed. Update `paper/main.tex` when the improved model changes solved
+   results or paper-facing claims.
 
 Do not silently change conclusions. If an improved model changes headline
 numbers, update all tables, figures, validation notes, abstract, and conclusion.

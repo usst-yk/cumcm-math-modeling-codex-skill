@@ -4,6 +4,15 @@ Use this as the default figure standard for mathematical modeling contest papers
 
 For SCI/Nature/PRL-style publication graphics, read `references/figure-standards-journal.md` only when the user explicitly asks for journal-grade figures.
 
+## 目录
+
+- Core Rules
+- Recommended Figure Types
+- Avoid
+- File Naming
+- Caption Pattern
+- Readability Check
+
 ## Core Rules
 
 - Every figure must support one subquestion conclusion.

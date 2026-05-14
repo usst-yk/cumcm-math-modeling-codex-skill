@@ -13,7 +13,7 @@
 | `stage-gates.md` | 每个阶段进入下一阶段前必须满足的条件。 |
 | `workflow.md` | 完整赛题流程和 72 小时节奏。 |
 | `task-modes.md` | 只审题、只做单问、写完整论文、终审等常见模式。 |
-| `output-policy.md` | 新手默认论文优先输出，避免生成过多模板和空文件；所有工作都要回到 `paper/main.tex`。 |
+| `output-policy.md` | 新手默认论文优先输出，避免生成过多模板和空文件；求解和写作必须回到 `paper/main.tex`，规划类输出先沉淀为可写入论文的材料。 |
 
 ## Modeling And Validation
 

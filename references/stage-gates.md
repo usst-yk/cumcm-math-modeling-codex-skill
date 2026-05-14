@@ -6,6 +6,19 @@ For lightweight single-question work, apply the same checks mentally but do not
 create empty templates or logs just to satisfy a gate. Save only the necessary
 result files.
 
+## 目录
+
+- Stage 0 -> Stage 1: Problem Parser To Coordinator
+- Stage 1 -> Stage 2: Coordinator To Data Auditor
+- Stage 2 -> Stage 3: Data Auditor To Modeler
+- Stage 3 -> Stage 4: Modeler To Solver
+- Stage 4 -> Stage 5: Solver To Validator
+- Stage 5 -> Stage 6: Validator To Writer
+- Stage 6 -> Stage 7: Writer To Paper Assembler
+- Stage 7 -> Stage 8: Paper Assembler To Abstract Writer
+- Stage 8 -> Stage 9: Abstract Writer To Reviewer
+- Human-In-The-Loop
+
 ## Stage 0 -> Stage 1: Problem Parser To Coordinator
 
 Do not build the task plan until:

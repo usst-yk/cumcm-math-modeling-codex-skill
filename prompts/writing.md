@@ -3,6 +3,13 @@
 Use this file for abstract revision, paper rewriting, figure/table discipline,
 and translating code or results into paper text.
 
+## 目录
+
+- Completed Prompt: Abstract Revision
+- Completed Prompt: Paper Writing Or Rewriting
+- Completed Prompt: Figure, Flowchart, Or Roadmap
+- Completed Prompt: Code Or Result To Paper
+
 ## Completed Prompt: Abstract Revision
 
 Trigger examples:

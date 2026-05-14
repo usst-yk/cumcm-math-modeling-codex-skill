@@ -2,10 +2,18 @@
 
 Use this reference for full-problem solving, route design, and contest-time planning.
 
-For beginner-facing solving, keep supporting files purposeful, but always
-maintain `paper/main.tex`. Read `references/output-policy.md` before creating
-template files. Avoiding empty templates must not reduce figures, analysis,
-modeling, validation, or paper writing.
+For beginner-facing solving, keep supporting files purposeful and maintain
+`paper/main.tex` once the task becomes solved or paper-facing. Route design and
+contest-time planning may stay in `problem/` or `modeling/` until the user asks
+to solve or write. Read `references/output-policy.md` before creating template
+files. Avoiding empty templates must not reduce figures, analysis, modeling,
+validation, or paper writing.
+
+## 目录
+
+- 72-Hour Contest Workflow
+- Full Workflow
+- Final Deliverables
 
 ## 72-Hour Contest Workflow
 

@@ -66,6 +66,20 @@ PROMPT_FILE_TERMS = {
         "Emergency Mode",
     ],
 }
+LONG_DOCS_WITH_TOC = [
+    "references/core-rules.md",
+    "references/cumcm-a-problem-patterns.md",
+    "references/figure-standards.md",
+    "references/method-library.md",
+    "references/paper-assembly.md",
+    "references/paper-writing.md",
+    "references/stage-gates.md",
+    "references/task-modes.md",
+    "references/workflow.md",
+    "prompts/modeling.md",
+    "prompts/writing.md",
+    "templates/modeling_idea.md",
+]
 
 PARSER_EXPECTATIONS = {
     "prediction": {
@@ -523,6 +537,18 @@ def check_eval_prompts(issues: list[str]) -> None:
                     issues.append(f"{rel} should cover prompt intent: {term}")
 
 
+def check_long_doc_tocs(issues: list[str]) -> None:
+    for rel in LONG_DOCS_WITH_TOC:
+        path = ROOT / rel
+        require(path, issues)
+        if not path.exists():
+            continue
+        lines = path.read_text(encoding="utf-8", errors="ignore").splitlines()
+        head = "\n".join(lines[:40]).lower()
+        if "目录" not in head and "table of contents" not in head:
+            issues.append(f"{rel} should include a short table of contents near the top")
+
+
 def check_templates(issues: list[str]) -> None:
     required = [
         "templates/task_plan.schema.json",
@@ -889,6 +915,7 @@ def main() -> int:
     check_real_case_2025_a(issues)
     check_real_case_huadong_a(issues)
     check_eval_prompts(issues)
+    check_long_doc_tocs(issues)
     check_parser_cases(issues)
     if issues:
         print("Skill eval checks failed:")

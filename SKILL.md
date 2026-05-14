@@ -12,8 +12,9 @@ description: |
 # CUMCM Math Modeling
 
 Answer in Chinese by default. Treat the final contest paper as the main
-deliverable: every useful analysis, model, result, validation, table, and figure
-must ultimately update `paper/main.tex`.
+deliverable for solved or paper-facing work. Planning-only work should still
+produce artifacts that can later be written into `paper/main.tex`, but it does
+not have to edit the paper immediately.
 
 ## Always Read First
 
@@ -80,7 +81,12 @@ and reviewer.
 
 ## Non-Negotiables
 
-- Always create or update `paper/main.tex`.
+- Create or update `paper/main.tex` for solved subquestions, full-problem
+  solving, paper writing/revision, code/result-to-paper work, and any validation
+  or review fix that changes paper-facing claims.
+- Planning-only tasks such as problem parsing, route comparison, candidate model
+  brainstorming, or pre-solve derivation may stop at `problem/`, `modeling/`,
+  or `results/`, but must state what would later enter the paper.
 - Never split the contest-paper deliverable into `paper/sections/*.tex`.
 - Standard output folders are `problem/`, `data/`, `modeling/`, `src/`,
   `tables/`, `figures/`, `results/`, and `paper/`.

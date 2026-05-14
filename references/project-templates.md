@@ -17,4 +17,6 @@
 python3 scripts/init_cumcm_project.py /path/to/project
 ```
 
-所有建模、求解、验证和图表工作最后都要回写到 `paper/main.tex`。
+求解、论文写作、结果解释、以及影响论文结论的验证和图表工作最后都要回写到
+`paper/main.tex`。单纯规划、路线比较或候选模型讨论可以先留在 `problem/`
+或 `modeling/`，但要说明后续写入论文的位置。

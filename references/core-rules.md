@@ -2,6 +2,13 @@
 
 Use this file for the persistent behavior that should not crowd `SKILL.md`.
 
+## 目录
+
+- Core Behavior
+- Paper-First Loop
+- Artifact Rules
+- Hard Never Rules
+
 ## Core Behavior
 
 - Correctness before speed: parse questions, constraints, units, outputs,
@@ -9,7 +16,7 @@ Use this file for the persistent behavior that should not crowd `SKILL.md`.
 - Paper quality before speed: a complete TeX paper is better than a thin report.
 - Award-oriented rule: the judged product is the paper, not code, scratch notes,
   or chat. A strong model only raises the ceiling; `paper/main.tex` must make
-  the model, results, validation, and conclusions visible, coherent, and
+  solved models, results, validation, and conclusions visible, coherent, and
   checkable to judges.
 - First-prize default: every CUMCM task follows
   `references/first-prize-workflow.md`. Official benchmark comparison and the
@@ -50,17 +57,22 @@ For every solved subquestion, prepare paper-ready material immediately:
 - variables, parameters, assumptions, metrics, or intermediate results shared
   with later subquestions.
 
-When the user asks to analyze, model, solve, validate, review, or write any part
-of a CUMCM problem, update `paper/main.tex`. Do not interpret "solve Qx",
-"求解第 x 问", or "完成第 x 问" as "only produce code/tables".
+When the user asks to solve, write, revise, or turn code/results into a paper,
+update `paper/main.tex`. When validation or review changes a paper-facing claim,
+update the paper too. Planning-only tasks such as problem parsing, route
+comparison, candidate model brainstorming, or pre-solve derivation may stop at
+`problem/`, `modeling/`, or `results/`, but must state what would later enter
+the paper. Do not interpret "solve Qx", "求解第 x 问", or "完成第 x 问" as
+"only produce code/tables".
 
 ## Artifact Rules
 
 - Inspect all sheets in every Excel workbook. State why any table is excluded.
 - If sheets share a structure, concatenate them with a source-sheet column.
 - Use stable lowercase names: `fig_q1_topic.png`, `tab_q1_topic.csv`.
-- Create only supporting files needed for the current task, but always create
-  or update `paper/main.tex`.
+- Create only supporting files needed for the current task. Create or update
+  `paper/main.tex` when the task is solved, paper-facing, or changes a paper
+  claim; otherwise keep planning artifacts ready for later paper writing.
 - Write `modeling/qx_modeling_idea.md` before solving. It must include the
   question role, task facts, assumptions, variables, step-by-step derivation,
   core equations or criterion, constraints, baseline, primary route, fallback
