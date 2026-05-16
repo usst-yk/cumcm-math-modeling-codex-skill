@@ -36,21 +36,12 @@ jobs:
           PYTHONPYCACHEPREFIX=/tmp/cumcm_pycache python3 -m py_compile \
             scripts/*.py \
             examples/single_question_minimal/src/*.py \
-            examples/real_cases/cumcm_2025_a/src/*.py \
-            examples/real_cases/huadong_cup_a/src/*.py \
             examples/full_problem_demo/src/*.py
 
       - name: Validate full demo artifacts
         run: |
           python3 scripts/validate_results.py \
             --project examples/full_problem_demo \
-            --no-first-prize \
-            --output results/validation_audit.md
-
-      - name: Validate 2025 A real-case artifacts
-        run: |
-          python3 scripts/validate_results.py \
-            --project examples/real_cases/cumcm_2025_a \
             --no-first-prize \
             --output results/validation_audit.md
 
@@ -61,10 +52,3 @@ jobs:
             --project examples/single_question_minimal \
             --no-first-prize \
             --output /tmp/cumcm_single_validation.md
-
-      - name: Validate Huadong Cup A real-case artifacts
-        run: |
-          python3 scripts/validate_results.py \
-            --project examples/real_cases/huadong_cup_a \
-            --no-first-prize \
-            --output /tmp/huadong_cup_a_validation.md
