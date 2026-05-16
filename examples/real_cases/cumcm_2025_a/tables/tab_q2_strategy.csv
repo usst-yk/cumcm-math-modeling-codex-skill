@@ -1,2 +1,0 @@
-uav,speed_m_s,heading_rad,heading_deg_from_positive_x,direction_x,direction_y,release_time_s,fuse_delay_s,detonation_time_s,release_x_m,release_y_m,release_z_m,detonation_x_m,detonation_y_m,detonation_z_m,total_duration_s,method
-FY1,80.963727,3.097899251,177.496552,-0.999045595,0.043679501,0.056749,2.654856,2.711605,17795.409735,0.200692,1800.000000,17580.667875,9.589470,1765.463534,4.723893,deterministic coarse-to-fine search

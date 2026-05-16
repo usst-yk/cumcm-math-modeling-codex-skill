@@ -124,8 +124,11 @@
 | --- | --- |
 | `single_question_minimal/` | 只做一问时的最小输出示例。 |
 | `full_problem_demo/` | 小型完整交付 demo，展示从题面到论文的全流程。 |
-| `real_cases/cumcm_2025_a/` | 2025 年国赛 A 题 benchmark；不是标准答案。 |
-| `real_cases/huadong_cup_a/` | 华东杯 A 题路线规划 benchmark；不是标准答案。 |
+
+真实赛题案例不再随 skill 打包。这样上传到 GitHub 和安装时都更轻。
+如果需要检查真实赛题运行效果，请在本地运行后把生成的 `problem/`、
+`modeling/`、`tables/`、`figures/`、`results/` 和 `paper/main.tex`
+发给 Codex 审查；审查时按同一套可追溯、验证和论文质量标准判断。
 
 ## 获奖注意事项
 

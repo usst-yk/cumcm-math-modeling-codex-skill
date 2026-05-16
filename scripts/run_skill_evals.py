@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Lightweight repository checks for the CUMCM skill examples and eval prompts."""
+"""Lightweight repository checks for the CUMCM skill and bundled toy examples."""
 
 from __future__ import annotations
 
-import csv
 import json
 import re
 import subprocess
@@ -14,8 +13,6 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEMO = ROOT / "examples" / "full_problem_demo"
-REAL_CASE_2025_A = ROOT / "examples" / "real_cases" / "cumcm_2025_a"
-REAL_CASE_HUADONG_A = ROOT / "examples" / "real_cases" / "huadong_cup_a"
 CHECK_FIGURE_TYPES = {"prediction", "optimization", "evaluation", "simulation", "scheduling"}
 MODELING_IDEA_TERMS = [
     "变量",
@@ -234,86 +231,6 @@ def check_demo(issues: list[str]) -> None:
             issues.append("demo task_plan.json should contain Q1, Q2, and Q3")
 
 
-def check_real_case_2025_a(issues: list[str]) -> None:
-    required = [
-        "README.md",
-        "problem/problem_statement.pdf",
-        "problem/problem_statement.md",
-        "problem/problem_parse.json",
-        "problem/task_plan.json",
-        "modeling/route_comparison.md",
-        "modeling/q1_modeling_idea.md",
-        "modeling/q2_modeling_idea.md",
-        "modeling/q3_modeling_idea.md",
-        "modeling/q4_modeling_idea.md",
-        "modeling/q5_modeling_idea.md",
-        "src/make_problem_figures.py",
-        "src/plot_utils.py",
-        "src/solve_q1.py",
-        "src/solve_q2.py",
-        "src/solve_q3_q5.py",
-        "tables/tab_q1_key_points.csv",
-        "tables/tab_q1_intervals.csv",
-        "tables/tab_q2_strategy.csv",
-        "tables/tab_q2_intervals.csv",
-        "tables/tab_q3_strategy.csv",
-        "tables/tab_q3_intervals.csv",
-        "tables/tab_q4_strategy.csv",
-        "tables/tab_q4_intervals.csv",
-        "tables/tab_q5_strategy.csv",
-        "tables/tab_q5_intervals.csv",
-        "tables/result1_benchmark.xlsx",
-        "tables/result2_benchmark.xlsx",
-        "tables/result3_benchmark.xlsx",
-        "figures/fig_problem_overview_xy.png",
-        "figures/fig_problem_question_scope.png",
-        "figures/fig_q1_model_flow.png",
-        "figures/fig_q1_distance_geometry.png",
-        "figures/fig_q1_validation_margin.png",
-        "figures/fig_q2_model_flow.png",
-        "figures/fig_q2_optimized_distance_geometry.png",
-        "figures/fig_q2_sensitivity.png",
-        "figures/fig_q3_model_flow.png",
-        "figures/fig_q3_result.png",
-        "figures/fig_q3_validation.png",
-        "figures/fig_q4_model_flow.png",
-        "figures/fig_q4_result.png",
-        "figures/fig_q4_validation.png",
-        "figures/fig_q5_model_flow.png",
-        "figures/fig_q5_result.png",
-        "figures/fig_q5_validation.png",
-        "results/validation_report.md",
-        "results/validation_audit.md",
-        "results/benchmark_findings.md",
-        "paper/main.tex",
-    ]
-    for rel in required:
-        require(REAL_CASE_2025_A / rel, issues)
-
-    for qid in ("q1", "q2", "q3", "q4", "q5"):
-        check_modeling_idea(
-            REAL_CASE_2025_A / "modeling" / f"{qid}_modeling_idea.md",
-            f"2025 A {qid.upper()} modeling idea",
-            issues,
-        )
-
-    task_plan = REAL_CASE_2025_A / "problem" / "task_plan.json"
-    if task_plan.exists():
-        score_task_plan_quality(
-            json.loads(task_plan.read_text(encoding="utf-8")),
-            "2025 A real case task_plan.json",
-            issues,
-            min_score=11,
-        )
-    for qid in ("q1", "q2", "q3", "q4", "q5"):
-        figures = list((REAL_CASE_2025_A / "figures").glob(f"fig_{qid}_*.*"))
-        if len(figures) < 3:
-            issues.append(f"2025 A real case solved {qid.upper()} should keep at least 3 figures")
-        if not any("model_flow" in fig.name for fig in figures):
-            issues.append(f"2025 A real case solved {qid.upper()} should include a GPT-image model flowchart")
-    check_full_paper_structure(REAL_CASE_2025_A, "2025 A benchmark paper", issues, min_chars=7000)
-
-
 def clean_tex_text(text: str) -> str:
     text = re.sub(r"%.*", " ", text)
     text = re.sub(r"\\(?:begin|end)\{[^}]+\}", " ", text)
@@ -362,76 +279,6 @@ def check_full_paper_structure(root: Path, label: str, issues: list[str], min_ch
         issues.append(
             f"{label} should explain code reverse-check and the final code-verified modeling idea"
         )
-
-
-def check_real_case_huadong_a(issues: list[str]) -> None:
-    required = [
-        "README.md",
-        "problem/problem_statement.pdf",
-        "problem/problem_statement.md",
-        "problem/problem_parse.json",
-        "problem/problem_parse.md",
-        "problem/task_plan.json",
-        "problem/task_plan.md",
-        "modeling/route_comparison.md",
-        "modeling/q1_modeling_idea.md",
-        "modeling/q2_modeling_idea.md",
-        "data/benchmark_activities.csv",
-        "data/realtime_wait_updates.csv",
-        "src/plot_utils.py",
-        "src/solve_routes.py",
-        "tables/tab_q1_summary.csv",
-        "tables/tab_q1_routes.csv",
-        "tables/tab_q1_baseline_comparison.csv",
-        "tables/tab_q2_realtime_waits.csv",
-        "tables/tab_q2_adjustment_summary.csv",
-        "tables/tab_q2_adjusted_routes.csv",
-        "figures/fig_problem_overview.png",
-        "figures/fig_q1_model_flow.png",
-        "figures/fig_q1_result.png",
-        "figures/fig_q1_validation.png",
-        "figures/fig_q2_model_flow.png",
-        "figures/fig_q2_result.png",
-        "figures/fig_q2_validation.png",
-        "results/validation_report.md",
-        "paper/main.tex",
-    ]
-    for rel in required:
-        require(REAL_CASE_HUADONG_A / rel, issues)
-
-    for qid in ("q1", "q2"):
-        check_modeling_idea(
-            REAL_CASE_HUADONG_A / "modeling" / f"{qid}_modeling_idea.md",
-            f"Huadong Cup A {qid.upper()} modeling idea",
-            issues,
-        )
-
-    task_plan = REAL_CASE_HUADONG_A / "problem" / "task_plan.json"
-    if task_plan.exists():
-        plan = json.loads(task_plan.read_text(encoding="utf-8"))
-        if plan.get("question_count") != 2:
-            issues.append("Huadong Cup A benchmark should contain exactly 2 subquestions")
-        score_task_plan_quality(plan, "Huadong Cup A benchmark task_plan.json", issues, min_score=11)
-
-    q1_summary = REAL_CASE_HUADONG_A / "tables" / "tab_q1_summary.csv"
-    q2_summary = REAL_CASE_HUADONG_A / "tables" / "tab_q2_adjustment_summary.csv"
-    if q1_summary.exists():
-        with q1_summary.open(newline="", encoding="utf-8-sig") as handle:
-            rows = list(csv.DictReader(handle))
-        if len(rows) != 9:
-            issues.append("Huadong Cup A Q1 summary should contain 9 visitor-date scenarios")
-        if not any(row.get("persona") == "家庭亲子游" and row.get("day_type") == "节假日" and row.get("activity_count_without_rest") == "9" for row in rows):
-            issues.append("Huadong Cup A holiday family benchmark should keep 9 non-rest experiences")
-    if q2_summary.exists():
-        with q2_summary.open(newline="", encoding="utf-8-sig") as handle:
-            rows = list(csv.DictReader(handle))
-        if len(rows) != 9:
-            issues.append("Huadong Cup A Q2 summary should contain 9 visitor-date scenarios")
-        changed = sum(1 for row in rows if int(float(row.get("changed_activity_count", 0))) > 0)
-        if changed != 6:
-            issues.append("Huadong Cup A Q2 should keep 6 changed scenarios")
-
-    check_full_paper_structure(REAL_CASE_HUADONG_A, "Huadong Cup A benchmark paper", issues, min_chars=7000)
 
 
 def check_folder_indexes(issues: list[str]) -> None:
@@ -912,8 +759,6 @@ def main() -> int:
     check_quality_rubric(issues)
     check_official_cases(issues)
     check_demo(issues)
-    check_real_case_2025_a(issues)
-    check_real_case_huadong_a(issues)
     check_eval_prompts(issues)
     check_long_doc_tocs(issues)
     check_parser_cases(issues)
