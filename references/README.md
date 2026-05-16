@@ -20,6 +20,7 @@
 | File | Purpose |
 | --- | --- |
 | `problem-routing.md` | 按预测、优化、评价、仿真等题型选择路线。 |
+| `critical-constraint-audit.md` | 把题面关键字转成变量、约束、场景和论文检查，防止漏掉隐含条件。 |
 | `cumcm-a-problem-patterns.md` | 2020-2025 国赛 A 题模式统计和 A 题专项方法。 |
 | `method-library.md` | 常用数学建模方法库。 |
 | `method-cards.json` | 结构化方法卡，供题型到方法的快速路由和自检使用。 |

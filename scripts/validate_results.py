@@ -84,6 +84,13 @@ CODE_MODELING_PROCESS_TERMS = [
     "保存路径",
     "新手",
 ]
+CRITICAL_CONSTRAINT_TERMS = [
+    "关键条件",
+    "题面",
+    "约束",
+    "情景",
+    "敏感性",
+]
 QUALITY_PROCESS_TERMS = [
     "路线",
     "比较",
@@ -294,6 +301,10 @@ def audit_paper_density(root: Path, mode: str) -> list[str]:
             if not any(term in cleaned_section for term in terms):
                 severity = "P1" if label in {"validation", "limitation", "derivation", "interpretation"} else "P2"
                 issues.append(f"{severity}: solved {question.upper()} paper section lacks {label} content.")
+        if "题面" not in cleaned_section and "问题要求" not in cleaned_section:
+            issues.append(
+                f"P2: solved {question.upper()} paper section does not clearly connect the model back to problem wording."
+            )
         if not has_math_expression(section_text):
             issues.append(
                 f"P1: solved {question.upper()} paper section lacks a formula or explicit mathematical criterion."
@@ -398,6 +409,10 @@ def audit_modeling_ideas(root: Path, mode: str) -> list[str]:
             issues.append(
                 f"P2: modeling idea for {question.upper()} lacks detailed code modeling process terms: "
                 + ", ".join(missing_code_process)
+            )
+        if not any(term in text for term in CRITICAL_CONSTRAINT_TERMS):
+            issues.append(
+                f"P2: modeling idea for {question.upper()} lacks a critical-condition audit from problem wording to constraints/scenarios."
             )
     return issues
 
@@ -555,6 +570,10 @@ def audit_first_prize_modeling_ideas(root: Path) -> list[str]:
             issues.append(
                 f"P1: {path.relative_to(root)} lacks detailed code modeling process terms: "
                 + ", ".join(missing_code_process)
+            )
+        if not any(term in text for term in CRITICAL_CONSTRAINT_TERMS):
+            issues.append(
+                f"P1: {path.relative_to(root)} lacks critical-condition audit terms from problem wording to constraints/scenarios."
             )
     return issues
 

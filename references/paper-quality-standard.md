@@ -33,6 +33,8 @@ A full paper must:
 - be written in TeX, normally `paper/main.tex`;
 - contain global sections before and after the subquestion content;
 - explain why the model matches the real problem mechanism;
+- explicitly show how consequence-bearing wording became variables,
+  constraints, scenarios, validation checks, or limitations;
 - state variables, parameters, objective/decision rule, constraints, and
   algorithm in mathematical language;
 - explain why assumptions make the problem just solvable rather than over-simple;
@@ -52,8 +54,15 @@ Mark the paper incomplete if any of these happens:
 - the final artifact is Markdown instead of TeX;
 - the paper only stitches together per-question fragments;
 - the body says only “建立模型并求解得到结果” without mathematical detail;
+- a subquestion only gives a verbal rule such as "combine", "optimize",
+  "evaluate", or "adjust" without a formula, compatibility condition,
+  saved plan table, or feasibility check;
 - a subquestion has no equation, objective, recurrence, decision rule, or clear
   mathematical criterion;
+- a key assumption can change the headline result but is not tested as a
+  scenario or sensitivity case;
+- the reader cannot tell which problem phrase caused the main variable,
+  constraint, objective, or validation item;
 - figures are inserted without explaining what conclusion they support;
 - the paper is dominated by figures/tables and lacks enough continuous prose to
   explain the modeling chain;

@@ -15,6 +15,7 @@ communication natural; do not expose commands unless the user asks.
 | Only one subquestion | `references/task-modes.md`, `references/problem-routing.md`, `references/correctness-ladder.md` |
 | Single-question paper | `references/task-modes.md`, `references/paper-writing.md`, `references/result-tracking.md` |
 | Data attachments present | `scripts/data_profile.py`, `references/data-audit.md` |
+| Ambiguous wording, hidden cost/time/flow assumptions, or weak result logic | `references/critical-constraint-audit.md` |
 | Choose a model | `agents/modeler.md`, `references/problem-routing.md`, `references/method-cards.json`, `references/method-library.md` |
 | Write or fix solving code | `agents/coder.md`, `references/python-matlab-guide.md` |
 | Figure planning for a solved question | `references/figure-plan.md`, `references/figure-standards.md` |
@@ -55,5 +56,8 @@ communication natural; do not expose commands unless the user asks.
 - For route design, give three routes and choose a primary route plus fallback.
 - When a task type is clear, use `references/method-cards.json` as the compact
   method checklist before reading the longer method library.
+- For any solved question, run a consequence-bearing-phrase pass: every phrase
+  that could change the answer must become a variable, constraint, scenario, or
+  explicit blocker before coding or paper writing.
 - For roadmap or flowchart requests, use GPT-image by default and record the
   prompt/spec in `modeling/`.

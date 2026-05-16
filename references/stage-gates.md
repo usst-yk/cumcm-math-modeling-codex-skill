@@ -33,6 +33,8 @@ Do not start modeling until:
 
 - all subquestions are mapped to input -> model object -> output -> validation;
 - hard constraints, units, time/spatial scale, and required attachments are listed;
+- consequence-bearing phrases from the problem statement are marked as fact,
+  assumption, scenario, or blocker using `references/critical-constraint-audit.md`;
 - `problem/task_plan.json` exists or an equivalent task table has been written;
 - assumptions and ambiguity points are separated from facts.
 
@@ -60,6 +62,9 @@ Do not enter Solver until:
 - every selected model has variables, objective/evaluation criterion, constraints, input data, output tables/figures, and validation plan;
 - every selected model explains the derivation and solution procedure step by
   step, not only the final formulas;
+- every selected model has resolved or scenario-tested the hidden cost, time,
+  flow, resource, compatibility, and output-granularity assumptions that could
+  change the answer;
 - a GPT-image model flowchart prompt path in `modeling/` or `modeling/flowcharts/` is
   planned, unless a written reason says a flowchart would be misleading;
 - `modeling/qx_modeling_idea.md` exists for the subquestions being solved.
@@ -83,6 +88,8 @@ Do not validate final conclusions until:
   or `results/validation_report.md`;
 - run commands are stated in the final answer or recorded in `results/validation_report.md`;
 - solver status, random seed, or failure status is recorded when relevant.
+- validation covers the main hidden-assumption risks identified before solving,
+  not only generic table totals.
 
 ## Stage 5 -> Stage 6: Validator To Writer
 

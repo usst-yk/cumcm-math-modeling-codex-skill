@@ -20,6 +20,10 @@ Write the derivation as a chain of small transformations:
 2. **Problem wording to variables**: convert each important phrase in the
    problem statement into variables, parameters, initial values, bounds, units,
    or data columns.
+   Before moving on, read `references/critical-constraint-audit.md` and make a
+   small table of consequence-bearing phrases: if a phrase could change the
+   numerical answer or conclusion, it must become a variable, constraint,
+   scenario, validation item, or explicit blocker.
 3. **Mechanism or logic**: state the physical, geometric, statistical,
    operational, or evaluation mechanism that connects variables.
 4. **Assumptions with purpose**: for each assumption, say what missing detail it

@@ -62,6 +62,8 @@ Read only the relevant file(s):
 - Data audit: `references/data-audit.md`, then use `scripts/data_profile.py`
 - Problem parsing: `references/problem-parsing.md`, then use `scripts/problem_parser.py`
 - Task decomposition: use `scripts/build_task_plan.py`
+- Before finalizing any model route or paper-facing claim:
+  `references/critical-constraint-audit.md`
 - Model selection: `references/method-cards.json`, then `references/method-library.md` if needed
 - Mathematical depth: `references/advanced-math-modeling.md` when the problem has
   physical mechanisms, networks, uncertainty, causal questions, PDE/ODE dynamics,

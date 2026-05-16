@@ -13,6 +13,11 @@ review, also read `references/final-checklist.md`,
 - Artifacts: referenced figures/tables exist and filenames match captions.
 - Writing depth: the paper has enough continuous prose to explain mechanisms,
   derivations, algorithms, result meaning, validation, and limitations.
+- Critical wording: important phrases from the problem statement have become
+  variables, constraints, scenarios, validation checks, or explicit blockers.
+- Claim readability: each main conclusion can be understood without reading
+  code, because the paper explains the rule, the table/figure source, and the
+  reason the result follows.
 - Visual balance: figures and tables support the argument without dominating
   the body.
 - Consistency: abstract, body, tables, figures, saved tables, figures, code outputs, and validation notes agree.
